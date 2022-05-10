@@ -1,0 +1,86 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public enum CaseState
+{
+    Null,
+    Empty,
+    Occupied,
+    HalfOccupied
+}
+
+public class Case : MonoBehaviour
+{
+
+    // CURRENTLY WORK IN PROGRESS, EVERYTHING WILL BE POLISHED
+    /*
+        Case class will be used by the gridManager, each case of the grid will be a Case.
+        Currently, this class will not be a component so monobehavior will be remove after some approbation.
+    */
+    
+
+    public struct GridPoint
+    {
+        /*
+            Coordinate of the case in the grid
+        */
+        public int x { get; }
+        public int y { get; }
+
+        public GridPoint(int x , int y)
+        {
+            this.x = x;
+            this.y = y; 
+        }
+    }
+    GridManager _gridParent; // the owner of the case
+    public GridPoint Point; // position in the grid 
+    CaseState _state; // the state of the grid
+    public int index = 0; // the index of the case in the grid
+    
+    /* Next properties to include
+    Actor _actor; // A ref to the actor in the case, if no actor, the ref will be null
+    Interact _interact // A ref to a interact like a echelle 
+    */ 
+
+    public GridManager GridParent
+    {
+        set{ _gridParent = value;}
+    }
+
+    /* 
+        UpdateCell is called by the GridManager
+    */
+    public void UpdateCell()
+    {
+        RaycastHit hit;
+        Vector3 Hitpoint = Vector3.zero;
+        Debug.Log(_gridParent.GetCaseWorldPosition(Point.x,Point.y));
+
+        Vector3 StartPosA = _gridParent.GetCaseWorldPosition(Point.x,Point.y);
+        Vector3 EndPosA = _gridParent.GetCaseWorldPosition(Point.x+1,Point.y+1);
+
+        Vector3 StartPosB = _gridParent.GetCaseWorldPosition(Point.x+1,Point.y);
+        Vector3 EndPosB = _gridParent.GetCaseWorldPosition(Point.x,Point.y+1);
+
+        if (   ( Physics.Raycast(StartPosA , EndPosA - StartPosA, out hit, _gridParent.cellSize+1) ) 
+        ||      Physics.Raycast(StartPosB, EndPosB - StartPosB , out hit, _gridParent.cellSize+1) )
+
+        {
+            Debug.DrawLine(StartPosA, EndPosA, Color.red);
+            Debug.DrawLine(StartPosB, EndPosB, Color.red);
+
+            Debug.Log("Did Hit");
+        }
+        else
+        {
+            Debug.DrawLine(StartPosA, EndPosA , Color.gray);
+            Debug.DrawLine(StartPosB, EndPosB , Color.white);
+            Debug.Log("Did not Hit");
+        }
+
+
+
+    }
+}
