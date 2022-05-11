@@ -41,6 +41,16 @@ public class Case
     public CaseState _state; // the state of the grid
     public int index = -1; // the index of the case in the grid
     public Material mtl;
+    public GameObject plane;
+
+
+    public int PathFindDistanceFromStart;
+    public int PathFindDistanceFromEnd;
+    public bool Highlighted;
+    public bool PointCase;
+    public bool Checked;
+    public bool BlackList;
+    public bool goodPath;
     /* Next properties to include
     Actor _actor; // A ref to the actor in the case, if no actor, the ref will be null
     Interact _interact // A ref to a interact like a echelle 
@@ -78,6 +88,19 @@ public class Case
         }
 
         mtl.color = caseColor;
+
+        if(Highlighted)
+            mtl.color = Color.cyan;
+
+        if(PointCase)
+        {
+            mtl.color = Color.magenta;
+        }
+
+        if(goodPath)
+        {
+            mtl.color = Color.white;
+        }
     }
 
     void CheckIfCollide()

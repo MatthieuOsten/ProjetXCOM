@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 4
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -216,7 +216,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &42817598
 MonoBehaviour:
@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 59909697}
   - component: {fileID: 59909696}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Xavier a une grosse bite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -430,12 +430,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 59909695}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &317074640
 GameObject:
@@ -727,7 +727,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &946627177
 GameObject:
@@ -759,13 +759,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DataGrid: {fileID: 11400000, guid: 4eed5b9a38f62bb47a777a163eb3b7c0, type: 2}
-  gridSizeX: 10
-  gridSizeY: 10
+  gridSizeX: 30
+  gridSizeY: 30
   cellSize: 2
+  heuristicScale: 4
+  heuristicScaleDiagonale: 8
   Editmode: 0
   CurrentCellSelected: {x: 0, y: 0, z: 0}
   CaseNewChanged: 0
   _plane: {fileID: 1672616810}
+  RandomStartAndGoal: 0
+  StartCase:
+    _gridParent: {fileID: 0}
+    _state: 0
+    index: -1
+    mtl: {fileID: 0}
+    plane: {fileID: 0}
+    PathFindDistanceFromStart: 0
+    PathFindDistanceFromEnd: 0
+    Highlighted: 0
+    PointCase: 0
+    Checked: 0
+    BlackList: 0
+    goodPath: 0
+  Destination:
+    _gridParent: {fileID: 0}
+    _state: 0
+    index: -1
+    mtl: {fileID: 0}
+    plane: {fileID: 0}
+    PathFindDistanceFromStart: 0
+    PathFindDistanceFromEnd: 0
+    Highlighted: 0
+    PointCase: 0
+    Checked: 0
+    BlackList: 0
+    goodPath: 0
 --- !u!4 &946627179
 Transform:
   m_ObjectHideFlags: 0
@@ -779,7 +808,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &981072993
 GameObject:
@@ -1102,7 +1131,7 @@ GameObject:
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: cbaeed03e5416aa4bae23110b63a0c7d, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

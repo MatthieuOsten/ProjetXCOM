@@ -10,7 +10,8 @@ public class GridManager : MonoBehaviour
     [SerializeField] public int gridSizeY = 10; // Size of the grid in Y 
     public Case[,] _grid; // A table with double entry with x and y, with for each element the type Case
     public int cellSize = 10; // Size of the cell in the world
-
+    public int heuristicScale = 8;
+    public int heuristicScaleDiagonale = 4;
     
 
     [Header("EDIT")]
@@ -20,6 +21,15 @@ public class GridManager : MonoBehaviour
 
     int _currentCellCreated = 0; // a counter of cell created
     public GameObject _plane;
+
+
+    [Header("PATH FINDING")]
+    [SerializeField] bool RandomStartAndGoal;
+    
+    public Case StartCase;
+    public Case Destination;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +58,7 @@ public class GridManager : MonoBehaviour
                     _grid[x,y]._state = CaseState.Empty;
                     GameObject plane = Instantiate(_plane, GetCaseWorldPosition(x, y)  , Quaternion.identity );
                         plane.transform.localScale = plane.transform.localScale * cellSize;
+                        _grid[x,y].plane =  plane;
 
                     _grid[x,y].mtl =  plane.transform.GetComponent<MeshRenderer>().material;
                     // if(_currentCellCreated % 2 == 0)
@@ -84,6 +95,7 @@ public class GridManager : MonoBehaviour
                 _grid[x,y]._state = dataCase[_currentCellCreated]._state;
                 GameObject plane = Instantiate(_plane, GetCaseWorldPosition(x, y)  , Quaternion.identity );
                 plane.transform.localScale = plane.transform.localScale * cellSize;
+                _grid[x,y].plane =  plane;
                 _grid[x,y].mtl =  plane.transform.GetComponent<MeshRenderer>().material;
                 _currentCellCreated++;
             }
@@ -108,15 +120,166 @@ public class GridManager : MonoBehaviour
     
     public Case GetCase(int x, int y)
     {
+        if(x >= gridSizeX || y >= gridSizeY || x < 0 || y < 0)
+            return null;
+
         return _grid[x,y];
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateGrid();
-        WatchCursor();
+        if(RandomStartAndGoal)
+        {
+            for(int x = 0 ; x < gridSizeX; x++)
+            {
+                for(int y = 0 ; y < gridSizeY; y++)
+                {
+                    _grid[x,y].Checked = false;
+                    _grid[x,y].BlackList = false;
+                    _grid[x,y].Highlighted = false;
+                    _grid[x,y].PointCase = false;
+                    _grid[x,y].goodPath = false;
+                    
+                }
+            }
+            StartCase.PointCase = false;
+            Destination.PointCase = false;
+            StartCase = _grid[Random.Range(0, gridSizeX) , Random.Range(0,gridSizeY)];
+            Destination = _grid[Random.Range(0, gridSizeX) , Random.Range(0,gridSizeY)];
+            StartCase.PointCase = true;
+            Destination.PointCase = true;
+            RandomStartAndGoal = false;
+        }
 
+        UpdateGrid();
+       
+        if(StartCase.index != -1 && Destination.index != -1)
+        {
+            FindPath();
+            StartCase = null;
+            Destination = null;
+        }
+
+         WatchCursor();
+    }
+
+
+    /*
+        function heuristic(node) =
+        dx = abs(node.x - goal.x)
+        dy = abs(node.y - goal.y)
+        return D * (dx + dy) + (D2 - 2 * D) * min(dx, dy)
+    */
+
+    int GetScore(int nodeAx, int nodeAy, int nodeBx, int nodeBy)
+    {
+        int dx = Mathf.Abs(nodeAx - nodeBx);
+        int dy = Mathf.Abs(nodeAy - nodeBy);
+        return heuristicScale * (dx + dy) + (heuristicScaleDiagonale - 2 * heuristicScale) * Mathf.Min(dx, dy);
+
+    }
+    void FindPath()
+    {
+       
+
+        int CurrentScore = 0;
+
+        Case CurrentCase = StartCase; 
+
+        for(int x = 0 ; x < gridSizeX; x++)
+        {
+            for(int y = 0 ; y < gridSizeY; y++)
+            {
+                _grid[x,y].PathFindDistanceFromStart = GetScore(StartCase.Point.x, StartCase.Point.y, x, y);
+                _grid[x,y].PathFindDistanceFromEnd = GetScore(Destination.Point.x, Destination.Point.y, x, y) ;
+                //Debug.Log("Case : "+_grid[x,y].index+" score : "+(_grid[x,y].PathFindDistanceFromEnd+_grid[x,y].PathFindDistanceFromStart) );
+                _grid[x,y].plane.name = "Case : "+_grid[x,y].index+" score : "+(_grid[x,y].PathFindDistanceFromEnd +" + "+_grid[x,y].PathFindDistanceFromStart) ;
+            }
+        }
+        Case SmallestCase = null;
+    
+        while(true)
+        {
+            Case[] cases = new Case[9];
+            cases[0] = GetCase(CurrentCase.Point.x,CurrentCase.Point.y);
+            cases[1] = GetCase(CurrentCase.Point.x,CurrentCase.Point.y+1);
+            cases[2] = GetCase(CurrentCase.Point.x-1,CurrentCase.Point.y+1);
+            cases[3] = GetCase(CurrentCase.Point.x-1,CurrentCase.Point.y-1);
+            cases[4] = GetCase(CurrentCase.Point.x+1,CurrentCase.Point.y+1);
+            cases[5] = GetCase(CurrentCase.Point.x+1,CurrentCase.Point.y-1);   
+            cases[6] = GetCase(CurrentCase.Point.x,CurrentCase.Point.y-1);
+            cases[7] = GetCase(CurrentCase.Point.x+1,CurrentCase.Point.y);
+            cases[8] = GetCase(CurrentCase.Point.x-1,CurrentCase.Point.y);
+            
+            SmallestCase = cases[1];
+
+            for(int i = 0 ; i < cases.Length; i++)
+            {
+                if( cases[i] == null || cases[i].BlackList || cases[i] == StartCase || cases[i] == CurrentCase )
+                {
+                    continue; 
+                }
+                    
+
+                int Prevscore = SmallestCase.PathFindDistanceFromEnd+SmallestCase.PathFindDistanceFromStart;
+                int newScore = cases[i].PathFindDistanceFromEnd+cases[i].PathFindDistanceFromStart;
+
+                if(!cases[i].Checked ) 
+                {
+                    if(Prevscore == newScore && SmallestCase.PathFindDistanceFromStart > cases[i].PathFindDistanceFromStart)
+                    {
+                        SmallestCase = cases[i];
+                        cases[i].Highlighted = true;
+                        cases[i].Checked = true;
+                    }
+                    if(Prevscore >= newScore  )
+                    {
+                        SmallestCase = cases[i];
+                    
+                        cases[i].Highlighted = true;
+                        cases[i].Checked = true;
+                        
+                    }
+                }
+                
+                //else if()
+                
+
+            }
+             if(CurrentCase == Destination)
+            {
+                Debug.Log("Destination done");
+                break;
+            }  
+
+            if(CurrentCase != SmallestCase)
+            {
+                CurrentCase = SmallestCase;
+                 CurrentCase.goodPath = true;
+            } 
+            else
+            {
+                
+                CurrentCase.BlackList = true;
+                CurrentCase = StartCase;
+                for(int x = 0 ; x < gridSizeX; x++)
+                {
+                    for(int y = 0 ; y < gridSizeY; y++)
+                    {
+                        _grid[x,y].goodPath = false;
+                    }
+                }
+            }
+
+             
+            Destination.goodPath = false;
+            Destination.Highlighted = false;
+                
+            
+        }
+
+        
     }
 
     void UpdateGrid()
