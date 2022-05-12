@@ -166,7 +166,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""ef2d5a7b-9c21-4e70-8af4-2463b285165f"",
-                    ""path"": ""<Keyboard>/m"",
+                    ""path"": ""<Keyboard>/semicolon"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -353,7 +353,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2ca58e3e-0f50-46a1-a7b0-18d4a7b710fc"",
-                    ""path"": ""<Keyboard>/o"",
+                    ""path"": ""<Keyboard>/i"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -364,7 +364,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""72bc9856-3c10-4096-825c-47c88abaf69e"",
-                    ""path"": ""<Keyboard>/u"",
+                    ""path"": ""<Keyboard>/p"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
