@@ -29,11 +29,15 @@ public class GridManager : MonoBehaviour
     public Case StartCase;
     public Case Destination;
 
+    [Header("Debug")]
+    [SerializeField] private Controller _inputManager;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        _inputManager = new Controller();
+        _inputManager.TestGrid.Enable();
         GenerateGrid();
     }
 
@@ -58,7 +62,7 @@ public class GridManager : MonoBehaviour
                     _grid[x,y]._state = CaseState.Empty; // son etat
 
 
-                    if(Random.Range(0, 100) > 70)
+                    if(Random.Range(0, 100) > 110)
                         _grid[x,y]._state = CaseState.Occupied; // son etat
 
                     //// Debug 
@@ -198,7 +202,7 @@ public class GridManager : MonoBehaviour
         Vector3 Hitpoint = Vector3.zero;
         //Debug.Log(Input.mousePosition);
 
-        ray = Camera.main.ScreenPointToRay(Input.mousePosition);  
+        ray = Camera.main.ScreenPointToRay(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>() ); 
 
         if (Physics.Raycast(ray, out  RayHit))
         {
@@ -215,7 +219,7 @@ public class GridManager : MonoBehaviour
             
             
 
-            if(Editmode && Input.GetKeyDown(KeyCode.Mouse0))
+            if(Editmode && _inputManager.TestGrid.Action.ReadValue<float>() == 1)
             {
                 Case caseToEdit = GetCase( x , y );
                 caseToEdit._state = CaseNewChanged;
@@ -302,6 +306,7 @@ public class GridManager : MonoBehaviour
             {
                 if( cases[i] == null || cases[i].BlackList || cases[i] == StartCase || cases[i] == CurrentCase || cases[i]._state == CaseState.Occupied)
                 {
+                    Debug.Log("go skip");
                     continue; 
                 }
 
@@ -341,7 +346,7 @@ public class GridManager : MonoBehaviour
                     }
                 }
                 
-                //else if()
+                
                 
 
             }

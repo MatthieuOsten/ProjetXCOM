@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 262.38354, g: 325.1084, b: 430.30957, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -759,8 +759,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DataGrid: {fileID: 11400000, guid: 4eed5b9a38f62bb47a777a163eb3b7c0, type: 2}
-  gridSizeX: 30
-  gridSizeY: 30
+  gridSizeX: 20
+  gridSizeY: 20
   cellSize: 2
   heuristicScale: 4
   heuristicScaleDiagonale: 8

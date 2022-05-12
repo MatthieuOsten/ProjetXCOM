@@ -483,6 +483,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "TestGrid",
+            "id": "7c03d42c-b43a-47bd-8814-bbdd97e34f23",
+            "actions": [
+                {
+                    "name": "Action",
+                    "type": "Value",
+                    "id": "b8b899ce-ea91-48a2-89ff-545448bc8e86",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "MousePosition",
+                    "type": "Value",
+                    "id": "04e27089-700f-4606-87e9-0199e8663d55",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f230c952-bd09-4c7b-ac63-c96650d7db16",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "25ad0f74-3a83-4d15-bdf9-2bd400bceb30",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
