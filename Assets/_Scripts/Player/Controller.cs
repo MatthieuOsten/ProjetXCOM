@@ -505,6 +505,54 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""TestGrid"",
+            ""id"": ""7c03d42c-b43a-47bd-8814-bbdd97e34f23"",
+            ""actions"": [
+                {
+                    ""name"": ""Action"",
+                    ""type"": ""Value"",
+                    ""id"": ""b8b899ce-ea91-48a2-89ff-545448bc8e86"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""04e27089-700f-4606-87e9-0199e8663d55"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""f230c952-bd09-4c7b-ac63-c96650d7db16"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""25ad0f74-3a83-4d15-bdf9-2bd400bceb30"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -521,6 +569,10 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         m_ControlCamera_LeftHandTurnLeft = m_ControlCamera.FindAction("LeftHandTurnLeft", throwIfNotFound: true);
         m_ControlCamera_RigthHandShoulder = m_ControlCamera.FindAction("RigthHandShoulder", throwIfNotFound: true);
         m_ControlCamera_LeaveShoulder = m_ControlCamera.FindAction("LeaveShoulder", throwIfNotFound: true);
+        // TestGrid
+        m_TestGrid = asset.FindActionMap("TestGrid", throwIfNotFound: true);
+        m_TestGrid_Action = m_TestGrid.FindAction("Action", throwIfNotFound: true);
+        m_TestGrid_MousePosition = m_TestGrid.FindAction("MousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -681,6 +733,47 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         }
     }
     public ControlCameraActions @ControlCamera => new ControlCameraActions(this);
+
+    // TestGrid
+    private readonly InputActionMap m_TestGrid;
+    private ITestGridActions m_TestGridActionsCallbackInterface;
+    private readonly InputAction m_TestGrid_Action;
+    private readonly InputAction m_TestGrid_MousePosition;
+    public struct TestGridActions
+    {
+        private @Controller m_Wrapper;
+        public TestGridActions(@Controller wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Action => m_Wrapper.m_TestGrid_Action;
+        public InputAction @MousePosition => m_Wrapper.m_TestGrid_MousePosition;
+        public InputActionMap Get() { return m_Wrapper.m_TestGrid; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(TestGridActions set) { return set.Get(); }
+        public void SetCallbacks(ITestGridActions instance)
+        {
+            if (m_Wrapper.m_TestGridActionsCallbackInterface != null)
+            {
+                @Action.started -= m_Wrapper.m_TestGridActionsCallbackInterface.OnAction;
+                @Action.performed -= m_Wrapper.m_TestGridActionsCallbackInterface.OnAction;
+                @Action.canceled -= m_Wrapper.m_TestGridActionsCallbackInterface.OnAction;
+                @MousePosition.started -= m_Wrapper.m_TestGridActionsCallbackInterface.OnMousePosition;
+                @MousePosition.performed -= m_Wrapper.m_TestGridActionsCallbackInterface.OnMousePosition;
+                @MousePosition.canceled -= m_Wrapper.m_TestGridActionsCallbackInterface.OnMousePosition;
+            }
+            m_Wrapper.m_TestGridActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Action.started += instance.OnAction;
+                @Action.performed += instance.OnAction;
+                @Action.canceled += instance.OnAction;
+                @MousePosition.started += instance.OnMousePosition;
+                @MousePosition.performed += instance.OnMousePosition;
+                @MousePosition.canceled += instance.OnMousePosition;
+            }
+        }
+    }
+    public TestGridActions @TestGrid => new TestGridActions(this);
     public interface IControlCameraActions
     {
         void OnRightHand(InputAction.CallbackContext context);
@@ -693,5 +786,10 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         void OnLeftHandTurnLeft(InputAction.CallbackContext context);
         void OnRigthHandShoulder(InputAction.CallbackContext context);
         void OnLeaveShoulder(InputAction.CallbackContext context);
+    }
+    public interface ITestGridActions
+    {
+        void OnAction(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
     }
 }
