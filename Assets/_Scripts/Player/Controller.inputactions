@@ -94,6 +94,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SelectedEnemy",
+                    "type": "Button",
+                    "id": "97a87f6e-4f52-4d31-a45e-09386dceed23",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SelectedEnemyLeftHand",
+                    "type": "Button",
+                    "id": "d8eb4e1e-2504-49ad-9b3e-7e65146c5bc5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -144,7 +162,7 @@
                 {
                     "name": "right",
                     "id": "ef2d5a7b-9c21-4e70-8af4-2463b285165f",
-                    "path": "<Keyboard>/m",
+                    "path": "<Keyboard>/semicolon",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -331,7 +349,7 @@
                 {
                     "name": "",
                     "id": "2ca58e3e-0f50-46a1-a7b0-18d4a7b710fc",
-                    "path": "<Keyboard>/o",
+                    "path": "<Keyboard>/i",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -342,7 +360,7 @@
                 {
                     "name": "",
                     "id": "72bc9856-3c10-4096-825c-47c88abaf69e",
-                    "path": "<Keyboard>/u",
+                    "path": "<Keyboard>/p",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -473,12 +491,34 @@
                 },
                 {
                     "name": "",
+                    "id": "7106d402-6c50-4ceb-a582-d7a8a7f7d81b",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectedEnemy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "b86202ce-e7ff-49a5-b5e9-f9af8c9409ba",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "LeaveShoulder",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "36117abd-d397-4d5a-9ad3-35209c35241b",
+                    "path": "<Keyboard>/#(^$)",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SelectedEnemyLeftHand",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -116,6 +116,24 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectedEnemy"",
+                    ""type"": ""Button"",
+                    ""id"": ""97a87f6e-4f52-4d31-a45e-09386dceed23"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SelectedEnemyLeftHand"",
+                    ""type"": ""Button"",
+                    ""id"": ""d8eb4e1e-2504-49ad-9b3e-7e65146c5bc5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -166,7 +184,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""ef2d5a7b-9c21-4e70-8af4-2463b285165f"",
-                    ""path"": ""<Keyboard>/m"",
+                    ""path"": ""<Keyboard>/semicolon"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -353,7 +371,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2ca58e3e-0f50-46a1-a7b0-18d4a7b710fc"",
-                    ""path"": ""<Keyboard>/o"",
+                    ""path"": ""<Keyboard>/i"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -364,7 +382,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""72bc9856-3c10-4096-825c-47c88abaf69e"",
-                    ""path"": ""<Keyboard>/u"",
+                    ""path"": ""<Keyboard>/p"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -495,12 +513,34 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""7106d402-6c50-4ceb-a582-d7a8a7f7d81b"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectedEnemy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""b86202ce-e7ff-49a5-b5e9-f9af8c9409ba"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""LeaveShoulder"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""36117abd-d397-4d5a-9ad3-35209c35241b"",
+                    ""path"": ""<Keyboard>/#(^$)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SelectedEnemyLeftHand"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -569,6 +609,8 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         m_ControlCamera_LeftHandTurnLeft = m_ControlCamera.FindAction("LeftHandTurnLeft", throwIfNotFound: true);
         m_ControlCamera_RigthHandShoulder = m_ControlCamera.FindAction("RigthHandShoulder", throwIfNotFound: true);
         m_ControlCamera_LeaveShoulder = m_ControlCamera.FindAction("LeaveShoulder", throwIfNotFound: true);
+        m_ControlCamera_SelectedEnemy = m_ControlCamera.FindAction("SelectedEnemy", throwIfNotFound: true);
+        m_ControlCamera_SelectedEnemyLeftHand = m_ControlCamera.FindAction("SelectedEnemyLeftHand", throwIfNotFound: true);
         // TestGrid
         m_TestGrid = asset.FindActionMap("TestGrid", throwIfNotFound: true);
         m_TestGrid_Action = m_TestGrid.FindAction("Action", throwIfNotFound: true);
@@ -642,6 +684,8 @@ public partial class @Controller : IInputActionCollection2, IDisposable
     private readonly InputAction m_ControlCamera_LeftHandTurnLeft;
     private readonly InputAction m_ControlCamera_RigthHandShoulder;
     private readonly InputAction m_ControlCamera_LeaveShoulder;
+    private readonly InputAction m_ControlCamera_SelectedEnemy;
+    private readonly InputAction m_ControlCamera_SelectedEnemyLeftHand;
     public struct ControlCameraActions
     {
         private @Controller m_Wrapper;
@@ -656,6 +700,8 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         public InputAction @LeftHandTurnLeft => m_Wrapper.m_ControlCamera_LeftHandTurnLeft;
         public InputAction @RigthHandShoulder => m_Wrapper.m_ControlCamera_RigthHandShoulder;
         public InputAction @LeaveShoulder => m_Wrapper.m_ControlCamera_LeaveShoulder;
+        public InputAction @SelectedEnemy => m_Wrapper.m_ControlCamera_SelectedEnemy;
+        public InputAction @SelectedEnemyLeftHand => m_Wrapper.m_ControlCamera_SelectedEnemyLeftHand;
         public InputActionMap Get() { return m_Wrapper.m_ControlCamera; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -695,6 +741,12 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 @LeaveShoulder.started -= m_Wrapper.m_ControlCameraActionsCallbackInterface.OnLeaveShoulder;
                 @LeaveShoulder.performed -= m_Wrapper.m_ControlCameraActionsCallbackInterface.OnLeaveShoulder;
                 @LeaveShoulder.canceled -= m_Wrapper.m_ControlCameraActionsCallbackInterface.OnLeaveShoulder;
+                @SelectedEnemy.started -= m_Wrapper.m_ControlCameraActionsCallbackInterface.OnSelectedEnemy;
+                @SelectedEnemy.performed -= m_Wrapper.m_ControlCameraActionsCallbackInterface.OnSelectedEnemy;
+                @SelectedEnemy.canceled -= m_Wrapper.m_ControlCameraActionsCallbackInterface.OnSelectedEnemy;
+                @SelectedEnemyLeftHand.started -= m_Wrapper.m_ControlCameraActionsCallbackInterface.OnSelectedEnemyLeftHand;
+                @SelectedEnemyLeftHand.performed -= m_Wrapper.m_ControlCameraActionsCallbackInterface.OnSelectedEnemyLeftHand;
+                @SelectedEnemyLeftHand.canceled -= m_Wrapper.m_ControlCameraActionsCallbackInterface.OnSelectedEnemyLeftHand;
             }
             m_Wrapper.m_ControlCameraActionsCallbackInterface = instance;
             if (instance != null)
@@ -729,6 +781,12 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 @LeaveShoulder.started += instance.OnLeaveShoulder;
                 @LeaveShoulder.performed += instance.OnLeaveShoulder;
                 @LeaveShoulder.canceled += instance.OnLeaveShoulder;
+                @SelectedEnemy.started += instance.OnSelectedEnemy;
+                @SelectedEnemy.performed += instance.OnSelectedEnemy;
+                @SelectedEnemy.canceled += instance.OnSelectedEnemy;
+                @SelectedEnemyLeftHand.started += instance.OnSelectedEnemyLeftHand;
+                @SelectedEnemyLeftHand.performed += instance.OnSelectedEnemyLeftHand;
+                @SelectedEnemyLeftHand.canceled += instance.OnSelectedEnemyLeftHand;
             }
         }
     }
@@ -786,6 +844,8 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         void OnLeftHandTurnLeft(InputAction.CallbackContext context);
         void OnRigthHandShoulder(InputAction.CallbackContext context);
         void OnLeaveShoulder(InputAction.CallbackContext context);
+        void OnSelectedEnemy(InputAction.CallbackContext context);
+        void OnSelectedEnemyLeftHand(InputAction.CallbackContext context);
     }
     public interface ITestGridActions
     {
