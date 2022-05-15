@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Rendering.HighDefinition;
 public enum CaseState
 {
     Null,
@@ -11,10 +11,8 @@ public enum CaseState
 }
 
 [System.Serializable]
-public class Case 
+public class Case : MonoBehaviour
 {
-
-
     // CURRENTLY WORK IN PROGRESS, EVERYTHING WILL BE POLISHED
     /*
         Case class will be used by the gridManager, each case of the grid will be a Case.
@@ -41,8 +39,7 @@ public class Case
     public CaseState _state; // the state of the grid
     public int index = -1; // the index of the case in the grid
     public Material mtl;
-    public GameObject plane;
-
+    DecalProjector _proj; // Ce qui projete la case sur le monde
 
     public int PathFindDistanceFromStart;
     public int PathFindDistanceFromEnd;
@@ -61,6 +58,14 @@ public class Case
         set{ _gridParent = value;}
     }
 
+
+    private void Start() {
+        _proj = GetComponentInChildren<DecalProjector>();    
+        // Creates a new material instance for the DecalProjector.
+        // here why https://docs.unity.cn/Packages/com.unity.render-pipelines.high-definition@12.0/manual/creating-a-decal-projector-at-runtime.html
+        _proj.material = new Material(_proj.material);
+
+    }
     /* 
         Update pour la cellule
     */
@@ -87,6 +92,8 @@ public class Case
 
         }
 
+        mtl = _proj.material;
+
         mtl.color = caseColor;
 
         if(Highlighted)
@@ -101,6 +108,11 @@ public class Case
         {
             mtl.color = Color.white;
         }
+
+
+         float emissiveIntensity = 10;
+        Color emissiveColor = mtl.color;
+        mtl.SetColor("_EmissiveColor", emissiveColor * emissiveIntensity);
     }
 
     void CheckIfCollide()
@@ -131,6 +143,11 @@ public class Case
             Debug.Log("Did not Hit");
         }
 
+
+    }
+
+    void ChangeColor(Color newColor)
+    {
 
     }
 }

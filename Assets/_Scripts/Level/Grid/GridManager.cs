@@ -8,6 +8,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] SO_Grid DataGrid; 
     [SerializeField] public int gridSizeX = 10; // Size of the grid in X
     [SerializeField] public int gridSizeY = 10; // Size of the grid in Y 
+    [SerializeField] GameObject CasePrefab; // Prefab d'une cellule
     public Case[,] _grid; // A table with double entry with x and y, with for each element the type Case
     public int cellSize = 10; // Size of the cell in the world
     public int heuristicScale = 8;
@@ -20,7 +21,6 @@ public class GridManager : MonoBehaviour
     [SerializeField] CaseState CaseNewChanged;
 
     int _currentCellCreated = 0; // a counter of cell created
-    public GameObject _plane;
 
 
     [Header("PATH FINDING")]
@@ -55,21 +55,7 @@ public class GridManager : MonoBehaviour
             {
                 for(int y = 0 ; y < gridSizeY; y++)
                 {
-                    _grid[x,y] = new Case();
-                    _grid[x,y].Point = new Case.GridPoint(x,y); // On donne a la case ces coordonnées dans le tableau de la Grid
-                    _grid[x,y].GridParent = this; // on dit à quelle grid appartient la case
-                    _grid[x,y].index = _currentCellCreated; // son index 
-                    _grid[x,y]._state = CaseState.Empty; // son etat
-
-
-                    if(Random.Range(0, 100) > 110)
-                        _grid[x,y]._state = CaseState.Occupied; // son etat
-
-                    //// Debug 
-                    GameObject plane = Instantiate(_plane, GetCaseWorldPosition(x, y)  , Quaternion.identity );
-                    plane.transform.localScale = plane.transform.localScale * cellSize;
-                    _grid[x,y].plane =  plane;
-                    _grid[x,y].mtl =  plane.transform.GetComponent<MeshRenderer>().material;
+                    _grid[x,y] = GenerateCase(x,y);
 
                     _currentCellCreated++;
                 }
@@ -80,6 +66,23 @@ public class GridManager : MonoBehaviour
         
        
 
+    }
+
+    Case GenerateCase(int x,int y)
+    {
+        // Debug 
+        GameObject plane = Instantiate(CasePrefab, GetCaseWorldPosition(x, y)  , Quaternion.identity );
+        plane.transform.localScale = plane.transform.localScale * cellSize;
+
+        Case newCase = plane.GetComponent<Case>();
+        newCase.Point = new Case.GridPoint(x,y); // On donne a la case ces coordonnées dans le tableau de la Grid
+        newCase.GridParent = this; // on dit à quelle grid appartient la case
+        newCase.index = _currentCellCreated; // son index 
+        newCase._state = CaseState.Empty; // son etat
+                    
+        newCase.mtl =  plane.transform.GetComponent<MeshRenderer>().material;
+
+        return newCase;
     }
     /*
         Cette function va copier la grid provenant de DataGrid
@@ -97,9 +100,9 @@ public class GridManager : MonoBehaviour
                 _grid[x,y].GridParent = this; // give the ref of the grid
                 _grid[x,y].index = _currentCellCreated; 
                 _grid[x,y]._state = dataCase[_currentCellCreated]._state;
-                GameObject plane = Instantiate(_plane, GetCaseWorldPosition(x, y)  , Quaternion.identity );
+                GameObject plane = Instantiate(CasePrefab, GetCaseWorldPosition(x, y)  , Quaternion.identity );
                 plane.transform.localScale = plane.transform.localScale * cellSize;
-                _grid[x,y].plane =  plane;
+                //_grid[x,y].plane =  plane;
                 _grid[x,y].mtl =  plane.transform.GetComponent<MeshRenderer>().material;
                 _currentCellCreated++;
             }
@@ -167,7 +170,8 @@ public class GridManager : MonoBehaviour
         }
 
         UpdateGrid();
-       
+        WatchCursor();
+        
         if(StartCase.index != -1 && Destination.index != -1)
         {
             FindPath();
@@ -175,7 +179,7 @@ public class GridManager : MonoBehaviour
             Destination = null;
         }
 
-         WatchCursor();
+        
     }
 
 
@@ -314,7 +318,7 @@ public class GridManager : MonoBehaviour
                 int y = cases[i].Point.y;
                 cases[i].PathFindDistanceFromStart = GetScore(StartCase.Point.x, StartCase.Point.y, x, y );
                 cases[i].PathFindDistanceFromEnd = GetScore(Destination.Point.x, Destination.Point.y, x, y ) ;
-                cases[i].plane.name = "Case : "+cases[i].index+" score : "+(cases[i].PathFindDistanceFromEnd +" "+(cases[i].PathFindDistanceFromEnd+cases[i].PathFindDistanceFromStart)+"+ "+cases[i].PathFindDistanceFromStart) ;
+                cases[i].gameObject.name = "Case : "+cases[i].index+" score : "+(cases[i].PathFindDistanceFromEnd +" "+(cases[i].PathFindDistanceFromEnd+cases[i].PathFindDistanceFromStart)+"+ "+cases[i].PathFindDistanceFromStart) ;
                
 
                 
