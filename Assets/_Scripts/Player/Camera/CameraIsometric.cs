@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraIsometric : MonoBehaviour
 {
     [SerializeField] private Controller _inputManager;
-    [SerializeField] private CameraShoulder cameraShoulder;
+
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private float _speed = 100f;
     [SerializeField] private float _speedRotation = 0.5f;
@@ -109,6 +109,18 @@ public class CameraIsometric : MonoBehaviour
             _inputManager.ControlCamera.RigthHandShoulder.performed += context => SwitchShoulderCam();
             _inputManager.ControlCamera.LeaveShoulder.performed += context => LeaveShoulderCam();
 
+            /*_inputManager.TestGrid.Moving.performed += context =>
+            {
+                playerMoveInput = new Vector3(context.ReadValue<Vector2>().x, playerMoveInput.y, context.ReadValue<Vector2>().y);
+                Debug.Log("compris");
+                _canMoveCam = false;
+            };
+
+            _inputManager.TestGrid.Moving.canceled += context =>
+            {
+                playerMoveInput = new Vector3(context.ReadValue<Vector2>().x, playerMoveInput.y, context.ReadValue<Vector2>().y);
+            };*/
+
 
             _inputManager.ControlCamera.RightHand.performed += context =>
             {
@@ -131,7 +143,6 @@ public class CameraIsometric : MonoBehaviour
             _inputManager.ControlCamera.RigthHandShoulder.performed += context => SwitchShoulderCam();
             _inputManager.ControlCamera.LeaveShoulder.performed += context => LeaveShoulderCam();
 
-
             _inputManager.ControlCamera.LeftHand.performed += context =>
             {
                 _canMoveCam = true;
@@ -146,6 +157,11 @@ public class CameraIsometric : MonoBehaviour
         }
     }
 
+   /* private void FollowCharacter()
+    {
+        Debug.Log("compris");
+        _canMoveCam = false;
+    }*/
 
     private void SwitchShoulderCam()
     {

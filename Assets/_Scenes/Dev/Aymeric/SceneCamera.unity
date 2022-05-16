@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 192023625}
   - component: {fileID: 192023624}
   m_Layer: 0
-  m_Name: Cube (6)
+  m_Name: Enemy4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -213,7 +213,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 192023623}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 33.8, y: 51.9, z: -18.6}
+  m_LocalPosition: {x: -72.3, y: 4.1, z: 41.1}
   m_LocalScale: {x: 1, y: 5.7432, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 230586541}
   - component: {fileID: 230586540}
   m_Layer: 0
-  m_Name: Cube (3)
+  m_Name: Enemy1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -592,7 +592,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 756561026}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.59, y: 0.582, z: -4.8}
+  m_LocalPosition: {x: -0.06, y: 0.443, z: 0.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -849,7 +849,6 @@ GameObject:
   m_Component:
   - component: {fileID: 936171011}
   - component: {fileID: 936171013}
-  - component: {fileID: 936171012}
   m_Layer: 0
   m_Name: CM vcam3
   m_TagString: Untagged
@@ -873,27 +872,6 @@ Transform:
   m_Father: {fileID: 2056696191}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 3.195, y: 14.713, z: 0}
---- !u!114 &936171012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 936171010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52d9e76e9fa7b504eb725cee29a9d924, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraIsometric: {fileID: 1691541951}
-  _enemyIndex: 0
-  _enemy:
-  - {fileID: 230586543}
-  - {fileID: 1928620491}
-  - {fileID: 1493210906}
-  canLook: 0
-  _cameraShoulder: {fileID: 0}
-  _speedLookAT: 0
 --- !u!114 &936171013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1176,7 +1154,7 @@ GameObject:
   - component: {fileID: 1493210904}
   - component: {fileID: 1493210903}
   m_Layer: 0
-  m_Name: Cube (5)
+  m_Name: Enemy3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1397,7 +1375,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 562858f734c98134a91bbe687d4a927a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraShoulder: {fileID: 0}
   _rb: {fileID: 1691541948}
   _speed: 100
   _speedRotation: 0.5
@@ -1530,7 +1507,7 @@ GameObject:
   - component: {fileID: 1928620489}
   - component: {fileID: 1928620488}
   m_Layer: 0
-  m_Name: Cube (4)
+  m_Name: Enemy2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1782,7 +1759,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127325657}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.08, y: 0.056, z: -0.51}
+  m_LocalPosition: {x: -0.08, y: 0.056, z: -2}
   m_LocalScale: {x: 1, y: 0.2113379, z: 0.49715632}
   m_ConstrainProportionsScale: 0
   m_Children:

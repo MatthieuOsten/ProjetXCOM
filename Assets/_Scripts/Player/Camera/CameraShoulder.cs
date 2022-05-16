@@ -62,8 +62,8 @@ public class CameraShoulder : MonoBehaviour
     {
         if(canLook)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(_enemy[EnemyIndex].position - _cameraShoulder.transform.position);
-            _cameraShoulder.transform.rotation = Quaternion.Slerp(_cameraShoulder.transform.rotation, targetRotation, _speedLookAT);
+            Quaternion targetRotation = Quaternion.LookRotation(_enemy[EnemyIndex].position - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _speedLookAT);
         }
 
         if (cameraIsometric.OnShoulder == false)
