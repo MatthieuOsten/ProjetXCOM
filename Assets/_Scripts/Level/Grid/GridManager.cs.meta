@@ -3,7 +3,12 @@ guid: 8602549c3d521f74aafedb0c4135f6da
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - DataGrid: {fileID: 11400000, guid: 4eed5b9a38f62bb47a777a163eb3b7c0, type: 2}
+  - CasePrefab: {fileID: 3561150613161783381, guid: 2274426bbc64a254d98c78b3b01db0ea,
+      type: 3}
+  - StartCase: {instanceID: 0}
+  - Destination: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
