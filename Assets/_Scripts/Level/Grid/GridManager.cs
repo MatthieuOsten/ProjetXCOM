@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 [ExecuteAlways]
 [System.Serializable]
 public class GridManager : MonoBehaviour
@@ -24,8 +23,9 @@ public class GridManager : MonoBehaviour
 
 
     [Header("Debug")]
-    [SerializeField] private Controller _inputManager;
-
+    Controller _inputManager;
+    [SerializeField] bool _showScorePathFinding;
+    public bool ShowScorePathFinding { get{ return _showScorePathFinding;}}
 
     public int SizeX 
     { 
@@ -94,9 +94,9 @@ public class GridManager : MonoBehaviour
     {
         ClearGrid();
 
-         if(Data.Grid.Length > 0) // Si une grid est stocké dans Data, on la reprend au lieu d'en generer
-            _grid = CopyGridFromData();
-         else
+        //  if(Data.Grid.Length > 0) // Si une grid est stocké dans Data, on la reprend au lieu d'en generer
+        //     _grid = CopyGridFromData();
+        //  else
          {  
             _grid = new Case[SizeX, SizeY];
             // On genere les cases pour chaque coordonnée
@@ -160,7 +160,7 @@ public class GridManager : MonoBehaviour
         // Alors on check si la _grid est niqué et si il a des gosses, si cest le cas on les reattribue 
         if(_grid == null && transform.childCount > 0)
         {
-            Debug.LogError("[GridManager] La table de grid a du être regen");
+            Debug.LogWarning("[GridManager] La table de grid a du être regen");
             _grid = new Case[SizeX, SizeY];
         
             for(int i = 0 ; i < transform.childCount; i++)
@@ -226,7 +226,7 @@ public class GridManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RegenerateCaseTable();
+        RegenerateCaseTable(); // Existe car entre le edit et runtime la table a double entrer foire // TODO : trouver une autre maniere
         if(GenerateAGrid)
         {
             GenerateGrid();
@@ -239,6 +239,61 @@ public class GridManager : MonoBehaviour
         }
 
         WatchCursor();     
+    }
+
+    void OnGUI() {
+        // while (Event.PopEvent(e)) {
+        //     if (e.rawType == EventType.MouseDown && e.button == 0) {
+             if (GUI.Button(new Rect(10, 10, 150, 100), "I am a button"))
+                {
+                    print("You clicked the button!");
+                }
+            // Event e = Event.current;
+            //      RaycastHit RayHit;
+            //     Ray ray;
+            //     GameObject ObjectHit;
+            //     Vector3 Hitpoint = Vector3.zero;
+            //     Vector2 MousePos = e.mousePosition;
+              
+            //     ray = Camera.main.ScreenPointToRay(MousePos ); 
+            //     if (Physics.Raycast(ray, out  RayHit))
+            //     {
+            //         ObjectHit = RayHit.transform.gameObject;
+            //         Hitpoint = new Vector3((int)RayHit.point.x,(int)RayHit.point.y,(int)RayHit.point.z);
+            //         if (ObjectHit != null)
+            //             Debug.DrawLine(Camera.main.transform.position, Hitpoint, Color.blue, 0.5f);
+
+            //     }
+
+            //     int x = (int)Hitpoint.x/CellSize;
+            //     int y = (int)Hitpoint.z/CellSize;
+
+            //     Case AimCase = GetValidCase(GetCase(x,y));
+            //     SelectModeWatcher(AimCase);
+            //     Debug.Log(x+" ; "+y);
+            //     if(Editmode )
+            //     {
+            //         Case caseToEdit = GetCase( x , y );
+            //         caseToEdit.state = CaseNewChanged;
+            //         //SaveGridToData(); // TODO : Plus besoin de sauvegarder car cest directement save dans la scene    
+            //     }
+             
+            //}
+        //}
+    }
+
+    public void EditCase(Vector3 pos , CaseState caseState)
+    {
+        int x = (int)pos.x/CellSize;
+        int y = (int)pos.z/CellSize;
+
+        Case AimCase = GetValidCase(GetCase(x,y));
+        SelectModeWatcher(AimCase);
+        Debug.Log(x+" ; "+y);
+        Case caseToEdit = GetCase( x , y );
+        caseToEdit.state = caseState;
+                    //SaveGridToData(); // TODO : Plus besoin de sauvegarder car cest directement save dans la scene    
+        
     }
 
 
@@ -264,66 +319,83 @@ public class GridManager : MonoBehaviour
     }
 
     void WatchCursor()
+    {   
+        Vector3 mousePos = MouseToWorldPosition();
+        int x = (int)mousePos.x/CellSize;
+        int y = (int)mousePos.z/CellSize;
+
+        Case AimCase = GetValidCase(GetCase(x,y));
+        SelectModeWatcher(AimCase);
+            
+        if(Editmode && _inputManager.TestGrid.Action.ReadValue<float>() == 1)
+        {
+            Case caseToEdit = GetCase( x , y );
+            caseToEdit.state = CaseNewChanged;
+            //SaveGridToData(); // TODO : Plus besoin de sauvegarder car cest directement save dans la scene    
+        }
+        
+    }
+
+    /*
+        Cette function genere un recast et renvoi le object toucher 
+        TODO : Cette function sera mi dans le controller du player
+    */
+
+    Vector3 MouseToWorldPosition()
     {
         RaycastHit RayHit;
         Ray ray;
         GameObject ObjectHit;
         Vector3 Hitpoint = Vector3.zero;
-        //Debug.Log(Input.mousePosition);
-
         ray = Camera.main.ScreenPointToRay(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>() ); 
-
         if (Physics.Raycast(ray, out  RayHit))
         {
             ObjectHit = RayHit.transform.gameObject;
             Hitpoint = new Vector3((int)RayHit.point.x,(int)RayHit.point.y,(int)RayHit.point.z);
             if (ObjectHit != null)
                 Debug.DrawLine(Camera.main.transform.position, Hitpoint, Color.blue, 0.5f);
- 
-            int x = (int)Hitpoint.x/CellSize;
-            int y = (int)Hitpoint.z/CellSize;
-
-            Case AimCase = GetValidCase(GetCase(x,y));
-
-            if(SelectMode && _inputManager.TestGrid.Action.ReadValue<float>() == 1)
-            {
-
-                if(SelectedCaseA != AimCase && SelectedCaseB != null)
-                {
-                    if(SelectedCaseA != null)
-                        SelectedCaseA.Highlighted = false;
-
-                    SelectedCaseA = AimCase;
-                    SelectedCaseA.Highlighted = true;
-                    SelectedCaseA.ChangeMaterial(Data.caseHighlight);
-                    return;
-                }    
-                else if(SelectedCaseB != AimCase && SelectedCaseA != AimCase)
-                {
-                    if(SelectedCaseB != null)
-                        SelectedCaseB.Highlighted = false;
-
-                    SelectedCaseB = AimCase;
-                    SelectedCaseB.Highlighted = true;
-                    SelectedCaseB.ChangeMaterial(Data.caseHighlight);
-                    return;
-                }
-                PathFinding.FindPath(SelectedCaseA, SelectedCaseB );                  
-            }
-
-            if(Editmode && _inputManager.TestGrid.Action.ReadValue<float>() == 1)
-            {
-                Case caseToEdit = GetCase( x , y );
-                caseToEdit.state = CaseNewChanged;
-                SaveGridToData();
-                
-            }
-
-//            Debug.Log(GetCase(x,y).state);
 
         }
 
+        return Hitpoint;
     }
+
+
+    /*
+        
+    */
+    void SelectModeWatcher(Case AimCase)
+    {
+        if(SelectMode)
+            {
+                if(_inputManager.TestGrid.Action.ReadValue<float>() == 1)
+                {
+                    if(SelectedCaseA == null)
+                    {
+                        SelectedCaseA = AimCase;
+                        SelectedCaseA.Highlighted = true;
+                        SelectedCaseA.ChangeMaterial(Data.caseHighlight);
+                        return;
+                    }
+                    else
+                    {
+                        SelectedCaseB = AimCase;
+                        SelectedCaseB.Highlighted = true;
+                        SelectedCaseB.ChangeMaterial(Data.caseHighlight);
+                    }
+
+                    PathFinding.FindPath(SelectedCaseA, SelectedCaseB );                  
+                }
+                if(_inputManager.TestGrid.Echap.ReadValue<float>() == 1)
+                {
+                    SelectedCaseA.Highlighted = false;
+                    SelectedCaseA = null;
+                    SelectedCaseB.Highlighted = false;
+                    SelectedCaseB = null;
+                }
+            }
+    }
+
     /*
         Permet de sauvegarder la grid dans le fichier data mais cest peut etre inutile donc a voir
     */

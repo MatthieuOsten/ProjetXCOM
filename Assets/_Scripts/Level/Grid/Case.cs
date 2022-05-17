@@ -13,6 +13,7 @@ public enum CaseState
 }
 
 [System.Serializable]
+[ExecuteAlways]
 public class CaseInfo
 {
     public int x,y;
@@ -102,16 +103,26 @@ public class Case : MonoBehaviour
     */
     public void Update()
     {
-        total.text = ""+(gCost+hCost);
-        h.text = ""+hCost;
-        g.text = ""+gCost;
+        if(_gridParent.ShowScorePathFinding)
+        {
+            total.gameObject.SetActive(true);
+            h.gameObject.SetActive(true);
+            g.gameObject.SetActive(true);
+            total.text = ""+(gCost+hCost);
+            h.text = ""+hCost;
+            g.text = ""+gCost;
+        }
+        else
+        {
+            total.gameObject.SetActive(false);
+            h.gameObject.SetActive(false);
+            g.gameObject.SetActive(false);
+        }
 
 
         if( Highlighted||  PointCase||  Checked||  BlackList|| goodPath)
             return;
 
-        float emissiveIntensity = 80;
-        Color caseColor;
         switch(It._state)
         {
             case CaseState.Null:
@@ -159,7 +170,9 @@ public class Case : MonoBehaviour
         }
     }
 
-    /* Change la couleur de la cellule */
+    /* Change la couleur de la cellule 
+        Cava etre jarter car ca cree une nouvelle instance de material, vaut mieux changer directement le material
+    */
     void ChangeColor(Color newColor, float emissiveIntensity)
     {
        // if(mtl.GetColor("_Color") != newColor )

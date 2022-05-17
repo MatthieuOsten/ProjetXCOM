@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1145172193109578525}
   - component: {fileID: 5063476472341744329}
   - component: {fileID: 212305957807801116}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: total
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3561150612671361124}
   - component: {fileID: 8358725934445701789}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Decal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +266,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3561150613161783377}
   - component: {fileID: 8739660350532165144}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Case
   m_TagString: Untagged
   m_Icon: {fileID: 2800000, guid: cbaeed03e5416aa4bae23110b63a0c7d, type: 3}
@@ -312,13 +312,14 @@ MonoBehaviour:
     index: -1
   mtl: {fileID: 2100000, guid: db90ce99a1ec5ef4ca0bdce3b0119e6c, type: 2}
   sr: {fileID: 8358725934445701789}
-  PathFindDistanceFromStart: 0
-  PathFindDistanceFromEnd: 0
+  gCost: 0
+  hCost: 0
   Highlighted: 0
   PointCase: 0
   Checked: 0
   BlackList: 0
   goodPath: 0
+  parentCase: {fileID: 0}
   total: {fileID: 212305957807801116}
   h: {fileID: 616726735625029504}
   g: {fileID: 8119772686292418182}
@@ -333,7 +334,7 @@ GameObject:
   - component: {fileID: 496093526942879237}
   - component: {fileID: 5814315838624972154}
   - component: {fileID: 616726735625029504}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: total (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -505,7 +506,7 @@ GameObject:
   - component: {fileID: 4728357630541861525}
   - component: {fileID: 6367790087690096026}
   - component: {fileID: 8119772686292418182}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: total (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
