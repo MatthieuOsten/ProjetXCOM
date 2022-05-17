@@ -14,11 +14,10 @@ public class GridManager : MonoBehaviour
 
     int _currentCellCreated = 0; // Le nombre de case crée
 
-    [Header("EDIT")]
+    [Header("idk")]
     [SerializeField] bool GenerateAGrid, ResetGrid;
-    [SerializeField] bool Editmode, SelectMode;
-    public Vector3 CurrentCellSelected;
-    [SerializeField] CaseState CaseNewChanged;
+    [SerializeField] bool SelectMode;
+ 
 
 
 
@@ -241,47 +240,6 @@ public class GridManager : MonoBehaviour
         WatchCursor();     
     }
 
-    void OnGUI() {
-        // while (Event.PopEvent(e)) {
-        //     if (e.rawType == EventType.MouseDown && e.button == 0) {
-             if (GUI.Button(new Rect(10, 10, 150, 100), "I am a button"))
-                {
-                    print("You clicked the button!");
-                }
-            // Event e = Event.current;
-            //      RaycastHit RayHit;
-            //     Ray ray;
-            //     GameObject ObjectHit;
-            //     Vector3 Hitpoint = Vector3.zero;
-            //     Vector2 MousePos = e.mousePosition;
-              
-            //     ray = Camera.main.ScreenPointToRay(MousePos ); 
-            //     if (Physics.Raycast(ray, out  RayHit))
-            //     {
-            //         ObjectHit = RayHit.transform.gameObject;
-            //         Hitpoint = new Vector3((int)RayHit.point.x,(int)RayHit.point.y,(int)RayHit.point.z);
-            //         if (ObjectHit != null)
-            //             Debug.DrawLine(Camera.main.transform.position, Hitpoint, Color.blue, 0.5f);
-
-            //     }
-
-            //     int x = (int)Hitpoint.x/CellSize;
-            //     int y = (int)Hitpoint.z/CellSize;
-
-            //     Case AimCase = GetValidCase(GetCase(x,y));
-            //     SelectModeWatcher(AimCase);
-            //     Debug.Log(x+" ; "+y);
-            //     if(Editmode )
-            //     {
-            //         Case caseToEdit = GetCase( x , y );
-            //         caseToEdit.state = CaseNewChanged;
-            //         //SaveGridToData(); // TODO : Plus besoin de sauvegarder car cest directement save dans la scene    
-            //     }
-             
-            //}
-        //}
-    }
-
     public void EditCase(Vector3 pos , CaseState caseState)
     {
         int x = (int)pos.x/CellSize;
@@ -327,12 +285,13 @@ public class GridManager : MonoBehaviour
         Case AimCase = GetValidCase(GetCase(x,y));
         SelectModeWatcher(AimCase);
             
-        if(Editmode && _inputManager.TestGrid.Action.ReadValue<float>() == 1)
-        {
-            Case caseToEdit = GetCase( x , y );
-            caseToEdit.state = CaseNewChanged;
-            //SaveGridToData(); // TODO : Plus besoin de sauvegarder car cest directement save dans la scene    
-        }
+        // Deplacer dans GridEditorTool    
+        // if(Editmode && _inputManager.TestGrid.Action.ReadValue<float>() == 1)
+        // {
+        //     Case caseToEdit = GetCase( x , y );
+        //     caseToEdit.state = CaseNewChanged;
+        //     //SaveGridToData(); // TODO : Plus besoin de sauvegarder car cest directement save dans la scene    
+        // }
         
     }
 

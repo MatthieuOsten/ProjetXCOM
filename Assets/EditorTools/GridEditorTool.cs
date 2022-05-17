@@ -4,7 +4,7 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-[EditorTool("Place Objects Tool")]
+[EditorTool("Edit Grid Case")]
 public class GridEditorTool : EditorTool
 {
     /*
@@ -12,14 +12,19 @@ public class GridEditorTool : EditorTool
         Code basé sur ca : https://github.com/bzgeb/PlaceObjectsTool/blob/main/Assets/PlaceObjectsTool/Editor/PlaceObjectsTool.cs
     */
 
-    static Texture2D _toolIcon;
+    [SerializeField]  Texture2D _toolIcon;
 
     readonly GUIContent _iconContent = new GUIContent
     {
-        image = _toolIcon,
-        text = "Place Objects Tool",
-        tooltip = "Place Objects Tool"
+      
+        text = "Edit Grid Case",
+        tooltip = "Edit each case of the grid"
     };
+
+    void OnEnable()
+    {
+        _iconContent.image = _toolIcon;
+    }
 
     EnumField _toolRootElement;
     CaseState _caseStateToPaint;
@@ -29,11 +34,19 @@ public class GridEditorTool : EditorTool
 
     bool HasPlaceableObject => _caseStateToPaint != null;
 
+    [Header("Previous setting")]
+    Quaternion _oldRotation;
+    bool _oldOrthographic;
+
     public override GUIContent toolbarIcon => _iconContent;
 
     public override void OnActivated()
     {
-        //Create the UI
+        Selection.activeObject = GameObject.FindGameObjectWithTag("GridManager");
+    
+
+        _iconContent.image = _toolIcon;
+        //Permet de crée le menu en bas à gauche
         _toolRootElement = new EnumField(CaseState.Empty);
         _toolRootElement.style.width = 200;
         var backgroundColor = EditorGUIUtility.isProSkin
@@ -52,12 +65,19 @@ public class GridEditorTool : EditorTool
         _caseStateToPaint = (CaseState)_toolRootElement.value;
 
         _toolRootElement.Add(titleLabel);
-        //_toolRootElement.Add(_caseStateToPaint);
 
         var sv = SceneView.lastActiveSceneView;
         sv.rootVisualElement.Add(_toolRootElement);
         sv.rootVisualElement.style.flexDirection = FlexDirection.ColumnReverse;
-        
+
+        //on recupere les setting de sceneview davant pour les reattribuer à la fin
+        _oldRotation = sv.rotation;
+        _oldOrthographic = sv.orthographic;
+
+        // Force la camera a être en vue de dessus
+        sv.orthographic = true;
+        sv.rotation = Quaternion.AngleAxis(90, Vector3.right); // vue de hautSs
+
         SceneView.beforeSceneGui += BeforeSceneGUI;
     }
 
@@ -65,6 +85,9 @@ public class GridEditorTool : EditorTool
     {
         _toolRootElement?.RemoveFromHierarchy();
         SceneView.beforeSceneGui -= BeforeSceneGUI;
+         var sv = SceneView.lastActiveSceneView;
+        sv.rotation = _oldRotation;
+        sv.orthographic = _oldOrthographic;
     }
 
     void BeforeSceneGUI(SceneView sceneView)
@@ -78,45 +101,43 @@ public class GridEditorTool : EditorTool
             Event.current.Use();
         }
 
-        if (!HasPlaceableObject)
+        
+        if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
+        {
+            _receivedClickDownEvent = true;
+            Event.current.Use();
+        }
+
+        if (_receivedClickDownEvent && Event.current.type == EventType.MouseUp && Event.current.button == 0)
         {
             _receivedClickDownEvent = false;
-            _receivedClickUpEvent = false;
+            _receivedClickUpEvent = true;
+            Event.current.Use();
         }
-        else
-        {
-            if (Event.current.type == EventType.MouseDown && Event.current.button == 0)
-            {
-                _receivedClickDownEvent = true;
-                Event.current.Use();
-            }
-
-            if (_receivedClickDownEvent && Event.current.type == EventType.MouseUp && Event.current.button == 0)
-            {
-                _receivedClickDownEvent = false;
-                _receivedClickUpEvent = true;
-                Event.current.Use();
-            }
-        }
+        
     }
 
     public override void OnToolGUI(EditorWindow window)
     {
-         Selection.activeObject = GameObject.FindGameObjectWithTag("GridManager");
-        //If we're not in the scene view, we're not the active tool, we don't have a placeable object, exit.
+        // Alors je fais ce truc bledard car la case s'updatai pas
+        //if(Selection.activeTransform.TryGetComponent<Case>(out Case oof) || Selection.activeTransform.TryGetComponent<GridManager>(out GridManager oofa))
+            Selection.activeObject = GameObject.FindGameObjectWithTag("GridManager");
+        
+        //Si on est pas dans la sceneView, l'outil s'arrete
         if (!(window is SceneView))
             return;
-
+        //Si on est pas dans cette outil, on stop
         if (!ToolManager.IsActiveTool(this))
             return;
 
-        if (!HasPlaceableObject)
+        if(Selection.transforms[0].tag != "GridManager")
             return;
+      
 
-        //Draw a positional Handle.
-        Handles.DrawWireDisc(GetCurrentMousePositionInScene(), Vector3.up, 0.5f);
+        //Affiche un cercle sur la scene pour voir ce que l'on vise
+        Handles.DrawWireDisc(GetCurrentMousePositionInScene(), Vector3.up, 1f  );
 
-        //If the user clicked, clone the selected object, place it at the current mouse position.
+        //Si l'user reste appuyer cela va editer la case cible
         if (_receivedClickDownEvent)
         {
             _caseStateToPaint = (CaseState)_toolRootElement.value;
@@ -125,23 +146,19 @@ public class GridEditorTool : EditorTool
                 GridManager grid = transform.GetComponent<GridManager>();
                 Debug.Log(GetCurrentMousePositionInScene());
                 grid.EditCase(GetCurrentMousePositionInScene() , _caseStateToPaint);
+
+                // Alors je fais ce truc bledard car la case s'updatai pas
                 Selection.activeObject = grid.GetCase((int)GetCurrentMousePositionInScene().x,(int)GetCurrentMousePositionInScene().y);
 
             }
-            //Undo.RegisterCreatedObjectUndo(null, "Place new object");
-            Undo.undoRedoPerformed();
             
             _receivedClickUpEvent = false;
 
            
         }
 
-        //Force the window to repaint.
-        //window.SendEvent(null);
-        window.SaveChanges();
-        window.Repaint();
-        EditorWindow view = EditorWindow.GetWindow<SceneView>();
-        view.Repaint();
+        window.Repaint(); // Permet de refresh la sceneView, afin que le rond du curseur bouge
+      
     }
 
     Vector3 GetCurrentMousePositionInScene()
