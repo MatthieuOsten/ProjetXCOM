@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
+using TMPro;
+
 public enum CaseState
 {
     Null,
@@ -11,6 +13,15 @@ public enum CaseState
 }
 
 [System.Serializable]
+public class CaseInfo
+{
+    public int x,y;
+    public CaseState _state; // the state of the grid
+    public int index = -1; // the index of the case in the grid
+}
+
+[ExecuteAlways]
+
 public class Case : MonoBehaviour
 {
     // CURRENTLY WORK IN PROGRESS, EVERYTHING WILL BE POLISHED
@@ -34,24 +45,40 @@ public class Case : MonoBehaviour
             this.y = y; 
         }
     }
-    public GridManager _gridParent; // the owner of the case
-    public GridPoint Point; // position in the grid 
-    public CaseState _state; // the state of the grid
-    public int index = -1; // the index of the case in the grid
-    public Material mtl;
-    DecalProjector _proj; // Ce qui projete la case sur le monde
 
-    public int PathFindDistanceFromStart;
-    public int PathFindDistanceFromEnd;
-    public bool Highlighted;
-    public bool PointCase;
-    public bool Checked;
-    public bool BlackList;
-    public bool goodPath;
+    public GridManager _gridParent; // the owner of the case
+    //public GridPoint Point; // position in the grid cest casser ca va virer
+   
+    public CaseInfo It;
+
+    public Material mtl;
+    //DecalProjector _proj; // Ce qui projete la case sur le monde
+    public SpriteRenderer sr;
+    [Tooltip(" G cost : Distance from starting case")]
+    public int gCost;
+    [Tooltip(" H cost (heuristic) : Distance from end case")]
+    public int hCost;
+    [Tooltip(" F cost: G cost + H cost")]
+    public int fCost{ get{return hCost+gCost;}}
+    
+    public bool Highlighted, PointCase, Checked, BlackList,goodPath;
+
+    public Case parentCase;
+
     /* Next properties to include
     Actor _actor; // A ref to the actor in the case, if no actor, the ref will be null
     Interact _interact // A ref to a interact like a echelle 
     */ 
+
+    public int x { get{ return It.x;} set{ It.x = value;} }
+    public int y { get{ return It.y;} set{ It.y = value;}}
+    public CaseState state { get{ return It._state;} set{ It._state = value;}}
+    public int index { get{ return It.index;} set{ It.index = value;}}
+
+    [Header("DEBUG")]
+    public TextMeshPro total;
+    public TextMeshPro h;
+    public TextMeshPro g; 
 
     public GridManager GridParent
     {
@@ -60,75 +87,110 @@ public class Case : MonoBehaviour
 
 
     private void Start() {
-        _proj = GetComponentInChildren<DecalProjector>();    
+        //_proj = GetComponentInChildren<DecalProjector>();    
         // Creates a new material instance for the DecalProjector.
         // here why https://docs.unity.cn/Packages/com.unity.render-pipelines.high-definition@12.0/manual/creating-a-decal-projector-at-runtime.html
-        _proj.material = new Material(_proj.material);
+        //_proj.material = new Material(_proj.material);
+        mtl = GetComponentInChildren<SpriteRenderer>().sharedMaterial;
+        sr = GetComponentInChildren<SpriteRenderer>();
 
     }
     /* 
         Update pour la cellule
     */
-    public void UpdateCell()
+    public void Update()
     {
+        total.text = ""+(gCost+hCost);
+        h.text = ""+hCost;
+        g.text = ""+gCost;
+
+
+        if( Highlighted||  PointCase||  Checked||  BlackList|| goodPath)
+            return;
+
+        float emissiveIntensity = 80;
         Color caseColor;
-        switch(_state)
+        switch(It._state)
         {
             case CaseState.Null:
-                caseColor = Color.black;
+                ChangeMaterial(_gridParent.Data.caseNone);
             break;
             case CaseState.HalfOccupied:
-                caseColor = Color.yellow;
+                ChangeColor(Color.yellow, 0);
             break;
             case CaseState.Occupied:
-                caseColor = Color.red;
+                ChangeMaterial(_gridParent.Data.caseLocked);
             break;
             case CaseState.Empty:
-                caseColor = Color.green;
+                ChangeMaterial(_gridParent.Data.caseDefault);
             break;
             default:
-                caseColor = Color.black;
+                ChangeMaterial(_gridParent.Data.caseNone);
             break;
 
         }
-
-        mtl = _proj.material;
-
-        mtl.color = caseColor;
+        return;
+        
 
         if(Highlighted)
-            mtl.color = Color.cyan;
-
-        if(PointCase)
         {
-            mtl.color = Color.magenta;
+            ChangeMaterial(_gridParent.Data.caseHighlight);
+            sr.enabled = true;
         }
-
-        if(goodPath)
+           
+        else if(PointCase)
         {
-            mtl.color = Color.white;
+            ChangeColor(Color.magenta, 0);
+                        sr.enabled = true;
+
         }
+        else if(Checked)
+        {
+            ChangeMaterial(_gridParent.Data.caseNone);
 
+                        sr.enabled = true;
 
-         float emissiveIntensity = 10;
-        Color emissiveColor = mtl.color;
-        mtl.SetColor("_EmissiveColor", emissiveColor * emissiveIntensity);
+        }
+        else
+        {
+            sr.enabled = true;
+        }
+    }
+
+    /* Change la couleur de la cellule */
+    void ChangeColor(Color newColor, float emissiveIntensity)
+    {
+       // if(mtl.GetColor("_Color") != newColor )
+        {
+            //.SetColor("_EmissiveColor", newColor * emissiveIntensity);
+            //mtl.SetColor("_Color", newColor );
+        } 
+       
+    }
+
+     /* Change la couleur de la cellule */
+    public void ChangeMaterial(Material newMtl)
+    {
+        {
+            sr.material =  newMtl;
+        } 
+       
     }
 
     void CheckIfCollide()
     {
           RaycastHit hit;
         Vector3 Hitpoint = Vector3.zero;
-        Debug.Log(_gridParent.GetCaseWorldPosition(Point.x,Point.y));
+        Debug.Log(_gridParent.GetCaseWorldPosition(x,y));
 
-        Vector3 StartPosA = _gridParent.GetCaseWorldPosition(Point.x,Point.y);
-        Vector3 EndPosA = _gridParent.GetCaseWorldPosition(Point.x+1,Point.y+1);
+        Vector3 StartPosA = _gridParent.GetCaseWorldPosition(x,y);
+        Vector3 EndPosA = _gridParent.GetCaseWorldPosition(x+1,y+1);
 
-        Vector3 StartPosB = _gridParent.GetCaseWorldPosition(Point.x+1,Point.y);
-        Vector3 EndPosB = _gridParent.GetCaseWorldPosition(Point.x,Point.y+1);
+        Vector3 StartPosB = _gridParent.GetCaseWorldPosition(x+1,y);
+        Vector3 EndPosB = _gridParent.GetCaseWorldPosition(x,y+1);
 
-        if (   ( Physics.Raycast(StartPosA , EndPosA - StartPosA, out hit, _gridParent.cellSize+1) ) 
-        ||      Physics.Raycast(StartPosB, EndPosB - StartPosB , out hit, _gridParent.cellSize+1) )
+        if (   ( Physics.Raycast(StartPosA , EndPosA - StartPosA, out hit, _gridParent.CellSize+1) ) 
+        ||      Physics.Raycast(StartPosB, EndPosB - StartPosB , out hit, _gridParent.CellSize+1) )
 
         {
             Debug.DrawLine(StartPosA, EndPosA, Color.red);
@@ -146,8 +208,4 @@ public class Case : MonoBehaviour
 
     }
 
-    void ChangeColor(Color newColor)
-    {
-
-    }
 }
