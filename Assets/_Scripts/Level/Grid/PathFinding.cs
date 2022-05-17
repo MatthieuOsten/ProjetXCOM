@@ -57,19 +57,19 @@ public class PathFinding : MonoBehaviour
     }
 
     // Function qui s'occupe de trouver le chemin le plus court
-    public static void FindPath(Case startCase, Case endCase)
+    public static Case[] FindPath(Case startCase, Case endCase)
     {
         // Permet d'éviter des hard crash
         if(GridManager.GetValidCase(startCase) == null || GridManager.GetValidCase(endCase) == null )
         {
             Debug.LogWarning("PathFinding : Attention l'un des deux point est une case non valide");
-            return;
+            return null;
         }
         // On verifie si les cases viennent de la meme grille
         if(startCase._gridParent != endCase._gridParent)
         {
             Debug.LogWarning("PathFinding : Attention les cases ne viennent pas de la même grille");
-            return;
+            return null;
         }
 
         ResetCasesPreview( startCase, endCase);
@@ -93,9 +93,8 @@ public class PathFinding : MonoBehaviour
              
             if(currentNode == endCase)
             {
-                // on atteint la case de endCase, ainsi on retrace le chemin grace au parent de chaque case
-                RetracePath( startCase, endCase);
-                return;
+                // on atteint la endCase, ainsi on retrace le chemin grace au parent de chaque case
+                return RetracePath( startCase, endCase);
             }
 
             foreach( Case adjacentCase in GridManager.GetAdjacentCases(currentNode))
@@ -110,6 +109,8 @@ public class PathFinding : MonoBehaviour
                 {
                     adjacentCase.gCost = newMovementCostToNeighbour;
                     adjacentCase.hCost = GetScore(adjacentCase, endCase);
+                    // Si le chemin est bon, on indique de quelle case provient notre case ideal
+                    // utile pour retracer le chemin après
                     adjacentCase.parentCase = currentNode;
                     adjacentCase.Checked = true;
                     if(!openSet.Contains(adjacentCase))
@@ -119,7 +120,14 @@ public class PathFinding : MonoBehaviour
                    
         }
 
-        static void RetracePath(Case StartNode, Case endNode)
+        // Si on arrive la cest que aucun chemin n'a était trouvé
+        return null;
+    }
+
+    /*
+        Renvoi la list des cases qui offrent le meilleur chemin
+    */
+    static Case[] RetracePath(Case StartNode, Case endNode)
         {
             List<Case> path = new List<Case>();
             Case currentNode = endNode;
@@ -132,6 +140,6 @@ public class PathFinding : MonoBehaviour
 
             }
             path.Reverse();
+            return path.ToArray();
         }
-    }
 }

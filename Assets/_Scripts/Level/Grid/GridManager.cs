@@ -146,8 +146,6 @@ public class GridManager : MonoBehaviour
                 _grid[x,y].state = dataCase[_currentCellCreated]._state;
                 GameObject plane = Instantiate(Data.CasePrefab, GetCaseWorldPosition(x, y)  , Quaternion.identity );
                 plane.transform.localScale = plane.transform.localScale * CellSize;
-                //_grid[x,y].plane =  plane;
-                //_grid[x,y].mtl =  plane.transform.GetComponent<MeshRenderer>().material;
                 _currentCellCreated++;
             }
         }
@@ -174,8 +172,6 @@ public class GridManager : MonoBehaviour
                 Debug.Log($" WTF : {newCase.x} {newCase.y}");
             }
         }
-        //else
-            //Debug.Log("[GridManager] La table de grid est ok.");
     }
 
     /*
@@ -207,7 +203,7 @@ public class GridManager : MonoBehaviour
         return gridParent._grid[x,y];
     }
 
-      /*
+    /*
         Comme son nom l'indique cette function permet de get tout les adjacentes cases
     */
     public static Case[] GetAdjacentCases( Case CurrentCase)
