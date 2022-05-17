@@ -54,6 +54,8 @@ public class Case : MonoBehaviour
     public Material mtl;
     //DecalProjector _proj; // Ce qui projete la case sur le monde
     public SpriteRenderer sr;
+
+    [Header("PathFinding")]
     [Tooltip(" G cost : Distance from starting case")]
     public int gCost;
     [Tooltip(" H cost (heuristic) : Distance from end case")]

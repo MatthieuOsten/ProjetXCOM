@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f21d2cc6d8ba614195821886bceecdb, type: 3}
   m_Name: DATA_GridPrototype
   m_EditorClassIdentifier: 
-  gridSizeX: 30
-  gridSizeY: 30
-  cellSize: 5
+  gridSizeX: 20
+  gridSizeY: 20
+  cellSize: 3
   CasePrefab: {fileID: 3561150613161783381, guid: 2274426bbc64a254d98c78b3b01db0ea,
     type: 3}
   Grid: []

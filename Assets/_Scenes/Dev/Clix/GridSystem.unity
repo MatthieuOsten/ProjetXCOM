@@ -858,11 +858,6 @@ MonoBehaviour:
   SelectMode: 0
   CurrentCellSelected: {x: 0, y: 0, z: 0}
   CaseNewChanged: 2
-  heuristicScale: 10
-  heuristicScaleDiagonale: 14
-  RandomStartAndGoal: 0
-  StartCase: {fileID: 0}
-  Destination: {fileID: 0}
 --- !u!4 &946627179
 Transform:
   m_ObjectHideFlags: 0
