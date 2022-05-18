@@ -19,17 +19,17 @@ public class Team : MonoBehaviour , ITeam
     //ITeam[] _team;
     //public ITeam[] Teama{get{ return _team;} set{ _team = value;}}
 
-    IActor[] _squad{get; set;}
-    public IActor[] Squad{get{ return _squad;} set{ _squad = value;}}
+    public ActorTest[] _squad{get; set;}
+    public ActorTest[] Squad{get{ return _squad;} set{ _squad = value;}}
+
+   
 
     public void SampleMethod(){
 
     }
 
-    private void Awake() {
+    public virtual void Awake() {
         LevelManager.AddTeamToList(this);
-
-
     // Add the team to a static array    
         Team[] ennemies = new Team[0];
         foreach(Team aTeam in LevelManager.listTeam)
@@ -48,8 +48,11 @@ public class Team : MonoBehaviour , ITeam
         hisEnnemies = ennemies;
     }
     // Start is called before the first frame update
-    void Start()
+    public virtual void Start()
     {
+        // Spawn squad
+        SpawnSquad();
+
 
         // // Indique ces ennemies
         // Team[] ennemies = new Team[0];
@@ -70,8 +73,13 @@ public class Team : MonoBehaviour , ITeam
 
     }
 
+    public void SpawnSquad()
+    {
+
+    }
+
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
         
     }

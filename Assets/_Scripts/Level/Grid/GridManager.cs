@@ -10,19 +10,19 @@ public class GridManager : MonoBehaviour
    
     // Need to be Moved in Data
     public Case[,] _grid; // A table with double entry with x and y, with for each element the type Case
-    [SerializeField] Case SelectedCaseA, SelectedCaseB;
+    // [SerializeField] Case SelectedCaseA, SelectedCaseB;
 
     int _currentCellCreated = 0; // Le nombre de case crée
 
     [Header("idk")]
     [SerializeField] bool GenerateAGrid, ResetGrid;
-    [SerializeField] bool SelectMode;
+    // [SerializeField] bool SelectMode;
  
 
 
 
     [Header("Debug")]
-    Controller _inputManager;
+    // Controller _inputManager;
     [SerializeField] bool _showScorePathFinding;
     public bool ShowScorePathFinding { get{ return _showScorePathFinding;}}
 
@@ -69,8 +69,8 @@ public class GridManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _inputManager = new Controller();
-        _inputManager.TestGrid.Enable();
+        // _inputManager = new Controller();
+        // _inputManager.TestGrid.Enable();
         //GenerateGrid();
     }
 
@@ -181,7 +181,14 @@ public class GridManager : MonoBehaviour
 
     public Vector3 GetCaseWorldPosition(int x, int y) 
     {
+
         return new Vector3(x , 0 ,y) * CellSize ;
+    }
+
+     public static Vector3 GetCaseWorldPosition(Case caseToCheck) 
+    {
+        
+        return new Vector3(caseToCheck.It.x , 0 ,caseToCheck.It.y) * caseToCheck._gridParent.CellSize ;
     }
     /*
         WIP
@@ -237,17 +244,19 @@ public class GridManager : MonoBehaviour
             ResetGrid = false;
         }
 
-        WatchCursor();     
+        // WatchCursor();     
     }
 
+
+    // Deplacer dans GridEditorTool.cs
     public void EditCase(Vector3 pos , CaseState caseState)
     {
         int x = (int)pos.x/CellSize;
         int y = (int)pos.z/CellSize;
 
-        Case AimCase = GetValidCase(GetCase(x,y));
-        SelectModeWatcher(AimCase);
-        Debug.Log(x+" ; "+y);
+        //Case AimCase = GetValidCase(GetCase(x,y));
+        //SelectModeWatcher(AimCase);
+        //Debug.Log(x+" ; "+y);
         Case caseToEdit = GetCase( x , y );
         caseToEdit.state = caseState;
                     //SaveGridToData(); // TODO : Plus besoin de sauvegarder car cest directement save dans la scene    
@@ -276,84 +285,88 @@ public class GridManager : MonoBehaviour
         return caseToCheck;
     }
 
-    void WatchCursor()
-    {   
-        Vector3 mousePos = MouseToWorldPosition();
-        int x = (int)mousePos.x/CellSize;
-        int y = (int)mousePos.z/CellSize;
+    /*
+        Regarde ce que la souris touche
+    */
 
-        Case AimCase = GetValidCase(GetCase(x,y));
-        SelectModeWatcher(AimCase);
-            
-        // Deplacer dans GridEditorTool    
-        // if(Editmode && _inputManager.TestGrid.Action.ReadValue<float>() == 1)
-        // {
-        //     Case caseToEdit = GetCase( x , y );
-        //     caseToEdit.state = CaseNewChanged;
-        //     //SaveGridToData(); // TODO : Plus besoin de sauvegarder car cest directement save dans la scene    
-        // }
-        
-    }
+    // void WatchCursor()
+    // {   
+    //     Vector3 mousePos = MouseToWorldPosition();
+    //     int x = (int)mousePos.x/CellSize;
+    //     int y = (int)mousePos.z/CellSize;
+
+    //     Case AimCase = GetValidCase(GetCase(x,y));
+    //     SelectModeWatcher(AimCase);    
+    // }
 
     /*
         Cette function genere un recast et renvoi le object toucher 
         TODO : Cette function sera mi dans le controller du player
     */
 
-    Vector3 MouseToWorldPosition()
-    {
-        RaycastHit RayHit;
-        Ray ray;
-        GameObject ObjectHit;
-        Vector3 Hitpoint = Vector3.zero;
-        ray = Camera.main.ScreenPointToRay(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>() ); 
-        if (Physics.Raycast(ray, out  RayHit))
-        {
-            ObjectHit = RayHit.transform.gameObject;
-            Hitpoint = new Vector3((int)RayHit.point.x,(int)RayHit.point.y,(int)RayHit.point.z);
-            if (ObjectHit != null)
-                Debug.DrawLine(Camera.main.transform.position, Hitpoint, Color.blue, 0.5f);
+    // Vector3 MouseToWorldPosition()
+    // {
+    //     RaycastHit RayHit;
+    //     Ray ray;
+    //     GameObject ObjectHit;
+    //     Vector3 Hitpoint = Vector3.zero;
+    //     ray = Camera.main.ScreenPointToRay(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>() ); 
+    //     if (Physics.Raycast(ray, out  RayHit))
+    //     {
+    //         ObjectHit = RayHit.transform.gameObject;
+    //         Hitpoint = new Vector3((int)RayHit.point.x,(int)RayHit.point.y,(int)RayHit.point.z);
+    //         if (ObjectHit != null)
+    //             Debug.DrawLine(Camera.main.transform.position, Hitpoint, Color.blue, 0.5f);
 
-        }
+    //     }
 
-        return Hitpoint;
-    }
+    //     return Hitpoint;
+    // }
 
 
     /*
         
     */
-    void SelectModeWatcher(Case AimCase)
-    {
-        if(SelectMode)
-            {
-                if(_inputManager.TestGrid.Action.ReadValue<float>() == 1)
-                {
-                    if(SelectedCaseA == null)
-                    {
-                        SelectedCaseA = AimCase;
-                        SelectedCaseA.Highlighted = true;
-                        SelectedCaseA.ChangeMaterial(Data.caseHighlight);
-                        return;
-                    }
-                    else
-                    {
-                        SelectedCaseB = AimCase;
-                        SelectedCaseB.Highlighted = true;
-                        SelectedCaseB.ChangeMaterial(Data.caseHighlight);
-                    }
+    // void SelectModeWatcher(Case AimCase)
+    // {
+    //     if(SelectMode)
+    //         {
+    //             if(_inputManager.TestGrid.Action.ReadValue<float>() == 1)
+    //             {
+    //                 if(SelectedCaseA == null)
+    //                 {
+    //                     SelectedCaseA = AimCase;
+    //                     SelectedCaseA.Highlighted = true;
+    //                     SelectedCaseA.ChangeMaterial(Data.caseHighlight);
+    //                     return;
+    //                 }
+    //                 else
+    //                 {
+    //                     SelectedCaseB = AimCase;
+    //                     SelectedCaseB.Highlighted = true;
+    //                     SelectedCaseB.ChangeMaterial(Data.caseHighlight);
+    //                     //UIManager.CreateHintString(AimCase.gameObject, "XCOM HINTSTRING OUAAHHH");
+    //                 }
 
-                    PathFinding.FindPath(SelectedCaseA, SelectedCaseB );                  
-                }
-                if(_inputManager.TestGrid.Echap.ReadValue<float>() == 1)
-                {
-                    SelectedCaseA.Highlighted = false;
-                    SelectedCaseA = null;
-                    SelectedCaseB.Highlighted = false;
-                    SelectedCaseB = null;
-                }
-            }
-    }
+    //                 if(SelectedCaseA._actor != null)
+    //                 {
+    //                     SelectedCaseA._actor.Destination = SelectedCaseB;
+    //                 }
+    //                 else
+    //                 {
+    //                     PathFinding.FindPath(SelectedCaseA, SelectedCaseB );                  
+    //                 }
+
+    //             }
+    //             if(_inputManager.TestGrid.Echap.ReadValue<float>() == 1)
+    //             {
+    //                 SelectedCaseA.Highlighted = false;
+    //                 SelectedCaseA = null;
+    //                 SelectedCaseB.Highlighted = false;
+    //                 SelectedCaseB = null;
+    //             }
+    //         }
+    // }
 
     /*
         Permet de sauvegarder la grid dans le fichier data mais cest peut etre inutile donc a voir

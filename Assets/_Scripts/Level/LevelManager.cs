@@ -46,6 +46,7 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] int _currentTeamIndex;
     [SerializeField] PointControl[] PointControls;
+    [SerializeField] bool Gameover;
 
     [Header("Debug")]
     public List<Team> StaticlistTeam = new List<Team>();
@@ -83,12 +84,14 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        DebugWatcher();
-
-       
-        WatchPointControlsPurified();
+        if(!Gameover)
+        {
+            DebugWatcher();
+            WatchPointControlsPurified();
+            WatchController();
+        }
     }
-
+    // Cest pour debug
     void DebugWatcher()
     {
         StaticlistTeam = listTeam;
@@ -100,17 +103,27 @@ public class LevelManager : MonoBehaviour
             PassedTurn = false;
         } 
     }
+    // Cette function regarde si la team qui joue a terminé son tour
+    void WatchController()
+    {
+        if(listTeam[_currentTeamIndex].ItsYourTurn == false)
+        {
+            EndTurn();
+        }
+    }
+    /*
+        Cette function regardera si tout les points de controle sont purifiés
+    */
     void WatchPointControlsPurified()
     {
-        
-        // bool endGame = false;
-        
-        // foreach(PointControl point in PointControls)
-        // {
-        //     if(PointControls.owner == listTeam[0])
-        //     {
-
-        //     }
-        // } 
+        bool endGame = false;
+        foreach(PointControl point in PointControls)
+        {
+            endGame = point.owner == listTeam[0];
+        } 
+        if(endGame == true)
+        {
+            Gameover = true;
+        }
     }
 }

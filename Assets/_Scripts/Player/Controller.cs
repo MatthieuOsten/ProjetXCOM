@@ -12,11 +12,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-[ExecuteAlways]
 public partial class @Controller : IInputActionCollection2, IDisposable
 {
     public InputActionAsset asset { get; }

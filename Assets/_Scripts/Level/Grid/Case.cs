@@ -12,6 +12,7 @@ public enum CaseState
     HalfOccupied
 }
 
+
 [System.Serializable]
 [ExecuteAlways]
 public class CaseInfo
@@ -68,8 +69,10 @@ public class Case : MonoBehaviour
 
     public Case parentCase;
 
+    public ActorTest _actor; // Une reference de l'actor qui est dessus
+
     /* Next properties to include
-    Actor _actor; // A ref to the actor in the case, if no actor, the ref will be null
+    
     Interact _interact // A ref to a interact like a echelle 
     */ 
 
