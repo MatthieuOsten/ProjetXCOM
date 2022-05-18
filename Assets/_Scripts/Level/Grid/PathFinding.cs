@@ -2,20 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// System qui permet de calculer le chemin le plus court dans une grille
+/// </summary>
 public class PathFinding : MonoBehaviour
 {
     [Header("PATH FINDING")]
-    static int heuristicScale = 4; 
+    static int heuristicScale = 4;
     static int heuristicScaleDiagonale = 8;
 
-    /*
-        function heuristic(node) =
-        dx = abs(node.x - goal.x)
-        dy = abs(node.y - goal.y)
-        return D * (dx + dy) + (D2 - 2 * D) * min(dx, dy)
-
-        Cette function permet de get la distance entre un point a et point b dans une grille
-    */
+    /// <summary> get la distance entre un point a et point b dans une grille </summary>
     static int GetScore(int nodeAx, int nodeAy, int nodeBx, int nodeBy)
     {
         int dx = Mathf.Abs(nodeAx - nodeBx);
@@ -25,64 +21,60 @@ public class PathFinding : MonoBehaviour
     }
     static int GetScore(Case a, Case b)
     {
-        return GetScore(a.x, a.y , b.x, b.y);
+        return GetScore(a.x, a.y, b.x, b.y);
     }
 
     // Reset toutes les cases de prévisualisation
     static void ResetCasesPreview(Case startCase, Case endCase)
     {
-        if(startCase._gridParent != endCase._gridParent)
+        if (startCase.GridParent != endCase.GridParent)
         {
             Debug.LogWarning("PathFinding : Attention les cases ne viennent pas de la même grille");
             return;
         }
-        GridManager grid = startCase._gridParent;
-        for(int x = 0 ; x < grid.SizeX; x++)
+        GridManager grid = startCase.GridParent;
+        for (int x = 0; x < grid.SizeX; x++)
         {
-            for(int y = 0 ; y < grid.SizeY; y++)
+            for (int y = 0; y < grid.SizeY; y++)
             {
-                if(grid._grid[x,y] != endCase && grid._grid[x,y] != startCase)
+                if (grid._grid[x, y] != endCase && grid._grid[x, y] != startCase)
                 {
-                    grid._grid[x,y].Checked = false;
-                    grid._grid[x,y].BlackList = false;
-                    grid._grid[x,y].Highlighted = false;
-                    grid._grid[x,y].PointCase = false;
-                    grid._grid[x,y].goodPath = false;
-                    grid._grid[x,y].hCost = 0;
-                    grid._grid[x,y].gCost = 0;
-                    grid._grid[x,y].ChangeMaterial(grid.Data.caseDefault);
-                }       
+                    grid._grid[x, y].Checked = false;
+                    grid._grid[x, y].Highlighted = false;
+                    grid._grid[x, y].hCost = 0;
+                    grid._grid[x, y].gCost = 0;
+                    grid._grid[x, y].ChangeMaterial(grid.Data.caseDefault);
+                }
             }
         }
     }
 
-    // Function qui s'occupe de trouver le chemin le plus court
+    /// <summary> Function qui s'occupe de trouver le chemin le plus court </summary>
     public static Case[] FindPath(Case startCase, Case endCase)
     {
         // Permet d'éviter des hard crash
-        if(GridManager.GetValidCase(startCase) == null || GridManager.GetValidCase(endCase) == null )
+        if (GridManager.GetValidCase(startCase) == null || GridManager.GetValidCase(endCase) == null)
         {
             Debug.LogWarning("PathFinding : Attention l'un des deux point est une case non valide");
             return null;
         }
-        // On verifie si les cases viennent de la meme grille
-        if(startCase._gridParent != endCase._gridParent)
+        if (startCase.GridParent != endCase.GridParent)
         {
             Debug.LogWarning("PathFinding : Attention les cases ne viennent pas de la même grille");
             return null;
         }
 
-        ResetCasesPreview( startCase, endCase);
+        ResetCasesPreview(startCase, endCase);
 
         List<Case> openSet = new List<Case>();
         HashSet<Case> closedSet = new HashSet<Case>();
         openSet.Add(startCase);
-        while(openSet.Count > 0)
+        while (openSet.Count > 0)
         {
             Case currentNode = openSet[0];
-            for(int i = 1 ; i < openSet.Count; i++)
+            for (int i = 1; i < openSet.Count; i++)
             {
-                if(openSet[i].fCost < currentNode.fCost || openSet[i].fCost == currentNode.fCost && openSet[i].hCost < currentNode.hCost )
+                if (openSet[i].fCost < currentNode.fCost || openSet[i].fCost == currentNode.fCost && openSet[i].hCost < currentNode.hCost)
                 {
                     currentNode = openSet[i];
                 }
@@ -90,56 +82,52 @@ public class PathFinding : MonoBehaviour
 
             openSet.Remove(currentNode);
             closedSet.Add(currentNode);
-             
-            if(currentNode == endCase)
+
+            if (currentNode == endCase)
             {
                 // on atteint la endCase, ainsi on retrace le chemin grace au parent de chaque case
-                return RetracePath( startCase, endCase);
+                return RetracePath(startCase, endCase);
             }
-
-            foreach( Case adjacentCase in GridManager.GetAdjacentCases(currentNode))
+            foreach (Case adjacentCase in GridManager.GetAdjacentCases(currentNode))
             {
-                if( adjacentCase == null || adjacentCase.state != CaseState.Empty || closedSet.Contains(adjacentCase) )
+                if (adjacentCase == null || adjacentCase.state != CaseState.Empty || closedSet.Contains(adjacentCase))
                 {
                     continue;
                 }
 
                 int newMovementCostToNeighbour = currentNode.gCost + GetScore(currentNode, adjacentCase);
-                if(newMovementCostToNeighbour < adjacentCase.gCost || !openSet.Contains(adjacentCase))
+                if (newMovementCostToNeighbour < adjacentCase.gCost || !openSet.Contains(adjacentCase))
                 {
                     adjacentCase.gCost = newMovementCostToNeighbour;
                     adjacentCase.hCost = GetScore(adjacentCase, endCase);
                     // Si le chemin est bon, on indique de quelle case provient notre case ideal
                     // utile pour retracer le chemin après
-                    adjacentCase.parentCase = currentNode;
+                    adjacentCase.ParentCase = currentNode;
                     adjacentCase.Checked = true;
-                    if(!openSet.Contains(adjacentCase))
+                    if (!openSet.Contains(adjacentCase))
                         openSet.Add(adjacentCase);
                 }
             }
-                   
+
         }
 
         // Si on arrive la cest que aucun chemin n'a était trouvé
         return null;
     }
 
-    /*
-        Renvoi la list des cases qui offrent le meilleur chemin
-    */
+    /// <summary> Renvoi la list des cases qui offrent le meilleur chemin </summary>
     static Case[] RetracePath(Case StartNode, Case endNode)
+    {
+        List<Case> path = new List<Case>();
+        Case currentNode = endNode;
+        while (currentNode != StartNode)
         {
-            List<Case> path = new List<Case>();
-            Case currentNode = endNode;
-            while(currentNode != StartNode)
-            {
-                currentNode.Checked = true;
-                currentNode.ChangeMaterial(StartNode._gridParent.Data.caseNone);
-                path.Add(currentNode);
-                currentNode = currentNode.parentCase;
-
-            }
-            path.Reverse();
-            return path.ToArray();
+            currentNode.Checked = true;
+            currentNode.ChangeMaterial(StartNode.GridParent.Data.caseNone);
+            path.Add(currentNode);
+            currentNode = currentNode.ParentCase;
         }
+        path.Reverse();
+        return path.ToArray();
+    }
 }

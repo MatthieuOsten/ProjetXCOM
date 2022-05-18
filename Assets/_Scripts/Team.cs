@@ -50,9 +50,8 @@ public class Team : MonoBehaviour , ITeam
     // Start is called before the first frame update
     public virtual void Start()
     {
-        // Spawn squad
         SpawnSquad();
-
+        
 
         // // Indique ces ennemies
         // Team[] ennemies = new Team[0];
@@ -75,7 +74,15 @@ public class Team : MonoBehaviour , ITeam
 
     public void SpawnSquad()
     {
+        foreach(ActorTest actor in Squad)
+        {
+            SpawnActor(actor);
 
+        }
+    }
+    public void SpawnActor(ActorTest actor)
+    {
+        
     }
 
     // Update is called once per frame

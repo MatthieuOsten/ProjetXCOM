@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour 
 {
-
+    /*
+        Force à avoir qu'un seul level manager
+    */
     private static LevelManager _instance = null;
     public static LevelManager Instance
     {
@@ -50,6 +52,9 @@ public class LevelManager : MonoBehaviour
 
     [Header("Debug")]
     public List<Team> StaticlistTeam = new List<Team>();
+    /// <summary>
+    /// Permet de passer le tour au joueur actuel.
+    /// </summary>
     public bool PassedTurn;
 
 
@@ -69,7 +74,10 @@ public class LevelManager : MonoBehaviour
         
     }
 
-    public void EndTurn()
+
+
+
+    void EndTurn()
     {
         listTeam[_currentTeamIndex].ItsYourTurn = false;
         _currentTurn++;

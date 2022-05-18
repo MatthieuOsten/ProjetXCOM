@@ -17,6 +17,13 @@ public interface ITeam
      bool ItsYourTurn;
     */
     
-
+    /// <summary>
+    /// Spawn l'escouade de la team sur la grille
+    /// </summary>
     void SpawnSquad();
+    /// <summary>
+    /// Spawn le personnage
+    /// </summary>
+    void SpawnActor(ActorTest actor);
+
 }

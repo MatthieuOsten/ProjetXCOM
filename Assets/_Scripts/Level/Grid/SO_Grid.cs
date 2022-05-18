@@ -13,7 +13,7 @@ public class SO_Grid : ScriptableObject
     [Range(1,5)]
     public int cellSize = 3; // Size of the cell in the world
     public GameObject CasePrefab; // Prefab d'une cellule
-    public CaseInfo[] Grid; // A table with one entry with x and y, with for each element the type Case
+    //public CaseInfo[] Grid; // A table with one entry with x and y, with for each element the type Case
     
     [Header("CASE MATERIALS")]
     public Material caseDefault;
