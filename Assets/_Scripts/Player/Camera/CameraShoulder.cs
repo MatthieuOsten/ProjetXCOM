@@ -8,11 +8,19 @@ public class CameraShoulder : MonoBehaviour
     [SerializeField] private Controller _inputManager;
     [SerializeField] private CameraIsometric cameraIsometric;
     [SerializeField] private int _enemyIndex = 0;
-    [SerializeField] private List<Transform> _enemy;
+    [SerializeField] private List<GameObject> _enemy;
     [SerializeField] private bool canLook = false;
     [SerializeField] private GameObject _cameraShoulder;
     [SerializeField] private float _speedLookAT = 10;
 
+    public List<GameObject> Enemy
+    {
+        get { return _enemy; }
+        set
+        {
+            _enemy = value;
+        }
+    }
     public int EnemyIndex
     {
         get { return _enemyIndex; }
@@ -36,33 +44,19 @@ public class CameraShoulder : MonoBehaviour
     {
         _inputManager = new Controller();
         _inputManager.ControlCamera.Enable();
+        _enemy = new List<GameObject>();
     }
 
     // Update is called once per frame
     void Update()
     {
-       ShoulderInput();
        LookEnemy();
     }
-
-    private void ShoulderInput()
-    {
-        if(cameraIsometric.LeftHand == false && cameraIsometric.OnShoulder)
-        {
-            _inputManager.ControlCamera.SelectedEnemy.performed += context => SelectedEnemy();
-        }
-
-        else if (cameraIsometric.OnShoulder)
-        {
-            _inputManager.ControlCamera.SelectedEnemyLeftHand.performed += context => SelectedEnemyLeftHand();
-        }        
-    }
-
     private void LookEnemy()
     {
         if(canLook)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(_enemy[EnemyIndex].position - transform.position);
+            Quaternion targetRotation = Quaternion.LookRotation(_enemy[EnemyIndex].transform.position - transform.position);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _speedLookAT);
         }
 
@@ -71,18 +65,9 @@ public class CameraShoulder : MonoBehaviour
             _enemyIndex = 0;
             canLook = false;
         }
-
-        if(cameraIsometric.LeftHand)
-        {
-            if (cameraIsometric.OnShoulder == false)
-            {
-                _enemyIndex = 0;
-                canLook = false;
-            }
-        }
     }
 
-    private void SelectedEnemy()
+    public void SelectedEnemy()
     {
         canLook = true;
 
@@ -97,7 +82,7 @@ public class CameraShoulder : MonoBehaviour
         }
     }
 
-    private void SelectedEnemyLeftHand()
+    public void SelectedEnemyLeftHand()
     {
         if (cameraIsometric.OnShoulder)
         {
