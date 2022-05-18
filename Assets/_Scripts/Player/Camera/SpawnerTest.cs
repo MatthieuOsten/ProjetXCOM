@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SpawnerTest : MonoBehaviour
 {
-    [SerializeField] private List<Transform> _spawnerPoint;
+   /* [SerializeField] private List<Transform> _spawnerPoint;
     [SerializeField] private List<Transform> _spawnerCharacter;
     [SerializeField] private CameraShoulder cameraShoulder;
-    [SerializeField] private CameraIsometric cameraIsometric;
     [SerializeField] private GameObject _enemyCamera;
     [SerializeField] public GameObject _character;
+    [SerializeField] private PlayerController playerController;
 
     // Start is called before the first frame update
     void Start()
@@ -22,13 +22,13 @@ public class SpawnerTest : MonoBehaviour
         for (int j = 0; j < _spawnerCharacter.Count; j++)
         {
             GameObject c = Instantiate(_character, _spawnerCharacter[_spawnerCharacter.Count - 1].position, Quaternion.identity);
-            cameraIsometric.CharacterPlayer.Add(c);
+            playerController.CharacterPlayer.Add(c);
         }
 
         for (int i = 0; i < _spawnerPoint.Count; i++)
         {
             GameObject e = Instantiate(_enemyCamera, _spawnerPoint[_spawnerPoint.Count - 1].position, Quaternion.identity);
-            cameraShoulder.Enemy.Add(e);
+            playerController.Enemy.Add(e);
         }
-    }
+    }*/
 }
