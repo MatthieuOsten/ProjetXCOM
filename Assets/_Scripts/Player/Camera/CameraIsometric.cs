@@ -10,13 +10,13 @@ public class CameraIsometric : MonoBehaviour
     [Header("MOVEMENT")]
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private float _speed = 100f;
-    [SerializeField] private float _speedRotation = 0.5f;
+    //[SerializeField] private float _speedRotation = 0.5f;
     [SerializeField] private float _speedToCharacter = 1000f;
-    [SerializeField] private float timeRotation;
+   // [SerializeField] private float timeRotation;
 
-    [Header("LIST_VECTEUR")]
+   /* [Header("LIST_VECTEUR")]
     [SerializeField] private List<Vector3> _virtualCam;
-    [SerializeField] private int _index = 0;
+    [SerializeField] private int _index = 0;*/
 
     [Header("CONTROLLER")]
     private CharacterController controller;
@@ -33,14 +33,14 @@ public class CameraIsometric : MonoBehaviour
         }
     }
    
-    public int Index
+   /* public int Index
     {
         get { return _index; }
         set
         {
             _index = value;
         }
-    }
+    }*/
     
     // Start is called before the first frame update
     void Start()
@@ -53,13 +53,13 @@ public class CameraIsometric : MonoBehaviour
     void Update()
     {
         MoveCam();
-        MakeRotation();
+       // MakeRotation();
     }
 
     // Deplace la camera vers le character allie selectionner en recuperant l'index selectionner dans la list _characterPlayer de PlayerController
-    public void MoveToCharacter(Transform characterTransform, bool canMoveCam)
+    public void MoveToCharacter(Transform characterTransform, bool canMoveCam, bool onEnemy)
     {
-        if (canMoveCam == false)
+        if (canMoveCam == false && !onEnemy)
         {
             transform.position = Vector3.MoveTowards(transform.position, characterTransform.position, _speedToCharacter * Time.deltaTime);
         }
@@ -70,12 +70,25 @@ public class CameraIsometric : MonoBehaviour
         }
     }
 
+    public void MoveToEnemy(Transform enemyTransform, bool canMoveCam, bool onEnemy)
+    {
+        if(canMoveCam == false && onEnemy)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, enemyTransform.position, _speedToCharacter * Time.deltaTime);
+        }
+
+        if (Vector3.Distance(transform.position, enemyTransform.position) < 0.001f)
+        {
+            canMoveCam = true;
+        }
+    }
+
     //Execute la rotation au coordonne recupere dans la list _virtualCam
-    public void MakeRotation()
+   /* public void MakeRotation()
     {
         timeRotation += Time.deltaTime * _speedRotation;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.rotation.eulerAngles.x, _virtualCam[Index].y, transform.rotation.eulerAngles.z), timeRotation);
-    }
+    }*/
 
     //Execute le deplacement de la camera
     public void MoveCam()
@@ -85,7 +98,7 @@ public class CameraIsometric : MonoBehaviour
     }
 
     //Execute la rotation vers la droite
-    public void TurnAroundRight(bool onShoulder)
+   /* public void TurnAroundRight(bool onShoulder)
     {
         if (onShoulder == false)
         {
@@ -146,5 +159,5 @@ public class CameraIsometric : MonoBehaviour
         {
             _index = _virtualCam.Count - 1;
         }
-    }
+    }*/
 }
