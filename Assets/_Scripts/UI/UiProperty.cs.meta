@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 0c52882eb458c1141b640ac7f669eee8
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - MessageBox: {fileID: 8123865611639504055, guid: e77d93ddef6f84a4c9de899e4b22f7cd,
+      type: 3}
+  - InputBox: {fileID: 8123865611639504055, guid: e1f31d93e99e30e48ad22536bf8bcc1a,
+      type: 3}
+  - ClientBox: {fileID: 8123865611639504055, guid: dbaabea30f9fc6241b06fc8ee9f25139,
+      type: 3}
+  - HintstringList: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
