@@ -140,7 +140,6 @@ public class GridManager : MonoBehaviour
 
     public static Vector3 GetCaseWorldPosition(Case caseToCheck)
     {
-
         return new Vector3(caseToCheck.CaseStatut.x, 0, caseToCheck.CaseStatut.y) * caseToCheck.GridParent.CellSize;
     }
     /*
@@ -172,16 +171,18 @@ public class GridManager : MonoBehaviour
     {
         Case[] cases = new Case[8];
         GridManager gridParent = CurrentCase.GridParent;
+        int x = CurrentCase.x;
+        int y = CurrentCase.y;
         // les cases adjacentes
-        cases[0] = GetCase(gridParent, CurrentCase.x, CurrentCase.y + 1);
-        cases[1] = GetCase(gridParent, CurrentCase.x, CurrentCase.y - 1);
-        cases[2] = GetCase(gridParent, CurrentCase.x + 1, CurrentCase.y);
-        cases[3] = GetCase(gridParent, CurrentCase.x - 1, CurrentCase.y);
+        cases[0] = GetCase(gridParent, x, y + 1);
+        cases[1] = GetCase(gridParent, x, y - 1);
+        cases[2] = GetCase(gridParent, x + 1, y);
+        cases[3] = GetCase(gridParent, x - 1, y);
         //Diagonal
-        cases[4] = GetCase(gridParent, CurrentCase.x - 1, CurrentCase.y + 1);
-        cases[5] = GetCase(gridParent, CurrentCase.x - 1, CurrentCase.y - 1);
-        cases[6] = GetCase(gridParent, CurrentCase.x + 1, CurrentCase.y + 1);
-        cases[7] = GetCase(gridParent, CurrentCase.x + 1, CurrentCase.y - 1);
+        cases[4] = GetCase(gridParent, x - 1, y + 1);
+        cases[5] = GetCase(gridParent, x - 1, y - 1);
+        cases[6] = GetCase(gridParent, x + 1, y + 1);
+        cases[7] = GetCase(gridParent, x + 1, y - 1);
         return cases;
     }
 

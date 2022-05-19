@@ -28,7 +28,7 @@ public class Character : Actor
     // Clix properties
     public Case StartPos;
     public Case Destination;
-    public Case CurrentPos;
+    // public Case CurrentPos;--> CurrentCase plutot
     public float moveSpeed = 5;
     Case[] pathToFollow;
     LineRenderer lr;
@@ -72,15 +72,15 @@ public class Character : Actor
     void OnMove()
     {
         // Si ca position correspond à la destination, on est bon        
-        if(CurrentPos == Destination)
+        if(CurrentCase == Destination)
         {
             Destination._actor = this;
             Debug.Log("Destination atteint");
             Destination = null; 
         }
 
-        if(pathToFollow == null)
-            pathToFollow = PathFinding.FindPath(CurrentPos, Destination);
+        if(Destination != null)
+            pathToFollow = PathFinding.FindPath(CurrentCase, Destination);
             
             transform.position = Vector3.MoveTowards(transform.position, pathToFollow[_indexPath].gameObject.transform.position, moveSpeed * Time.deltaTime);
             
@@ -88,9 +88,9 @@ public class Character : Actor
             {
 
 
-                CurrentPos._actor = null;
-                CurrentPos = pathToFollow[_indexPath];
-                CurrentPos._actor = this;
+                CurrentCase._actor = null;
+                CurrentCase = pathToFollow[_indexPath];
+                CurrentCase._actor = this;
                 _indexPath++;
 
                 
@@ -101,7 +101,7 @@ public class Character : Actor
                 }
 
 
-            } 
+        } 
 
            
        

@@ -25,9 +25,9 @@ public class Actor_TestSoldier : Character
     {
         Debug.Log("ShowAttackRange");
         Case[] Range = new Case[8];
-        int actorX = CurrentPos.x;
-        int actorY = CurrentPos.y;
-        GridManager parent = CurrentPos.GridParent;
+        int actorX = CurrentCase.x;
+        int actorY = CurrentCase.y;
+        GridManager parent = CurrentCase.GridParent;
         Range[0] = GridManager.GetCase(parent , actorX , actorY+1); // Case au dessus
         Range[1] = GridManager.GetCase(parent , actorX+1 , actorY); // Case a droite
         Range[2] = GridManager.GetCase(parent , actorX-1 , actorY); // Case a gauche

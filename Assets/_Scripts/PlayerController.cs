@@ -29,7 +29,7 @@ public class PlayerController : Team
 
     void EnableInputManager()
     {
-         _inputManager = new Controller();
+        _inputManager = new Controller();
         _inputManager.TestGrid.Enable();
     }
 
@@ -119,11 +119,13 @@ public class PlayerController : Team
 
     public override void Update()
     {
-        if(_inputManager == null)
-        {
-            EnableInputManager();
-        }
+        if(_inputManager == null) EnableInputManager();
         WatchCursor();
+
+        if(SelectedActor != null && SelectedCaseA != SelectedActor.CurrentCase)
+        {
+            SelectedCaseA = SelectedActor.CurrentCase;
+        }
 
         if(SelectedActor != null && AttackMode)
         {
