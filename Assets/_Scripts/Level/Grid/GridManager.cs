@@ -123,8 +123,6 @@ public class GridManager : MonoBehaviour
                 Transform aCase = transform.GetChild(i);
                 Case newCase = aCase.GetComponent<Case>();
                 _grid[newCase.x, newCase.y] = newCase;
-
-                Debug.Log($" WTF : {newCase.x} {newCase.y}");
             }
         }
     }

@@ -7,6 +7,7 @@ public class PlayerController : Team
     [SerializeField] protected GridManager _selectedGrid;
     Controller _inputManager;
     [SerializeField] bool SelectMode;
+    [SerializeField] bool AttackMode;
     [SerializeField] Case SelectedCaseA, SelectedCaseB;
     [SerializeField] ActorTest SelectedActor;
 
@@ -22,7 +23,13 @@ public class PlayerController : Team
 
     public override void Start()
     {
-        _inputManager = new Controller();
+        EnableInputManager();
+        base.Start();
+    }
+
+    void EnableInputManager()
+    {
+         _inputManager = new Controller();
         _inputManager.TestGrid.Enable();
     }
 
@@ -64,20 +71,25 @@ public class PlayerController : Team
                 if (SelectedCaseA == null)
                 {
                     SelectedCaseA = AimCase;
-                    SelectedCaseA.Highlighted = true;
-                    SelectedCaseA.ChangeMaterial(_selectedGrid.Data.caseHighlight);
-
-                    if (SelectedActor == null)
-                        SelectedActor = SelectedCaseA._actor;
-
+                    if(SelectedCaseA != null )
+                    {
+                        SelectedCaseA.Highlighted = true;
+                        SelectedCaseA.ChangeMaterial(_selectedGrid.Data.caseHighlight);
+                        if (SelectedActor == null)
+                            SelectedActor = SelectedCaseA._actor;
+                    }
                     return;
                 }
                 else
                 {
                     SelectedCaseB = AimCase;
-                    SelectedCaseB.Highlighted = true;
-                    SelectedCaseB.ChangeMaterial(_selectedGrid.Data.caseHighlight);
-                    //UIManager.CreateHintString(AimCase.gameObject, "XCOM HINTSTRING OUAAHHH");
+                    if(SelectedCaseB != null)
+                    {
+                        SelectedCaseB.Highlighted = true;
+                        SelectedCaseB.ChangeMaterial(_selectedGrid.Data.caseHighlight);
+                        //UIManager.CreateHintString(AimCase.gameObject, "XCOM HINTSTRING OUAAHHH");
+                    }
+                    
                 }
 
                 if (SelectedActor != null)
@@ -103,7 +115,16 @@ public class PlayerController : Team
 
     public override void Update()
     {
+        if(_inputManager == null)
+        {
+            EnableInputManager();
+        }
         WatchCursor();
+
+        if(SelectedActor != null && AttackMode)
+        {
+            SelectedActor.AttackRange();
+        }
         base.Update();
     }
 }

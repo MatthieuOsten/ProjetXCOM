@@ -74,6 +74,11 @@ public class Team : MonoBehaviour , ITeam
 
     public void SpawnSquad()
     {
+        if(Squad == null || Squad.Length == 0)
+        {
+            Debug.LogWarning($"Attention la team {typeof(Team)} n'a pas de personnages dans Squad");
+            return;
+        }
         foreach(ActorTest actor in Squad)
         {
             SpawnActor(actor);

@@ -103,7 +103,7 @@ public class LevelManager : MonoBehaviour
     void DebugWatcher()
     {
         StaticlistTeam = listTeam;
-        Debug.Log(listTeam.Count);  
+        //Debug.Log(listTeam.Count);  
 
         if(PassedTurn)
         {

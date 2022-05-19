@@ -17,6 +17,8 @@ public abstract class ActorTest : MonoBehaviour , IActor
     public float moveSpeed = 5;
 
     Case[] pathToFollow;
+
+    LineRenderer lr;
   
 
     int _indexPath = 0;
@@ -24,7 +26,10 @@ public abstract class ActorTest : MonoBehaviour , IActor
     // Start is called before the first frame update
     void Start()
     {
-        
+        if(lr == null)
+        {
+            lr = gameObject.AddComponent<LineRenderer>();
+        }
     }
     // Update is called once per frame
     void Update()
@@ -59,6 +64,8 @@ public abstract class ActorTest : MonoBehaviour , IActor
         throw new System.NotImplementedException();
     }
 
+    public abstract void AttackRange();
+
     void OnMove()
     {
         // Si ca position correspond à la destination, on est bon        
@@ -71,15 +78,26 @@ public abstract class ActorTest : MonoBehaviour , IActor
 
         if(pathToFollow == null)
             pathToFollow = PathFinding.FindPath(CurrentPos, Destination);
-        
+            
             transform.position = Vector3.MoveTowards(transform.position, pathToFollow[_indexPath].gameObject.transform.position, moveSpeed * Time.deltaTime);
             
             if(transform.position == GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]))
             {
+
+
                 CurrentPos._actor = null;
                 CurrentPos = pathToFollow[_indexPath];
                 CurrentPos._actor = this;
                 _indexPath++;
+
+                
+                lr.positionCount = pathToFollow.Length - _indexPath;
+                for(int i = 0 ; i < lr.positionCount; i++)
+                {
+                    lr.SetPosition(i, GridManager.GetCaseWorldPosition(pathToFollow[_indexPath+i]));
+                }
+
+
             } 
 
            
