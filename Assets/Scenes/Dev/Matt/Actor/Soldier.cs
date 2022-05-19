@@ -5,8 +5,6 @@ using UnityEngine;
 public class Soldier : Character
 {
 
-    [SerializeField] private DataWeapon _weapon;
-
     // -- Recupere la cible et verifie qu'elle soit iligible -- //
     public bool TakeTarget(Case target, out Actor actor)
     {
