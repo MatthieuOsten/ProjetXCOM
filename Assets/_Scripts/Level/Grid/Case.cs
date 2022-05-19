@@ -39,7 +39,7 @@ public class Case : MonoBehaviour
 
 
     [Header("Reference")]
-    public ActorTest _actor; // Une reference de l'actor qui est dessus
+    public Actor _actor; // Une reference de l'actor qui est dessus
     /* Next properties to include
     Interact _interact // A ref to a interact like a echelle 
     */

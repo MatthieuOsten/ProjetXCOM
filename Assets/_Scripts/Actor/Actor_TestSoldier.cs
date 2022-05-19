@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Actor_TestSoldier : ActorTest 
+public class Actor_TestSoldier : Character 
 {
     bool AbilityEnabled;
 

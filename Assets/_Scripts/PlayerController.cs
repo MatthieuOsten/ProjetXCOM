@@ -9,7 +9,7 @@ public class PlayerController : Team
     [SerializeField] bool SelectMode;
     [SerializeField] bool AttackMode;
     [SerializeField] Case SelectedCaseA, SelectedCaseB;
-    [SerializeField] ActorTest SelectedActor;
+    [SerializeField] Actor SelectedActor;
 
     /*
         Regarde ce que la souris touche
@@ -94,7 +94,11 @@ public class PlayerController : Team
 
                 if (SelectedActor != null)
                 {
-                    SelectedActor.Destination = SelectedCaseB;
+                    if(SelectedActor is Character )
+                    {
+                        Character yo = (Character)SelectedActor;
+                        yo.Destination = SelectedCaseB;
+                    }
                 }
                 else
                 {

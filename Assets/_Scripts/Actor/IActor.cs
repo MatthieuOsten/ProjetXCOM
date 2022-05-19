@@ -12,11 +12,13 @@ public enum ActorState
 public interface IActor
 {
     //[SerializeField] Case CurrentCase { get; set;}
-    float Health{get;}
-    ActorState State{get;}
+    Case CurrentCase { get; }
+     ActorState State { get; set; }
+    int Health { get;  }
 
     void Death();
-    void DoDamage(int damage);
+    void DoDamage(int amount);
     void Attack();
     void EnableAbility();
+    void AttackRange();
 }

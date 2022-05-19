@@ -8,7 +8,7 @@ public interface ITeam
 
      //ITeam[] Team{get; set;}
 
-    ActorTest[] Squad{get; set;}
+    Actor[] Squad{get; set;}
     bool ItsYourTurn{get; set;}
     /*
          static ITeam[] allTeams;
@@ -24,6 +24,6 @@ public interface ITeam
     /// <summary>
     /// Spawn le personnage
     /// </summary>
-    void SpawnActor(ActorTest actor);
+    void SpawnActor(Actor actor);
 
 }

@@ -19,8 +19,8 @@ public class Team : MonoBehaviour , ITeam
     //ITeam[] _team;
     //public ITeam[] Teama{get{ return _team;} set{ _team = value;}}
 
-    public ActorTest[] _squad{get; set;}
-    public ActorTest[] Squad{get{ return _squad;} set{ _squad = value;}}
+    public Actor[] _squad{get; set;}
+    public Actor[] Squad{get{ return _squad;} set{ _squad = value;}}
 
    
 
@@ -79,13 +79,13 @@ public class Team : MonoBehaviour , ITeam
             Debug.LogWarning($"Attention la team {typeof(Team)} n'a pas de personnages dans Squad");
             return;
         }
-        foreach(ActorTest actor in Squad)
+        foreach(Actor actor in Squad)
         {
             SpawnActor(actor);
 
         }
     }
-    public void SpawnActor(ActorTest actor)
+    public void SpawnActor(Actor actor)
     {
         
     }
