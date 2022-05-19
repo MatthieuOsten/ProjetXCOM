@@ -576,6 +576,15 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Moving"",
+                    ""type"": ""Value"",
+                    ""id"": ""af2c13c7-b3dc-43b9-8241-b58654ebcd6f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -598,6 +607,17 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0aa2759-e84a-46f4-9e72-a37e52dae94e"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Moving"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -636,6 +656,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         m_TestGrid_Action = m_TestGrid.FindAction("Action", throwIfNotFound: true);
         m_TestGrid_Echap = m_TestGrid.FindAction("Echap", throwIfNotFound: true);
         m_TestGrid_MousePosition = m_TestGrid.FindAction("MousePosition", throwIfNotFound: true);
+        m_TestGrid_Moving = m_TestGrid.FindAction("Moving", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -819,6 +840,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
     private readonly InputAction m_TestGrid_Action;
     private readonly InputAction m_TestGrid_Echap;
     private readonly InputAction m_TestGrid_MousePosition;
+    private readonly InputAction m_TestGrid_Moving;
     public struct TestGridActions
     {
         private @Controller m_Wrapper;
@@ -826,6 +848,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         public InputAction @Action => m_Wrapper.m_TestGrid_Action;
         public InputAction @Echap => m_Wrapper.m_TestGrid_Echap;
         public InputAction @MousePosition => m_Wrapper.m_TestGrid_MousePosition;
+        public InputAction @Moving => m_Wrapper.m_TestGrid_Moving;
         public InputActionMap Get() { return m_Wrapper.m_TestGrid; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -844,6 +867,9 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 @MousePosition.started -= m_Wrapper.m_TestGridActionsCallbackInterface.OnMousePosition;
                 @MousePosition.performed -= m_Wrapper.m_TestGridActionsCallbackInterface.OnMousePosition;
                 @MousePosition.canceled -= m_Wrapper.m_TestGridActionsCallbackInterface.OnMousePosition;
+                @Moving.started -= m_Wrapper.m_TestGridActionsCallbackInterface.OnMoving;
+                @Moving.performed -= m_Wrapper.m_TestGridActionsCallbackInterface.OnMoving;
+                @Moving.canceled -= m_Wrapper.m_TestGridActionsCallbackInterface.OnMoving;
             }
             m_Wrapper.m_TestGridActionsCallbackInterface = instance;
             if (instance != null)
@@ -857,6 +883,9 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 @MousePosition.started += instance.OnMousePosition;
                 @MousePosition.performed += instance.OnMousePosition;
                 @MousePosition.canceled += instance.OnMousePosition;
+                @Moving.started += instance.OnMoving;
+                @Moving.performed += instance.OnMoving;
+                @Moving.canceled += instance.OnMoving;
             }
         }
     }
@@ -881,5 +910,6 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         void OnAction(InputAction.CallbackContext context);
         void OnEchap(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
+        void OnMoving(InputAction.CallbackContext context);
     }
 }
