@@ -16,6 +16,8 @@ public class PlayerController : Team
     [Header("SCRIPTS")]
     [SerializeField] private CameraIsometric cameraIsometric;
     [SerializeField] private Controller _inputManager;
+    [SerializeField] private RaycastCamera raycastCamera;
+
 
     //[SerializeField] private CameraShoulder cameraShoulder;
 
@@ -34,6 +36,7 @@ public class PlayerController : Team
     [SerializeField] private int _enemyIndex = 0;
     [SerializeField] private List<GameObject> _enemyDetected;
     [SerializeField] private int _enemyDetectedIndex = 0;
+
 
     /*[Header("CAMERA")]
     [SerializeField] private GameObject _isometricCamera;
@@ -67,6 +70,18 @@ public class PlayerController : Team
         set
         {
             _enemyIndex = value;
+        }
+    }
+    public int EnemyDetectedIndex
+    {
+        get { return _enemyDetectedIndex; }
+        set
+        {
+            if (_enemyDetectedIndex >= 1)
+            {
+                _enemyDetectedIndex = 1;
+            }
+            _enemyDetectedIndex = value;
         }
     }
    /* public List<GameObject> VirtualCamShoulder
@@ -114,6 +129,7 @@ public class PlayerController : Team
     {
         if(cameraIsometric == null) cameraIsometric = GameObject.FindObjectsOfType<CameraIsometric>()[0];
         EnableInputManager();
+        EnemyDetected = new List<GameObject>();
         base.Start();
     }
 
@@ -225,11 +241,15 @@ public class PlayerController : Team
     }
       private void FixedUpdate()
     {
+
+        raycastCamera.RaycastDetect(Enemy, _enemyDetected);
         //Donne les arguments a MoveToCharacter
         if(CharacterPlayer != null && CharacterPlayer.Count != 0) 
             cameraIsometric.MoveToCharacter(CharacterPlayer[CharacterIndex].transform, _canMoveCam, _onEnemy);
         if(Enemy != null && Enemy.Count != 0) 
             cameraIsometric.MoveToEnemy(Enemy[EnemyIndex].transform, _canMoveCam, _onEnemy);
+
+    
     }
 
      //Input de la camera vue du dessus

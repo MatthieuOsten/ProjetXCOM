@@ -23326,6 +23326,7 @@ GameObject:
   m_Component:
   - component: {fileID: 716600601}
   - component: {fileID: 716600602}
+  - component: {fileID: 716600603}
   m_Layer: 6
   m_Name: "Case n\xB044 [4;4]"
   m_TagString: Untagged
@@ -23378,6 +23379,21 @@ MonoBehaviour:
   total: {fileID: 1030948686}
   h: {fileID: 450539563}
   g: {fileID: 392121302}
+--- !u!114 &716600603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 716600600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e761831553d47df4ea36a9416213f150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lr: {fileID: 0}
+  _character: {fileID: 0}
+  _detected: 0
 --- !u!1 &728375869
 GameObject:
   m_ObjectHideFlags: 0
@@ -57848,6 +57864,7 @@ MonoBehaviour:
   SelectedCaseB: {fileID: 0}
   SelectedActor: {fileID: 0}
   cameraIsometric: {fileID: 0}
+  raycastCamera: {fileID: 0}
   _leftHand: 0
   _onEnemy: 0
   _canMoveCam: 0

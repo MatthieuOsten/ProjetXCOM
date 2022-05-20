@@ -8,6 +8,7 @@ public class RaycastCamera : MonoBehaviour
     [SerializeField] private LineRenderer lr;
     [SerializeField] private GameObject _character;
     [SerializeField] private bool _detected = false;
+    //[SerializeField] public GameObject getEnemy;
 
     public bool Detected
     {
@@ -17,29 +18,28 @@ public class RaycastCamera : MonoBehaviour
             _detected = value;
         }
     }
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        RaycastDetect();
-    }
-
-    private void RaycastDetect()
+    public void RaycastDetect(List<GameObject> enemy, List<GameObject> enemyTarget)
     {
         RaycastHit hit;
-        Vector3 position = transform.TransformDirection(Vector3.forward);
+        Vector3 direction = transform.TransformDirection(Vector3.forward);
+        Vector3 position = _character.transform.position;
         lr.SetPosition(0, position);
-        if (Physics.Raycast(transform.position, position, out hit, 20))
+        if (Physics.Raycast(position, direction, out hit))
         {
-            if (hit.collider.gameObject.layer == 3)
+            foreach(GameObject myEnemy in enemy)
             {
-                _detected = true;
+                if (hit.collider.gameObject == myEnemy)
+                {
+                    Debug.Log("Toucher");
+                    enemyTarget.Add(myEnemy);
+                }
             }
+        }
+
+        else
+        {
+            lr.SetPosition(1, new Vector3(position.x, position.y, 50));
         }
     }
 }
