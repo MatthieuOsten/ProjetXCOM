@@ -7,6 +7,7 @@ public abstract class Actor : MonoBehaviour, IActor
     [SerializeField] Case currentCase;
     ActorState state = ActorState.Alive;
     private int _health;
+    public Team Owner;
 
     public virtual Case CurrentCase { get { return currentCase; }  set{ currentCase = value;} }
 

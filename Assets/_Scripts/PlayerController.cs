@@ -242,7 +242,7 @@ public class PlayerController : Team
       private void FixedUpdate()
     {
 
-        raycastCamera.RaycastDetect(Enemy, _enemyDetected);
+        //raycastCamera.RaycastDetect(Enemy, _enemyDetected);
         //Donne les arguments a MoveToCharacter
         if(CharacterPlayer != null && CharacterPlayer.Count != 0) 
             cameraIsometric.MoveToCharacter(CharacterPlayer[CharacterIndex].transform, _canMoveCam, _onEnemy);

@@ -57,6 +57,13 @@ public class Character : Actor
         }
     }
 
+
+    public override void Start()
+    {
+        gameObject.AddComponent<LineRenderer>();
+        gameObject.AddComponent<RaycastCamera>();
+    }
+
     public override void Update() {
         if(Destination != null)
         {

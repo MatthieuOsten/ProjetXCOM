@@ -8297,6 +8297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCase: {fileID: 880036023}
+  Owner: {fileID: 1798379793}
   _data: {fileID: 0}
   StartPos: {fileID: 0}
   Destination: {fileID: 0}
@@ -31145,6 +31146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCase: {fileID: 1509949067}
+  Owner: {fileID: 1798379793}
   _data: {fileID: 0}
   StartPos: {fileID: 0}
   Destination: {fileID: 0}
@@ -33471,6 +33473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCase: {fileID: 1964788751}
+  Owner: {fileID: 1489094774}
   _data: {fileID: 0}
   StartPos: {fileID: 0}
   Destination: {fileID: 0}
@@ -35608,7 +35611,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1111595406}
-  m_LocalRotation: {x: 0.30261418, y: -0.000004093136, z: 0.000001299574, w: 0.95311314}
+  m_LocalRotation: {x: 0.30261415, y: -0.000004093136, z: 0.0000012995739, w: 0.95311314}
   m_LocalPosition: {x: 0.00038121454, y: 31.029997, z: -43.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -47767,6 +47770,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCase: {fileID: 1943531715}
+  Owner: {fileID: 1798379793}
   _data: {fileID: 0}
   StartPos: {fileID: 0}
   Destination: {fileID: 0}
@@ -48655,6 +48659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCase: {fileID: 297625599}
+  Owner: {fileID: 1798379793}
   _data: {fileID: 0}
   StartPos: {fileID: 0}
   Destination: {fileID: 0}
@@ -49005,6 +49010,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCase: {fileID: 716600602}
+  Owner: {fileID: 1489094774}
   _data: {fileID: 0}
   StartPos: {fileID: 0}
   Destination: {fileID: 0}
@@ -49461,6 +49467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCase: {fileID: 8273204}
+  Owner: {fileID: 1489094774}
   _data: {fileID: 0}
   StartPos: {fileID: 0}
   Destination: {fileID: 0}
@@ -57565,6 +57572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentCase: {fileID: 677725847}
+  Owner: {fileID: 1489094774}
   _data: {fileID: 0}
   StartPos: {fileID: 0}
   Destination: {fileID: 0}
@@ -61780,7 +61788,7 @@ PrefabInstance:
     - target: {fileID: 3434260536100999238, guid: bbe149a9d475b5c4f9038e98062b9cd9,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.30261418
+      value: 0.30261415
       objectReference: {fileID: 0}
     - target: {fileID: 3434260536100999239, guid: bbe149a9d475b5c4f9038e98062b9cd9,
         type: 3}
