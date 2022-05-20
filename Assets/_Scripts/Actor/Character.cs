@@ -28,7 +28,8 @@ public class Character : Actor
     // Clix properties
     public Case StartPos;
     public Case Destination;
-    // public Case CurrentPos;--> CurrentCase plutot
+    [SerializeField] public Case CurrentPos { get { return CurrentCase; } set{ CurrentCase = value;} }
+
     public float moveSpeed = 5;
     Case[] pathToFollow;
     LineRenderer lr;
@@ -56,6 +57,13 @@ public class Character : Actor
         }
     }
 
+
+    public override void Start()
+    {
+        gameObject.AddComponent<LineRenderer>();
+        gameObject.AddComponent<RaycastCamera>();
+    }
+
     public override void Update() {
         if(Destination != null)
         {
@@ -72,38 +80,58 @@ public class Character : Actor
     void OnMove()
     {
         // Si ca position correspond à la destination, on est bon        
-        if(CurrentCase == Destination)
+       
+
+        if(pathToFollow == null || pathToFollow.Length == 0)
+            pathToFollow = PathFinding.FindPath(CurrentPos, Destination);
+        
+        if(_indexPath <= pathToFollow.Length-1 && pathToFollow[_indexPath] != null)
+            transform.position = Vector3.MoveTowards(transform.position, pathToFollow[_indexPath].gameObject.transform.position, moveSpeed * Time.deltaTime);
+        else
         {
-            Destination._actor = this;
-            Debug.Log("Destination atteint");
-            Destination = null; 
+             ResetDestination();
         }
 
-        if(Destination != null)
-            pathToFollow = PathFinding.FindPath(CurrentCase, Destination);
-            
-            transform.position = Vector3.MoveTowards(transform.position, pathToFollow[_indexPath].gameObject.transform.position, moveSpeed * Time.deltaTime);
-            
-            if(transform.position == GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]))
+        if(transform.position == GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]))
+        {
+            Case LastCase = pathToFollow[pathToFollow.Length-1];
+            if(LastCase != Destination)
             {
+                ResetDestination();
+                return;
+            }
 
-
-                CurrentCase._actor = null;
-                CurrentCase = pathToFollow[_indexPath];
-                CurrentCase._actor = this;
-                _indexPath++;
-
-                
-                lr.positionCount = pathToFollow.Length - _indexPath;
-                for(int i = 0 ; i < lr.positionCount; i++)
+            CurrentPos._actor = null;
+            CurrentPos = pathToFollow[_indexPath];
+            CurrentPos._actor = this;
+            _indexPath++;       
+            lr.positionCount = pathToFollow.Length - _indexPath;
+            for(int i = 0 ; i < lr.positionCount; i++)
+            {
+                //lr.SetPosition(i, GridManager.GetCaseWorldPosition(pathToFollow[_indexPath+i]));
+            }
+            
+            if(CurrentPos == LastCase)
+            {
+                LastCase._actor = this;
+                Debug.Log("Destination atteint");
+                if(LastCase == Destination) // Si jamais on a une autre destination en attente, beh on la garde on la met pas null
                 {
-                    lr.SetPosition(i, GridManager.GetCaseWorldPosition(pathToFollow[_indexPath+i]));
+                    ResetDestination();
+                }    
+                else
+                {
+                    _indexPath = 0;
+                    pathToFollow = null;
                 }
-
+            }
 
         } 
-
-           
-       
+    }
+    void ResetDestination()
+    {
+        Destination = null; 
+        _indexPath = 0;
+        pathToFollow = null;
     }
 }

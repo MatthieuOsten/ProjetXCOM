@@ -269,7 +269,7 @@ GameObject:
   m_Layer: 6
   m_Name: Case
   m_TagString: Untagged
-  m_Icon: {fileID: 2800000, guid: cbaeed03e5416aa4bae23110b63a0c7d, type: 3}
+  m_Icon: {fileID: 2488908585195742037, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
@@ -304,22 +304,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01f67eb6ca659344891e02f2136c22c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gridParent: {fileID: 0}
-  It:
+  GridParent: {fileID: 0}
+  _it:
     x: 0
     y: 0
     _state: 0
     index: -1
-  mtl: {fileID: 2100000, guid: db90ce99a1ec5ef4ca0bdce3b0119e6c, type: 2}
-  sr: {fileID: 8358725934445701789}
+  Checked: 0
   gCost: 0
   hCost: 0
-  Highlighted: 0
-  PointCase: 0
-  Checked: 0
-  BlackList: 0
-  goodPath: 0
-  parentCase: {fileID: 0}
+  ParentCase: {fileID: 0}
+  _actor: {fileID: 0}
   total: {fileID: 212305957807801116}
   h: {fileID: 616726735625029504}
   g: {fileID: 8119772686292418182}

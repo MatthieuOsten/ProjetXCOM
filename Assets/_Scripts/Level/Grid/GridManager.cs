@@ -108,7 +108,6 @@ public class GridManager : MonoBehaviour
     }
 
 
-
     /// <summary> Alors je fais cette function car entre le edit et play mode, la table a double entrer se casse la gueule, pourquoi ? car cest de la merde </summary>
     void RegenerateCaseTable()
     {
@@ -226,6 +225,21 @@ public class GridManager : MonoBehaviour
         return caseToCheck;
     }
 
+
+    public Case GetRandomCase()
+    {
+        int x = Random.Range(0, SizeX);
+        int y = Random.Range(0, SizeY);
+        Case randomCase = GetCase(x,y);
+        while(GetValidCase(randomCase) == null)
+        {
+            x = Random.Range(0, SizeX);
+            y = Random.Range(0, SizeY);
+            randomCase = GetCase(x,y);
+        }
+        
+        return randomCase;
+    }
     // /*
     //     Permet de sauvegarder la grid dans le fichier data mais cest peut etre inutile donc a voir
     // */

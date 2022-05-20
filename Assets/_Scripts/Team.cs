@@ -19,18 +19,27 @@ public class Team : MonoBehaviour , ITeam
     //ITeam[] _team;
     //public ITeam[] Teama{get{ return _team;} set{ _team = value;}}
 
-    public Actor[] _squad{get; set;}
+    [SerializeField] Actor[] _squad;
     public Actor[] Squad{get{ return _squad;} set{ _squad = value;}}
 
-   
+    [SerializeField] bool _spawnRandomlyActor = false;
+    [SerializeField] protected GridManager _selectedGrid;
 
     public void SampleMethod(){
 
     }
 
     public virtual void Awake() {
+        GameObject goGrid = GameObject.FindGameObjectWithTag("GridManager");
+        if(goGrid != null) _selectedGrid = goGrid.GetComponent<GridManager>();
+
         LevelManager.AddTeamToList(this);
-    // Add the team to a static array    
+   
+    }
+    // Start is called before the first frame update
+    public virtual void Start()
+    {
+         // Ajoute les teams ennemies    
         Team[] ennemies = new Team[0];
         foreach(Team aTeam in LevelManager.listTeam)
         {
@@ -46,10 +55,6 @@ public class Team : MonoBehaviour , ITeam
             }
         }
         hisEnnemies = ennemies;
-    }
-    // Start is called before the first frame update
-    public virtual void Start()
-    {
         SpawnSquad();
         
 
@@ -87,7 +92,11 @@ public class Team : MonoBehaviour , ITeam
     }
     public void SpawnActor(Actor actor)
     {
-        
+        if(_spawnRandomlyActor)
+        {
+            actor.CurrentCase = _selectedGrid.GetRandomCase();
+            actor.transform.position = _selectedGrid.GetCaseWorldPosition(actor.CurrentCase.x, actor.CurrentCase.y);
+        }
     }
 
     // Update is called once per frame
