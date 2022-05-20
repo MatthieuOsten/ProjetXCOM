@@ -7,7 +7,8 @@ public class PlayerController : MonoBehaviour
     [Header("SCRIPTS")]
     [SerializeField] private Controller _inputManager;
     [SerializeField] private CameraIsometric cameraIsometric;
-    //[SerializeField] private CameraShoulder cameraShoulder;
+    [SerializeField] private RaycastCamera raycastCamera;
+    //[SerializeField] private GameObject raycastSelected;
 
     [Header("BOOLS")]
     [SerializeField] private bool _leftHand = false;
@@ -30,6 +31,19 @@ public class PlayerController : MonoBehaviour
 
 
     //Set, Get de toutes les variables ayant besoin d'être modifié
+
+    public int EnemyDetectedIndex
+    {
+        get { return _enemyDetectedIndex; }
+        set
+        {
+            if (_enemyDetectedIndex >= 1)
+            {
+                _enemyDetectedIndex = 1;
+            }
+            _enemyDetectedIndex = value;
+        }
+    }
     public List<GameObject> EnemyDetected
     {
         get { return _enemyDetected; }
@@ -86,7 +100,7 @@ public class PlayerController : MonoBehaviour
         //Recuperation du NewSystemInput et activation
         _inputManager = new Controller();
         _inputManager.ControlCamera.Enable();
-
+        _enemyDetected = new List<GameObject>();
         //TakeCameraShoulder();
     }
 
@@ -94,18 +108,21 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         InputCameraIsometric();
+        //AddToEnemyDetected();
+
         //InputCameraShoulder();
 
-       /* if(cameraShoulder != null)
-        {
-            //Donne les arguments a LookEnemy
-            cameraShoulder.LookEnemy(_onShoulder, _canLook, _enemy[_enemyIndex].transform);
-        }*/
+        /* if(cameraShoulder != null)
+         {
+             //Donne les arguments a LookEnemy
+             cameraShoulder.LookEnemy(_onShoulder, _canLook, _enemy[_enemyIndex].transform);
+         }*/
     }
 
     private void FixedUpdate()
     {
         //Donne les arguments a MoveToCharacter
+        raycastCamera.RaycastDetect(_enemy, _enemyDetected);
         cameraIsometric.MoveToCharacter(_characterPlayer[CharacterIndex].transform, _canMoveCam, _onEnemy);
         cameraIsometric.MoveToEnemy(_enemy[EnemyIndex].transform, _canMoveCam, _onEnemy);
     }
@@ -178,13 +195,25 @@ public class PlayerController : MonoBehaviour
         }
     }*/
 
+    /*private void AddToEnemyDetected()
+    {
+        foreach(GameObject enemy in Enemy)
+        {
+            if(raycastCamera.Detected == true)
+            {
+                _enemyDetected.Add(enemy);
+            }
+        }
+        
+    }*/
+
     //Passe de la camera vue du dessus a celle de l'epaule
     public void SwitchShoulderCam()
     {
         _onEnemy = true;
         //Recupere le scipt de camera shoulder et la camera qui va etre utilise
-        /*cameraShoulder = _characterPlayer[CharacterIndex].transform.GetChild(0).GetComponent<CameraShoulder>();
-        childCam = _characterPlayer[CharacterIndex].transform.GetChild(0).GetChild(0).gameObject;
+        
+        /*childCam = _characterPlayer[CharacterIndex].transform.GetChild(0).GetChild(0).gameObject;
 
         childCam.SetActive(true);
         _isometricCamera.SetActive(false);
@@ -210,6 +239,7 @@ public class PlayerController : MonoBehaviour
     //Permet de changer de character
     public void CharacterChange()
     {
+        
         if (!_onEnemy)
         {
             CharacterIndex++;
@@ -220,6 +250,8 @@ public class PlayerController : MonoBehaviour
         {
             _characterIndex = 0;
         }
+
+        raycastCamera = _characterPlayer[CharacterIndex].GetComponent<RaycastCamera>();
     }
 
     //Permet de changer de character
