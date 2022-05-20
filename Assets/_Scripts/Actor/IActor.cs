@@ -12,7 +12,7 @@ public enum ActorState
 public interface IActor
 {
     //[SerializeField] Case CurrentCase { get; set;}
-    Case CurrentCase { get; }
+    [SerializeField] Case CurrentCase { get; }
      ActorState State { get; set; }
     int Health { get;  }
 

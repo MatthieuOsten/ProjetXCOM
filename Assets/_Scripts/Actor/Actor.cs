@@ -4,11 +4,11 @@ using UnityEngine;
 
 public abstract class Actor : MonoBehaviour, IActor
 {
-    Case currentCase;
+    [SerializeField] Case currentCase;
     ActorState state = ActorState.Alive;
     private int _health;
 
-    public virtual Case CurrentCase { get { return currentCase; } }
+    public virtual Case CurrentCase { get { return currentCase; }  set{ currentCase = value;} }
 
     public virtual ActorState State { get { return state; } set { state = value; } }
 
