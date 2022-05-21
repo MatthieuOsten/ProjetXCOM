@@ -538,6 +538,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Echap",
+                    "type": "Value",
+                    "id": "f5562c65-f0d2-4cc9-bbd1-9019de00985c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "MousePosition",
                     "type": "Value",
                     "id": "04e27089-700f-4606-87e9-0199e8663d55",
@@ -587,6 +596,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Moving",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "abf60b9c-79d9-44ef-8be7-fcd0403b9e04",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Echap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

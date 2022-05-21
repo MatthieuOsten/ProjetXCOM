@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
+using TMPro;
+
 public enum CaseState
 {
     Null,
@@ -11,143 +13,114 @@ public enum CaseState
 }
 
 [System.Serializable]
+[ExecuteAlways]
+public class CaseInfo
+{
+    public int x, y;
+    public CaseState _state; // le statut de la case sur la grille
+    public int index = -1; // l'id de la case sur la grille
+}
+
+[ExecuteAlways]
 public class Case : MonoBehaviour
 {
-    // CURRENTLY WORK IN PROGRESS, EVERYTHING WILL BE POLISHED
-    /*
-        Case class will be used by the gridManager, each case of the grid will be a Case.
-        Currently, this class will not be a component so monobehavior will be remove after some approbation.
-    */
-    
+    public GridManager GridParent; // la grille propriétaire de la case
+    [SerializeField] CaseInfo _it;
+    public CaseInfo CaseStatut { get { return _it; } }
 
-    public struct GridPoint
-    {
-        /*
-            Coordinate of the case in the grid
-        */
-        public int x { get; }
-        public int y { get; }
-
-        public GridPoint(int x , int y)
-        {
-            this.x = x;
-            this.y = y; 
-        }
-    }
-    public GridManager _gridParent; // the owner of the case
-    public GridPoint Point; // position in the grid 
-    public CaseState _state; // the state of the grid
-    public int index = -1; // the index of the case in the grid
-    public Material mtl;
-    DecalProjector _proj; // Ce qui projete la case sur le monde
-
-    public int PathFindDistanceFromStart;
-    public int PathFindDistanceFromEnd;
-    public bool Highlighted;
-    public bool PointCase;
+    public bool Highlighted { private get; set;}
     public bool Checked;
-    public bool BlackList;
-    public bool goodPath;
+
+    // PathFinding part
+    public int gCost;
+    public int hCost;
+    public int fCost { get { return hCost + gCost; } }
+    public Case ParentCase;
+
+
+    [Header("Reference")]
+    public Actor _actor; // Une reference de l'actor qui est dessus
     /* Next properties to include
-    Actor _actor; // A ref to the actor in the case, if no actor, the ref will be null
     Interact _interact // A ref to a interact like a echelle 
-    */ 
-
-    public GridManager GridParent
-    {
-        set{ _gridParent = value;}
-    }
-
-
-    private void Start() {
-        _proj = GetComponentInChildren<DecalProjector>();    
-        // Creates a new material instance for the DecalProjector.
-        // here why https://docs.unity.cn/Packages/com.unity.render-pipelines.high-definition@12.0/manual/creating-a-decal-projector-at-runtime.html
-        _proj.material = new Material(_proj.material);
-
-    }
-    /* 
-        Update pour la cellule
     */
-    public void UpdateCell()
+    public int x { get { return CaseStatut.x; } set { CaseStatut.x = value; } }
+    public int y { get { return CaseStatut.y; } set { CaseStatut.y = value; } }
+    public CaseState state { get { return CaseStatut._state; } set { CaseStatut._state = value; } }
+    public int index { get { return CaseStatut.index; } set { CaseStatut.index = value; } }
+
+    [Header("DEBUG")]
+    SpriteRenderer _sr;
+    [SerializeField] TextMeshPro total;
+    [SerializeField] TextMeshPro h;
+    [SerializeField] TextMeshPro g;
+
+
+    private void Start()
     {
-        Color caseColor;
-        switch(_state)
-        {
-            case CaseState.Null:
-                caseColor = Color.black;
-            break;
-            case CaseState.HalfOccupied:
-                caseColor = Color.yellow;
-            break;
-            case CaseState.Occupied:
-                caseColor = Color.red;
-            break;
-            case CaseState.Empty:
-                caseColor = Color.green;
-            break;
-            default:
-                caseColor = Color.black;
-            break;
-
-        }
-
-        mtl = _proj.material;
-
-        mtl.color = caseColor;
-
-        if(Highlighted)
-            mtl.color = Color.cyan;
-
-        if(PointCase)
-        {
-            mtl.color = Color.magenta;
-        }
-
-        if(goodPath)
-        {
-            mtl.color = Color.white;
-        }
-
-
-         float emissiveIntensity = 10;
-        Color emissiveColor = mtl.color;
-        mtl.SetColor("_EmissiveColor", emissiveColor * emissiveIntensity);
+        _sr = GetComponentInChildren<SpriteRenderer>();
+    }
+    public void Update()
+    { 
+        Debug();
+        if (Highlighted || Checked)
+            return;
+        WatchCaseState();
+        return;
     }
 
-    void CheckIfCollide()
+    void Debug()
     {
-          RaycastHit hit;
-        Vector3 Hitpoint = Vector3.zero;
-        Debug.Log(_gridParent.GetCaseWorldPosition(Point.x,Point.y));
-
-        Vector3 StartPosA = _gridParent.GetCaseWorldPosition(Point.x,Point.y);
-        Vector3 EndPosA = _gridParent.GetCaseWorldPosition(Point.x+1,Point.y+1);
-
-        Vector3 StartPosB = _gridParent.GetCaseWorldPosition(Point.x+1,Point.y);
-        Vector3 EndPosB = _gridParent.GetCaseWorldPosition(Point.x,Point.y+1);
-
-        if (   ( Physics.Raycast(StartPosA , EndPosA - StartPosA, out hit, _gridParent.cellSize+1) ) 
-        ||      Physics.Raycast(StartPosB, EndPosB - StartPosB , out hit, _gridParent.cellSize+1) )
-
+        if (GridParent.ShowScorePathFinding)
         {
-            Debug.DrawLine(StartPosA, EndPosA, Color.red);
-            Debug.DrawLine(StartPosB, EndPosB, Color.red);
-
-            Debug.Log("Did Hit");
+            total.gameObject.SetActive(true);
+            h.gameObject.SetActive(true);
+            g.gameObject.SetActive(true);
+            total.text = "" + (gCost + hCost);
+            h.text = "" + hCost;
+            g.text = "" + gCost;
         }
         else
         {
-            Debug.DrawLine(StartPosA, EndPosA , Color.gray);
-            Debug.DrawLine(StartPosB, EndPosB , Color.white);
-            Debug.Log("Did not Hit");
+            total.gameObject.SetActive(false);
+            h.gameObject.SetActive(false);
+            g.gameObject.SetActive(false);
         }
+    } 
 
+    void WatchCaseState()
+    {
+        switch (CaseStatut._state)
+        {
+            case CaseState.Null:
+                ChangeMaterial(GridParent.Data.caseNone);
+                break;
+            case CaseState.HalfOccupied:
+                ChangeColor(Color.yellow, 0);
+                break;
+            case CaseState.Occupied:
+                ChangeMaterial(GridParent.Data.caseLocked);
+                break;
+            case CaseState.Empty:
+                ChangeMaterial(GridParent.Data.caseDefault);
+                break;
+            default:
+                ChangeMaterial(GridParent.Data.caseNone);
+                break;
 
+        }
     }
 
-    void ChangeColor(Color newColor)
+    /* Change la couleur de la cellule 
+        Cava etre jarter car ca cree une nouvelle instance de material, vaut mieux changer directement le material
+    */
+    void ChangeColor(Color newColor, float emissiveIntensity)
     {
+    }
 
+
+    /// <summary> Change la couleur de la cellule </summary>
+    public void ChangeMaterial(Material newMtl)
+    {
+        _sr.material = newMtl;
     }
 }
