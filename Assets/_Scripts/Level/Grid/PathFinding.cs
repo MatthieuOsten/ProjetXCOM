@@ -25,28 +25,14 @@ public class PathFinding : MonoBehaviour
     }
 
     // Reset toutes les cases de prévisualisation
-    static void ResetCasesPreview(Case startCase, Case endCase)
+    static void ResetCasesPreview(Case startCase = null, Case endCase = null)
     {
         if (startCase.GridParent != endCase.GridParent)
         {
             Debug.LogWarning("PathFinding : Attention les cases ne viennent pas de la même grille");
             return;
         }
-        GridManager grid = startCase.GridParent;
-        for (int x = 0; x < grid.SizeX; x++)
-        {
-            for (int y = 0; y < grid.SizeY; y++)
-            {
-                if (grid._grid[x, y] != endCase && grid._grid[x, y] != startCase)
-                {
-                    grid._grid[x, y].Checked = false;
-                    grid._grid[x, y].Highlighted = false;
-                    grid._grid[x, y].hCost = 0;
-                    grid._grid[x, y].gCost = 0;
-                    grid._grid[x, y].ChangeMaterial(grid.Data.caseDefault);
-                }
-            }
-        }
+        GridManager.ResetCasesPreview(startCase.GridParent, startCase,endCase);
     }
 
     /// <summary> Function qui s'occupe de trouver le chemin le plus court </summary>

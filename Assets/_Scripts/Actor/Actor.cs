@@ -2,12 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum RangeType
+{
+    Simple,
+    Radius
+}
+
+[System.Serializable]
+public struct Range
+{   
+    [Range(0,10)]
+    [SerializeField] int right, diagonal;
+    public int rightRange{get { return right; }  set{ right = value;} }
+    public int diagonalRange{get { return diagonal; }  set{ diagonal = value;} }
+    [SerializeField] public RangeType type;
+
+}
 public abstract class Actor : MonoBehaviour, IActor
 {
     [SerializeField] Case currentCase;
     ActorState state = ActorState.Alive;
     private int _health;
     public Team Owner;
+
+    [SerializeField] Range _range;
+    public virtual Range Range{get { return _range; }  set{ _range = value;} }
 
     public virtual Case CurrentCase { get { return currentCase; }  set{ currentCase = value;} }
 

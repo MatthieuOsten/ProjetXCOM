@@ -5,6 +5,7 @@ using UnityEngine;
 public class Actor_TestSoldier : Character 
 {
     bool AbilityEnabled;
+    
 
     /*
         Ici un belle exemple de l'interet de l'héritage
@@ -23,24 +24,66 @@ public class Actor_TestSoldier : Character
 
     public override void AttackRange()
     {
+        
         Debug.Log("ShowAttackRange");
-        Case[] Range = new Case[8];
+        List<Case> _range = new List<Case>((8*Range.rightRange) + (8 * Range.diagonalRange));
         int actorX = CurrentCase.x;
         int actorY = CurrentCase.y;
         GridManager parent = CurrentCase.GridParent;
-        Range[0] = GridManager.GetCase(parent , actorX , actorY+1); // Case au dessus
-        Range[1] = GridManager.GetCase(parent , actorX+1 , actorY); // Case a droite
-        Range[2] = GridManager.GetCase(parent , actorX-1 , actorY); // Case a gauche
-        Range[3] = GridManager.GetCase(parent , actorX , actorY-1); // Case en bas
-        Range[4] = GridManager.GetCase(parent , actorX+1 , actorY+1); // Case au dessus droite
-        Range[5] = GridManager.GetCase(parent , actorX-1 , actorY+1); // Case au dessus gauche
-        Range[6] = GridManager.GetCase(parent , actorX+1 , actorY-1); // Case en bas droite
-        Range[7] = GridManager.GetCase(parent , actorX-1 , actorY-1); // Case en bas gauche
+        GridManager.ResetCasesPreview(parent);
 
-        foreach(Case aCase in Range)
+        switch(Range.type)
+        {
+            case RangeType.Simple:
+                for(int i = 1 ; i < Range.rightRange+1; i++)
+                {
+                    _range.Add(GridManager.GetCase(parent , actorX , actorY + (1 * i))); 
+                    _range.Add(GridManager.GetCase(parent , actorX+ (1 * i) , actorY)); // Case a droite
+                    _range.Add( GridManager.GetCase(parent , actorX- (1 * i) , actorY)); // Case a gauche
+                    _range.Add( GridManager.GetCase(parent , actorX , actorY- (1 * i))); // Case en bas
+                }
+                for(int i = 1 ; i < Range.diagonalRange+1; i++)
+                {
+                    _range.Add(GridManager.GetCase(parent , actorX+ (1 * i) , actorY+ (1 * i))); // Case au dessus droite
+                    _range.Add(GridManager.GetCase(parent , actorX- (1 * i) , actorY+ (1 * i))); // Case au dessus gauche
+                    _range.Add( GridManager.GetCase(parent , actorX+ (1 * i) , actorY- (1 * i))); // Case en bas droite
+                    _range.Add( GridManager.GetCase(parent , actorX- (1 * i) , actorY- (1 * i))); // Case en bas gauche
+                }
+            break;
+            case RangeType.Radius:
+                _range = GridManager.GetRadiusCases(CurrentCase, Range.rightRange);
+            break;
+        }
+        GridManager.SetCasePreview(_range);
+
+        // // void GetRangeCases()
+        {
+            
+        }
+
+
+        // _range[0] = GridManager.GetCase(parent , actorX , actorY+1* Range.rightRange); // Case au dessus
+        // _range[1] = GridManager.GetCase(parent , actorX+1* Range.rightRange , actorY); // Case a droite
+        // _range[2] = GridManager.GetCase(parent , actorX-1* Range.rightRange , actorY); // Case a gauche
+        // _range[3] = GridManager.GetCase(parent , actorX , actorY-1* Range.rightRange); // Case en bas
+        // _range[4] = GridManager.GetCase(parent , actorX+1* Range.diagonalRange , actorY+1* Range.diagonalRange); // Case au dessus droite
+        // _range[5] = GridManager.GetCase(parent , actorX-1* Range.diagonalRange , actorY+1* Range.diagonalRange); // Case au dessus gauche
+        // _range[6] = GridManager.GetCase(parent , actorX+1* Range.diagonalRange , actorY-1* Range.diagonalRange); // Case en bas droite
+        // _range[7] = GridManager.GetCase(parent , actorX-1* Range.diagonalRange , actorY-1* Range.diagonalRange); // Case en bas gauche
+        
+        for(int i = 0 ; i < Range.rightRange ; i++)
+        {
+
+        }
+        //
+        foreach(Case aCase in _range)
         {
             if(aCase != null)
-                aCase.Checked = true;
+            {
+                aCase.Highlighted = true;
+                aCase.ChangeMaterial(aCase.GridParent.Data.caseNone);
+            }
+                 
         }
     }
 

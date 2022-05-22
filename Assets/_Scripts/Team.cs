@@ -25,6 +25,8 @@ public class Team : MonoBehaviour , ITeam
     [SerializeField] bool _spawnRandomlyActor = false;
     [SerializeField] protected GridManager _selectedGrid;
 
+    public List<MonoBehaviour> Scripts;
+
     public void SampleMethod(){
 
     }

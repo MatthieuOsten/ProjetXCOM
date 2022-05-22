@@ -185,6 +185,78 @@ public class GridManager : MonoBehaviour
         return cases;
     }
 
+
+    public static List<Case> GetRadiusCases(Case CurrentCase, int radius )
+    {
+        bool inside_circle(Case center, Case tile, float radius) 
+        {
+            int dx = center.x - tile.x,
+            dy = center.y - tile.y;
+            float distance  = Mathf.Sqrt(dx*dx + dy*dy);
+            return distance <= radius ;
+        }
+
+        List<Case> RadiusCase = new List<Case>();
+
+        // Pour eviter de checker toute la grille, on va faire un zone en carré pour délimiter
+        int xStart =  CurrentCase.x - radius;
+        int yStart =  CurrentCase.y - radius;
+        int xEnd =  CurrentCase.x + radius;
+        int yEnd =  CurrentCase.y + radius;
+
+        for (int y = yStart;  y <= yEnd; y++) {
+            for (int x = xStart; x <= xEnd; x++) {
+                Case caseToCheck = CurrentCase.GridParent.GetCase(x, y);
+                if ( caseToCheck != null && inside_circle(CurrentCase, caseToCheck, radius)) {
+                    RadiusCase.Add(caseToCheck);
+                    
+                }
+            }
+        }
+
+        return RadiusCase;
+    }
+
+     /// <summary> Reset toutes les cases de prévisualisation </summary>
+    public static void ResetCasesPreview(GridManager grid,Case startCase = null, Case endCase = null )
+    {
+        for (int x = 0; x < grid.SizeX; x++)
+        {
+            for (int y = 0; y < grid.SizeY; y++)
+            {
+                if (grid._grid[x, y] != endCase && grid._grid[x, y] != startCase)
+                {
+                    grid._grid[x, y].Checked = false;
+                    grid._grid[x, y].Highlighted = false;
+                    grid._grid[x, y].hCost = 0;
+                    grid._grid[x, y].gCost = 0;
+                    //grid._grid[x, y].ChangeMaterial(grid.Data.caseDefault);
+                }
+            }
+        }
+    }
+    public static void SetCasePreview(Case aCase)
+    {
+        //aCase.Checked = true;
+        if(aCase == null) return; 
+        aCase.Highlighted = true;
+        aCase.ChangeMaterial(aCase.GridParent.Data.caseNone);
+
+    }
+    public static void SetCasePreview(List<Case> cases)
+    {
+        for(int i = 0 ; i < cases.Count ; i++)
+        {
+            SetCasePreview(cases[i]);
+        }
+    }
+
+    void Start()
+    {
+        RegenerateCaseTable(); // Existe car entre le edit et runtime la table a double entrer foire // TODO : trouver une autre maniere
+
+    }
+
     // Update is called once per frame
     void Update()
     {
