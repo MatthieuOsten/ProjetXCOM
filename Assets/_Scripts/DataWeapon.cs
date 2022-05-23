@@ -23,6 +23,7 @@ public class DataWeapon : Data
     [SerializeField] private float _damage;
     [SerializeField] private float _accuracy;
     [SerializeField] private int _costPoint;
+    [SerializeField] Range _range;
 
     [Header("ANIMATION")]
 

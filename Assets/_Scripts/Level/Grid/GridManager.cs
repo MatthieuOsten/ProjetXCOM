@@ -98,6 +98,8 @@ public class GridManager : MonoBehaviour
         plane.name = $"Case n°{_currentCellCreated} [{x};{y}]";
         // On init la case
         Case newCase = plane.GetComponent<Case>();
+        GameObject decal = plane.GetComponentInChildren<SpriteRenderer>().gameObject;
+        decal.transform.localScale = plane.transform.localScale;
         newCase.x = x; // On donne a la case ces coordonnées dans le tableau de la Grid
         newCase.y = y; // On donne a la case ces coordonnées dans le tableau de la Grid
 
@@ -235,10 +237,13 @@ public class GridManager : MonoBehaviour
             }
         }
     }
-    public static void SetCasePreview(Case aCase)
+    public static void SetCasePreview(Case aCase, bool Reset = false)
     {
+        
         //aCase.Checked = true;
-        if(aCase == null) return; 
+        if(aCase == null) return;
+        if(Reset)
+            ResetCasesPreview(aCase.GridParent); 
         aCase.Highlighted = true;
         aCase.ChangeMaterial(aCase.GridParent.Data.caseNone);
 
@@ -261,6 +266,41 @@ public class GridManager : MonoBehaviour
     void Update()
     {
         RegenerateCaseTable(); // Existe car entre le edit et runtime la table a double entrer foire // TODO : trouver une autre maniere
+
+
+
+        // On check si la taille de la grid a changé
+        if(_grid.GetLength(0) != SizeX || _grid.GetLength(1) != SizeY)
+        {
+            Case[,] tempGrid = new Case[SizeX, SizeY];
+            _currentCellCreated = 0;
+             // On genere les cases pour chaque coordonnée
+            for (int x = 0; x < SizeX; x++)
+            {
+                for (int y = 0; y < SizeY; y++)
+                {   
+                    if(_grid[x,y] != null)
+                    {
+                        tempGrid[x,y] = _grid[x,y];
+                    }
+                    else
+                    {
+                         tempGrid[x, y] = GenerateCase(x, y);
+                    }
+                   
+                    _currentCellCreated++;
+                }
+            }
+            foreach(GameObject achild in transform)
+            {
+                Case child = achild.GetComponent<Case>();
+                if(tempGrid[ child.x, child.y] == null)
+                    Destroy(child.gameObject);
+            }
+            _grid = tempGrid;
+            
+        }
+
         if (GenerateAGrid)
         {
             GenerateGrid();

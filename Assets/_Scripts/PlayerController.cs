@@ -127,10 +127,11 @@ public class PlayerController : Team
 
     public override void Start()
     {
+        base.Start();
         if(cameraIsometric == null) cameraIsometric = GameObject.FindObjectsOfType<CameraIsometric>()[0];
         EnableInputManager();
         EnemyDetected = new List<GameObject>();
-        base.Start();
+        
     }
 
     void EnableInputManager()
@@ -173,7 +174,7 @@ public class PlayerController : Team
     {
         if (SelectMode)
         {
-            if (_inputManager.TestGrid.Action.ReadValue<float>() == 1)
+            if (_inputManager.TestGrid.Action.IsPressed()) // TODO : Input a changer
             {
                 if (SelectedCaseA == null)
                 {
@@ -199,7 +200,7 @@ public class PlayerController : Team
                     
                 }
 
-                if (SelectedActor != null)
+                if (SelectedActor != null && SelectedActor.Owner == this)
                 {
                     if(SelectedActor is Character )
                     {
@@ -211,9 +212,10 @@ public class PlayerController : Team
                 {
                     PathFinding.FindPath(SelectedCaseA, SelectedCaseB);
                 }
+                
 
             }
-            if (_inputManager.TestGrid.Echap.ReadValue<float>() == 1)
+            if (_inputManager.TestGrid.Echap.IsPressed())
             {
                 SelectedCaseA.Highlighted = false;
                 SelectedCaseA = null;
@@ -227,17 +229,22 @@ public class PlayerController : Team
     public override void Update()
     {
         if(_inputManager == null) EnableInputManager();
-        WatchCursor();
-
-        if(SelectedActor != null && SelectedCaseA != SelectedActor.CurrentCase)
+        
+        if(ItsYourTurn)
         {
-            SelectedCaseA = SelectedActor.CurrentCase;
-        }
+            WatchCursor();
 
-        if(SelectedActor != null && AttackMode)
-        {
-            SelectedActor.AttackRange();
+            if(SelectedActor != null && SelectedCaseA != SelectedActor.CurrentCase)
+            {
+                SelectedCaseA = SelectedActor.CurrentCase;
+            }
+
+            if(SelectedActor != null && AttackMode)
+            {
+                SelectedActor.AttackRange();
+            }
         }
+        
         InputCameraIsometric();
         base.Update();
     }
@@ -246,12 +253,25 @@ public class PlayerController : Team
 
         //raycastCamera.RaycastDetect(Enemy, _enemyDetected);
         //Donne les arguments a MoveToCharacter
-        if(CharacterPlayer != null && CharacterPlayer.Count != 0) 
-            cameraIsometric.MoveToCharacter(CharacterPlayer[CharacterIndex].transform, _canMoveCam, _onEnemy);
-        if(Enemy != null && Enemy.Count != 0) 
-            cameraIsometric.MoveToEnemy(Enemy[EnemyIndex].transform, _canMoveCam, _onEnemy);
+        CameraIsometricUpdate();
 
     
+    }
+
+    void CameraIsometricUpdate()
+    {
+        if(cameraIsometric != null)
+        {
+            if(CharacterPlayer != null && CharacterPlayer.Count != 0) 
+                cameraIsometric.MoveToCharacter(CharacterPlayer[CharacterIndex].transform, _canMoveCam, _onEnemy);
+            if(Enemy != null && Enemy.Count != 0) 
+                cameraIsometric.MoveToEnemy(Enemy[EnemyIndex].transform, _canMoveCam, _onEnemy);
+        }
+        else
+        {
+            Debug.LogError("cameraIsomectric est pas défini dans PlayerController");
+        }
+ 
     }
 
      //Input de la camera vue du dessus

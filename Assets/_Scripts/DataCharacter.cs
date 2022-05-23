@@ -25,7 +25,7 @@ public class DataCharacter : Data
     // info : https://answers.unity.com/questions/1339301/list-of-scripts.html
     [Header("Instantiating")]
     [Tooltip("Le nom du component a ajouté sur le actor qu'on créera")]
-    [SerializeField] string ClassName;
+    [SerializeField] public string ClassName;
 
     public void OnValidate() {
         if(ClassName == null || ClassName == "")

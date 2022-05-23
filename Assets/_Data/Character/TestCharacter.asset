@@ -22,5 +22,7 @@ MonoBehaviour:
   _tabAccessory: []
   _health: 0
   _shield: 0
-  _weapons: []
+  _weapons:
+  - {fileID: 0}
   _actionPoints: 0
+  ClassName: Actor_TestSoldier

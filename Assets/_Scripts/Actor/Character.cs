@@ -6,7 +6,7 @@ public class Character : Actor
 {
     [SerializeField] private DataCharacter _data;
 
-    public DataCharacter Data { get { return _data; } }
+    public DataCharacter Data { get { return _data; } set{ _data = value;}}
 
     public override int Health { 
         
