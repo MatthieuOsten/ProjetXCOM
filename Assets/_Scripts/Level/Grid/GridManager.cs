@@ -269,6 +269,19 @@ public class GridManager : MonoBehaviour
 
 
 
+
+        if (GenerateAGrid)
+        {
+            GenerateGrid();
+            GenerateAGrid = false;
+        }
+        if (ResetGrid)
+        {
+            ClearGrid();
+            ResetGrid = false;
+        }
+
+        
         // On check si la taille de la grid a changé
         if(_grid.GetLength(0) != SizeX || _grid.GetLength(1) != SizeY)
         {
@@ -300,18 +313,6 @@ public class GridManager : MonoBehaviour
             _grid = tempGrid;
             
         }
-
-        if (GenerateAGrid)
-        {
-            GenerateGrid();
-            GenerateAGrid = false;
-        }
-        if (ResetGrid)
-        {
-            ClearGrid();
-            ResetGrid = false;
-        }
-
         
     }
 
