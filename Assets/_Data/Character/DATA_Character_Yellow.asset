@@ -24,6 +24,6 @@ MonoBehaviour:
   _health: 1
   _shield: 0
   _weapons:
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 4fcc35f68cac821489f34758a19ef60b, type: 2}
   _actionPoints: 0
   ClassName: Actor_TestSoldier
