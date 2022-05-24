@@ -103,7 +103,12 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public static Team GetCurrentController()
+    {
+        return listTeam[Instance._currentTeamIndex];
 
+        
+    }
 
     void EndTurn()
     {

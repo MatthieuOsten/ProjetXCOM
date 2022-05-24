@@ -21,9 +21,16 @@ MonoBehaviour:
     type: 3}
   _tabCosmetic: []
   _tabAccessory: []
-  _health: 10
+  _health: 24
   _shield: 0
   _weapons:
   - {fileID: 11400000, guid: 4fcc35f68cac821489f34758a19ef60b, type: 2}
   _actionPoints: 0
+  spriteTir: {fileID: 0}
+  spriteVigilance: {fileID: 0}
+  spriteCompetence: {fileID: 0}
+  spriteCompetence2: {fileID: 0}
+  icone: {fileID: 0}
+  pointAction: {fileID: 0}
+  ammo: {fileID: 0}
   ClassName: Actor_TestSoldier

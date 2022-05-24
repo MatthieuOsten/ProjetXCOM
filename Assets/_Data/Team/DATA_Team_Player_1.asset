@@ -18,10 +18,10 @@ MonoBehaviour:
   tags: []
   icon: {fileID: 0}
   SquadComposition:
-  - {fileID: 11400000, guid: af967281de9366642828c5fcc6a6b77d, type: 2}
-  - {fileID: 11400000, guid: af967281de9366642828c5fcc6a6b77d, type: 2}
-  - {fileID: 11400000, guid: af967281de9366642828c5fcc6a6b77d, type: 2}
-  - {fileID: 11400000, guid: af967281de9366642828c5fcc6a6b77d, type: 2}
-  - {fileID: 11400000, guid: af967281de9366642828c5fcc6a6b77d, type: 2}
-  - {fileID: 11400000, guid: af967281de9366642828c5fcc6a6b77d, type: 2}
+  - {fileID: 11400000, guid: 3acb1dfbf24d14c4a8f6fa3405a7834b, type: 2}
+  - {fileID: 11400000, guid: 8629e9851f032ff448c71fc9d27e5a7c, type: 2}
+  - {fileID: 11400000, guid: 8629e9851f032ff448c71fc9d27e5a7c, type: 2}
+  - {fileID: 11400000, guid: 8629e9851f032ff448c71fc9d27e5a7c, type: 2}
+  - {fileID: 11400000, guid: 8629e9851f032ff448c71fc9d27e5a7c, type: 2}
+  - {fileID: 11400000, guid: 3acb1dfbf24d14c4a8f6fa3405a7834b, type: 2}
   userType: 0

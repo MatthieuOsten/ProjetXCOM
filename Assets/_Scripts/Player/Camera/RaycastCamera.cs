@@ -38,7 +38,7 @@ public class RaycastCamera : MonoBehaviour
         {
             foreach (Character enemi in enemis.Squad)
                 ListEnemi.Add(enemi);
-            }
+            
                
 
         }

@@ -17,10 +17,11 @@ MonoBehaviour:
   type: 
   tags: []
   icon: {fileID: 0}
-  _prefabBody: {fileID: 0}
+  _prefabBody: {fileID: 8067521322994565020, guid: 9b652cfa7f83ce54fa6e3f5d3d7367f0,
+    type: 3}
   _tabCosmetic: []
   _tabAccessory: []
-  _health: 0
+  _health: 5
   _shield: 0
   _weapons: []
   _actionPoints: 0
@@ -29,6 +30,6 @@ MonoBehaviour:
   spriteCompetence: {fileID: 21300000, guid: f9d826ed2cdfb594b916ba79efd8ad7e, type: 3}
   spriteCompetence2: {fileID: 0}
   icone: {fileID: 21300000, guid: 879eb3196bae02649b9360b472267f9d, type: 3}
-  pointAction1: {fileID: 21300000, guid: f1737b486a23f634bb246de79b8d4f4b, type: 3}
-  pointAction2: {fileID: 21300000, guid: f1737b486a23f634bb246de79b8d4f4b, type: 3}
+  pointAction: {fileID: 0}
   ammo: {fileID: 21300000, guid: 301fe569da9047c4988d46c1707ea4e5, type: 3}
+  ClassName: Actor_TestSoldier
