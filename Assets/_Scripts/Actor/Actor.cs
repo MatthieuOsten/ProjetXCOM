@@ -58,6 +58,8 @@ public abstract class Actor : MonoBehaviour, IActor
         if(State == ActorState.Dead || Health <= 0)
             Death();
     }
+    public virtual  void FixedUpdate() {
+    }
     public virtual  void Start() {
         UIManager.CreateBoxActorInfo(gameObject, "test");
     }

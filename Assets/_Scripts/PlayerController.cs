@@ -204,7 +204,7 @@ public class PlayerController : Team
     {
         if (SelectMode)
         {
-            if (_inputManager.TestGrid.Action.IsPressed()) // TODO : Input a changer
+            if (_inputManager.TestGrid.Action.IsPressed() && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) // TODO : Input a changer
             {
                 if (SelectedCaseA == null)
                 {
@@ -234,9 +234,16 @@ public class PlayerController : Team
                 {
                     if(SelectedActor is Character )
                     {
+
                         Character yo = (Character)SelectedActor;
-                        if(yo.Destination == null)
-                            yo.Destination = SelectedCaseB;
+                        Case[] pathSuggested = PathFinding.FindPath(SelectedActor.CurrentCase, SelectedCaseB, (int)yo.Data.MovementCasesAction);
+                        if(pathSuggested.Length <= (int)yo.Data.MovementCasesAction)
+                            yo.SetDestination( pathSuggested);
+                        
+                        // if(yo.Destination == null)
+                        //     yo.Destination = SelectedCaseB;
+                        
+
                     }
                 }
                 else

@@ -39,7 +39,7 @@ public class Character : Actor
     public Case Destination;
     [SerializeField] public Case CurrentPos { get { return CurrentCase; } set{ CurrentCase = value;} }
 
-    public float moveSpeed = 5;
+
     Case[] pathToFollow;
     LineRenderer lr;
     int _indexPath = 0;
@@ -55,36 +55,37 @@ public class Character : Actor
     {
         Health -= amount;
     }
-
-
     public override void Start()
     {
-        lr = gameObject.AddComponent<LineRenderer>();
+          lr = gameObject.AddComponent<LineRenderer>();
         gameObject.AddComponent<RaycastCamera>();
         Health = Data.Health; // init la vie
         base.Start();
     }
 
-    public override void Update() {
-        if(Destination != null)
+
+    public override void FixedUpdate() {
+        if(pathToFollow != null)
         {
             OnMove();
         }
         else
         {
             _indexPath = 0;
-            pathToFollow = null;
         }
     }
 
-    // Deplace le personnage d'un point A a un point B
+    public void SetDestination(Case[] path = null)
+    {
+        pathToFollow = path;
+    }
     void OnMove()
     {
-        // Si ca position correspond à la destination, on est bon        
-    
+        // Si ca public position corCase destination, Case[] path = nullrespond 
+               
+        // On check si la case de destination est à une bonne distance
 
-        if(pathToFollow == null || pathToFollow.Length == 0)
-            pathToFollow = PathFinding.FindPath(CurrentPos, Destination);
+        float moveSpeed = Data.MoveSpeed;  
         
         if(_indexPath <= pathToFollow.Length-1 && pathToFollow[_indexPath] != null)
             transform.position = Vector3.MoveTowards(transform.position, pathToFollow[_indexPath].gameObject.transform.position, moveSpeed * Time.deltaTime);
@@ -96,7 +97,7 @@ public class Character : Actor
         if(transform.position == GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]))
         {
             Case LastCase = pathToFollow[pathToFollow.Length-1];
-            if(LastCase != Destination || pathToFollow.Length == 0 || Destination == null)
+            if(pathToFollow.Length == 0 || pathToFollow == null )
             {
                 ResetDestination();
                 return;
@@ -172,5 +173,7 @@ public class Character : Actor
         Destination = null; 
         _indexPath = 0;
         pathToFollow = null;
+        
     }
 }
+//////

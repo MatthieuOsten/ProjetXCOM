@@ -240,14 +240,15 @@ public class GridManager : MonoBehaviour
     public static void SetCasePreview(Case aCase, bool Reset = false)
     {
         if(GetValidCase(aCase) == null) return;
-        if(Reset)
-            ResetCasesPreview(aCase.GridParent); 
+        
         aCase.Highlighted = true;
         aCase.ChangeMaterial(aCase.GridParent.Data.caseNone);
 
     }
     public static void SetCasePreview(List<Case> cases, bool Reset = false)
     {
+        if(Reset)
+            ResetCasesPreview(cases[0].GridParent); 
         for(int i = 0 ; i < cases.Count ; i++)
         {
             SetCasePreview(cases[i], Reset);

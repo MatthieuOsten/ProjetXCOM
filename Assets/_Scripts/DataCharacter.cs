@@ -17,11 +17,17 @@ public class DataCharacter : Data
     [Header("STATS")]
     [SerializeField] private int _health = 1; // Vie quand le personnage spawn
     [SerializeField] private int _shield;
+    [Range(1f,20)]
+    [SerializeField] float _moveSpeed = 10;
+    public float MoveSpeed{ get { return _moveSpeed; }}
+
 
     [Header("CAPACITY")]
     [SerializeField] private List<DataWeapon> _weapons;
-    [SerializeField] private int _actionPoints;
-
+    [SerializeField] private int _actionPoints = 2;
+    [SerializeField] private int _movementCasesAction = 4;
+    public float MovementCasesAction{ get { return _movementCasesAction; }}
+    
     [Header("UI")]
     [SerializeField] private Sprite spriteTir;
     [SerializeField] private Sprite spriteVigilance;
