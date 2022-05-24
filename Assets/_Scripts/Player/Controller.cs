@@ -633,6 +633,174 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""ActionBar"",
+            ""id"": ""7ec991cd-76cf-4928-a4b9-04202a3050cc"",
+            ""actions"": [
+                {
+                    ""name"": ""AttackRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""a6b7b91b-ae7e-40c2-9cac-2da90f328b3e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""VigilenceDroite"",
+                    ""type"": ""Button"",
+                    ""id"": ""23523c2d-e4ee-45db-a1df-14168336765a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Competence1Droite"",
+                    ""type"": ""Button"",
+                    ""id"": ""18d42b90-878d-4c1a-93f6-308707c1a9d7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Competence2Droite"",
+                    ""type"": ""Button"",
+                    ""id"": ""657c7f23-1618-4a0b-b248-cb346e847449"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AttackGauche"",
+                    ""type"": ""Button"",
+                    ""id"": ""8a1bf1f1-3ecd-4058-a11a-b43a37a8a3eb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""VigilenceGauche"",
+                    ""type"": ""Button"",
+                    ""id"": ""77348fc0-a4e3-4a46-b856-09cb73e66eed"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Competence1"",
+                    ""type"": ""Button"",
+                    ""id"": ""340ad941-215a-491c-b383-9d3657332704"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Competence2"",
+                    ""type"": ""Button"",
+                    ""id"": ""22d4717b-19a7-4344-9730-5a393053df8e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""2bce67e5-d542-48e8-bd44-2d4ecec2280d"",
+                    ""path"": ""<Keyboard>/#(&)"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AttackRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""22ba0bd9-46a7-4f58-9c12-33eb67419f91"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""VigilenceDroite"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""49a70894-5ce1-4c80-878f-40c77ce82123"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Competence1Droite"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4a9a6d1-538a-4404-b5bd-96ad974b3e48"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Competence2Droite"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f96e20c-4577-4297-8714-81d16e9a9549"",
+                    ""path"": ""<Keyboard>/0"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AttackGauche"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""60a202b3-19bc-4c30-8cb2-514fd18dd487"",
+                    ""path"": ""<Keyboard>/9"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""VigilenceGauche"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d2ff17d2-e7b7-4d83-8d5f-8ee153369dab"",
+                    ""path"": ""<Keyboard>/8"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Competence1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""786ac858-0a73-40eb-a8a2-0d4aff506dc6"",
+                    ""path"": ""<Keyboard>/7"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Competence2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -657,6 +825,16 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         m_TestGrid_Echap = m_TestGrid.FindAction("Echap", throwIfNotFound: true);
         m_TestGrid_MousePosition = m_TestGrid.FindAction("MousePosition", throwIfNotFound: true);
         m_TestGrid_Moving = m_TestGrid.FindAction("Moving", throwIfNotFound: true);
+        // ActionBar
+        m_ActionBar = asset.FindActionMap("ActionBar", throwIfNotFound: true);
+        m_ActionBar_AttackRight = m_ActionBar.FindAction("AttackRight", throwIfNotFound: true);
+        m_ActionBar_VigilenceDroite = m_ActionBar.FindAction("VigilenceDroite", throwIfNotFound: true);
+        m_ActionBar_Competence1Droite = m_ActionBar.FindAction("Competence1Droite", throwIfNotFound: true);
+        m_ActionBar_Competence2Droite = m_ActionBar.FindAction("Competence2Droite", throwIfNotFound: true);
+        m_ActionBar_AttackGauche = m_ActionBar.FindAction("AttackGauche", throwIfNotFound: true);
+        m_ActionBar_VigilenceGauche = m_ActionBar.FindAction("VigilenceGauche", throwIfNotFound: true);
+        m_ActionBar_Competence1 = m_ActionBar.FindAction("Competence1", throwIfNotFound: true);
+        m_ActionBar_Competence2 = m_ActionBar.FindAction("Competence2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -890,6 +1068,95 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         }
     }
     public TestGridActions @TestGrid => new TestGridActions(this);
+
+    // ActionBar
+    private readonly InputActionMap m_ActionBar;
+    private IActionBarActions m_ActionBarActionsCallbackInterface;
+    private readonly InputAction m_ActionBar_AttackRight;
+    private readonly InputAction m_ActionBar_VigilenceDroite;
+    private readonly InputAction m_ActionBar_Competence1Droite;
+    private readonly InputAction m_ActionBar_Competence2Droite;
+    private readonly InputAction m_ActionBar_AttackGauche;
+    private readonly InputAction m_ActionBar_VigilenceGauche;
+    private readonly InputAction m_ActionBar_Competence1;
+    private readonly InputAction m_ActionBar_Competence2;
+    public struct ActionBarActions
+    {
+        private @Controller m_Wrapper;
+        public ActionBarActions(@Controller wrapper) { m_Wrapper = wrapper; }
+        public InputAction @AttackRight => m_Wrapper.m_ActionBar_AttackRight;
+        public InputAction @VigilenceDroite => m_Wrapper.m_ActionBar_VigilenceDroite;
+        public InputAction @Competence1Droite => m_Wrapper.m_ActionBar_Competence1Droite;
+        public InputAction @Competence2Droite => m_Wrapper.m_ActionBar_Competence2Droite;
+        public InputAction @AttackGauche => m_Wrapper.m_ActionBar_AttackGauche;
+        public InputAction @VigilenceGauche => m_Wrapper.m_ActionBar_VigilenceGauche;
+        public InputAction @Competence1 => m_Wrapper.m_ActionBar_Competence1;
+        public InputAction @Competence2 => m_Wrapper.m_ActionBar_Competence2;
+        public InputActionMap Get() { return m_Wrapper.m_ActionBar; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ActionBarActions set) { return set.Get(); }
+        public void SetCallbacks(IActionBarActions instance)
+        {
+            if (m_Wrapper.m_ActionBarActionsCallbackInterface != null)
+            {
+                @AttackRight.started -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnAttackRight;
+                @AttackRight.performed -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnAttackRight;
+                @AttackRight.canceled -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnAttackRight;
+                @VigilenceDroite.started -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnVigilenceDroite;
+                @VigilenceDroite.performed -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnVigilenceDroite;
+                @VigilenceDroite.canceled -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnVigilenceDroite;
+                @Competence1Droite.started -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnCompetence1Droite;
+                @Competence1Droite.performed -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnCompetence1Droite;
+                @Competence1Droite.canceled -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnCompetence1Droite;
+                @Competence2Droite.started -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnCompetence2Droite;
+                @Competence2Droite.performed -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnCompetence2Droite;
+                @Competence2Droite.canceled -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnCompetence2Droite;
+                @AttackGauche.started -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnAttackGauche;
+                @AttackGauche.performed -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnAttackGauche;
+                @AttackGauche.canceled -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnAttackGauche;
+                @VigilenceGauche.started -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnVigilenceGauche;
+                @VigilenceGauche.performed -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnVigilenceGauche;
+                @VigilenceGauche.canceled -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnVigilenceGauche;
+                @Competence1.started -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnCompetence1;
+                @Competence1.performed -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnCompetence1;
+                @Competence1.canceled -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnCompetence1;
+                @Competence2.started -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnCompetence2;
+                @Competence2.performed -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnCompetence2;
+                @Competence2.canceled -= m_Wrapper.m_ActionBarActionsCallbackInterface.OnCompetence2;
+            }
+            m_Wrapper.m_ActionBarActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @AttackRight.started += instance.OnAttackRight;
+                @AttackRight.performed += instance.OnAttackRight;
+                @AttackRight.canceled += instance.OnAttackRight;
+                @VigilenceDroite.started += instance.OnVigilenceDroite;
+                @VigilenceDroite.performed += instance.OnVigilenceDroite;
+                @VigilenceDroite.canceled += instance.OnVigilenceDroite;
+                @Competence1Droite.started += instance.OnCompetence1Droite;
+                @Competence1Droite.performed += instance.OnCompetence1Droite;
+                @Competence1Droite.canceled += instance.OnCompetence1Droite;
+                @Competence2Droite.started += instance.OnCompetence2Droite;
+                @Competence2Droite.performed += instance.OnCompetence2Droite;
+                @Competence2Droite.canceled += instance.OnCompetence2Droite;
+                @AttackGauche.started += instance.OnAttackGauche;
+                @AttackGauche.performed += instance.OnAttackGauche;
+                @AttackGauche.canceled += instance.OnAttackGauche;
+                @VigilenceGauche.started += instance.OnVigilenceGauche;
+                @VigilenceGauche.performed += instance.OnVigilenceGauche;
+                @VigilenceGauche.canceled += instance.OnVigilenceGauche;
+                @Competence1.started += instance.OnCompetence1;
+                @Competence1.performed += instance.OnCompetence1;
+                @Competence1.canceled += instance.OnCompetence1;
+                @Competence2.started += instance.OnCompetence2;
+                @Competence2.performed += instance.OnCompetence2;
+                @Competence2.canceled += instance.OnCompetence2;
+            }
+        }
+    }
+    public ActionBarActions @ActionBar => new ActionBarActions(this);
     public interface IControlCameraActions
     {
         void OnRightHand(InputAction.CallbackContext context);
@@ -911,5 +1178,16 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         void OnEchap(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnMoving(InputAction.CallbackContext context);
+    }
+    public interface IActionBarActions
+    {
+        void OnAttackRight(InputAction.CallbackContext context);
+        void OnVigilenceDroite(InputAction.CallbackContext context);
+        void OnCompetence1Droite(InputAction.CallbackContext context);
+        void OnCompetence2Droite(InputAction.CallbackContext context);
+        void OnAttackGauche(InputAction.CallbackContext context);
+        void OnVigilenceGauche(InputAction.CallbackContext context);
+        void OnCompetence1(InputAction.CallbackContext context);
+        void OnCompetence2(InputAction.CallbackContext context);
     }
 }

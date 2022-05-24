@@ -5,7 +5,16 @@ using UnityEngine;
 public class Character : Actor
 {
     [SerializeField] private DataCharacter _data;
+    [SerializeField] private int _ammo;
 
+    public int Ammo
+    {
+        get { return _ammo; }
+        set
+        {
+            _ammo = value;
+        }
+    }
     public DataCharacter Data { get { return _data; } }
 
     public override int Health { 
