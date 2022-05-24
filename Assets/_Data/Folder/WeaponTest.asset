@@ -25,7 +25,7 @@ MonoBehaviour:
   _accuracy: 0
   _costPoint: 0
   _range:
-    right: 10
+    right: 3
     diagonal: 5
     type: 1
   _animIdle: {fileID: 0}

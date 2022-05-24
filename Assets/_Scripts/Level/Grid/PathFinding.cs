@@ -10,6 +10,7 @@ public class PathFinding : MonoBehaviour
     [Header("PATH FINDING")]
     static int heuristicScale = 4;
     static int heuristicScaleDiagonale = 8;
+    
 
     /// <summary> get la distance entre un point a et point b dans une grille </summary>
     static int GetScore(int nodeAx, int nodeAy, int nodeBx, int nodeBy)

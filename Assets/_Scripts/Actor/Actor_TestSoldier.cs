@@ -22,6 +22,10 @@ public class Actor_TestSoldier : Character
         base.DoDamage(amount);
     }
 
+    public override void Attack(Actor target)
+    {
+        target.DoDamage(10);
+    }
    
 
     

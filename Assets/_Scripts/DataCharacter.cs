@@ -9,12 +9,12 @@ public class DataCharacter : Data
 {
     // Permet l'affichage de l'objet et de ces parametres
     [Header("RENDER")]
-    [SerializeField] private GameObject _prefabBody;
+    [SerializeField] public GameObject _prefabBody;
     [SerializeField] private List<DataCosmetic> _tabCosmetic;
     [SerializeField] private List<DataAccessory> _tabAccessory;
 
     [Header("STATS")]
-    [SerializeField] private int _health;
+    [SerializeField] private int _health = 1; // Vie quand le personnage spawn
     [SerializeField] private int _shield;
 
     [Header("CAPACITY")]

@@ -22,7 +22,7 @@ public abstract class Actor : MonoBehaviour, IActor
 {
     [SerializeField] Case currentCase;
     ActorState state = ActorState.Alive;
-    private int _health;
+     [SerializeField] private int _health;
     public Team Owner;
 
     [SerializeField] Range _range;
@@ -48,13 +48,15 @@ public abstract class Actor : MonoBehaviour, IActor
             {
                 _health = 0;
                 State = ActorState.Dead;
+                Death();
             }
 
         } 
     }
 
     public virtual  void Update() {
-        
+        if(State == ActorState.Dead || Health == 0)
+            Death();
     }
     public virtual  void Start() {
         
@@ -69,6 +71,7 @@ public abstract class Actor : MonoBehaviour, IActor
 
     public virtual void Death()
     {
+        Destroy(gameObject);
         throw new System.NotImplementedException();
     }
 
@@ -78,7 +81,7 @@ public abstract class Actor : MonoBehaviour, IActor
         throw new System.NotImplementedException();
     }
 
-    public virtual void Attack()
+    public virtual void Attack(Actor target)
     {
         throw new System.NotImplementedException();
     }

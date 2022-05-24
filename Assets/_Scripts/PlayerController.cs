@@ -37,6 +37,11 @@ public class PlayerController : Team
     [SerializeField] private List<GameObject> _enemyDetected;
     [SerializeField] private int _enemyDetectedIndex = 0;
 
+    [Header("CHARACTER ACTION")]
+    [SerializeField] bool Attack, Vigilance;
+    
+
+
 
     /*[Header("CAMERA")]
     [SerializeField] private GameObject _isometricCamera;
@@ -60,7 +65,11 @@ public class PlayerController : Team
             foreach(Team TeamEnemy in hisEnnemies)
             {
                 foreach(Actor actor in TeamEnemy.Squad)
-                    newListEnemies.Add(actor.gameObject);
+                {
+                    if(actor != null)
+                        newListEnemies.Add(actor.gameObject);
+                }
+                    
             }
             return newListEnemies; }
     }
@@ -129,16 +138,24 @@ public class PlayerController : Team
     {
         base.Start();
         if(cameraIsometric == null) cameraIsometric = GameObject.FindObjectsOfType<CameraIsometric>()[0];
-        EnableInputManager();
+        //EnableInputManager();
         EnemyDetected = new List<GameObject>();
         
     }
 
     void EnableInputManager()
     {
-        _inputManager = new Controller();
+        if(_inputManager == null) _inputManager = new Controller();
+
         _inputManager.TestGrid.Enable();
         _inputManager.ControlCamera.Enable();
+    }
+
+    void DisableInputManager()
+    { 
+        if(_inputManager == null) _inputManager = new Controller();
+        _inputManager.TestGrid.Disable();
+        _inputManager.ControlCamera.Disable();
     }
 
     Vector3 MouseToWorldPosition()
@@ -230,10 +247,15 @@ public class PlayerController : Team
     public override void Update()
     {
         if(_inputManager == null) EnableInputManager();
-        
+
+       
+
+
         if(ItsYourTurn)
         {
+            EnableInputManager();
             WatchCursor();
+            WatcherAttack();
 
             if(SelectedActor != null && SelectedCaseA != SelectedActor.CurrentCase)
             {
@@ -253,9 +275,14 @@ public class PlayerController : Team
                     }
                 }
             }
+              InputCameraIsometric();
+        }
+        else
+        {
+            DisableInputManager();
         }
         
-        InputCameraIsometric();
+      
         base.Update();
     }
       private void FixedUpdate()
@@ -263,9 +290,28 @@ public class PlayerController : Team
 
         //raycastCamera.RaycastDetect(Enemy, _enemyDetected);
         //Donne les arguments a MoveToCharacter
-        CameraIsometricUpdate();
+       
+        if(ItsYourTurn)
+        {
+            CameraIsometricUpdate();
+        }
+        else
+        {
+            DisableInputManager();
+        }
 
     
+    }
+
+    void WatcherAttack()
+    {
+        if(Attack)
+        {
+            if(SelectedActor != null && EnemyDetected[EnemyDetectedIndex] != null )
+                SelectedActor.Attack(EnemyDetected[EnemyDetectedIndex].GetComponent<Actor>());
+
+            Attack = false;
+        }
     }
 
     void CameraIsometricUpdate()

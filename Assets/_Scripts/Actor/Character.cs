@@ -38,10 +38,7 @@ public class Character : Actor
     // Effectue une action a la mort du personnage //
     public override void Death()
     {
-        if (State == ActorState.Dead)
-        {
-            
-        }
+        base.Death();
     }
 
     // Effectue une action a lorsque le personnage prend des degats //
@@ -62,6 +59,8 @@ public class Character : Actor
     {
         lr = gameObject.AddComponent<LineRenderer>();
         gameObject.AddComponent<RaycastCamera>();
+        Health = Data.Health; // init la vie
+        base.Start();
     }
 
     public override void Update() {

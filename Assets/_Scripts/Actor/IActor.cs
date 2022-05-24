@@ -19,7 +19,7 @@ public interface IActor
 
     void Death();
     void DoDamage(int amount);
-    void Attack();
+    void Attack(Actor target);
     void EnableAbility();
     Case[] AttackRange();
 }

@@ -85,7 +85,7 @@ public class Team : MonoBehaviour , ITeam
     public Character SpawnActor(DataCharacter character)
     {
         // TODO, il faudra peut etre avoir un prefab de base pour les personnages
-        GameObject newCharacter = new GameObject();
+        GameObject newCharacter = Instantiate(character._prefabBody);
         Type TypeCharacter = Type.GetType(character.ClassName);
         newCharacter.name = character.ClassName + " from "+this.GetType().Name;
         Character component = (Character)newCharacter.AddComponent(TypeCharacter);
