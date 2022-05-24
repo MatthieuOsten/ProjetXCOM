@@ -348,6 +348,8 @@ public class PlayerController : Team
         {
             character.Ammo -= 1;
         }
+
+        
     }
 
     private void Vigilence()
