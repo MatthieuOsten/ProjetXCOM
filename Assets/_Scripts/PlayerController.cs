@@ -10,6 +10,7 @@ public class PlayerController : Team
     [SerializeField] bool AttackMode;
     [SerializeField] Case SelectedCaseA, SelectedCaseB;
     [SerializeField] Actor SelectedActor;
+    [SerializeField] private Character character;
 
 
     
@@ -25,8 +26,9 @@ public class PlayerController : Team
     [SerializeField] private bool _leftHand = false;
     [SerializeField] private bool _onEnemy = false;
     [SerializeField] private bool _canMoveCam;
-   
-   // [SerializeField] private bool _canLook = false;
+    [SerializeField] private bool _onVigilence = false;
+
+    // [SerializeField] private bool _canLook = false;
 
     [Header("LIST")] 
     //[SerializeField] private List<GameObject> _characterPlayer; On utilise Squad maintenant property hérité de Team.cs
@@ -47,8 +49,20 @@ public class PlayerController : Team
     [SerializeField] private GameObject _isometricCamera;
     [SerializeField] private GameObject childCam;*/
 
-    
+
     //Set, Get de toutes les variables ayant besoin d'�tre modifi�
+    public bool OnVigilence
+    {
+        get { return _onVigilence; }
+        set
+        {
+            _onVigilence = value;
+        }
+    }
+    public bool OnEnemy
+    {
+        get { return _onEnemy; }
+    }
     public List<GameObject> EnemyDetected
     {
         get { 
@@ -130,9 +144,6 @@ public class PlayerController : Team
 
     public override void Awake()
     {
-        
-
-
         base.Awake();
     }
 
@@ -342,9 +353,18 @@ public class PlayerController : Team
             _inputManager.ControlCamera.RightHandCharacterChange.performed += context => CharacterChange();
             _inputManager.ControlCamera.RigthHandShoulder.performed += context => SwitchShoulderCam();
             _inputManager.ControlCamera.LeaveShoulder.performed += context => LeaveShoulderCam();
+
             if (!_leftHand && _onEnemy)
             {
                 _inputManager.ControlCamera.SelectedEnemy.performed += context => SelectedEnemy();
+            }
+
+            if(_onEnemy)
+            {
+                _inputManager.ActionBar.AttackRight.performed += context => Shoot();
+                _inputManager.ActionBar.VigilenceDroite.performed += context => Vigilence();
+                _inputManager.ActionBar.Competence1Droite.performed += context => Competence1();
+                _inputManager.ActionBar.Competence2Droite.performed += context => Competence2();
             }
 
             _inputManager.ControlCamera.RightHand.performed += context =>
@@ -364,13 +384,13 @@ public class PlayerController : Team
         {
             /*_inputManager.ControlCamera.LeftHandTurnRight.performed += context => cameraIsometric.LeftHandedTurnAroundRight(_onShoulder);
             _inputManager.ControlCamera.LeftHandTurnLeft.performed += context => cameraIsometric.LeftHandedTurnAroundLeft(_onShoulder);*/
-            _inputManager.ControlCamera.LeftHandCharacterChange.performed += context => LeftHandedCharacterChange();
+            _inputManager.ControlCamera.LeftHandCharacterChange.performed += context => CharacterChange();
             _inputManager.ControlCamera.RigthHandShoulder.performed += context => SwitchShoulderCam();
             _inputManager.ControlCamera.LeaveShoulder.performed += context => LeaveShoulderCam();
 
             if (_onEnemy)
             {
-                _inputManager.ControlCamera.SelectedEnemyLeftHand.performed += context => SelectedEnemyLeftHand();
+                _inputManager.ControlCamera.SelectedEnemyLeftHand.performed += context => SelectedEnemy();
             }
             _inputManager.ControlCamera.LeftHand.performed += context =>
             {
@@ -400,10 +420,37 @@ public class PlayerController : Team
         }
     }*/
 
+    private void Shoot()
+    {
+        if(character.Ammo > 0)
+        {
+            character.Ammo -= 1;
+        }
+    }
+
+    private void Vigilence()
+    {
+        if(_onVigilence == false)
+        {
+            _onVigilence = true;
+        }
+    }
+
+    private void Competence1()
+    {
+
+    }
+
+    private void Competence2()
+    {
+
+    }
     //Passe de la camera vue du dessus a celle de l'epaule
     public void SwitchShoulderCam()
     {
         _onEnemy = true;
+        _canMoveCam = false;
+
         //Recupere le scipt de camera shoulder et la camera qui va etre utilise
         /*cameraShoulder = CharacterPlayer[CharacterIndex].transform.GetChild(0).GetComponent<CameraShoulder>();
         childCam = CharacterPlayer[CharacterIndex].transform.GetChild(0).GetChild(0).gameObject;
@@ -417,6 +464,7 @@ public class PlayerController : Team
     public void LeaveShoulderCam()
     {
         _onEnemy = false;
+        _canMoveCam = true;
        // childCam.SetActive(false);
 
         //Reset les elements ci-dessous dans l'inspector
@@ -431,22 +479,6 @@ public class PlayerController : Team
 
     //Permet de changer de character
     public void CharacterChange()
-    {
-        if (!_onEnemy)
-        {
-            CharacterIndex++;
-        }
-        _canMoveCam = false;
-
-        if (CharacterIndex >= CharacterPlayer.Count)
-        {
-            CharacterIndex = 0;
-        }
-        SelectedActor = CharacterPlayer[CharacterIndex].GetComponent<Character>();
-    }
-
-    //Permet de changer de character
-    public void LeftHandedCharacterChange()
     {
         if (!_onEnemy)
         {
@@ -476,22 +508,6 @@ public class PlayerController : Team
             EnemyIndex = 0;
         }
         SelectedActor = Enemy[EnemyIndex].GetComponent<Character>();
-    }
-
-    //Permet de cibler un ennemie
-    public void SelectedEnemyLeftHand()
-    {
-        if (_onEnemy)
-        {
-            EnemyIndex++;
-        }
-
-        if (EnemyIndex >= Enemy.Count)
-        {
-            EnemyIndex = 0;
-        }
-        SelectedActor = Enemy[EnemyIndex].GetComponent<Character>();
-
     }
 
     /*private void TakeCameraShoulder()

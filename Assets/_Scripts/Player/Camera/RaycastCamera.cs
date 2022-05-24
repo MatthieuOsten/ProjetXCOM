@@ -6,6 +6,7 @@ public class RaycastCamera : MonoBehaviour
 {
 
     [SerializeField] private LineRenderer lr;
+    [SerializeField] private PlayerController playerController;
     [SerializeField] private Character _character;
     [SerializeField] private bool _detected = false;
 
@@ -26,51 +27,61 @@ public class RaycastCamera : MonoBehaviour
 
     public void FixedUpdate()
     {
+        TeamRaycast();
+    }
+
+    private void TeamRaycast()
+    {
         Team[] TeamEnemys = _character.Owner.hisEnnemies;
         List<Character> ListEnemi = new List<Character>();
-        foreach(Team enemis in TeamEnemys)
+        foreach (Team enemis in TeamEnemys)
         {
-            foreach(Character enemi in enemis.Squad)
-            {
-                if(enemi == null) continue;
+            foreach (Character enemi in enemis.Squad)
                 ListEnemi.Add(enemi);
             }
                
 
         }
-        
-        List<GameObject> enemyTarget = RaycastDetect(ListEnemi);
-        if(enemyTarget.Count > 0 && gameObject.TryGetComponent<PlayerController>(out PlayerController pc))
-            pc.EnemyDetected = enemyTarget;
 
+        List<GameObject> enemyTarget = RaycastDetect(ListEnemi);
+        if (enemyTarget.Count > 0)
+            gameObject.GetComponent<PlayerController>().EnemyDetected = enemyTarget;
     }
 
     public List<GameObject> RaycastDetect(List<Character> enemy)
     {
-        RaycastHit hit;
-        Vector3 direction = transform.TransformDirection(Vector3.forward);
-        Vector3 position = _character.transform.position;
-        
-        
-        List<GameObject> enemyTarget = new List<GameObject>();
-        lr.SetPosition(0, position);
-        if (Physics.Raycast(position, direction, out hit))
+        if(playerController.OnVigilence)
         {
-            foreach(Character myEnemy in enemy)
+            RaycastHit hit;
+            Vector3 direction = transform.TransformDirection(Vector3.forward);
+            Vector3 position = _character.transform.position;
+
+
+            List<GameObject> enemyTarget = new List<GameObject>();
+            lr.SetPosition(0, position);
+            if (Physics.Raycast(position, direction, out hit))
             {
-                if (hit.collider.gameObject == myEnemy.gameObject)
+                foreach (Character myEnemy in enemy)
                 {
-                    Debug.Log("Toucher");
-                    enemyTarget.Add(myEnemy.gameObject);
-                    lr.SetPosition(1,myEnemy.transform.position);
+                    if (hit.collider.gameObject == myEnemy.gameObject)
+                    {
+                        Debug.Log("Toucher");
+                        enemyTarget.Add(myEnemy.gameObject);
+                        lr.SetPosition(1, myEnemy.transform.position);
+                    }
                 }
             }
-        }
 
+            else
+            {
+                lr.SetPosition(1, new Vector3(position.x, position.y, 50));
+            }
+            return enemyTarget;
+        }
         else
         {
-            lr.SetPosition(1, new Vector3(position.x, position.y, 50));
+            return null;
         }
-        return enemyTarget;
+
     }
 }
