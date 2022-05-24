@@ -239,20 +239,18 @@ public class GridManager : MonoBehaviour
     }
     public static void SetCasePreview(Case aCase, bool Reset = false)
     {
-        
-        //aCase.Checked = true;
-        if(aCase == null) return;
+        if(GetValidCase(aCase) == null) return;
         if(Reset)
             ResetCasesPreview(aCase.GridParent); 
         aCase.Highlighted = true;
         aCase.ChangeMaterial(aCase.GridParent.Data.caseNone);
 
     }
-    public static void SetCasePreview(List<Case> cases)
+    public static void SetCasePreview(List<Case> cases, bool Reset = false)
     {
         for(int i = 0 ; i < cases.Count ; i++)
         {
-            SetCasePreview(cases[i]);
+            SetCasePreview(cases[i], Reset);
         }
     }
 
@@ -292,7 +290,8 @@ public class GridManager : MonoBehaviour
             {
                 for (int y = 0; y < SizeY; y++)
                 {   
-                    if(_grid[x,y] != null)
+                   // Debug.Log($"{_grid.GetLength(0)} && {_grid.GetLength(1)} with {x};{y}");
+                    if(x < _grid.GetLength(0) && y < _grid.GetLength(1) && _grid[x,y] != null)
                     {
                         tempGrid[x,y] = _grid[x,y];
                     }
@@ -304,12 +303,20 @@ public class GridManager : MonoBehaviour
                     _currentCellCreated++;
                 }
             }
-            foreach(GameObject achild in transform)
-            {
-                Case child = achild.GetComponent<Case>();
-                if(tempGrid[ child.x, child.y] == null)
-                    Destroy(child.gameObject);
-            }
+            
+            int childs = transform.childCount;
+                for (int i = childs - 1; i >= 0; i--)
+                {   
+                    Case child = transform.GetChild(i).GetComponent<Case>();
+                    if(child.x >= SizeX || child.y >= SizeY)
+                    {
+                        GameObject.DestroyImmediate(transform.GetChild(i).gameObject);
+                    }
+
+                    
+                }
+               
+          
             _grid = tempGrid;
             
         }

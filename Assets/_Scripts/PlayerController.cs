@@ -205,7 +205,8 @@ public class PlayerController : Team
                     if(SelectedActor is Character )
                     {
                         Character yo = (Character)SelectedActor;
-                        yo.Destination = SelectedCaseB;
+                        if(yo.Destination == null)
+                            yo.Destination = SelectedCaseB;
                     }
                 }
                 else
@@ -241,7 +242,16 @@ public class PlayerController : Team
 
             if(SelectedActor != null && AttackMode)
             {
-                SelectedActor.AttackRange();
+                EnemyDetected = new List<GameObject>();
+                foreach(Case aCase in SelectedActor.AttackRange())
+                {
+                    Actor actorToCheck = aCase._actor;
+                    if(actorToCheck != null && actorToCheck.Owner != this)
+                    {
+                        // TODO : ajouter un raycast pour checker si il ya pas un model devant
+                        EnemyDetected.Add(actorToCheck.gameObject);
+                    }
+                }
             }
         }
         

@@ -23,7 +23,7 @@ public class DataWeapon : Data
     [SerializeField] private float _damage;
     [SerializeField] private float _accuracy;
     [SerializeField] private int _costPoint;
-    [SerializeField] Range _range;
+    public Range _range;
 
     [Header("ANIMATION")]
 
@@ -44,5 +44,7 @@ public class DataWeapon : Data
     public Animation AnimFire { get; }
     public AudioSource SoundFire { get; }
     public AudioSource SoundReload { get; }
+
+    
 
 }

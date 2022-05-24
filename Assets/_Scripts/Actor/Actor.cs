@@ -62,8 +62,10 @@ public abstract class Actor : MonoBehaviour, IActor
 
 
 
-    public virtual void AttackRange()
-    {}
+    public virtual Case[] AttackRange()
+    {
+        return null; 
+    }
 
     public virtual void Death()
     {

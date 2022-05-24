@@ -21,5 +21,5 @@ public interface IActor
     void DoDamage(int amount);
     void Attack();
     void EnableAbility();
-    void AttackRange();
+    Case[] AttackRange();
 }

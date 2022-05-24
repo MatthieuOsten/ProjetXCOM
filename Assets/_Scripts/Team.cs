@@ -94,7 +94,9 @@ public class Team : MonoBehaviour , ITeam
         
         if(_spawnRandomlyActor)
         {
-            component.CurrentCase = _selectedGrid.GetRandomCase();
+            Case aRandCase = _selectedGrid.GetRandomCase();
+            component.CurrentCase = aRandCase;
+            aRandCase._actor = component;
             component.transform.position = _selectedGrid.GetCaseWorldPosition(component.CurrentCase.x, component.CurrentCase.y);
         }
         return component;
