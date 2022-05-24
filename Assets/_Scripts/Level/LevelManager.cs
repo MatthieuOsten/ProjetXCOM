@@ -42,7 +42,8 @@ public class LevelManager : MonoBehaviour
         
     public static List<Team> listTeam = new List<Team>();
     
-
+    [SerializeField] DataTeam[] _teams;
+    
 
     [SerializeField] int _currentTurn;
 
@@ -71,9 +72,36 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SpawnTeam();
     }
 
+    void SpawnTeam()
+    {
+        if(_teams.Length > 0)
+        {
+            for(int i = 0 ; i < _teams.Length ; i++)
+            {
+                GameObject teamInstance = new GameObject();
+                Team controller = null;
+                switch(_teams[i].userType)
+                {
+                    case UserType.Player:
+                        controller = teamInstance.AddComponent<PlayerController>();
+                    break;
+                    case UserType.Bot:
+                        controller = teamInstance.AddComponent<IAController>();
+                    break;
+                }
+                controller.Data = _teams[i];
+                teamInstance.name = "Team "+i;
+                AddTeamToList(controller);
+            }
+        }
+        else
+        {
+            Debug.LogError("Attention aucune team n'a été configuré dans le levelmanager");
+        }
+    }
 
 
 

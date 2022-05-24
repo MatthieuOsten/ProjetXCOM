@@ -98,6 +98,8 @@ public class GridManager : MonoBehaviour
         plane.name = $"Case n°{_currentCellCreated} [{x};{y}]";
         // On init la case
         Case newCase = plane.GetComponent<Case>();
+        GameObject decal = plane.GetComponentInChildren<SpriteRenderer>().gameObject;
+        decal.transform.localScale = plane.transform.localScale;
         newCase.x = x; // On donne a la case ces coordonnées dans le tableau de la Grid
         newCase.y = y; // On donne a la case ces coordonnées dans le tableau de la Grid
 
@@ -185,10 +187,87 @@ public class GridManager : MonoBehaviour
         return cases;
     }
 
+
+    public static List<Case> GetRadiusCases(Case CurrentCase, int radius )
+    {
+        bool inside_circle(Case center, Case tile, float radius) 
+        {
+            int dx = center.x - tile.x,
+            dy = center.y - tile.y;
+            float distance  = Mathf.Sqrt(dx*dx + dy*dy);
+            return distance <= radius ;
+        }
+
+        List<Case> RadiusCase = new List<Case>();
+
+        // Pour eviter de checker toute la grille, on va faire un zone en carré pour délimiter
+        int xStart =  CurrentCase.x - radius;
+        int yStart =  CurrentCase.y - radius;
+        int xEnd =  CurrentCase.x + radius;
+        int yEnd =  CurrentCase.y + radius;
+
+        for (int y = yStart;  y <= yEnd; y++) {
+            for (int x = xStart; x <= xEnd; x++) {
+                Case caseToCheck = CurrentCase.GridParent.GetCase(x, y);
+                if ( caseToCheck != null && inside_circle(CurrentCase, caseToCheck, radius)) {
+                    RadiusCase.Add(caseToCheck);
+                    
+                }
+            }
+        }
+
+        return RadiusCase;
+    }
+
+     /// <summary> Reset toutes les cases de prévisualisation </summary>
+    public static void ResetCasesPreview(GridManager grid,Case startCase = null, Case endCase = null )
+    {
+        for (int x = 0; x < grid.SizeX; x++)
+        {
+            for (int y = 0; y < grid.SizeY; y++)
+            {
+                if (grid._grid[x, y] != endCase && grid._grid[x, y] != startCase)
+                {
+                    grid._grid[x, y].Checked = false;
+                    grid._grid[x, y].Highlighted = false;
+                    grid._grid[x, y].hCost = 0;
+                    grid._grid[x, y].gCost = 0;
+                    //grid._grid[x, y].ChangeMaterial(grid.Data.caseDefault);
+                }
+            }
+        }
+    }
+    public static void SetCasePreview(Case aCase, bool Reset = false)
+    {
+        if(GetValidCase(aCase) == null) return;
+        if(Reset)
+            ResetCasesPreview(aCase.GridParent); 
+        aCase.Highlighted = true;
+        aCase.ChangeMaterial(aCase.GridParent.Data.caseNone);
+
+    }
+    public static void SetCasePreview(List<Case> cases, bool Reset = false)
+    {
+        for(int i = 0 ; i < cases.Count ; i++)
+        {
+            SetCasePreview(cases[i], Reset);
+        }
+    }
+
+    void Start()
+    {
+        RegenerateCaseTable(); // Existe car entre le edit et runtime la table a double entrer foire // TODO : trouver une autre maniere
+
+    }
+
     // Update is called once per frame
     void Update()
     {
         RegenerateCaseTable(); // Existe car entre le edit et runtime la table a double entrer foire // TODO : trouver une autre maniere
+
+
+
+
         if (GenerateAGrid)
         {
             GenerateGrid();
@@ -200,6 +279,47 @@ public class GridManager : MonoBehaviour
             ResetGrid = false;
         }
 
+        
+        // On check si la taille de la grid a changé
+        if(_grid.GetLength(0) != SizeX || _grid.GetLength(1) != SizeY)
+        {
+            Case[,] tempGrid = new Case[SizeX, SizeY];
+            _currentCellCreated = 0;
+             // On genere les cases pour chaque coordonnée
+            for (int x = 0; x < SizeX; x++)
+            {
+                for (int y = 0; y < SizeY; y++)
+                {   
+                   // Debug.Log($"{_grid.GetLength(0)} && {_grid.GetLength(1)} with {x};{y}");
+                    if(x < _grid.GetLength(0) && y < _grid.GetLength(1) && _grid[x,y] != null)
+                    {
+                        tempGrid[x,y] = _grid[x,y];
+                    }
+                    else
+                    {
+                         tempGrid[x, y] = GenerateCase(x, y);
+                    }
+                   
+                    _currentCellCreated++;
+                }
+            }
+            
+            int childs = transform.childCount;
+                for (int i = childs - 1; i >= 0; i--)
+                {   
+                    Case child = transform.GetChild(i).GetComponent<Case>();
+                    if(child.x >= SizeX || child.y >= SizeY)
+                    {
+                        GameObject.DestroyImmediate(transform.GetChild(i).gameObject);
+                    }
+
+                    
+                }
+               
+          
+            _grid = tempGrid;
+            
+        }
         
     }
 

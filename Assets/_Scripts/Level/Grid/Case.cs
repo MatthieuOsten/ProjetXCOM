@@ -37,6 +37,8 @@ public class Case : MonoBehaviour
     public int fCost { get { return hCost + gCost; } }
     public Case ParentCase;
 
+     public float distance;
+
 
     [Header("Reference")]
     public Actor _actor; // Une reference de l'actor qui est dessus
@@ -78,6 +80,9 @@ public class Case : MonoBehaviour
             total.text = "" + (gCost + hCost);
             h.text = "" + hCost;
             g.text = "" + gCost;
+
+            if(distance > 0)
+                total.text = ""+distance;
         }
         else
         {

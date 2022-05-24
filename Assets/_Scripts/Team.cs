@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Team : MonoBehaviour , ITeam
 {
      string _name;
     public string Name {get { return _name; } set { _name = value; }}
+
+    [SerializeField] DataTeam _data; 
+    public DataTeam Data {protected get{return _data ;} set{ _data = value ;}}
+
     [SerializeField] bool _itsYourTurn;
     public bool ItsYourTurn {get { return _itsYourTurn; } 
     set { 
@@ -22,8 +27,10 @@ public class Team : MonoBehaviour , ITeam
     [SerializeField] Actor[] _squad;
     public Actor[] Squad{get{ return _squad;} set{ _squad = value;}}
 
-    [SerializeField] bool _spawnRandomlyActor = false;
+    [SerializeField] bool _spawnRandomlyActor = true;
     [SerializeField] protected GridManager _selectedGrid;
+
+    public List<MonoBehaviour> Scripts;
 
     public void SampleMethod(){
 
@@ -32,12 +39,17 @@ public class Team : MonoBehaviour , ITeam
     public virtual void Awake() {
         GameObject goGrid = GameObject.FindGameObjectWithTag("GridManager");
         if(goGrid != null) _selectedGrid = goGrid.GetComponent<GridManager>();
-
-        LevelManager.AddTeamToList(this);
    
     }
     // Start is called before the first frame update
     public virtual void Start()
+    {
+        
+        SpawnSquad();
+        InitEnemiTeam(); 
+    }
+
+    void InitEnemiTeam()
     {
          // Ajoute les teams ennemies    
         Team[] ennemies = new Team[0];
@@ -55,48 +67,39 @@ public class Team : MonoBehaviour , ITeam
             }
         }
         hisEnnemies = ennemies;
-        SpawnSquad();
-        
-
-        // // Indique ces ennemies
-        // Team[] ennemies = new Team[0];
-        // foreach(Team aTeam in AllTeams)
-        // {
-        //     if(aTeam != this)
-        //     {
-        //         Team[] newEnnemies = new Team[ennemies.Length+1];
-        //         for(int i = 0 ; i < newEnnemies.Length-1 ;i++)
-        //         {
-        //             newEnnemies[i] = ennemies[i];
-        //         }
-        //         newEnnemies[newEnnemies.Length-1 ] = aTeam;
-        //         ennemies = newEnnemies;
-        //     }
-        // }
-        // hisEnnemies = ennemies;
-
     }
 
     public void SpawnSquad()
     {
-        if(Squad == null || Squad.Length == 0)
+        if(Data.SquadComposition == null || Data.SquadComposition.Length == 0)
         {
             Debug.LogWarning($"Attention la team {typeof(Team)} n'a pas de personnages dans Squad");
             return;
         }
-        foreach(Actor actor in Squad)
+        Squad = new Actor[Data.SquadComposition.Length];
+        for(int i = 0; i < Data.SquadComposition.Length; i++)
         {
-            SpawnActor(actor);
-
+           Squad[i] = SpawnActor(Data.SquadComposition[i]);
         }
     }
-    public void SpawnActor(Actor actor)
+    public Character SpawnActor(DataCharacter character)
     {
+        // TODO, il faudra peut etre avoir un prefab de base pour les personnages
+        GameObject newCharacter = Instantiate(character._prefabBody);
+        Type TypeCharacter = Type.GetType(character.ClassName);
+        newCharacter.name = character.ClassName + " from "+this.GetType().Name;
+        Character component = (Character)newCharacter.AddComponent(TypeCharacter);
+        component.Owner = this;
+        component.Data = character;
+        
         if(_spawnRandomlyActor)
         {
-            actor.CurrentCase = _selectedGrid.GetRandomCase();
-            actor.transform.position = _selectedGrid.GetCaseWorldPosition(actor.CurrentCase.x, actor.CurrentCase.y);
+            Case aRandCase = _selectedGrid.GetRandomCase();
+            component.CurrentCase = aRandCase;
+            aRandCase._actor = component;
+            component.transform.position = _selectedGrid.GetCaseWorldPosition(component.CurrentCase.x, component.CurrentCase.y);
         }
+        return component;
     }
 
     // Update is called once per frame
