@@ -24,6 +24,6 @@ public interface ITeam
     /// <summary>
     /// Spawn le personnage
     /// </summary>
-    void SpawnActor(Actor actor);
+    Character SpawnActor(DataCharacter actor);
 
 }

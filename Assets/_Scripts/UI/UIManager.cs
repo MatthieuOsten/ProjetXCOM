@@ -79,7 +79,7 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         UpdateHintstring();
-        UpdateSubtitle();
+        //UpdateSubtitle();
         
         // if(LevelManager.Util.IsPaused)
         //     MenuPause.SetActive(true);
@@ -191,7 +191,7 @@ public class UIManager : MonoBehaviour
         component.relatedObject = aGameObject;
         component.MinDistance = minDistance;
         component.setting = SettingHintstring.AlwaysShow;
-        component.textComponent.text = message;
+        component.textComponent[0].text = message;
         if(icon == null)
         {
             component.icon.color = new Color(0,0,0,0);
@@ -212,7 +212,7 @@ public class UIManager : MonoBehaviour
         HintstringProperty component = hintString.GetComponent<HintstringProperty>();
         component.relatedObject = aGameObject;
         component.MinDistance = minDistance;
-        component.textComponent.text = message;
+        component.textComponent[0].text = message;
         
         return component;
     }
@@ -228,7 +228,7 @@ public class UIManager : MonoBehaviour
         HintstringProperty component = hintString.GetComponent<HintstringProperty>();
         component.relatedObject = aGameObject;
         component.MinDistance = minDistance;
-        component.textComponent.text = message;
+        component.textComponent[0].text = message;
         component.offset = new Vector3(-50, 150, 0);
 
         if (icon == null)
@@ -241,6 +241,29 @@ public class UIManager : MonoBehaviour
         return component;
     }
 
+    
+    public static HintstringProperty CreateBoxActorInfo(GameObject aGameObject, string message = "Actor Name", float minDistance = 50f , Sprite icon = null)    
+    {
+        if(aGameObject == null)
+        {
+            Debug.Log("Attempt to create a hintstring on a non existant object (message : "+message);
+            return null;
+        }
+        GameObject hintString = Instantiate(MessageBox, aGameObject.transform.position, Quaternion.identity, HintstringList.transform);
+        WidgetActorInfo component = hintString.GetComponent<WidgetActorInfo>();
+        component.relatedObject = aGameObject;
+        component.MinDistance = minDistance;
+        component.setting = SettingHintstring.AlwaysShow;
+        component.textComponent[0].text = message;
+        if(icon == null)
+        {
+            component.icon.color = new Color(0,0,0,0);
+        }
+        else
+            component.icon.sprite = icon;
+
+        return component;
+    }
 
     public void BackToMenu()
     {

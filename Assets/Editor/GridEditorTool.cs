@@ -143,7 +143,7 @@ public class GridEditorTool : EditorTool
             foreach (var transform in Selection.transforms)
             {
                 GridManager grid = transform.GetComponent<GridManager>();
-                Debug.Log(GetCurrentMousePositionInScene());
+                //Debug.Log(GetCurrentMousePositionInScene());
                 grid.EditCase(GetCurrentMousePositionInScene() , _caseStateToPaint);
 
                 // Alors je fais ce truc bledard car la case s'updatai pas

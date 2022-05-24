@@ -15,10 +15,11 @@ public interface IActor
     [SerializeField] Case CurrentCase { get; }
      ActorState State { get; set; }
     int Health { get;  }
+    Range Range {get;}
 
     void Death();
     void DoDamage(int amount);
-    void Attack();
+    void Attack(Actor target);
     void EnableAbility();
-    void AttackRange();
+    Case[] AttackRange();
 }

@@ -15,7 +15,7 @@ public class Character : Actor
             _ammo = value;
         }
     }
-    public DataCharacter Data { get { return _data; } }
+    public DataCharacter Data { get { return _data; } set{ _data = value;}}
 
     public override int Health { 
         
@@ -47,30 +47,22 @@ public class Character : Actor
     // Effectue une action a la mort du personnage //
     public override void Death()
     {
-        if (State == ActorState.Dead)
-        {
-            
-        }
+        base.Death();
     }
 
     // Effectue une action a lorsque le personnage prend des degats //
     public override void DoDamage(int amount)
     {
         Health -= amount;
-
-        // Si la vie du personnage est a z�ro, alors il effectue son action de mort
-        if (Data.Health == 0)
-        {
-            State = ActorState.Dead;
-            Death();
-        }
     }
 
 
     public override void Start()
     {
-        gameObject.AddComponent<LineRenderer>();
+        lr = gameObject.AddComponent<LineRenderer>();
         gameObject.AddComponent<RaycastCamera>();
+        Health = Data.Health; // init la vie
+        base.Start();
     }
 
     public override void Update() {
@@ -89,7 +81,7 @@ public class Character : Actor
     void OnMove()
     {
         // Si ca position correspond à la destination, on est bon        
-       
+    
 
         if(pathToFollow == null || pathToFollow.Length == 0)
             pathToFollow = PathFinding.FindPath(CurrentPos, Destination);
@@ -104,7 +96,7 @@ public class Character : Actor
         if(transform.position == GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]))
         {
             Case LastCase = pathToFollow[pathToFollow.Length-1];
-            if(LastCase != Destination)
+            if(LastCase != Destination || pathToFollow.Length == 0 || Destination == null)
             {
                 ResetDestination();
                 return;
@@ -114,7 +106,9 @@ public class Character : Actor
             CurrentPos = pathToFollow[_indexPath];
             CurrentPos._actor = this;
             _indexPath++;       
-            lr.positionCount = pathToFollow.Length - _indexPath;
+            int newIndex = pathToFollow.Length - _indexPath;
+            if( newIndex > 1) lr.positionCount = newIndex;
+            
             for(int i = 0 ; i < lr.positionCount; i++)
             {
                 //lr.SetPosition(i, GridManager.GetCaseWorldPosition(pathToFollow[_indexPath+i]));
@@ -136,6 +130,42 @@ public class Character : Actor
             }
 
         } 
+    }
+
+    public override Case[] AttackRange()
+    {
+        Range range = Data.weapons[0]._range;
+        List<Case> _range = new List<Case>((8*range.rightRange) + (8 * range.diagonalRange));
+        int actorX = CurrentCase.x;
+        int actorY = CurrentCase.y;
+        GridManager parent = CurrentCase.GridParent;
+        GridManager.ResetCasesPreview(parent);
+
+        switch(range.type)
+        {
+            case RangeType.Simple:
+                for(int i = 1 ; i < range.rightRange+1; i++)
+                {
+                    _range.Add(GridManager.GetCase(parent , actorX , actorY + (1 * i))); 
+                    _range.Add(GridManager.GetCase(parent , actorX+ (1 * i) , actorY)); // Case a droite
+                    _range.Add( GridManager.GetCase(parent , actorX- (1 * i) , actorY)); // Case a gauche
+                    _range.Add( GridManager.GetCase(parent , actorX , actorY- (1 * i))); // Case en bas
+                }
+                for(int i = 1 ; i < range.diagonalRange+1; i++)
+                {
+                    _range.Add(GridManager.GetCase(parent , actorX+ (1 * i) , actorY+ (1 * i))); // Case au dessus droite
+                    _range.Add(GridManager.GetCase(parent , actorX- (1 * i) , actorY+ (1 * i))); // Case au dessus gauche
+                    _range.Add( GridManager.GetCase(parent , actorX+ (1 * i) , actorY- (1 * i))); // Case en bas droite
+                    _range.Add( GridManager.GetCase(parent , actorX- (1 * i) , actorY- (1 * i))); // Case en bas gauche
+                }
+            break;
+            case RangeType.Radius:
+                _range = GridManager.GetRadiusCases(CurrentCase, range.rightRange);
+            break;
+        }
+        GridManager.SetCasePreview(_range);
+        return _range.ToArray();
+     
     }
     void ResetDestination()
     {
