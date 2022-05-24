@@ -45,13 +45,6 @@ public class Character : Actor
     public override void DoDamage(int amount)
     {
         Health -= amount;
-
-        // Si la vie du personnage est a z�ro, alors il effectue son action de mort
-        if (Data.Health == 0)
-        {
-            State = ActorState.Dead;
-            Death();
-        }
     }
 
 

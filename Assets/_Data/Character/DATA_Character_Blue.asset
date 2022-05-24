@@ -21,7 +21,7 @@ MonoBehaviour:
     type: 3}
   _tabCosmetic: []
   _tabAccessory: []
-  _health: 1
+  _health: 10
   _shield: 0
   _weapons:
   - {fileID: 11400000, guid: 4fcc35f68cac821489f34758a19ef60b, type: 2}

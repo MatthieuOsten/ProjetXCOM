@@ -142,7 +142,7 @@ public class LevelManager : MonoBehaviour
     // Cette function regarde si la team qui joue a terminé son tour
     void WatchController()
     {
-        if(listTeam[_currentTeamIndex].ItsYourTurn == false)
+        if(listTeam.Count > 0 && listTeam[_currentTeamIndex].ItsYourTurn == false)
         {
             EndTurn();
         }

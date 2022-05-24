@@ -39,7 +39,7 @@ public abstract class Actor : MonoBehaviour, IActor
         protected set {
 
             // Empeche la valeur d'aller en dessous de zero -- //
-            if (value > 0)
+            if (value >= 0)
             {
                 _health = value;
             }
@@ -55,11 +55,11 @@ public abstract class Actor : MonoBehaviour, IActor
     }
 
     public virtual  void Update() {
-        if(State == ActorState.Dead || Health == 0)
+        if(State == ActorState.Dead || Health <= 0)
             Death();
     }
     public virtual  void Start() {
-        
+        UIManager.CreateBoxActorInfo(gameObject, "test");
     }
 
 

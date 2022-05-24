@@ -6,7 +6,7 @@ public class PlayerController : Team
 {
     
     //Controller _inputManager;
-    [SerializeField] bool SelectMode;
+    [SerializeField] bool SelectMode = true;
     [SerializeField] bool AttackMode;
     [SerializeField] Case SelectedCaseA, SelectedCaseB;
     [SerializeField] Actor SelectedActor;
@@ -106,8 +106,10 @@ public class PlayerController : Team
         get { 
             List<GameObject> newListSquad = new List<GameObject>();
            
-                foreach(Actor actor in Squad)
-                    newListSquad.Add(actor.gameObject);
+            foreach(Actor actor in Squad)
+            {
+                if(actor != null) newListSquad.Add(actor.gameObject);
+            }    
             
             return newListSquad; 
             }
@@ -235,9 +237,9 @@ public class PlayerController : Team
             }
             if (_inputManager.TestGrid.Echap.IsPressed())
             {
-                SelectedCaseA.Highlighted = false;
+                if(SelectedCaseA != null) SelectedCaseA.Highlighted = false;
                 SelectedCaseA = null;
-                SelectedCaseB.Highlighted = false;
+                if(SelectedCaseB != null) SelectedCaseB.Highlighted = false;
                 SelectedCaseB = null;
                 SelectedActor = null;
             }
