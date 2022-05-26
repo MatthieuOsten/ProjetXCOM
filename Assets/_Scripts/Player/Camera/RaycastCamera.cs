@@ -10,9 +10,12 @@ public class RaycastCamera : MonoBehaviour
     [SerializeField] private Character _character;
     [SerializeField] private bool _detected = false;
 
+
+
     private void Start() {
         _character = gameObject.GetComponent<Character>();
         lr = gameObject.GetComponent<LineRenderer>();
+        playerController = (PlayerController)_character.Owner;
     }
     //[SerializeField] public GameObject getEnemy;
 
@@ -50,6 +53,8 @@ public class RaycastCamera : MonoBehaviour
 
     public List<GameObject> RaycastDetect(List<Character> enemy)
     {
+        if(enemy == null || enemy.Count == 0) return null;
+        
         if(playerController.OnVigilence)
         {
             RaycastHit hit;

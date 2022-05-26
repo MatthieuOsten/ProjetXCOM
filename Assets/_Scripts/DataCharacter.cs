@@ -26,7 +26,7 @@ public class DataCharacter : Data
     [SerializeField] private List<DataWeapon> _weapons;
     [SerializeField] private int _actionPoints = 2;
     [SerializeField] private int _movementCasesAction = 4;
-    public float MovementCasesAction{ get { return _movementCasesAction; }}
+    public int MovementCasesAction{ get { return _movementCasesAction; }}
     
     [Header("UI")]
     [SerializeField] private Sprite spriteTir;

@@ -101,4 +101,23 @@ public class UI : MonoBehaviour
             myText.enabled = true;
         }
     }
+
+    public void SetActionModeAttack()
+    {
+        _pC.SelectionMode = SelectionMode.Action;
+        _pC._actionTypeMode = ActionTypeMode.Attack;
+    }
+    public void SetActionModeOverwatch()
+    {
+        _pC._actionTypeMode = ActionTypeMode.Overwatch;
+    }
+    public void SetActionModeCompetence()
+    {
+        _pC._actionTypeMode = ActionTypeMode.Competence1;
+    }
+    public void SetActionModeCompetenceAlt()
+    {
+        _pC._actionTypeMode = ActionTypeMode.Competence2;
+    }
+    
 }

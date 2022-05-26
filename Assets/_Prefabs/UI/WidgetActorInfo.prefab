@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8376301905638832407}
   - component: {fileID: 8302547000309079934}
   - component: {fileID: 902844169328018555}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: JaugeProgression
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.31238377, g: 1, b: 0.023584902, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 1214320562730304173}
   - component: {fileID: 6205964829244061962}
   - component: {fileID: 7936455468875016240}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: ContourProgression
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 1080486140268629502}
   - component: {fileID: 37409807807515226}
   - component: {fileID: 6538615253894359930}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: bgProgression
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +212,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -237,7 +237,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 526526337069181670}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: WidgetJauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 830719802162639386}
   - component: {fileID: 2704525792431766652}
   - component: {fileID: 3894028840214963168}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -413,7 +413,7 @@ GameObject:
   - component: {fileID: 8123865611513818285}
   - component: {fileID: 8123865611513818284}
   - component: {fileID: 8123865611513818259}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -462,7 +462,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -488,7 +488,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8123865611639504048}
   - component: {fileID: 8498778995146570417}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: WidgetActorInfo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -554,7 +554,7 @@ GameObject:
   - component: {fileID: 8123865612418306451}
   - component: {fileID: 8123865612418306477}
   - component: {fileID: 8123865612418306476}
-  m_Layer: 5
+  m_Layer: 2
   m_Name: CharacterName
   m_TagString: Untagged
   m_Icon: {fileID: 0}

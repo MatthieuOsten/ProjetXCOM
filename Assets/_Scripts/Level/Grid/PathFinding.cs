@@ -115,7 +115,7 @@ public class PathFinding : MonoBehaviour
             currentNode = currentNode.ParentCase;
         }
         path.Reverse();
-        if(path.Count >= limitDistance)
+        if(limitDistance != -1 && path.Count >= limitDistance)
         {
             List<Case> patha = new List<Case>();
             for(int i = 0 ; i < limitDistance ; i++)
@@ -124,10 +124,11 @@ public class PathFinding : MonoBehaviour
             }
 
             GridManager.SetCasePreview(patha, true);
-            //return patha.ToArray();
+            //return path.ToArray();
+            return patha.ToArray();
             
         }
-        
+        GridManager.SetCasePreview(path, true);
         return path.ToArray();
     }
 }

@@ -27,7 +27,7 @@ MonoBehaviour:
   _weapons:
   - {fileID: 11400000, guid: 4fcc35f68cac821489f34758a19ef60b, type: 2}
   _actionPoints: 0
-  _movementCasesAction: 4
+  _movementCasesAction: 90
   spriteTir: {fileID: 21300000, guid: 0135e3d1b81285f48997c72fd061f8d8, type: 3}
   spriteVigilance: {fileID: 21300000, guid: fa24baa939b84ad47bcbddd283623c62, type: 3}
   spriteCompetence: {fileID: 21300000, guid: f9d826ed2cdfb594b916ba79efd8ad7e, type: 3}
