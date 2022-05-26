@@ -20,8 +20,8 @@ MonoBehaviour:
   _prefabWeapon: {fileID: 0}
   _tabCosmetic: []
   _tabAccessory: []
-  _typeW: 0
-  _damage: 0
+  _typeW: 1
+  _damage: 2
   _accuracy: 0
   _costPoint: 0
   _range:

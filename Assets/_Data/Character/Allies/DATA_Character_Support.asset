@@ -16,7 +16,7 @@ MonoBehaviour:
   description: 
   type: 
   tags: []
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: b0026bbb9fb1ed14eb2b67f8166dbdf5, type: 3}
   _prefabBody: {fileID: 8067521322994565020, guid: 9b652cfa7f83ce54fa6e3f5d3d7367f0,
     type: 3}
   _tabCosmetic: []
@@ -38,7 +38,6 @@ MonoBehaviour:
   spriteVigilance: {fileID: 21300000, guid: fa24baa939b84ad47bcbddd283623c62, type: 3}
   spriteCompetence: {fileID: 21300000, guid: 1e08dbd0de1d24b4fa9ac49c8b10c0fe, type: 3}
   spriteCompetence2: {fileID: 21300000, guid: b938362154adb7647b816e89388f2492, type: 3}
-  icone: {fileID: 21300000, guid: 09ff2c9da44bcb740befe466a832c257, type: 3}
   pointAction: {fileID: 0}
   ammo: {fileID: 0}
   ClassName: Actor_Support

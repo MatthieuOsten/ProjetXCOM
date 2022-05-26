@@ -18,7 +18,7 @@ MonoBehaviour:
     et sa port\xE9 d\u2019attaque faible/au CAC"
   type: 
   tags: []
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 4e275cc6fe38f5d48b9b64ca141e10d8, type: 3}
   _prefabBody: {fileID: 8067521322994565020, guid: 9b652cfa7f83ce54fa6e3f5d3d7367f0,
     type: 3}
   _tabCosmetic: []
@@ -29,7 +29,7 @@ MonoBehaviour:
   _moveSpeed: 10
   _weapons:
   - {fileID: 11400000, guid: 61d8fc8d029515b4eab4b8a47d10ce02, type: 2}
-  _actionPoints: 1
+  _actionPoints: 2
   _movementCasesAction: 3
   CostAttack: 1
   CostVigilance: 1
@@ -40,7 +40,6 @@ MonoBehaviour:
   spriteVigilance: {fileID: 21300000, guid: fa24baa939b84ad47bcbddd283623c62, type: 3}
   spriteCompetence: {fileID: 21300000, guid: f9d826ed2cdfb594b916ba79efd8ad7e, type: 3}
   spriteCompetence2: {fileID: 0}
-  icone: {fileID: 21300000, guid: 879eb3196bae02649b9360b472267f9d, type: 3}
   pointAction: {fileID: 0}
   ammo: {fileID: 21300000, guid: 301fe569da9047c4988d46c1707ea4e5, type: 3}
   ClassName: Actor_Tank
