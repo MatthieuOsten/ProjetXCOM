@@ -131,8 +131,13 @@ public class LevelManager : MonoBehaviour
             WatchPointControlsPurified();
             WatchController();
         }
+        int howManyTeam = 0;
+        foreach(Team _team in listTeam)
+        {
+            if (_team != null) howManyTeam++;
+        }
 
-        if(listTeam.Count <= 1)
+        if(howManyTeam <= 1)
         {
             UIManager.CreateSubtitle("END GAME");
             Gameover = true;
