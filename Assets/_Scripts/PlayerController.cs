@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum SelectionMode
@@ -517,16 +518,16 @@ public class PlayerController : Team
         }
     }
 
-    void WatcherAttack()
-    {
-        if (Attack)
-        {
-            if (SelectedActor != null && EnemyDetected[EnemyDetectedIndex] != null)
-                SelectedActor.Attack(EnemyDetected[EnemyDetectedIndex].GetComponent<Actor>());
+    //void WatcherAttack()
+    //{
+    //    if (Attack)
+    //    {
+    //        if (SelectedActor != null && EnemyDetected[EnemyDetectedIndex] != null)
+    //            SelectedActor.Attack(EnemyDetected[EnemyDetectedIndex].GetComponent<Actor>());
 
-            Attack = false;
-        }
-    }
+    //        Attack = false;
+    //    }
+    //}
 
     void CameraIsometricUpdate()
     {
@@ -681,6 +682,13 @@ public class PlayerController : Team
     //Permet de changer de character
     public void CharacterChange()
     {
+        //Si tout les persos sont morts, on entre dans ce if.       
+        if (CharacterPlayer.Any(y => y == null))
+        {
+            Debug.Log("Tout les perso sont mort");
+            LevelManager.Instance.PassedTurn = true;
+        }
+
         if (!_onEnemy)
         {
             CharacterIndex++;
@@ -689,7 +697,15 @@ public class PlayerController : Team
 
         if (CharacterIndex >= CharacterPlayer.Count)
         {
+
             CharacterIndex = 0;
+            
+        }
+        // On vérifie que le character n'est pas null 
+        if (CharacterPlayer[CharacterIndex] == null) 
+        {
+            CharacterChange();
+            return;
         }
         SelectedActor = CharacterPlayer[CharacterIndex].GetComponent<Character>();
     }
