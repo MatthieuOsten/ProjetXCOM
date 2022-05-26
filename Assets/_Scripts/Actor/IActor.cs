@@ -13,7 +13,7 @@ public interface IActor
 {
     [Tooltip("Correspond à la case ou il se trouve")]
     [SerializeField] Case CurrentCase { get; }
-     ActorState State { get; set; }
+    [SerializeField] ActorState State { get; set; }
     int Health { get;  }
     //Range Range {get;}
 

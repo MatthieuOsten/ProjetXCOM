@@ -7,29 +7,15 @@ public class Character : Actor
     [SerializeField] private DataCharacter _data;
     [SerializeField] private int _ammo;
 
-    public int Ammo
-    {
-        get { return _ammo; }
-        set
-        {
-            _ammo = value;
-        }
-    }
+    public int Ammo{    get { return _ammo; }
+                        set{ _ammo = value; } }
     public DataCharacter Data { get { return _data; } set{ _data = value;}}
 
-    public override int Health { 
-        
-        get { return base.Health; } 
-        
-        protected set {
-
-            // Empeche la vie de monter au dessus du maximum
-            if (value > Data.Health)
-            {
-                value = Data.Health;
-            }
-
-            base.Health = value; 
+    public override int Health {  
+                    get { return base.Health; } 
+        protected   set {   // Empeche la vie de monter au dessus du maximum
+                            if (value > Data.Health) value = Data.Health;
+                            base.Health = value; 
         } 
     
     }
@@ -39,7 +25,6 @@ public class Character : Actor
         get{return pathToFollow.Length > 0; }
     }
 
-    // Clix properties
     public Case StartPos;
     public Case Destination;
     [SerializeField] public Case CurrentPos { get { return CurrentCase; } set{ CurrentCase = value;} }

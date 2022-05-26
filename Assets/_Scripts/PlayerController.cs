@@ -220,6 +220,7 @@ public class PlayerController : Team
                 WatchAttack(); // Afficher la zone de dégat du personnage
                 break;
             case ActionTypeMode.Overwatch:
+                ExecOverWatch();
                 break;
             case ActionTypeMode.Competence1:
                 break;
@@ -246,7 +247,7 @@ public class PlayerController : Team
                             ExecAttack(); // Execute l'action sur la case selected
                             break;
                         case ActionTypeMode.Overwatch:
-                            ExecOverWatch();
+                            
                             break;
                         case ActionTypeMode.Competence1:
                             break;

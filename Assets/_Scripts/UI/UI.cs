@@ -119,5 +119,9 @@ public class UI : MonoBehaviour
     {
         _pC._actionTypeMode = ActionTypeMode.Competence2;
     }
-    
+    public void EndTurn()
+    {
+        LevelManager.Instance.PassedTurn = true;
+    }
+
 }
