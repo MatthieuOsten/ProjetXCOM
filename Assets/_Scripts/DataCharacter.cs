@@ -60,6 +60,7 @@ public class DataCharacter : Data
         get { return ammo; }
     }
 
+    public Color Color { get { return _color; } }
     public Sprite SpriteCompetence2
     {
         get { return spriteCompetence2; }

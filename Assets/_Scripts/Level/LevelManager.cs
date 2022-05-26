@@ -45,7 +45,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] DataTeam[] _teams;
     
 
-    [SerializeField] int _currentTurn;
+    [SerializeField] private int _currentTurn;
 
     [SerializeField] int _currentTeamIndex;
     [SerializeField] PointControl[] PointControls;
@@ -72,7 +72,7 @@ public class LevelManager : MonoBehaviour
     {
         SpawnTeam();
     }
-
+    /// <summary> Cette fonction spawn une Team en tant que Joueur ou Bot </summary>
     void SpawnTeam()
     {
         if(_teams.Length > 0)
@@ -118,8 +118,6 @@ public class LevelManager : MonoBehaviour
         
         listTeam[_currentTeamIndex].ItsYourTurn = true;
         listTeam[_currentTeamIndex].StartTurn();
-       
-
     }
 
     // Update is called once per frame
@@ -131,13 +129,18 @@ public class LevelManager : MonoBehaviour
             WatchPointControlsPurified();
             WatchController();
         }
+        WatchLastSurvivor();
+    }
+    /// <summary> Regarde la derniere team en vie, si c'est le cas, gameover </summary>
+    void WatchLastSurvivor()
+    {
         int howManyTeam = 0;
-        foreach(Team _team in listTeam)
+        foreach (Team _team in listTeam)
         {
             if (_team != null) howManyTeam++;
         }
 
-        if(howManyTeam <= 1)
+        if (howManyTeam <= 1)
         {
             UIManager.CreateSubtitle("END GAME");
             Gameover = true;
@@ -154,7 +157,7 @@ public class LevelManager : MonoBehaviour
             PassedTurn = false;
         } 
     }
-    // Cette function regarde si la team qui joue a terminé son tour
+    /// <summary> Cette function regarde si la team qui joue a terminé son tour</summary>
     void WatchController()
     {
         if(listTeam.Count > 0 && listTeam[_currentTeamIndex].ItsYourTurn == false)
@@ -162,9 +165,9 @@ public class LevelManager : MonoBehaviour
             EndTurn();
         }
     }
-    /*
-        Cette function regardera si tout les points de controle sont purifiés
-    */
+
+       
+   /// <summary> Cette function regardera si tout les points de controle sont purifiés </summary>
     void WatchPointControlsPurified()
     {
         bool endGame = false;

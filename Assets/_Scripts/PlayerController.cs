@@ -385,14 +385,18 @@ public class PlayerController : Team
                     break;
             }
 
-          
+            // On regarde les inputs lié à la caméra
             InputCameraIsometric();
 
+            // Si un actor est selectionner on met en surbrillance sa case
             if (SelectedActor != null)
             {
                 SelectedActor.CurrentCase.Highlighted = true;
-                SelectedActor.CurrentCase.ChangeMaterial(SelectedActor.CurrentCase.GridParent.Data.caseSelected);
-
+                Material mtl = new Material(SelectedActor.CurrentCase.GridParent.Data.caseSelected);
+            
+                Character _char = (Character)SelectedActor;
+                mtl.SetColor("_EmissiveColor", _char.Data.Color);
+                SelectedActor.CurrentCase.ChangeMaterial(mtl);
             }
 
         }
