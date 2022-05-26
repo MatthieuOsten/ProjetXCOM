@@ -78,6 +78,12 @@ public class Character : Actor
         {
             //_indexPath = 0;
         }
+
+        // Si en overwatch on dessine les cases ou il regarde
+        if(State == ActorState.Overwatch) 
+        {
+            AttackRange();
+        }
     }
 
     public void SetDestination(Case[] path = null)

@@ -20,13 +20,18 @@ public struct Range
 }
 public abstract class Actor : MonoBehaviour, IActor
 {
+    [Header("Actor Info")]
+    [Tooltip("Correspond à la case ou il se trouve")]
     [SerializeField] Case currentCase;
-    ActorState state = ActorState.Alive;
-     [SerializeField] private int _health;
+    [Tooltip("L'état actuelle du personnage")]
+    [SerializeField] ActorState state = ActorState.Alive;
+    [Tooltip("Vie du personnage")]
+    [SerializeField] private int _health;
+    [Tooltip("La team auquelle le personnage appartient")]
     public Team Owner;
 
-    [SerializeField] Range _range;
-    public virtual Range Range{get { return _range; }  set{ _range = value;} }
+    //[SerializeField] Range _range;
+    //public virtual Range Range{get { return _range; }  set{ _range = value;} }
 
     public virtual Case CurrentCase { get { return currentCase; }  set{ currentCase = value;} }
 
@@ -54,13 +59,15 @@ public abstract class Actor : MonoBehaviour, IActor
         } 
     }
 
-    public virtual  void Update() {
+    public virtual  void Update() 
+    {
         if(State == ActorState.Dead || Health <= 0)
             Death();
     }
-    public virtual  void FixedUpdate() {
-    }
-    public virtual  void Start() {
+    public virtual  void FixedUpdate() {}
+    public virtual  void Start() 
+    {
+        // Permet de crée la bulle d'information au dessus du personnage
         UIManager.CreateBoxActorInfo(gameObject, "test");
     }
 

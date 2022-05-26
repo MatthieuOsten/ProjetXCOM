@@ -49,6 +49,18 @@ public class Team : MonoBehaviour , ITeam
         InitEnemiTeam(); 
     }
 
+    public virtual void StartTurn()
+    {
+        foreach(Actor _actor in Squad)
+        {
+            // Si le personnage est en overwatch, on lui remet alive lorsque son tour a repris
+            // Mais est vraiment nécessaire ? on verra 
+            if (_actor.State == ActorState.Overwatch)
+                _actor.State = ActorState.Alive;
+
+        }
+    }
+
     void InitEnemiTeam()
     {
          // Ajoute les teams ennemies    

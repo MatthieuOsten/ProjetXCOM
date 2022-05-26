@@ -53,9 +53,7 @@ public class LevelManager : MonoBehaviour
 
     [Header("Debug")]
     public List<Team> StaticlistTeam = new List<Team>();
-    /// <summary>
-    /// Permet de passer le tour au joueur actuel.
-    /// </summary>
+    /// <summary> Permet de passer le tour au joueur actuel./// </summary>
     public bool PassedTurn;
 
 
@@ -103,11 +101,10 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    /// <summary> Permet de renvoyer la team qui doit jouer </summary>
     public static Team GetCurrentController()
     {
         return listTeam[Instance._currentTeamIndex];
-
-        
     }
 
     void EndTurn()
@@ -119,6 +116,7 @@ public class LevelManager : MonoBehaviour
             _currentTeamIndex = 0;
         
         listTeam[_currentTeamIndex].ItsYourTurn = true;
+        listTeam[_currentTeamIndex].StartTurn();
 
     }
 
@@ -136,7 +134,6 @@ public class LevelManager : MonoBehaviour
     void DebugWatcher()
     {
         StaticlistTeam = listTeam;
-        //Debug.Log(listTeam.Count);  
 
         if(PassedTurn)
         {

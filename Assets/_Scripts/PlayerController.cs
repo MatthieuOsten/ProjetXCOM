@@ -4,13 +4,14 @@ using UnityEngine;
 
 public enum SelectionMode
 {
-    Selection,
-    Action
+    Selection, // Permet la selection d'actor
+    Action  // Permet de réaliser une action avec l'actor sélectionner
 }
 
-
+/// <summary> Correspond aux actions selectionner dans la phase action </summary>
 public enum ActionTypeMode
 {
+    None,
     Attack,
     Overwatch,
     Competence1,
@@ -19,8 +20,6 @@ public enum ActionTypeMode
 
 public class PlayerController : Team
 {
-
-    //Controller _inputManager;
     [SerializeField] bool SelectMode = true;
     [SerializeField] bool AttackMode;
     [SerializeField] Case SelectedCaseA, SelectedCaseB;
@@ -34,31 +33,23 @@ public class PlayerController : Team
     [SerializeField] private Controller _inputManager;
     [SerializeField] private RaycastCamera raycastCamera;
 
-
-    //[SerializeField] private CameraShoulder cameraShoulder;
-
     [Header("BOOLS")]
     [SerializeField] private bool _leftHand = false;
     [SerializeField] private bool _onEnemy = false;
     [SerializeField] private bool _canMoveCam;
     [SerializeField] private bool _onVigilence = false;
 
-    // [SerializeField] private bool _canLook = false;
-
     [Header("LIST")]
-    //[SerializeField] private List<GameObject> _characterPlayer; On utilise Squad maintenant property hérité de Team.cs
     [SerializeField] private int _characterIndex = 0;
-    //[SerializeField] private List<GameObject> _virtualCamShoulder;   
-    //[SerializeField] private List<GameObject> _enemy; On utilise hisEnnemies maintenant property hérité de Team.cs
     [SerializeField] private int _enemyIndex = 0;
     [SerializeField] private List<GameObject> _enemyDetected;
     [SerializeField] private int _enemyDetectedIndex = 0;
 
-    [Header("CHARACTER ACTION")]
+    [Header("MODE")]
     [SerializeField] public SelectionMode _selectedMode;
     [SerializeField] public ActionTypeMode _actionTypeMode;
 
-    [SerializeField] bool Attack, Vigilance;
+    [SerializeField] bool Attack, Vigilance; // TODO : a enlever
 
 
 
@@ -92,6 +83,9 @@ public class PlayerController : Team
             _enemyDetected = value;
         }
     }
+
+    // TODO : il faudra renvoyer cette function team
+    /// <summary> Renvoi une liste de tout les ennemies </summary>
     public List<GameObject> Enemy
     {
         get
@@ -129,14 +123,6 @@ public class PlayerController : Team
             _enemyDetectedIndex = value;
         }
     }
-    /* public List<GameObject> VirtualCamShoulder
-     {
-         get { return _virtualCamShoulder; }
-         set
-         {
-             _virtualCamShoulder = value;
-         }
-     }*/
     public List<GameObject> CharacterPlayer
     {
         get
@@ -145,6 +131,7 @@ public class PlayerController : Team
 
             foreach (Actor actor in Squad)
             {
+
                 if (actor != null) newListSquad.Add(actor.gameObject);
             }
 
@@ -175,9 +162,6 @@ public class PlayerController : Team
         }
     }
 
-    /*
-        Regarde ce que la souris touche
-    */
 
     public override void Awake()
     {
@@ -188,15 +172,13 @@ public class PlayerController : Team
     {
         base.Start();
         if (cameraIsometric == null) cameraIsometric = GameObject.FindObjectsOfType<CameraIsometric>()[0];
-        //EnableInputManager();
         EnemyDetected = new List<GameObject>();
-
     }
 
     void EnableInputManager()
     {
         if (_inputManager == null) _inputManager = new Controller();
-
+        // On active les différents inputs
         _inputManager.TestGrid.Enable();
         _inputManager.ControlCamera.Enable();
     }
@@ -207,21 +189,18 @@ public class PlayerController : Team
         _inputManager.TestGrid.Disable();
         _inputManager.ControlCamera.Disable();
     }
-
+    /// <summary> Retourne la position de la souris dans le monde 3D </summary> 
     Vector3 MouseToWorldPosition()
     {
         RaycastHit RayHit;
         Ray ray;
-        GameObject ObjectHit;
         Vector3 Hitpoint = Vector3.zero;
         ray = Camera.main.ScreenPointToRay(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>());
         if (Physics.Raycast(ray, out RayHit))
         {
-            ObjectHit = RayHit.transform.gameObject;
             Hitpoint = new Vector3(RayHit.point.x, RayHit.point.y, RayHit.point.z);
-            if (ObjectHit != null)
+            if (Hitpoint != null)
                 Debug.DrawLine(Camera.main.transform.position, Hitpoint, Color.blue, 0.5f);
-
         }
 
         return Hitpoint;
@@ -250,15 +229,16 @@ public class PlayerController : Team
         // On affiche la case que l'on vise
         AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected); 
         // Ce qui se passe lorsque l'on appui sur le bouton
-        if (_inputManager.TestGrid.Action.IsPressed() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
+        if (_inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {
             // Si une seconde case est deja selectionner mais que ce n'est pas celle qu'on vise, on reset les prévisualisation
             if (SelectedCaseB != null && SelectedCaseB != AimCase) GridManager.ResetCasePreview(SelectedCaseB);
             
             SelectedCaseB = AimCase;
             // Si la seconde case est bien selectionner alors on active la prévisualisation
-            if (SelectedCaseB != null){
-                GridManager.SetCasePreview(SelectedCaseB, false);
+            if (SelectedCaseB != null)
+            {
+                GridManager.SetCasePreview(SelectedCaseB, false); 
                 // Une fois la case selectionner, on peut executer l'action voulu
                     switch (_actionTypeMode)
                     {
@@ -266,24 +246,29 @@ public class PlayerController : Team
                             ExecAttack(); // Execute l'action sur la case selected
                             break;
                         case ActionTypeMode.Overwatch:
+                            ExecOverWatch();
                             break;
                         case ActionTypeMode.Competence1:
                             break;
                         case ActionTypeMode.Competence2:
                             break;
                     }
+                    
             }
 
         
 
         }
+        // quand le joueur press Echap en mode action, il retourn en mode Selection,
+        // les précedentes cases sélectionner sur clean
         if (_inputManager.TestGrid.Echap.IsPressed())
         {
-            Debug.Log("Oye 2");
+            Debug.Log("Echap in Action Mode");
             SelectedCaseA = null;
             SelectedCaseB = null;
-            //SelectedActor = null;
+
             GridManager.ResetCasesPreview(_selectedGrid);
+            // On force la mode selection
             _selectedMode = SelectionMode.Selection;
         }
     }
@@ -312,7 +297,14 @@ public class PlayerController : Team
             // On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
             if(EnemyDetected.Contains(SelectedCaseB._actor.gameObject))
                 SelectedActor.Attack(SelectedCaseB._actor);
+
+            SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
         }
+    }
+
+    void ExecOverWatch()
+    {
+        SelectedActor.State = ActorState.Overwatch;
     }
     void SelectionWatcher()
     {
@@ -439,14 +431,15 @@ public class PlayerController : Team
             }
         }
     }
-
+    // Update() qui override Update() de Team 
     public override void Update()
     {
         if (_inputManager == null) EnableInputManager();
         if (ItsYourTurn)
         {
+            // C'est notre tour du coup on active l'inputManager
             EnableInputManager();
-         
+            // On regarde dans quelle selected mode nous sommes
             switch (_selectedMode)
             {
                 case SelectionMode.Selection:
@@ -457,7 +450,7 @@ public class PlayerController : Team
                     break;
             }
 
-            WatcherAttack();
+           // WatcherAttack(); TODO : Peut etre inutile maintenant
 
             // if (SelectedActor != null && SelectedCaseA != SelectedActor.CurrentCase)
             // {
@@ -497,10 +490,6 @@ public class PlayerController : Team
     }
     private void FixedUpdate()
     {
-
-        //raycastCamera.RaycastDetect(Enemy, _enemyDetected);
-        //Donne les arguments a MoveToCharacter
-
         if (ItsYourTurn)
         {
             CameraIsometricUpdate();
@@ -509,8 +498,6 @@ public class PlayerController : Team
         {
             DisableInputManager();
         }
-
-
     }
 
     void WatcherAttack()

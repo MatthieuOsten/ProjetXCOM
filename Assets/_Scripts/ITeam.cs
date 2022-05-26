@@ -5,25 +5,15 @@ using UnityEngine;
 public interface ITeam 
 {
     string Name{get; set;}
-
-     //ITeam[] Team{get; set;}
-
     Actor[] Squad{get; set;}
+    /// <summary> Indique si la team peut jouer ou non </summary>
     bool ItsYourTurn{get; set;}
-    /*
-         static ITeam[] allTeams;
-
-     IActor[] Squad;
-     bool ItsYourTurn;
-    */
-    
-    /// <summary>
-    /// Spawn l'escouade de la team sur la grille
-    /// </summary>
+    /// <summary> Spawn l'escouade de la team sur la grille </summary>
     void SpawnSquad();
-    /// <summary>
-    /// Spawn le personnage
-    /// </summary>
+    /// <summary> Spawn le personnage à partir des DataCharacter </summary>
     Character SpawnActor(DataCharacter actor);
+
+    /// <summary> Cette fonction se lance quand c'est le tour de la team </summary>
+    void StartTurn();
 
 }
