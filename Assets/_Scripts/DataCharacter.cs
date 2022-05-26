@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "NewCharacter", menuName = "ScriptableObjects/Character", order = 2)]
+[CreateAssetMenu(fileName = "DATA_char_", menuName = "ScriptableObjects/Character", order = 2)]
 [System.Serializable]
 public class DataCharacter : Data
 {
@@ -13,6 +13,7 @@ public class DataCharacter : Data
     [SerializeField] public GameObject _prefabBody;
     [SerializeField] private List<DataCosmetic> _tabCosmetic;
     [SerializeField] private List<DataAccessory> _tabAccessory;
+    [SerializeField] Color _color;
 
     [Header("STATS")]
     [SerializeField] private int _health = 1; // Vie quand le personnage spawn
@@ -24,10 +25,23 @@ public class DataCharacter : Data
 
     [Header("CAPACITY")]
     [SerializeField] private List<DataWeapon> _weapons;
+    [Range(1, 10)]
     [SerializeField] private int _actionPoints = 2;
     [SerializeField] private int _movementCasesAction = 4;
     public int MovementCasesAction{ get { return _movementCasesAction; }}
-    
+
+    [Header("COST ACTION")]
+    [Range(1, 10)]
+    public int CostAttack = 1;
+    [Range(1, 10)]
+    public int CostVigilance = 1;
+    [Range(1, 10)]
+    public int CostCompetence = 1;
+    [Range(1, 10)]
+    public int CostCompetenceAlt = 1;
+    [Range(1, 10)]
+    public int CostReload = 1;
+
     [Header("UI")]
     [SerializeField] private Sprite spriteTir;
     [SerializeField] private Sprite spriteVigilance;

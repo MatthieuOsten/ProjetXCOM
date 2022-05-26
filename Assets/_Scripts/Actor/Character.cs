@@ -22,7 +22,11 @@ public class Character : Actor
 
     public bool IsMoving
     {
-        get{return pathToFollow.Length > 0; }
+        get{return pathToFollow != null && pathToFollow.Length > 0; }
+    }
+    public bool CanAction
+    {
+        get { return _currentActionPoint > 0; }
     }
 
     public Case StartPos;
@@ -30,9 +34,11 @@ public class Character : Actor
     [SerializeField] public Case CurrentPos { get { return CurrentCase; } set{ CurrentCase = value;} }
 
 
+    public int _currentActionPoint;
+
     [SerializeField] Case[] pathToFollow;
     LineRenderer lr;
-     [SerializeField] int _indexPath = 0;
+    [SerializeField] int _indexPath = 0;
 
     // Effectue une action a la mort du personnage //
     public override void Death()
@@ -52,7 +58,11 @@ public class Character : Actor
         Health = Data.Health; // init la vie
         base.Start();
     }
-
+    /// <summary> Cette fonction est lancée lorsqu'un nouveau tour commence </summary>
+    public virtual void Reinit()
+    {
+        _currentActionPoint = Data.ActionPoints;
+    }
 
     public override void Update() {
         if(pathToFollow != null)
@@ -74,6 +84,11 @@ public class Character : Actor
     public void SetDestination(Case[] path = null)
     {
         pathToFollow = path;
+        _currentActionPoint--;
+    }
+    public override void Attack(Actor target)
+    {
+        _currentActionPoint--;
     }
     void OnMove()
     {
@@ -155,7 +170,17 @@ public class Character : Actor
             break;
         }
         GridManager.SetCasePreview(_range);
-        return _range.ToArray();
+
+        List<Case> _cases = new List<Case>();
+        // Permet de verifier que l'on donne pas des cases inutiles
+        foreach(Case _case in _range)
+        {
+            if (_case != null )
+                _cases.Add(_case);
+        }
+
+
+        return _cases.ToArray();
      
     }
     void ResetDestination()

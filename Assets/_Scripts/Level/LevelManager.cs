@@ -117,6 +117,7 @@ public class LevelManager : MonoBehaviour
         
         listTeam[_currentTeamIndex].ItsYourTurn = true;
         listTeam[_currentTeamIndex].StartTurn();
+       
 
     }
 

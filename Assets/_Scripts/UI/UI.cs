@@ -18,6 +18,8 @@ public class UI : MonoBehaviour
     [SerializeField] private List<Image> _ammo;
     TextMeshProUGUI myText;
     [SerializeField] private GameObject _textCompetence2;
+
+    [SerializeField] private TextMeshProUGUI _textDebug;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +33,31 @@ public class UI : MonoBehaviour
 
         ShadeBar();
         AdaptBar();
+
+
+        if (_pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>() == null)
+        {
+            _textDebug.text = "";
+            return;
+        }
+        string debugString = "";
+        /*
+            Character : Name
+            Action Point : i / i
+            Health : 1 / 1
+            State : Alive
+            Ammo : 2/2
+        */
+        Character _char = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>();
+        DataCharacter data = _char.Data;
+
+        debugString += $"Character :{data.name} \n";
+        debugString += $"Action Point :  {_char._currentActionPoint} / {data.ActionPoints} \n";
+        debugString += $"Health : {_char.Health} \n";
+        debugString += $"State :{_char.State} \n";
+        debugString += $"Ammo :{_char.Ammo} /  \n";
+        _textDebug.text = debugString;
+
     }
 
     private void ShadeBar()

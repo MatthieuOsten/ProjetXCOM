@@ -51,12 +51,15 @@ public class Team : MonoBehaviour , ITeam
 
     public virtual void StartTurn()
     {
-        foreach(Actor _actor in Squad)
+        UIManager.CreateSubtitle($"C'est à l'équipe {Data.name} de jouer", 4);
+        foreach (Character _actor in Squad)
         {
             // Si le personnage est en overwatch, on lui remet alive lorsque son tour a repris
             // Mais est vraiment nécessaire ? on verra 
             if (_actor.State == ActorState.Overwatch)
                 _actor.State = ActorState.Alive;
+
+            _actor.Reinit();
 
         }
     }

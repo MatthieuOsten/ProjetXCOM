@@ -212,7 +212,16 @@ public class PlayerController : Team
         int x = (int)Mathf.Round(mousePos.x / _selectedGrid.CellSize);
         int y = (int)Mathf.Round(mousePos.z / _selectedGrid.CellSize);
         Case AimCase = GridManager.GetValidCase(GridManager.GetCase(_selectedGrid, x, y));
-        
+
+        Character guy = (Character)SelectedActor;
+        if (!guy.CanAction)
+        {
+            Debug.Log($"Le personnage {guy.name} n'a plus de point d'action");
+            // On force la mode selection
+            _selectedMode = SelectionMode.Selection;
+            return;
+        }
+
         // Ici on est en pre action
         switch (_actionTypeMode)
         {
@@ -281,12 +290,16 @@ public class PlayerController : Team
             EnemyDetected = new List<GameObject>();
             foreach (Case aCase in SelectedActor.AttackRange())
             {
-                Actor actorToCheck = aCase._actor;
-                if (actorToCheck != null && actorToCheck.Owner != this)
+                if(aCase._actor != null)
                 {
-                    // TODO : ajouter un raycast pour checker si il ya pas un model devant
-                    EnemyDetected.Add(actorToCheck.gameObject);
+                    Actor actorToCheck = aCase._actor;
+                    if (actorToCheck != null && actorToCheck.Owner != this)
+                    {
+                        // TODO : ajouter un raycast pour checker si il ya pas un model devant
+                        EnemyDetected.Add(actorToCheck.gameObject);
+                    }
                 }
+               
             }
         }
     }
@@ -323,8 +336,11 @@ public class PlayerController : Team
         {
             if (SelectedActor is Character)
             {
-                yo = (Character)SelectedActor;   
-            pathSuggested = PathFinding.FindPath(SelectedActor.CurrentCase, AimCase, yo.Data.MovementCasesAction );
+                yo = (Character)SelectedActor;
+                if (yo.CanAction)
+                    pathSuggested = PathFinding.FindPath(SelectedActor.CurrentCase, AimCase, yo.Data.MovementCasesAction);
+                else
+                    UIManager.CreateSubtitle("Point d'action insuffisant pour ce personnage", 4);
 
             }
         }
@@ -333,9 +349,9 @@ public class PlayerController : Team
 
         }
 
-        if (_inputManager.TestGrid.Action.IsPressed() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
+        if (_inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {
-            if (pathSuggested != null && yo != null && pathSuggested.Length > 0)
+            if (pathSuggested != null && yo != null && pathSuggested.Length > 0 && !yo.IsMoving)
             {
                 yo.SetDestination(pathSuggested);
                 return;
@@ -347,7 +363,7 @@ public class PlayerController : Team
             if (SelectedCaseA != null && (pathSuggested == null || pathSuggested.Length == 0))
             {
                 GridManager.SetCasePreview(SelectedCaseA, true);
-                if (SelectedActor == null)
+                if (SelectedActor == null && SelectedCaseA._actor.Owner == this) // On check si l'actor appartient à celui de la team
                     SelectedActor = SelectedCaseA._actor;
             }
 
@@ -365,73 +381,73 @@ public class PlayerController : Team
         }
     }
 
-    void WatchCursor()
-    {
-        Vector3 mousePos = MouseToWorldPosition();
-        int x = (int)Mathf.Round(mousePos.x / _selectedGrid.CellSize);
-        int y = (int)Mathf.Round(mousePos.z / _selectedGrid.CellSize);
-        Case AimCase = GridManager.GetValidCase(GridManager.GetCase(_selectedGrid, x, y));
-        SelectModeWatcher(AimCase);
-    }
+    //void WatchCursor()
+    //{
+    //    Vector3 mousePos = MouseToWorldPosition();
+    //    int x = (int)Mathf.Round(mousePos.x / _selectedGrid.CellSize);
+    //    int y = (int)Mathf.Round(mousePos.z / _selectedGrid.CellSize);
+    //    Case AimCase = GridManager.GetValidCase(GridManager.GetCase(_selectedGrid, x, y));
+    //    //SelectModeWatcher(AimCase);
+    //}
 
-    void SelectModeWatcher(Case AimCase)
-    {
-        if (SelectMode)
-        {
-            if (_inputManager.TestGrid.Action.IsPressed() && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) // TODO : Input a changer
-            {
-                if (SelectedCaseA == null)
-                {
-                    SelectedCaseA = AimCase;
-                    if (SelectedCaseA != null)
-                    {
-                        SelectedCaseA.Highlighted = true;
-                        SelectedCaseA.ChangeMaterial(_selectedGrid.Data.caseHighlight);
-                        if (SelectedActor == null)
-                            SelectedActor = SelectedCaseA._actor;
-                    }
-                    return;
-                }
-                else
-                {
-                    SelectedCaseB = AimCase;
-                    if (SelectedCaseB != null)
-                    {
-                        SelectedCaseB.Highlighted = true;
-                        SelectedCaseB.ChangeMaterial(_selectedGrid.Data.caseHighlight);
-                        //UIManager.CreateHintString(AimCase.gameObject, "XCOM HINTSTRING OUAAHHH");
-                    }
+    //void SelectModeWatcher(Case AimCase) 
+    //{
+    //    if (SelectMode)
+    //    {
+    //        if (_inputManager.TestGrid.Action.IsPressed() && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) // TODO : Input a changer
+    //        {
+    //            if (SelectedCaseA == null)
+    //            {
+    //                SelectedCaseA = AimCase;
+    //                if (SelectedCaseA != null)
+    //                {
+    //                    SelectedCaseA.Highlighted = true;
+    //                    SelectedCaseA.ChangeMaterial(_selectedGrid.Data.caseHighlight);
+    //                    if (SelectedActor == null)
+    //                        SelectedActor = SelectedCaseA._actor;
+    //                }
+    //                return;
+    //            }
+    //            else
+    //            {
+    //                SelectedCaseB = AimCase;
+    //                if (SelectedCaseB != null)
+    //                {
+    //                    SelectedCaseB.Highlighted = true;
+    //                    SelectedCaseB.ChangeMaterial(_selectedGrid.Data.caseHighlight);
+    //                    //UIManager.CreateHintString(AimCase.gameObject, "XCOM HINTSTRING OUAAHHH");
+    //                }
 
-                }
+    //            }
 
-                if (SelectedActor != null && SelectedActor.Owner == this)
-                {
-                    if (SelectedActor is Character)
-                    {
-                        Character yo = (Character)SelectedActor;
-                        Case[] pathSuggested = PathFinding.FindPath(SelectedActor.CurrentCase, SelectedCaseB, (int)yo.Data.MovementCasesAction);
-                        if (pathSuggested.Length <= (int)yo.Data.MovementCasesAction)
-                            yo.SetDestination(pathSuggested);
+    //            if (SelectedActor != null && SelectedActor.Owner == this)
+    //            {
+    //                if (SelectedActor is Character)
+    //                {
+    //                    Character yo = (Character)SelectedActor;
+    //                    Case[] pathSuggested = PathFinding.FindPath(SelectedActor.CurrentCase, SelectedCaseB, (int)yo.Data.MovementCasesAction);
+    //                    if (pathSuggested.Length <= (int)yo.Data.MovementCasesAction)
+    //                        yo.SetDestination(pathSuggested);
 
-                    }
-                }
-                else
-                {
-                    PathFinding.FindPath(SelectedCaseA, SelectedCaseB);
-                }
+    //                }
+    //            }
+    //            else
+    //            {
+    //                PathFinding.FindPath(SelectedCaseA, SelectedCaseB);
+    //            }
 
 
-            }
-            if (_inputManager.TestGrid.Echap.IsPressed())
-            {
-                if (SelectedCaseA != null) SelectedCaseA.Highlighted = false;
-                SelectedCaseA = null;
-                if (SelectedCaseB != null) SelectedCaseB.Highlighted = false;
-                SelectedCaseB = null;
-                SelectedActor = null;
-            }
-        }
-    }
+    //        }
+    //        if (_inputManager.TestGrid.Echap.IsPressed())
+    //        {
+    //            if (SelectedCaseA != null) SelectedCaseA.Highlighted = false;
+    //            SelectedCaseA = null;
+    //            if (SelectedCaseB != null) SelectedCaseB.Highlighted = false;
+    //            SelectedCaseB = null;
+    //            SelectedActor = null;
+    //        }
+    //    }
+    //}
     // Update() qui override Update() de Team 
     public override void Update()
     {

@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e35e1994868fd44aac59478ff36af89, type: 3}
+  m_Name: DATA_Character_BasicSoldier
+  m_EditorClassIdentifier: 
+  name: Basic Soldier
+  description: "elle est la classe la plus commune de l\u2019\xE9quipe puisque que
+    celle-ci s\u2019en compose de deux.  Quelle est leur utilit\xE9? Les BS sont
+    les principaux dealer de damage de la team, ils poss\xE8dent une bonne port\xE9e
+    avec des d\xE9g\xE2ts corrects en m\xEAlant tout \xE7a avec une mobilit\xE9 moyenne
+    il peut \xEAtre utilis\xE9 pour des contournements."
+  type: 
+  tags: []
+  icon: {fileID: 0}
+  _prefabBody: {fileID: 8067521322994565020, guid: 9b652cfa7f83ce54fa6e3f5d3d7367f0,
+    type: 3}
+  _tabCosmetic: []
+  _tabAccessory: []
+  _color: {r: 0.9433962, g: 0, b: 0.77721757, a: 0}
+  _health: 10
+  _shield: 0
+  _moveSpeed: 10
+  _weapons:
+  - {fileID: 11400000, guid: 57af8b557ab4f0f48b3900e191c51350, type: 2}
+  _actionPoints: 2
+  _movementCasesAction: 6
+  CostAttack: 1
+  CostVigilance: 1
+  CostCompetence: 1
+  CostCompetenceAlt: 1
+  CostReload: 1
+  spriteTir: {fileID: 21300000, guid: 0135e3d1b81285f48997c72fd061f8d8, type: 3}
+  spriteVigilance: {fileID: 21300000, guid: fa24baa939b84ad47bcbddd283623c62, type: 3}
+  spriteCompetence: {fileID: 21300000, guid: f9d826ed2cdfb594b916ba79efd8ad7e, type: 3}
+  spriteCompetence2: {fileID: 0}
+  icone: {fileID: 21300000, guid: 879eb3196bae02649b9360b472267f9d, type: 3}
+  pointAction: {fileID: 0}
+  ammo: {fileID: 21300000, guid: 301fe569da9047c4988d46c1707ea4e5, type: 3}
+  ClassName: Actor_BasicSoldier
