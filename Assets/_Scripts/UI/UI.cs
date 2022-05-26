@@ -35,7 +35,7 @@ public class UI : MonoBehaviour
         AdaptBar();
 
 
-        if (_pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>() == null)
+        if (_pC.CharacterPlayer[_pC.CharacterIndex] == null)
         {
             _textDebug.text = "";
             return;
@@ -91,7 +91,7 @@ public class UI : MonoBehaviour
         _vigilance.GetComponent<Image>().sprite = data.SpriteVigilance;
         _competence1.GetComponent<Image>().sprite = data.SpriteCompetence;
         _competence2.GetComponent<Image>().sprite = data.SpriteCompetence2;
-        _icone.GetComponent<Image>().sprite = data.Icone;
+        _icone.GetComponent<Image>().sprite = data.icon;
 
         foreach(Image myPoint in _actionPoint)
         {
@@ -132,19 +132,19 @@ public class UI : MonoBehaviour
     public void SetActionModeAttack()
     {
         _pC.SelectionMode = SelectionMode.Action;
-        _pC._actionTypeMode = ActionTypeMode.Attack;
+        _pC.ActionTypeMode = ActionTypeMode.Attack;
     }
     public void SetActionModeOverwatch()
     {
-        _pC._actionTypeMode = ActionTypeMode.Overwatch;
+        _pC.ActionTypeMode = ActionTypeMode.Overwatch;
     }
     public void SetActionModeCompetence()
     {
-        _pC._actionTypeMode = ActionTypeMode.Competence1;
+        _pC.ActionTypeMode = ActionTypeMode.Competence1;
     }
     public void SetActionModeCompetenceAlt()
     {
-        _pC._actionTypeMode = ActionTypeMode.Competence2;
+        _pC.ActionTypeMode = ActionTypeMode.Competence2;
     }
     public void EndTurn()
     {

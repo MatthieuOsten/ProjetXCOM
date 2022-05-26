@@ -18,6 +18,7 @@ public class WidgetActorInfo : HintstringProperty
     {
         textComponent[0].text = _actor.Data.name; 
         textComponent[1].text = _actor.Health+"/"+_actor.Data.Health;
+        textComponent[2].text = _actor._currentActionPoint + "/" + _actor.Data.ActionPoints + " PA ";
         progression = (float)_actor.Health/(float)_actor.Data.Health;
 
         if (LevelManager.GetCurrentController() == _actor.Owner)
