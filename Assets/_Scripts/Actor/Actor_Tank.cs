@@ -24,7 +24,14 @@ public class Actor_Tank : Character
 
     public override void Attack(Actor target)
     {
-        target.DoDamage(10);
+        target.DoDamage(Data.weapons[0].Damage);
+        Character targetChar = null;
+        if( target is Character )
+        {
+            targetChar = (Character)target;
+            targetChar._currentActionPoint--;
+        }
+
         base.Attack(target);
     }
    

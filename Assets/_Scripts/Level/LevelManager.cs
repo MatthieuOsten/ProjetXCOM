@@ -110,6 +110,7 @@ public class LevelManager : MonoBehaviour
     void EndTurn()
     {
         listTeam[_currentTeamIndex].ItsYourTurn = false;
+        listTeam[_currentTeamIndex].EndTurn();
         _currentTurn++;
         _currentTeamIndex++;
         if(_currentTeamIndex >= listTeam.Count )
@@ -129,6 +130,12 @@ public class LevelManager : MonoBehaviour
             DebugWatcher();
             WatchPointControlsPurified();
             WatchController();
+        }
+
+        if(listTeam.Count <= 1)
+        {
+            UIManager.CreateSubtitle("END GAME");
+            Gameover = true;
         }
     }
     // Cest pour debug

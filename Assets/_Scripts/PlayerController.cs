@@ -21,13 +21,8 @@ public enum ActionTypeMode
 
 public class PlayerController : Team
 {
-    [SerializeField] bool SelectMode = true;
-    [SerializeField] bool AttackMode;
-    [SerializeField] Case SelectedCaseA, SelectedCaseB;
-    [SerializeField] Actor SelectedActor;
-    [SerializeField] private Character character;
 
-
+    
 
     [Header("SCRIPTS")]
     [SerializeField] private CameraIsometric cameraIsometric;
@@ -47,17 +42,12 @@ public class PlayerController : Team
     [SerializeField] private int _enemyDetectedIndex = 0;
 
     [Header("MODE")]
-    [SerializeField] public SelectionMode _selectedMode;
-    [SerializeField] public ActionTypeMode _actionTypeMode;
-
-    [SerializeField] bool Attack, Vigilance; // TODO : a enlever
-
-
-
-
-    /*[Header("CAMERA")]
-    [SerializeField] private GameObject _isometricCamera;
-    [SerializeField] private GameObject childCam;*/
+    [SerializeField] Case SelectedCaseA, SelectedCaseB;
+    [SerializeField] Actor SelectedActor;
+    [SerializeField] private Character character;
+    [SerializeField] SelectionMode _selectedMode;
+    [SerializeField] ActionTypeMode _actionTypeMode;
+    public ActionTypeMode ActionTypeMode { set { _actionTypeMode = value; } } 
 
 
     //Set, Get de toutes les variables ayant besoin d'�tre modifi�
@@ -257,7 +247,6 @@ public class PlayerController : Team
                             ExecAttack(); // Execute l'action sur la case selected
                             break;
                         case ActionTypeMode.Overwatch:
-                            
                             break;
                         case ActionTypeMode.Competence1:
                             break;
@@ -266,9 +255,6 @@ public class PlayerController : Team
                     }
                     
             }
-
-        
-
         }
         // quand le joueur press Echap en mode action, il retourn en mode Selection,
         // les précedentes cases sélectionner sur clean
@@ -327,6 +313,8 @@ public class PlayerController : Team
         int x = (int)Mathf.Round(mousePos.x / _selectedGrid.CellSize);
         int y = (int)Mathf.Round(mousePos.z / _selectedGrid.CellSize);
         Case AimCase = GridManager.GetValidCase(GridManager.GetCase(_selectedGrid, x, y));
+        // Verifie si la case visé n'est pas vide
+        if (AimCase == null) return;
         AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected);
         
 
@@ -345,10 +333,7 @@ public class PlayerController : Team
 
             }
         }
-        else
-        {
-
-        }
+      
 
         if (_inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {
@@ -367,7 +352,6 @@ public class PlayerController : Team
                 if (SelectedActor == null && SelectedCaseA._actor.Owner == this) // On check si l'actor appartient à celui de la team
                     SelectedActor = SelectedCaseA._actor;
             }
-
             pathSuggested = null;
 
         }
@@ -382,73 +366,6 @@ public class PlayerController : Team
         }
     }
 
-    //void WatchCursor()
-    //{
-    //    Vector3 mousePos = MouseToWorldPosition();
-    //    int x = (int)Mathf.Round(mousePos.x / _selectedGrid.CellSize);
-    //    int y = (int)Mathf.Round(mousePos.z / _selectedGrid.CellSize);
-    //    Case AimCase = GridManager.GetValidCase(GridManager.GetCase(_selectedGrid, x, y));
-    //    //SelectModeWatcher(AimCase);
-    //}
-
-    //void SelectModeWatcher(Case AimCase) 
-    //{
-    //    if (SelectMode)
-    //    {
-    //        if (_inputManager.TestGrid.Action.IsPressed() && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject()) // TODO : Input a changer
-    //        {
-    //            if (SelectedCaseA == null)
-    //            {
-    //                SelectedCaseA = AimCase;
-    //                if (SelectedCaseA != null)
-    //                {
-    //                    SelectedCaseA.Highlighted = true;
-    //                    SelectedCaseA.ChangeMaterial(_selectedGrid.Data.caseHighlight);
-    //                    if (SelectedActor == null)
-    //                        SelectedActor = SelectedCaseA._actor;
-    //                }
-    //                return;
-    //            }
-    //            else
-    //            {
-    //                SelectedCaseB = AimCase;
-    //                if (SelectedCaseB != null)
-    //                {
-    //                    SelectedCaseB.Highlighted = true;
-    //                    SelectedCaseB.ChangeMaterial(_selectedGrid.Data.caseHighlight);
-    //                    //UIManager.CreateHintString(AimCase.gameObject, "XCOM HINTSTRING OUAAHHH");
-    //                }
-
-    //            }
-
-    //            if (SelectedActor != null && SelectedActor.Owner == this)
-    //            {
-    //                if (SelectedActor is Character)
-    //                {
-    //                    Character yo = (Character)SelectedActor;
-    //                    Case[] pathSuggested = PathFinding.FindPath(SelectedActor.CurrentCase, SelectedCaseB, (int)yo.Data.MovementCasesAction);
-    //                    if (pathSuggested.Length <= (int)yo.Data.MovementCasesAction)
-    //                        yo.SetDestination(pathSuggested);
-
-    //                }
-    //            }
-    //            else
-    //            {
-    //                PathFinding.FindPath(SelectedCaseA, SelectedCaseB);
-    //            }
-
-
-    //        }
-    //        if (_inputManager.TestGrid.Echap.IsPressed())
-    //        {
-    //            if (SelectedCaseA != null) SelectedCaseA.Highlighted = false;
-    //            SelectedCaseA = null;
-    //            if (SelectedCaseB != null) SelectedCaseB.Highlighted = false;
-    //            SelectedCaseB = null;
-    //            SelectedActor = null;
-    //        }
-    //    }
-    //}
     // Update() qui override Update() de Team 
     public override void Update()
     {
@@ -468,26 +385,7 @@ public class PlayerController : Team
                     break;
             }
 
-           // WatcherAttack(); TODO : Peut etre inutile maintenant
-
-            // if (SelectedActor != null && SelectedCaseA != SelectedActor.CurrentCase)
-            // {
-            //     SelectedCaseA = SelectedActor.CurrentCase;
-            // }
-
-            // if (SelectedActor != null && AttackMode)
-            // {
-            //     EnemyDetected = new List<GameObject>();
-            //     foreach (Case aCase in SelectedActor.AttackRange())
-            //     {
-            //         Actor actorToCheck = aCase._actor;
-            //         if (actorToCheck != null && actorToCheck.Owner != this)
-            //         {
-            //             // TODO : ajouter un raycast pour checker si il ya pas un model devant
-            //             EnemyDetected.Add(actorToCheck.gameObject);
-            //         }
-            //     }
-            // }
+          
             InputCameraIsometric();
 
             if (SelectedActor != null)
@@ -518,16 +416,6 @@ public class PlayerController : Team
         }
     }
 
-    //void WatcherAttack()
-    //{
-    //    if (Attack)
-    //    {
-    //        if (SelectedActor != null && EnemyDetected[EnemyDetectedIndex] != null)
-    //            SelectedActor.Attack(EnemyDetected[EnemyDetectedIndex].GetComponent<Actor>());
-
-    //        Attack = false;
-    //    }
-    //}
 
     void CameraIsometricUpdate()
     {

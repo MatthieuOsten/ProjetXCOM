@@ -24,7 +24,7 @@ public class Actor_Support : Character
 
     public override void Attack(Actor target)
     {
-        target.DoDamage(10);
+        target.DoDamage(Data.weapons[0].Damage);
         base.Attack(target);
     }
    
