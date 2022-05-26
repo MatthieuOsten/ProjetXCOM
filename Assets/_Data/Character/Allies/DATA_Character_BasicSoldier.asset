@@ -25,7 +25,7 @@ MonoBehaviour:
     type: 3}
   _tabCosmetic: []
   _tabAccessory: []
-  _color: {r: 0.9433962, g: 0, b: 0.77721757, a: 0}
+  _color: {r: 0.88678473, g: 0, b: 0.94509804, a: 0}
   _health: 10
   _shield: 0
   _moveSpeed: 10
