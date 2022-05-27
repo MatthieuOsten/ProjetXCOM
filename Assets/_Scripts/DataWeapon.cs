@@ -24,8 +24,7 @@ public class DataWeapon : Data
     [SerializeField] private float _accuracy;
     [SerializeField] private int _costPoint;
     [SerializeField] public Range _range;
-    [SerializeField] private int _munition;
-    
+    [SerializeField] private int _maxAmmo;
 
     [Header("ANIMATION")]
 
@@ -37,45 +36,17 @@ public class DataWeapon : Data
     [SerializeField] private AudioSource _soundFire;
     [SerializeField] private AudioSource _soundReload;
 
-    public int Munition
-    {
-        get { return _munition; }
-        set
-        {
-            _munition = value;
-        }
-    }
-
-    public typeWeapon TypeW
-    { 
-        get { return _typeW; }    
-    }
-    public float Accuracy 
-    {
-        get { return _accuracy; } 
-    }
-    public float CostPoint 
-    {
-        get { return _costPoint; }
-    }
-
-    public Animation AnimIdle 
-    {
-        get { return _animIdle; } 
-    }
-    public Animation AnimFire 
-    {
-        get { return _animFire; } 
-    }
-    public AudioSource SoundFire 
-    {
-        get { return _soundFire; } 
-    }
-    public AudioSource SoundReload 
-    {
-        get { return _soundReload; } 
-    }
+    public typeWeapon TypeW { get { return _typeW; } }
+    public Range Range { get { return _range; } }
     public int Damage { get {return _damage;} }
+    public float Accuracy { get { return _accuracy; } }
+    public float CostPoint { get { return _costPoint; } }
+    public int MaxAmmo { get { return _maxAmmo; } }
+
+    public Animation AnimIdle { get { return _animIdle; } }
+    public Animation AnimFire { get { return _animFire; } }
+    public AudioSource SoundFire { get { return _soundFire; } }
+    public AudioSource SoundReload { get { return _soundReload; } }
 
     
 

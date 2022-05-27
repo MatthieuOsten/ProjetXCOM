@@ -67,7 +67,7 @@ public class Team : MonoBehaviour, ITeam
             if (_actor.State == ActorState.Overwatch)
                 _actor.State = ActorState.Alive;
 
-            // _actor.Reinit(); et non on doit le faire quand il passe le tour car si débuff ca sera pas appliqué
+            // _actor.StartTurnActor(); et non on doit le faire quand il passe le tour car si débuff ca sera pas appliqué
 
         }
     }
@@ -77,7 +77,7 @@ public class Team : MonoBehaviour, ITeam
         foreach (Character _actor in Squad)
         {
             if (_actor.State != ActorState.Dead)
-                _actor.Reinit();
+                _actor.StartTurnActor();
 
         }
     }
@@ -163,7 +163,7 @@ public class Team : MonoBehaviour, ITeam
             component.CurrentCase = aRandCase;
             aRandCase._actor = component;
             component.transform.position = _selectedGrid.GetCaseWorldPosition(component.CurrentCase.x, component.CurrentCase.y);
-            component.Reinit();
+            component.StartTurnActor();
         }
         else
         {

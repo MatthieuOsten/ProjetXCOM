@@ -5,40 +5,86 @@ using UnityEngine;
 public class Character : Actor
 {
     [SerializeField] private DataCharacter _data;
-    [SerializeField] private int _ammo;
+    /// <summary> Tableau de Int </summary>
+    [SerializeField] private int[] _ammo;
 
-    public int Ammo{    get { return _ammo; }
-                        set{ _ammo = value; } }
-    public DataCharacter Data { get { return _data; } set{ _data = value;}}
-
-    public override int Health {  
-                    get { return base.Health; } 
-        protected   set {   // Empeche la vie de monter au dessus du maximum
-                            if (value > Data.Health) value = Data.Health;
-                            base.Health = value; 
-        } 
-    
+    public int[] Ammo { 
+        get { return _ammo; }
+        set { _ammo = value; } 
     }
+    public DataCharacter Data { get { return _data; } set { _data = value; } }
 
-    public bool IsMoving
-    {
-        get{return pathToFollow != null && pathToFollow.Length > 0; }
-    }
-    public bool CanAction
-    {
-        get { return _currentActionPoint > 0; }
+    public override int Health {
+        get { return base.Health; }
+        protected set {   // Empeche la vie de monter au dessus du maximum
+            if (value > Data.Health) value = Data.Health;
+            base.Health = value;
+        }
+
     }
 
     public Case StartPos;
     public Case Destination;
-    [SerializeField] public Case CurrentPos { get { return CurrentCase; } set{ CurrentCase = value;} }
+    [SerializeField] public Case CurrentPos { get { return CurrentCase; } set { CurrentCase = value; } }
 
-
-    public int _currentActionPoint;
-
-    [SerializeField] Case[] pathToFollow;
+    Case[] pathToFollow;
     LineRenderer lr;
-    [SerializeField] int _indexPath = 0;
+    int _indexPath = 0;
+
+    // Getteur utile a prendre pour les autre script
+    /// <summary> Retourne toutes les informations des armes du personnages </summary> 
+    public List<DataWeapon> Weapons { get { return Data.weapons; } }
+    /// <summary>Indique le nombre actuelle de point d'action du personnage </summary> 
+    [SerializeField] int _currentActionPoint;
+    public int CurrentActionPoint
+    {
+        get { return _currentActionPoint; }
+    }
+    /// <summary>Indique le max de point d'action que le personnage peut avoir </summary> 
+    public int MaxActionPoint
+    {
+        get { return Data.ActionPoints; }
+    }
+    /// <summary>Indique si le personnage est en mouvement  </summary>
+    public bool IsMoving
+    {
+        get { return pathToFollow != null && pathToFollow.Length > 0; }
+    }
+    /// <summary>Indique si le personnage est en overwatch  </summary>
+    public bool IsOverwatching
+    {
+        get { return State == ActorState.Overwatch; }
+    }
+    /// <summary>Indique si le personnage peut effectuer une action  </summary>
+    public bool CanAction
+    {
+        get { return _currentActionPoint > 0; }
+    }
+    /// <summary> Retourne les informations d'une arme, si pas d'argument de spécifié ca sera la première arme  </summary>
+    public DataWeapon GetWeaponInfo(int indexWeapon = 0)
+    {
+        return Data.weapons[indexWeapon];
+    }
+    /// <summary> Retourne le nombre actuelle de munition, si pas d'argument de spécifié ca sera la première arme  </summary>
+    public int GetWeaponCurrentAmmo(int indexWeapon = 0)
+    {
+        return Ammo[indexWeapon];
+    }
+    /// <summary> "Retourne la capacité du chargeur d'une arme, si pas d'argument de spécifié ca sera la première arme" </summary>
+    public int GetWeaponCapacityAmmo(int indexWeapon = 0) 
+    {
+        return _data.weapons[indexWeapon].MaxAmmo;
+    }
+    /// <summary> "Retourne le sprite du personnage" </summary> // TODO : a mettre dans actor
+    public Sprite GetCharacterIcon()
+    {
+        return _data.icon;
+    }
+    /// <summary> "Retourne la couleur du personnage" </summary> // TODO : a mettre dans actor
+    public Color GetCharacterColor()
+    {
+        return _data.Color;
+    }
 
     // Effectue une action a la mort du personnage //
     public override void Death()
@@ -59,7 +105,7 @@ public class Character : Actor
         base.Start();
     }
     /// <summary> Cette fonction est lancée lorsqu'un nouveau tour commence </summary>
-    public virtual void Reinit()
+    public virtual void StartTurnActor()
     {
         _currentActionPoint = Data.ActionPoints;
     }
