@@ -25,7 +25,7 @@ public class DataWeapon : Data
     [SerializeField] private int _costPoint;
     [SerializeField] public Range _range;
     [SerializeField] private int _munition;
-    public Range _range;
+    
 
     [Header("ANIMATION")]
 

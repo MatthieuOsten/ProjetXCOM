@@ -12,7 +12,8 @@ public class RaycastCamera : MonoBehaviour
 
 
 
-    private void Start() {
+    private void Start()
+    {
         _character = gameObject.GetComponent<Character>();
         lr = gameObject.GetComponent<LineRenderer>();
         playerController = (PlayerController)_character.Owner;
@@ -41,8 +42,8 @@ public class RaycastCamera : MonoBehaviour
         {
             foreach (Character enemi in enemis.Squad)
                 ListEnemi.Add(enemi);
-            
-               
+
+
 
         }
 
@@ -53,9 +54,9 @@ public class RaycastCamera : MonoBehaviour
 
     public List<GameObject> RaycastDetect(List<Character> enemy)
     {
-        if(enemy == null || enemy.Count == 0) return null;
-        
-        if(playerController.OnVigilence)
+        if (enemy == null || enemy.Count == 0) return null;
+
+        if (playerController.OnVigilence)
         {
             RaycastHit hit;
             Vector3 direction = transform.TransformDirection(Vector3.forward);
@@ -82,11 +83,13 @@ public class RaycastCamera : MonoBehaviour
                 lr.SetPosition(1, new Vector3(position.x, position.y, 50));
             }
             return enemyTarget;
-       // }
-       /* else
-        {
-            return null;
-        }*/
+            // }
+            /* else
+             {
+                 return null;
+             }*/
 
+        }
+        return null;
     }
 }
