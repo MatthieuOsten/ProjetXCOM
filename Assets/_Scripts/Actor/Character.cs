@@ -147,23 +147,84 @@ public class Character : Actor
         GridManager parent = CurrentCase.GridParent;
         GridManager.ResetCasesPreview(parent);
 
-        switch(range.type)
+        List<Case> CheckCaserightRange( List<Case> _range)
+        {
+            for (int i = 1; i < range.rightRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX, actorY + (1 * i));
+                if (_case != null)
+                    break;
+
+                _range.Add(_case);
+            }
+            for (int i = 1; i < range.rightRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX + (1 * i), actorY);
+                if (_case != null)
+                    break;
+
+                _range.Add(_case);
+            }
+            for (int i = 1; i < range.rightRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX - (1 * i), actorY);
+                if (_case != null)
+                    break;
+
+                _range.Add(_case);
+            }
+            for (int i = 1; i < range.rightRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX, actorY + (1 * i));
+                if (_case != null)
+                    break;
+
+                _range.Add(_case);
+            }
+            return _range;
+        }
+
+        List<Case> CheckCasediagonalRange( List<Case> _range)
+        {
+            for (int i = 1; i < range.diagonalRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX + (1 * i), actorY + (1 * i));
+                if (GridManager.GetValidCase(_case ) == null)
+                    break;
+
+                _range.Add(_case);
+            }
+            for (int i = 1; i < range.diagonalRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX - (1 * i), actorY + (1 * i));
+                if (GridManager.GetValidCase(_case) == null)
+                    break;
+
+                _range.Add(_case);
+            }
+            for (int i = 1; i < range.diagonalRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX + (1 * i), actorY - (1 * i));
+                if (GridManager.GetValidCase(_case) == null)
+                    break;
+
+                _range.Add(_case);
+            }
+            for (int i = 1; i < range.diagonalRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX - (1 * i), actorY - (1 * i));
+                if (GridManager.GetValidCase(_case) == null)
+                    break;
+
+                _range.Add(_case);
+            }
+            return _range;
+        }
+        switch (range.type)
         {
             case RangeType.Simple:
-                for(int i = 1 ; i < range.rightRange+1; i++)
-                {
-                    _range.Add(GridManager.GetCase(parent , actorX , actorY + (1 * i))); 
-                    _range.Add(GridManager.GetCase(parent , actorX+ (1 * i) , actorY)); // Case a droite
-                    _range.Add( GridManager.GetCase(parent , actorX- (1 * i) , actorY)); // Case a gauche
-                    _range.Add( GridManager.GetCase(parent , actorX , actorY- (1 * i))); // Case en bas
-                }
-                for(int i = 1 ; i < range.diagonalRange+1; i++)
-                {
-                    _range.Add(GridManager.GetCase(parent , actorX+ (1 * i) , actorY+ (1 * i))); // Case au dessus droite
-                    _range.Add(GridManager.GetCase(parent , actorX- (1 * i) , actorY+ (1 * i))); // Case au dessus gauche
-                    _range.Add( GridManager.GetCase(parent , actorX+ (1 * i) , actorY- (1 * i))); // Case en bas droite
-                    _range.Add( GridManager.GetCase(parent , actorX- (1 * i) , actorY- (1 * i))); // Case en bas gauche
-                }
+                _range = CheckCaserightRange(    _range);
+                _range = CheckCasediagonalRange( _range);
             break;
             case RangeType.Radius:
                 _range = GridManager.GetRadiusCases(CurrentCase, range.rightRange);

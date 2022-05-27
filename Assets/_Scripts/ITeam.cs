@@ -11,7 +11,7 @@ public interface ITeam
     /// <summary> Spawn l'escouade de la team sur la grille </summary>
     void SpawnSquad();
     /// <summary> Spawn le personnage à partir des DataCharacter </summary>
-    Character SpawnActor(DataCharacter actor);
+    Character SpawnActor(DataCharacter actor, Case spawnCase);
 
     /// <summary> Cette fonction se lance quand c'est le tour de la team </summary>
     void StartTurn();

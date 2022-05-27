@@ -44,8 +44,11 @@ public class PlayerController : Team
     [SerializeField] private Character character;
     [SerializeField] SelectionMode _selectedMode;
     [SerializeField] ActionTypeMode _actionTypeMode;
-    public ActionTypeMode ActionTypeMode { set { _actionTypeMode = value; } } 
+    public ActionTypeMode ActionTypeMode { set { _actionTypeMode = value; } }
 
+    // Cooldown avant qu'un tour commence
+    float _cooldownBeforeStartTurn = 2;
+    float _cooldownBeforeStartTurnTimer = 0;
 
     /// <summary> Recupere le personnage selectionner par le player </summary>
     public Actor GetCurrentActorSelected { get { return _selectedActor; } }
@@ -164,6 +167,8 @@ public class PlayerController : Team
         base.Start();
         if (cameraIsometric == null) cameraIsometric = GameObject.FindObjectsOfType<CameraIsometric>()[0];
         EnemyDetected = new List<GameObject>();
+
+
     }
 
     void EnableInputManager()
@@ -338,7 +343,11 @@ public class PlayerController : Team
                     pathSuggested = PathFinding.FindPath(_selectedActor.CurrentCase, AimCase, _char.Data.MovementCasesAction);
                 }
                 else
-                    UIManager.CreateSubtitle("Point d'action insuffisant pour ce personnage", 1);
+                {
+                    GridManager.ResetCasesPreview(_selectedGrid);
+                    UIManager.CreateSubtitle("Point d'action insuffisant pour ce personnage", 2);
+                    ResetSelection();
+                }
 
             }
         }
@@ -374,6 +383,12 @@ public class PlayerController : Team
         }
     }
 
+    public override void StartTurn()
+    {
+        _cooldownBeforeStartTurnTimer = 0; // Permet d'init un cooldown avant de démarrer le tour 
+        base.StartTurn();
+    }
+
     public override void EndTurn()
     {
         ResetSelection();
@@ -397,6 +412,11 @@ public class PlayerController : Team
         if (_inputManager == null) EnableInputManager();
         if (ItsYourTurn)
         {
+            if (_cooldownBeforeStartTurnTimer < _cooldownBeforeStartTurn)
+            {
+                _cooldownBeforeStartTurnTimer += Time.deltaTime;
+                return;
+            }
             // C'est notre tour du coup on active l'inputManager
             EnableInputManager();
             // On regarde dans quelle selected mode nous sommes

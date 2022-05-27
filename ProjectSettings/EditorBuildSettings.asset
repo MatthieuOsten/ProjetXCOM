@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Scenes/Dev/Clix/Level Manager.unity
-    guid: 145cbbc3e36985543bdf08c052180854
+    path: Assets/_Scenes/Dev/Matthieu/Prototype_Gameplay.unity
+    guid: 4d562aed0c8d71542bd7bff4105395ec
   m_configObjects: {}

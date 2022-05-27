@@ -28,7 +28,11 @@ public class Team : MonoBehaviour, ITeam
     public Actor[] Squad { get { return _squad; } set { _squad = value; } }
 
     [SerializeField] bool _spawnRandomlyActor = true;
+    [Tooltip("Retourne la grille selectionner par la team")]
     [SerializeField] protected GridManager _selectedGrid;
+    public Case startSpawnCase; // On indique le point de spawn 
+
+
 
     public List<MonoBehaviour> Scripts;
 
@@ -53,6 +57,9 @@ public class Team : MonoBehaviour, ITeam
     {
         GridManager.ResetCasesPreview(_selectedGrid);
         UIManager.CreateSubtitle($"C'est à l'équipe {Data.name} de jouer", 2);
+
+
+
         foreach (Character _actor in Squad)
         {
             // Si le personnage est en overwatch, on lui remet alive lorsque son tour a repris
@@ -94,21 +101,44 @@ public class Team : MonoBehaviour, ITeam
         }
         hisEnnemies = ennemies;
     }
-
+    /// <summary> Fonction qui s'occupe de spawn l'escouade </summary>
     public void SpawnSquad()
     {
+        // On vérifie si un point de spawn existe
+        
+
         if (Data.SquadComposition == null || Data.SquadComposition.Length == 0)
         {
             Debug.LogWarning($"Attention la team {typeof(Team)} n'a pas de personnages dans Squad");
             return;
         }
         Squad = new Actor[Data.SquadComposition.Length];
-        for (int i = 0; i < Data.SquadComposition.Length; i++)
+
+        // On vérifie si une case de spawn est disponible
+        Case spawnCase = null;
+        for(int i = 0; i < _selectedGrid.SpawnerCase.Count; i++)
         {
-            Squad[i] = SpawnActor(Data.SquadComposition[i]);
+            if(_selectedGrid.SpawnerCase[i].state == CaseState.Spawner)
+            {
+                spawnCase = _selectedGrid.SpawnerCase[i];
+            }
         }
+        // Si une case de spawn est sélectionné, on peut spawn l'escouade
+        if(spawnCase != null)
+        {
+            for (int i = 0; i < Data.SquadComposition.Length; i++)
+            {
+                Squad[i] = SpawnActor(Data.SquadComposition[i], spawnCase);
+            }
+            spawnCase.state = CaseState.Empty; // On enleve l'état de spawn à la case pour éviter qu'elle serve de spawn à une autre team
+        }
+        else
+        {
+            Debug.LogWarning("Une team a voulu spawn, mais il y'a plus de case de spawn disponible");
+        }
+        
     }
-    public Character SpawnActor(DataCharacter character)
+    public Character SpawnActor(DataCharacter character, Case spawnCase)
     {
         // TODO, il faudra peut etre avoir un prefab de base pour les personnages
         GameObject newCharacter = Instantiate(character._prefabBody);
@@ -117,14 +147,27 @@ public class Team : MonoBehaviour, ITeam
         Character component = (Character)newCharacter.AddComponent(TypeCharacter);
         component.Owner = this;
         component.Data = character;
-
-        if (_spawnRandomlyActor)
+        List<Case> cases = GridManager.GetRadiusCases(spawnCase, Squad.Length);
+        Case spawner = null;
+        for(int i = 0; i < cases.Count; i++)
         {
-            Case aRandCase = _selectedGrid.GetRandomCase();
+            if(GridManager.GetValidCase(cases[i]) != null && cases[i]._actor == null )
+            {
+                spawner = cases[i];
+            }
+        }
+
+        if (spawner != null)
+        {
+            Case aRandCase = spawner;
             component.CurrentCase = aRandCase;
             aRandCase._actor = component;
             component.transform.position = _selectedGrid.GetCaseWorldPosition(component.CurrentCase.x, component.CurrentCase.y);
             component.Reinit();
+        }
+        else
+        {
+            Debug.LogWarning("Un actor n'a pas réussi à spawn car pas de place");
         }
         return component;
     }
@@ -134,6 +177,10 @@ public class Team : MonoBehaviour, ITeam
     {
         if(ItsYourTurn)
         {
+           
+           
+
+
             WatchIfAllPAused();
         }
         WatchIfEveryoneIsDead();

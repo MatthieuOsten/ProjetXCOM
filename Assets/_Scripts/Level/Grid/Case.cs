@@ -9,11 +9,12 @@ public enum CaseState
     Null,
     Empty,
     Occupied,
-    HalfOccupied
+    HalfOccupied,
+    Spawner // alors il sera forcemet empty apres car c'est un spawner pour les team
 }
 
 [System.Serializable]
-[ExecuteAlways]
+[ExecuteAlways] // Cette class fonctionne en edit et en play 
 public class CaseInfo
 {
     public int x, y;
@@ -60,9 +61,15 @@ public class Case : MonoBehaviour
     private void Start()
     {
         _sr = GetComponentInChildren<SpriteRenderer>();
+        // Ajoute la case à la grid pour dire qu'elle peut servir de spawn, on verifie si elle est dans le state spawn et qu'elle ny 'ai pas déja
+        if (state == CaseState.Spawner && !GridParent.SpawnerCase.Contains(this) ) 
+            GridParent.SpawnerCase.Add(this);
+
     }
     public void Update()
-    { 
+    {
+        
+
         Debug();
         if (Highlighted || Checked)
             return;
@@ -107,6 +114,9 @@ public class Case : MonoBehaviour
                 break;
             case CaseState.Empty:
                 ChangeMaterial(GridParent.Data.caseDefault);
+                break;
+            case CaseState.Spawner:
+                ChangeMaterial(GridParent.Data.caseSpawner);
                 break;
             default:
                 ChangeMaterial(GridParent.Data.caseNone);

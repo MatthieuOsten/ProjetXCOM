@@ -25,8 +25,8 @@ MonoBehaviour:
   _accuracy: 0
   _costPoint: 0
   _range:
-    right: 5
-    diagonal: 5
+    right: 3
+    diagonal: 3
     type: 0
   _animIdle: {fileID: 0}
   _animFire: {fileID: 0}

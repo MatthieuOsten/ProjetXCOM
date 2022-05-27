@@ -16,6 +16,14 @@ public class GridManager : MonoBehaviour
     [SerializeField] bool GenerateAGrid, ResetGrid;
 
     [SerializeField] bool _showScorePathFinding;
+
+    [field : SerializeField]
+    public List<Case> SpawnerCase
+    {
+        get;
+        set;
+    }
+
     public bool ShowScorePathFinding { get { return _showScorePathFinding; } }
 
     public int SizeX

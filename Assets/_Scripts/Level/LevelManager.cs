@@ -92,6 +92,7 @@ public class LevelManager : MonoBehaviour
                 }
                 controller.Data = _teams[i];
                 teamInstance.name = "Team "+i;
+                
                 AddTeamToList(controller);
             }
         }
