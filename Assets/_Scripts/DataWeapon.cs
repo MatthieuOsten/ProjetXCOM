@@ -24,6 +24,7 @@ public class DataWeapon : Data
     [SerializeField] private float _accuracy;
     [SerializeField] private int _costPoint;
     [SerializeField] public Range _range;
+    [SerializeField] private int _maxAmmo;
 
     [Header("ANIMATION")]
 
@@ -40,6 +41,7 @@ public class DataWeapon : Data
     public int Damage { get {return _damage;} }
     public float Accuracy { get { return _accuracy; } }
     public float CostPoint { get { return _costPoint; } }
+    public int MaxAmmo { get { return _maxAmmo; } }
 
     public Animation AnimIdle { get { return _animIdle; } }
     public Animation AnimFire { get { return _animFire; } }
