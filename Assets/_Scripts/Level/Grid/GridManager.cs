@@ -257,6 +257,28 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public static void SetCaseAttackPreview(Case aCase, bool Reset = false)
+    {
+        if (GetValidCase(aCase) == null) return;
+
+        if (Reset) ResetCasesPreview(aCase.GridParent);
+
+        aCase.Highlighted = true;
+        aCase.ChangeMaterial(aCase.GridParent.Data.caseOverwatch);
+
+    }
+    public static void SetCaseAttackPreview(List<Case> cases, bool Reset = false)
+    {
+        if (cases == null || cases.Count == 0) return;
+        if (Reset)
+            ResetCasesPreview(cases[0].GridParent);
+
+        for (int i = 0; i < cases.Count; i++)
+        {
+            SetCaseAttackPreview(cases[i]);
+        }
+    }
+
     void Start()
     {
         RegenerateCaseTable(); // Existe car entre le edit et runtime la table a double entrer foire // TODO : trouver une autre maniere

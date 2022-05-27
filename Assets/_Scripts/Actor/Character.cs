@@ -169,7 +169,7 @@ public class Character : Actor
                 _range = GridManager.GetRadiusCases(CurrentCase, range.rightRange);
             break;
         }
-        GridManager.SetCasePreview(_range);
+        GridManager.SetCaseAttackPreview(_range);
 
         List<Case> _cases = new List<Case>();
         // Permet de verifier que l'on donne pas des cases inutiles
