@@ -50,8 +50,8 @@ public class RaycastCamera : MonoBehaviour
 
     public List<GameObject> RaycastDetect(List<Character> enemy)
     {
-        if(playerController.OnVigilence)
-        {
+        //if(playerController.OnVigilence)
+       // {
             RaycastHit hit;
             Vector3 direction = transform.TransformDirection(Vector3.forward);
             Vector3 position = _character.transform.position;
@@ -77,11 +77,11 @@ public class RaycastCamera : MonoBehaviour
                 lr.SetPosition(1, new Vector3(position.x, position.y, 50));
             }
             return enemyTarget;
-        }
-        else
+       // }
+       /* else
         {
             return null;
-        }
+        }*/
 
     }
 }

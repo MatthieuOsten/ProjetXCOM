@@ -65,8 +65,7 @@ public class PlayerController : Team
     }
     public List<GameObject> EnemyDetected
     {
-        get { 
-            return _enemyDetected; }
+        get { return _enemyDetected; }
         set
         {
             _enemyDetected = value;

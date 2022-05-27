@@ -923,6 +923,7 @@ MonoBehaviour:
   _competence1: {fileID: 6487854804728223420}
   _competence2: {fileID: 6487854805247351411}
   _icone: {fileID: 9055037691260152018}
+  _myAmmo: {fileID: 0}
   _children:
   - {fileID: 6487854804248668257}
   - {fileID: 6487854804763565346}
@@ -931,11 +932,8 @@ MonoBehaviour:
   _actionPoint:
   - {fileID: 8682922090247944644}
   - {fileID: 2680206946788356486}
-  _ammo:
-  - {fileID: 5673767050859253457}
-  - {fileID: 4303939036885567637}
-  - {fileID: 5182742707358590409}
-  - {fileID: 4130108457341781020}
+  _ammo: []
+  _ammoIndex: 0
   _textCompetence2: {fileID: 6487854804251187713}
 --- !u!1 &6487854804728223422
 GameObject:

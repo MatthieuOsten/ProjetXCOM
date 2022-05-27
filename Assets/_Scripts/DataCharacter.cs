@@ -21,6 +21,7 @@ public class DataCharacter : Data
     [Header("CAPACITY")]
     [SerializeField] private List<DataWeapon> _weapons;
     [SerializeField] private int _actionPoints;
+ 
 
     [Header("UI")]
     [SerializeField] private Sprite spriteTir;
