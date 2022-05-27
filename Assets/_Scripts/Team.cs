@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class Team : MonoBehaviour , ITeam
+public class Team : MonoBehaviour, ITeam
 {
-     string _name;
-    public string Name {get { return _name; } set { _name = value; }}
+    string _name;
+    public string Name { get { return _name; } set { _name = value; } }
 
-    [SerializeField] DataTeam _data; 
-    public DataTeam Data {protected get{return _data ;} set{ _data = value ;}}
+    [SerializeField] DataTeam _data;
+    public DataTeam Data { protected get { return _data; } set { _data = value; } }
 
     [SerializeField] bool _itsYourTurn;
-    public bool ItsYourTurn {get { return _itsYourTurn; } 
-    set { 
-            
-            _itsYourTurn = value; 
+    public bool ItsYourTurn { get { return _itsYourTurn; }
+        set {
+
+            _itsYourTurn = value;
         }
     }
 
@@ -25,33 +25,34 @@ public class Team : MonoBehaviour , ITeam
     //public ITeam[] Teama{get{ return _team;} set{ _team = value;}}
 
     [SerializeField] Actor[] _squad;
-    public Actor[] Squad{get{ return _squad;} set{ _squad = value;}}
+    public Actor[] Squad { get { return _squad; } set { _squad = value; } }
 
     [SerializeField] bool _spawnRandomlyActor = true;
     [SerializeField] protected GridManager _selectedGrid;
 
     public List<MonoBehaviour> Scripts;
 
-    public void SampleMethod(){
+    public void SampleMethod() {
 
     }
 
     public virtual void Awake() {
         GameObject goGrid = GameObject.FindGameObjectWithTag("GridManager");
-        if(goGrid != null) _selectedGrid = goGrid.GetComponent<GridManager>();
-   
+        if (goGrid != null) _selectedGrid = goGrid.GetComponent<GridManager>();
+
     }
     // Start is called before the first frame update
     public virtual void Start()
     {
-        
+
         SpawnSquad();
-        InitEnemiTeam(); 
+        InitEnemiTeam();
     }
 
     public virtual void StartTurn()
     {
-        UIManager.CreateSubtitle($"C'est à l'équipe {Data.name} de jouer", 4);
+        GridManager.ResetCasesPreview(_selectedGrid);
+        UIManager.CreateSubtitle($"C'est à l'équipe {Data.name} de jouer", 2);
         foreach (Character _actor in Squad)
         {
             // Si le personnage est en overwatch, on lui remet alive lorsque son tour a repris
@@ -59,35 +60,35 @@ public class Team : MonoBehaviour , ITeam
             if (_actor.State == ActorState.Overwatch)
                 _actor.State = ActorState.Alive;
 
-           // _actor.Reinit(); et non on doit le faire quand il passe le tour car si débuff ca sera pas appliqué
+            // _actor.Reinit(); et non on doit le faire quand il passe le tour car si débuff ca sera pas appliqué
 
         }
     }
 
-    public void EndTurn()
+    public virtual void EndTurn()
     {
         foreach (Character _actor in Squad)
         {
             if (_actor.State != ActorState.Dead)
-                _actor.Reinit(); 
+                _actor.Reinit();
 
         }
     }
 
     void InitEnemiTeam()
     {
-         // Ajoute les teams ennemies    
+        // Ajoute les teams ennemies    
         Team[] ennemies = new Team[0];
-        foreach(Team aTeam in LevelManager.listTeam)
+        foreach (Team aTeam in LevelManager.listTeam)
         {
-            if(aTeam != this)
+            if (aTeam != this)
             {
-                Team[] newEnnemies = new Team[ennemies.Length+1];
-                for(int i = 0 ; i < newEnnemies.Length-1 ;i++)
+                Team[] newEnnemies = new Team[ennemies.Length + 1];
+                for (int i = 0; i < newEnnemies.Length - 1; i++)
                 {
                     newEnnemies[i] = ennemies[i];
                 }
-                newEnnemies[newEnnemies.Length-1 ] = aTeam;
+                newEnnemies[newEnnemies.Length - 1] = aTeam;
                 ennemies = newEnnemies;
             }
         }
@@ -96,15 +97,15 @@ public class Team : MonoBehaviour , ITeam
 
     public void SpawnSquad()
     {
-        if(Data.SquadComposition == null || Data.SquadComposition.Length == 0)
+        if (Data.SquadComposition == null || Data.SquadComposition.Length == 0)
         {
             Debug.LogWarning($"Attention la team {typeof(Team)} n'a pas de personnages dans Squad");
             return;
         }
         Squad = new Actor[Data.SquadComposition.Length];
-        for(int i = 0; i < Data.SquadComposition.Length; i++)
+        for (int i = 0; i < Data.SquadComposition.Length; i++)
         {
-           Squad[i] = SpawnActor(Data.SquadComposition[i]);
+            Squad[i] = SpawnActor(Data.SquadComposition[i]);
         }
     }
     public Character SpawnActor(DataCharacter character)
@@ -112,12 +113,12 @@ public class Team : MonoBehaviour , ITeam
         // TODO, il faudra peut etre avoir un prefab de base pour les personnages
         GameObject newCharacter = Instantiate(character._prefabBody);
         Type TypeCharacter = Type.GetType(character.ClassName);
-        newCharacter.name = character.ClassName + " from "+this.GetType().Name;
+        newCharacter.name = character.ClassName + " from " + this.GetType().Name;
         Character component = (Character)newCharacter.AddComponent(TypeCharacter);
         component.Owner = this;
         component.Data = character;
-        
-        if(_spawnRandomlyActor)
+
+        if (_spawnRandomlyActor)
         {
             Case aRandCase = _selectedGrid.GetRandomCase();
             component.CurrentCase = aRandCase;
@@ -131,6 +132,29 @@ public class Team : MonoBehaviour , ITeam
     // Update is called once per frame
     public virtual void Update()
     {
+        if(ItsYourTurn)
+        {
+            WatchIfAllPAused();
+        }
+        WatchIfEveryoneIsDead();
+       
+    }
+
+    void WatchIfAllPAused()
+    {
+        bool AllPAUsed = false;
+        foreach (Character _actor in Squad)
+        {
+
+            if (_actor._currentActionPoint > 0)
+                AllPAUsed = true;
+
+        }
+        ItsYourTurn = AllPAUsed;
+    }
+
+    void WatchIfEveryoneIsDead()
+    {
         bool teamDead = true;
         foreach (Character _actor in Squad)
         {
@@ -139,7 +163,7 @@ public class Team : MonoBehaviour , ITeam
                 teamDead = false;
 
         }
-        if(teamDead)
+        if (teamDead)
         {
             Destroy(gameObject);
         }

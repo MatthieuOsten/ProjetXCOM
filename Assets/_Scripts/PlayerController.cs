@@ -21,9 +21,6 @@ public enum ActionTypeMode
 
 public class PlayerController : Team
 {
-
-    
-
     [Header("SCRIPTS")]
     [SerializeField] private CameraIsometric cameraIsometric;
     [SerializeField] private Controller _inputManager;
@@ -43,12 +40,15 @@ public class PlayerController : Team
 
     [Header("MODE")]
     [SerializeField] Case SelectedCaseA, SelectedCaseB;
-    [SerializeField] Actor SelectedActor;
+    [SerializeField] Actor _selectedActor;
     [SerializeField] private Character character;
     [SerializeField] SelectionMode _selectedMode;
     [SerializeField] ActionTypeMode _actionTypeMode;
     public ActionTypeMode ActionTypeMode { set { _actionTypeMode = value; } } 
 
+
+    /// <summary> Recupere le personnage selectionner par le player </summary>
+    public Actor GetCurrentActorSelected { get { return _selectedActor; } }
 
     //Set, Get de toutes les variables ayant besoin d'�tre modifi�
     public bool OnVigilence
@@ -145,7 +145,7 @@ public class PlayerController : Team
         get { return _selectedMode; }
         set
         {
-            if (SelectedActor == null)
+            if (_selectedActor == null)
                 _selectedMode = SelectionMode.Selection;
             else
                 _selectedMode = value;
@@ -204,7 +204,7 @@ public class PlayerController : Team
         int y = (int)Mathf.Round(mousePos.z / _selectedGrid.CellSize);
         Case AimCase = GridManager.GetValidCase(GridManager.GetCase(_selectedGrid, x, y));
 
-        Character guy = (Character)SelectedActor;
+        Character guy = (Character)_selectedActor;
         if (!guy.CanAction)
         {
             Debug.Log($"Le personnage {guy.name} n'a plus de point d'action");
@@ -272,10 +272,10 @@ public class PlayerController : Team
 
     void WatchAttack()
     {
-        if (SelectedActor != null)
+        if (_selectedActor != null)
         {
             EnemyDetected = new List<GameObject>();
-            foreach (Case aCase in SelectedActor.AttackRange())
+            foreach (Case aCase in _selectedActor.AttackRange())
             {
                 if(aCase._actor != null)
                 {
@@ -297,7 +297,7 @@ public class PlayerController : Team
         {
             // On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
             if(EnemyDetected.Contains(SelectedCaseB._actor.gameObject))
-                SelectedActor.Attack(SelectedCaseB._actor);
+                _selectedActor.Attack(SelectedCaseB._actor);
 
             SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
         }
@@ -305,65 +305,90 @@ public class PlayerController : Team
 
     void ExecOverWatch()
     {
-        SelectedActor.State = ActorState.Overwatch;
+        _selectedActor.State = ActorState.Overwatch;
     }
+    /// <summary> Fonction qui est exécuté quand le joueur n'est pas en mode action </summary>
     void SelectionWatcher()
     {
+        // Gestion de la visée de case
         Vector3 mousePos = MouseToWorldPosition();
         int x = (int)Mathf.Round(mousePos.x / _selectedGrid.CellSize);
         int y = (int)Mathf.Round(mousePos.z / _selectedGrid.CellSize);
         Case AimCase = GridManager.GetValidCase(GridManager.GetCase(_selectedGrid, x, y));
         // Verifie si la case visé n'est pas vide
         if (AimCase == null) return;
+        // Si la case est valide on l'a met en surbrillance
         AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected);
         
 
 
         Case[] pathSuggested = null;
-        Character yo = null;
-        if (SelectedActor != null && AimCase != SelectedCaseA)
+        Character _char = null;
+        // On vérfie qu'un personnage est sélectionner et que la case visé n'est pas deja celle qu'on vise
+        if (_selectedActor != null && AimCase != SelectedCaseA)
         {
-            if (SelectedActor is Character)
+            // Est ce que l'actor qu'on vise est un personnage 
+            if (_selectedActor is Character)
             {
-                yo = (Character)SelectedActor;
-                if (yo.CanAction)
-                    pathSuggested = PathFinding.FindPath(SelectedActor.CurrentCase, AimCase, yo.Data.MovementCasesAction);
+                _char = (Character)_selectedActor;
+                // On vérifie si le personnage peut passer en mode action
+                if (_char.CanAction) 
+                {
+                    UIManager.CreateSubtitle("", 1);
+                    pathSuggested = PathFinding.FindPath(_selectedActor.CurrentCase, AimCase, _char.Data.MovementCasesAction);
+                }
                 else
-                    UIManager.CreateSubtitle("Point d'action insuffisant pour ce personnage", 4);
+                    UIManager.CreateSubtitle("Point d'action insuffisant pour ce personnage", 1);
 
             }
         }
       
-
+        // On vérifie si le joueur clique sur le clique de la souris
         if (_inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {
-            if (pathSuggested != null && yo != null && pathSuggested.Length > 0 && !yo.IsMoving)
+            // Si un chemin est suggéré, qu'un personnage est sélectionner, et que celui ne bouge pas, on lui implante une nouvelle destination 
+            if (pathSuggested != null && _char != null && pathSuggested.Length > 0 && !_char.IsMoving)
             {
-                yo.SetDestination(pathSuggested);
+                _char.SetDestination(pathSuggested);
                 return;
             }
 
-
-
-            SelectedCaseA = AimCase;
+            // Si on arrive la, cela veut dire que nous devons attribuer ce que le joueur vise comme case sélectionner
+            SelectedCaseA = AimCase; 
             if (SelectedCaseA != null && (pathSuggested == null || pathSuggested.Length == 0))
             {
                 GridManager.SetCasePreview(SelectedCaseA, true);
-                if (SelectedActor == null && SelectedCaseA._actor.Owner == this) // On check si l'actor appartient à celui de la team
-                    SelectedActor = SelectedCaseA._actor;
+                if (_selectedActor == null && SelectedCaseA._actor.Owner == this) // On check si l'actor appartient à celui de la team
+                {
+                    _selectedActor = SelectedCaseA._actor;
+                    SetActorSelection(_selectedActor);
+                }
             }
             pathSuggested = null;
 
         }
+        // Si le joueur appuie sur Echap, on déselectionne tout
         if (_inputManager.TestGrid.Echap.WasPerformedThisFrame())
         {
-            Debug.Log("Oye 1");
-            SelectedCaseA = null;
-            SelectedCaseB = null;
-            SelectedActor = null;
-            GridManager.ResetCasesPreview(_selectedGrid);
-            _selectedMode = SelectionMode.Selection;
+            ResetSelection();
         }
+    }
+
+    public override void EndTurn()
+    {
+        ResetSelection();
+        base.EndTurn();
+    }
+
+    void ResetSelection()
+    {
+        Debug.Log("ResetSelection");
+        SelectedCaseA = null;
+        SelectedCaseB = null;
+        _selectedActor = null;
+        GridManager.ResetCasesPreview(_selectedGrid);
+        _selectedMode = SelectionMode.Selection; // On force le mode sélection au cas ou
+
     }
 
     // Update() qui override Update() de Team 
@@ -389,14 +414,14 @@ public class PlayerController : Team
             InputCameraIsometric();
 
             // Si un actor est selectionner on met en surbrillance sa case
-            if (SelectedActor != null)
+            if (_selectedActor != null)
             {
-                SelectedActor.CurrentCase.Highlighted = true;
-                Material mtl = new Material(SelectedActor.CurrentCase.GridParent.Data.caseSelected);
+                _selectedActor.CurrentCase.Highlighted = true;
+                Material mtl = new Material(_selectedActor.CurrentCase.GridParent.Data.caseSelected);
             
-                Character _char = (Character)SelectedActor;
+                Character _char = (Character)_selectedActor;
                 mtl.SetColor("_EmissiveColor", _char.Data.Color);
-                SelectedActor.CurrentCase.ChangeMaterial(mtl);
+                _selectedActor.CurrentCase.ChangeMaterial(mtl);
             }
 
         }
@@ -420,6 +445,18 @@ public class PlayerController : Team
         }
     }
 
+    /// <summary> Si le joueur selectionne a la souris, il faut mettre à jour l'index de characterPlayer </summary>
+    void SetActorSelection(Actor _newActor)
+    {
+        for(int i = 0; i < CharacterPlayer.Count; i++)
+        {
+            Character _char = CharacterPlayer[i].GetComponent<Character>();
+            if(_char == GetCurrentActorSelected)
+            {
+                CharacterIndex = i;
+            }
+        }
+    }
 
     void CameraIsometricUpdate()
     {
@@ -499,20 +536,6 @@ public class PlayerController : Team
             };
         }
     }
-
-    //Input de la camera vue a l'epaule
-    /* private void InputCameraShoulder()
-     {
-         if (_leftHand == false && _onShoulder)
-         {
-             _inputManager.ControlCamera.SelectedEnemy.performed += context => SelectedEnemy();
-         }
-
-         else if (_onShoulder)
-         {
-             _inputManager.ControlCamera.SelectedEnemyLeftHand.performed += context => SelectedEnemyLeftHand();
-         }
-     }*/
 
     private void Shoot()
     {
@@ -594,12 +617,12 @@ public class PlayerController : Team
             
         }
         // On vérifie que le character n'est pas null 
-        if (CharacterPlayer[CharacterIndex] == null) 
+        if (CharacterPlayer[CharacterIndex] == null || CharacterPlayer[CharacterIndex].GetComponent<Character>()._currentActionPoint <= 0) 
         {
             CharacterChange();
             return;
         }
-        SelectedActor = CharacterPlayer[CharacterIndex].GetComponent<Character>();
+        _selectedActor = CharacterPlayer[CharacterIndex].GetComponent<Character>();
     }
 
     //Permet de cibler un ennemie
@@ -616,7 +639,7 @@ public class PlayerController : Team
         {
             EnemyIndex = 0;
         }
-        SelectedActor = Enemy[EnemyIndex].GetComponent<Character>();
+        _selectedActor = Enemy[EnemyIndex].GetComponent<Character>();
     }
 
     /*private void TakeCameraShoulder()

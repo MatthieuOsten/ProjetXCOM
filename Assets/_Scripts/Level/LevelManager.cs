@@ -101,12 +101,14 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    /// <summary> Permet de renvoyer la team qui doit jouer </summary>
+    /// <summary> Permet de renvoyer la team qui est en train de jouer </summary>
     public static Team GetCurrentController()
     {
         return listTeam[Instance._currentTeamIndex];
     }
-
+    /// <summary>
+    /// Met fin au tour
+    /// </summary>
     void EndTurn()
     {
         listTeam[_currentTeamIndex].ItsYourTurn = false;

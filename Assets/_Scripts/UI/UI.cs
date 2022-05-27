@@ -35,7 +35,7 @@ public class UI : MonoBehaviour
         AdaptBar();
 
 
-        if (_pC.CharacterPlayer[_pC.CharacterIndex] == null)
+        if (_pC.GetCurrentActorSelected == null)
         {
             _textDebug.text = "";
             return;
@@ -62,23 +62,26 @@ public class UI : MonoBehaviour
 
     private void ShadeBar()
     {
-        if (_pC.OnEnemy)
-        {         
-           _barreAction.color = new Color(_barreAction.color.r,_barreAction.color.g,_barreAction.color.b,1f);
-            foreach(Image image in _children)
-            {
-                image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
-            }
-            
-        }
+        
 
-        if(_pC.OnEnemy == false)
+        if(_pC.GetCurrentActorSelected == null)
         {
+            _barreAction.gameObject.SetActive(false); // désactive la barre d'action
             _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0.1f);
             foreach (Image image in _children)
             {
                 image.color = new Color(image.color.r, image.color.g, image.color.b, 0.3f);
             }
+        }
+        else
+        {
+            _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 1f);
+            foreach (Image image in _children)
+            {
+                image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
+            }
+            _barreAction.gameObject.SetActive(true);  // réactive la barre d'action
+
         }
     }
 
