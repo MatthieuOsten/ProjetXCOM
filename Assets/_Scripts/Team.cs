@@ -57,9 +57,6 @@ public class Team : MonoBehaviour, ITeam
     {
         GridManager.ResetCasesPreview(_selectedGrid);
         UIManager.CreateSubtitle($"C'est à l'équipe {Data.name} de jouer", 2);
-
-
-
         foreach (Character _actor in Squad)
         {
             // Si le personnage est en overwatch, on lui remet alive lorsque son tour a repris
@@ -105,8 +102,6 @@ public class Team : MonoBehaviour, ITeam
     public void SpawnSquad()
     {
         // On vérifie si un point de spawn existe
-        
-
         if (Data.SquadComposition == null || Data.SquadComposition.Length == 0)
         {
             Debug.LogWarning($"Attention la team {typeof(Team)} n'a pas de personnages dans Squad");
@@ -193,7 +188,7 @@ public class Team : MonoBehaviour, ITeam
         foreach (Character _actor in Squad)
         {
 
-            if (_actor._currentActionPoint > 0)
+            if (_actor.CanAction)
                 AllPAUsed = true;
 
         }

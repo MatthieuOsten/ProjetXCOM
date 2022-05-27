@@ -440,7 +440,8 @@ public class PlayerController : Team
                 Material mtl = new Material(_selectedActor.CurrentCase.GridParent.Data.caseSelected);
             
                 Character _char = (Character)_selectedActor;
-                mtl.SetColor("_EmissiveColor", _char.Data.Color);
+                
+                mtl.SetColor("_EmissiveColor", _char.GetCharacterColor());
                 _selectedActor.CurrentCase.ChangeMaterial(mtl);
             }
 
@@ -559,10 +560,10 @@ public class PlayerController : Team
 
     private void Shoot()
     {
-        if (character.Ammo > 0)
-        {
-            character.Ammo -= 1;
-        }
+        //if (character.Ammo > 0)
+        //{
+        //    character.Ammo -= 1;
+        //}
     }
 
     private void Vigilence()
@@ -637,7 +638,7 @@ public class PlayerController : Team
             
         }
         // On vérifie que le character n'est pas null 
-        if (CharacterPlayer[CharacterIndex] == null || CharacterPlayer[CharacterIndex].GetComponent<Character>()._currentActionPoint <= 0) 
+        if (CharacterPlayer[CharacterIndex] == null || !CharacterPlayer[CharacterIndex].GetComponent<Character>().CanAction) 
         {
             CharacterChange();
             return;
