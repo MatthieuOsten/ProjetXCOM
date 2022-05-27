@@ -107,14 +107,20 @@ public class PlayerController : Team
     }
     public int EnemyDetectedIndex
     {
-        get { return _enemyDetectedIndex; }
+        get {
+            if (_enemyDetectedIndex >= EnemyDetected.Count)
+            {
+                _enemyDetectedIndex = 0;
+            }
+            return _enemyDetectedIndex; }
         set
         {
-            if (_enemyDetectedIndex >= 1)
+            if (value >= EnemyDetected.Count)
             {
-                _enemyDetectedIndex = 1;
+                _enemyDetectedIndex = 0;
             }
-            _enemyDetectedIndex = value;
+            else
+                _enemyDetectedIndex = value;
         }
     }
     public List<GameObject> CharacterPlayer
@@ -506,7 +512,7 @@ public class PlayerController : Team
             _inputManager.ControlCamera.RigthHandShoulder.performed += context => SwitchShoulderCam();
             _inputManager.ControlCamera.LeaveShoulder.performed += context => LeaveShoulderCam();
 
-            if (!_leftHand && _onEnemy)
+            if (!_leftHand && SelectionMode == SelectionMode.Action && _actionTypeMode == ActionTypeMode.Attack && EnemyDetected.Count > 0 )
             {
                 _inputManager.ControlCamera.SelectedEnemy.performed += context => SelectedEnemy();
             }
@@ -644,23 +650,14 @@ public class PlayerController : Team
             return;
         }
         _selectedActor = CharacterPlayer[CharacterIndex].GetComponent<Character>();
+        SelectionMode = SelectionMode.Selection;
     }
 
     //Permet de cibler un ennemie
     public void SelectedEnemy()
     {
-        //_canLook = true;
-
-        if (_onEnemy)
-        {
-            EnemyIndex++;
-        }
-
-        if (EnemyIndex >= Enemy.Count)
-        {
-            EnemyIndex = 0;
-        }
-        _selectedActor = Enemy[EnemyIndex].GetComponent<Character>();
+        EnemyDetectedIndex++;
+        SelectedCaseB = EnemyDetected[EnemyDetectedIndex].GetComponent<Character>().CurrentCase;
     }
 
     /*private void TakeCameraShoulder()
