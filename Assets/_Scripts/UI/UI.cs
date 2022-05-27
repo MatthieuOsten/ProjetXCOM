@@ -131,20 +131,61 @@ public class UI : MonoBehaviour
 
     public void SetActionModeAttack()
     {
-        _pC.SelectionMode = SelectionMode.Action;
-        _pC.ActionTypeMode = ActionTypeMode.Attack;
+        if (_pC.SelectionMode != SelectionMode.Action)
+        {
+            _pC.SelectionMode = SelectionMode.Action;
+            _pC.ActionTypeMode = ActionTypeMode.Attack;
+        } 
+        else
+        {
+            _pC.SelectionMode = SelectionMode.Selection;
+            _pC.ActionTypeMode = ActionTypeMode.None;
+        }
+
     }
     public void SetActionModeOverwatch()
     {
-        _pC.ActionTypeMode = ActionTypeMode.Overwatch;
+        if (_pC.SelectionMode != SelectionMode.Action)
+        {
+            _pC.SelectionMode = SelectionMode.Action;
+            _pC.ActionTypeMode = ActionTypeMode.Overwatch;
+        }
+        else
+        {
+            _pC.SelectionMode = SelectionMode.Selection;
+            _pC.ActionTypeMode = ActionTypeMode.None;
+        }
+
     }
     public void SetActionModeCompetence()
     {
-        _pC.ActionTypeMode = ActionTypeMode.Competence1;
+        if (_pC.SelectionMode != SelectionMode.Action)
+        {
+            _pC.SelectionMode = SelectionMode.Action;
+            _pC.ActionTypeMode = ActionTypeMode.Competence1;
+        }
+        else
+        {
+            _pC.SelectionMode = SelectionMode.Selection;
+            _pC.ActionTypeMode = ActionTypeMode.None;
+        }
+
+
     }
     public void SetActionModeCompetenceAlt()
     {
-        _pC.ActionTypeMode = ActionTypeMode.Competence2;
+        if (_pC.SelectionMode != SelectionMode.Action)
+        {
+            _pC.SelectionMode = SelectionMode.Action;
+            _pC.ActionTypeMode = ActionTypeMode.Competence2;
+        }
+        else
+        {
+            _pC.SelectionMode = SelectionMode.Selection;
+            _pC.ActionTypeMode = ActionTypeMode.None;
+        }
+
+
     }
     public void EndTurn()
     {
