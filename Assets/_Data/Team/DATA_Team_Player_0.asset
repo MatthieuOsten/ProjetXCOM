@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c3afe4d4ebdce4eab6a7e6910e01ac, type: 3}
   m_Name: DATA_Team_Player_0
   m_EditorClassIdentifier: 
-  name: 
+  name: Team A
   description: 
   type: 
   tags: []
   icon: {fileID: 0}
   SquadComposition:
-  - {fileID: 11400000, guid: 955b8756c0f8d0e48b9426a13a5f7013, type: 2}
-  - {fileID: 11400000, guid: 955b8756c0f8d0e48b9426a13a5f7013, type: 2}
-  - {fileID: 11400000, guid: 955b8756c0f8d0e48b9426a13a5f7013, type: 2}
-  - {fileID: 11400000, guid: 955b8756c0f8d0e48b9426a13a5f7013, type: 2}
+  - {fileID: 11400000, guid: 20ccfabdfa0a1354c8558f01e7c957a5, type: 2}
+  - {fileID: 11400000, guid: 20ccfabdfa0a1354c8558f01e7c957a5, type: 2}
+  - {fileID: 11400000, guid: 8629e9851f032ff448c71fc9d27e5a7c, type: 2}
+  - {fileID: 11400000, guid: 3acb1dfbf24d14c4a8f6fa3405a7834b, type: 2}
   userType: 0

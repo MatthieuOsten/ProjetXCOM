@@ -78,8 +78,9 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(subtitleCompo == null) subtitleCompo = subtitleComponent;
         UpdateHintstring();
-        //UpdateSubtitle();
+        UpdateSubtitle();
         
         // if(LevelManager.Util.IsPaused)
         //     MenuPause.SetActive(true);
@@ -264,6 +265,8 @@ public class UIManager : MonoBehaviour
 
         return component;
     }
+
+   
 
     public void BackToMenu()
     {

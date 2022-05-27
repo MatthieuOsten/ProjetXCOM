@@ -11,15 +11,16 @@ public enum ActorState
 // Linterface dit ce que fait la class
 public interface IActor
 {
-    //[SerializeField] Case CurrentCase { get; set;}
+    [Tooltip("Correspond à la case ou il se trouve")]
     [SerializeField] Case CurrentCase { get; }
-     ActorState State { get; set; }
+    [SerializeField] ActorState State { get; set; }
     int Health { get;  }
-    Range Range {get;}
+    //Range Range {get;}
 
     void Death();
     void DoDamage(int amount);
     void Attack(Actor target);
-    void EnableAbility();
+    void EnableAbility(Actor target);
+    void EnableAbilityAlt(Actor target);
     Case[] AttackRange();
 }

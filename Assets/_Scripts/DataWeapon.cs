@@ -20,9 +20,10 @@ public class DataWeapon : Data
 
     [Header("STATISTIQUE")]
     [SerializeField] private typeWeapon _typeW;
-    [SerializeField] private float _damage;
+    [SerializeField] private int _damage;
     [SerializeField] private float _accuracy;
     [SerializeField] private int _costPoint;
+    [SerializeField] public Range _range;
     [SerializeField] private int _munition;
     public Range _range;
 
@@ -49,10 +50,6 @@ public class DataWeapon : Data
     { 
         get { return _typeW; }    
     }
-    public float Damage 
-    {
-        get { return _damage; } 
-    }
     public float Accuracy 
     {
         get { return _accuracy; } 
@@ -78,6 +75,7 @@ public class DataWeapon : Data
     {
         get { return _soundReload; } 
     }
+    public int Damage { get {return _damage;} }
 
     
 

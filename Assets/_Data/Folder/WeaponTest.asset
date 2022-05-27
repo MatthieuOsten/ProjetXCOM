@@ -26,9 +26,9 @@ MonoBehaviour:
   _costPoint: 0
   _munition: 4
   _range:
-    right: 3
-    diagonal: 5
-    type: 1
+    right: 2
+    diagonal: 2
+    type: 0
   _animIdle: {fileID: 0}
   _animFire: {fileID: 0}
   _soundFire: {fileID: 0}

@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e35e1994868fd44aac59478ff36af89, type: 3}
+  m_Name: DATA_Character_Tank
+  m_EditorClassIdentifier: 
+  name: Tank
+  description: "Sa pr\xE9sence permet de menacer l\u2019ennemi tout en lui infligeant
+    des debuff lui permettant de se rapprocher malgr\xE9 son manque de mobilit\xE9
+    et sa port\xE9 d\u2019attaque faible/au CAC"
+  type: 
+  tags: []
+  icon: {fileID: 21300000, guid: 4e275cc6fe38f5d48b9b64ca141e10d8, type: 3}
+  _prefabBody: {fileID: 8067521322994565020, guid: 9b652cfa7f83ce54fa6e3f5d3d7367f0,
+    type: 3}
+  _tabCosmetic: []
+  _tabAccessory: []
+  _color: {r: 0.7075472, g: 0.5726963, b: 0, a: 0}
+  _health: 10
+  _shield: 0
+  _moveSpeed: 10
+  _weapons:
+  - {fileID: 11400000, guid: 61d8fc8d029515b4eab4b8a47d10ce02, type: 2}
+  _actionPoints: 2
+  _movementCasesAction: 3
+  CostAttack: 1
+  CostVigilance: 1
+  CostCompetence: 1
+  CostCompetenceAlt: 1
+  CostReload: 1
+  spriteTir: {fileID: 21300000, guid: 0135e3d1b81285f48997c72fd061f8d8, type: 3}
+  spriteVigilance: {fileID: 21300000, guid: fa24baa939b84ad47bcbddd283623c62, type: 3}
+  spriteCompetence: {fileID: 21300000, guid: f9d826ed2cdfb594b916ba79efd8ad7e, type: 3}
+  spriteCompetence2: {fileID: 0}
+  pointAction: {fileID: 0}
+  ammo: {fileID: 21300000, guid: 301fe569da9047c4988d46c1707ea4e5, type: 3}
+  ClassName: Actor_Tank

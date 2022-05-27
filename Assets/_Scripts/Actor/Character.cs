@@ -7,42 +7,38 @@ public class Character : Actor
     [SerializeField] private DataCharacter _data;
     [SerializeField] private int _ammo;
 
-    public int Ammo
-    {
-        get { return _ammo; }
-        set
-        {
-            _ammo = value;
-        }
-    }
+    public int Ammo{    get { return _ammo; }
+                        set{ _ammo = value; } }
     public DataCharacter Data { get { return _data; } set{ _data = value;}}
 
-    public override int Health { 
-        
-        get { return base.Health; } 
-        
-        protected set {
-
-            // Empeche la vie de monter au dessus du maximum
-            if (value > Data.Health)
-            {
-                value = Data.Health;
-            }
-
-            base.Health = value; 
+    public override int Health {  
+                    get { return base.Health; } 
+        protected   set {   // Empeche la vie de monter au dessus du maximum
+                            if (value > Data.Health) value = Data.Health;
+                            base.Health = value; 
         } 
     
     }
 
-    // Clix properties
+    public bool IsMoving
+    {
+        get{return pathToFollow != null && pathToFollow.Length > 0; }
+    }
+    public bool CanAction
+    {
+        get { return _currentActionPoint > 0; }
+    }
+
     public Case StartPos;
     public Case Destination;
     [SerializeField] public Case CurrentPos { get { return CurrentCase; } set{ CurrentCase = value;} }
 
-    public float moveSpeed = 5;
-    Case[] pathToFollow;
+
+    public int _currentActionPoint;
+
+    [SerializeField] Case[] pathToFollow;
     LineRenderer lr;
-    int _indexPath = 0;
+    [SerializeField] int _indexPath = 0;
 
     // Effectue une action a la mort du personnage //
     public override void Death()
@@ -55,56 +51,72 @@ public class Character : Actor
     {
         Health -= amount;
     }
-
-
     public override void Start()
     {
-        lr = gameObject.AddComponent<LineRenderer>();
-        gameObject.AddComponent<RaycastCamera>();
+          lr = gameObject.AddComponent<LineRenderer>();
+        //gameObject.AddComponent<RaycastCamera>();
         Health = Data.Health; // init la vie
         base.Start();
     }
+    /// <summary> Cette fonction est lancée lorsqu'un nouveau tour commence </summary>
+    public virtual void Reinit()
+    {
+        _currentActionPoint = Data.ActionPoints;
+    }
 
     public override void Update() {
-        if(Destination != null)
+        if(pathToFollow != null)
         {
             OnMove();
         }
         else
         {
-            _indexPath = 0;
-            pathToFollow = null;
+            //_indexPath = 0;
+        }
+
+        // Si en overwatch on dessine les cases ou il regarde
+        if(State == ActorState.Overwatch) 
+        {
+            AttackRange();
         }
     }
 
-    // Deplace le personnage d'un point A a un point B
+    public void SetDestination(Case[] path = null)
+    {
+        pathToFollow = path;
+        _currentActionPoint--;
+    }
+    public override void Attack(Actor target)
+    {
+        _currentActionPoint--;
+    }
     void OnMove()
     {
-        // Si ca position correspond à la destination, on est bon        
-    
+        // Si ca public position corCase destination, Case[] path = nullrespond 
+               
+        // On check si la case de destination est à une bonne distance
 
-        if(pathToFollow == null || pathToFollow.Length == 0)
-            pathToFollow = PathFinding.FindPath(CurrentPos, Destination);
+        float moveSpeed = Data.MoveSpeed;  
         
         if(_indexPath <= pathToFollow.Length-1 && pathToFollow[_indexPath] != null)
-            transform.position = Vector3.MoveTowards(transform.position, pathToFollow[_indexPath].gameObject.transform.position, moveSpeed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position,GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]), moveSpeed * Time.deltaTime);
         else
         {
-             ResetDestination();
+             //ResetDestination();
         }
 
-        if(transform.position == GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]))
+        if( transform.position == GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]))
         {
             Case LastCase = pathToFollow[pathToFollow.Length-1];
-            if(LastCase != Destination || pathToFollow.Length == 0 || Destination == null)
+            if(pathToFollow.Length == 0 || pathToFollow == null )
             {
                 ResetDestination();
                 return;
             }
 
-            CurrentPos._actor = null;
-            CurrentPos = pathToFollow[_indexPath];
-            CurrentPos._actor = this;
+            CurrentCase._actor = null;
+            CurrentCase = pathToFollow[_indexPath];
+            CurrentCase._actor = this;
             _indexPath++;       
             int newIndex = pathToFollow.Length - _indexPath;
             if( newIndex > 1) lr.positionCount = newIndex;
@@ -114,19 +126,13 @@ public class Character : Actor
                 //lr.SetPosition(i, GridManager.GetCaseWorldPosition(pathToFollow[_indexPath+i]));
             }
             
-            if(CurrentPos == LastCase)
+            if(CurrentCase == LastCase)
             {
                 LastCase._actor = this;
                 Debug.Log("Destination atteint");
-                if(LastCase == Destination) // Si jamais on a une autre destination en attente, beh on la garde on la met pas null
-                {
-                    ResetDestination();
-                }    
-                else
-                {
-                    _indexPath = 0;
-                    pathToFollow = null;
-                }
+                  ResetDestination();
+                   
+                
             }
 
         } 
@@ -141,30 +147,101 @@ public class Character : Actor
         GridManager parent = CurrentCase.GridParent;
         GridManager.ResetCasesPreview(parent);
 
-        switch(range.type)
+        List<Case> CheckCaserightRange( List<Case> _range)
+        {
+            for (int i = 1; i < range.rightRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX, actorY + (1 * i));
+                if (_case != null)
+                    break;
+
+                _range.Add(_case);
+            }
+            for (int i = 1; i < range.rightRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX + (1 * i), actorY);
+                if (_case != null)
+                    break;
+
+                _range.Add(_case);
+            }
+            for (int i = 1; i < range.rightRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX - (1 * i), actorY);
+                if (_case != null)
+                    break;
+
+                _range.Add(_case);
+            }
+            for (int i = 1; i < range.rightRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX, actorY + (1 * i));
+                if (_case != null)
+                    break;
+
+                _range.Add(_case);
+            }
+            return _range;
+        }
+
+        List<Case> CheckCasediagonalRange( List<Case> _range)
+        {
+            for (int i = 1; i < range.diagonalRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX + (1 * i), actorY + (1 * i));
+                if (GridManager.GetValidCase(_case ) == null)
+                    break;
+
+                _range.Add(_case);
+            }
+            for (int i = 1; i < range.diagonalRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX - (1 * i), actorY + (1 * i));
+                if (GridManager.GetValidCase(_case) == null)
+                    break;
+
+                _range.Add(_case);
+            }
+            for (int i = 1; i < range.diagonalRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX + (1 * i), actorY - (1 * i));
+                if (GridManager.GetValidCase(_case) == null)
+                    break;
+
+                _range.Add(_case);
+            }
+            for (int i = 1; i < range.diagonalRange + 1; i++)
+            {
+                Case _case = GridManager.GetCase(parent, actorX - (1 * i), actorY - (1 * i));
+                if (GridManager.GetValidCase(_case) == null)
+                    break;
+
+                _range.Add(_case);
+            }
+            return _range;
+        }
+        switch (range.type)
         {
             case RangeType.Simple:
-                for(int i = 1 ; i < range.rightRange+1; i++)
-                {
-                    _range.Add(GridManager.GetCase(parent , actorX , actorY + (1 * i))); 
-                    _range.Add(GridManager.GetCase(parent , actorX+ (1 * i) , actorY)); // Case a droite
-                    _range.Add( GridManager.GetCase(parent , actorX- (1 * i) , actorY)); // Case a gauche
-                    _range.Add( GridManager.GetCase(parent , actorX , actorY- (1 * i))); // Case en bas
-                }
-                for(int i = 1 ; i < range.diagonalRange+1; i++)
-                {
-                    _range.Add(GridManager.GetCase(parent , actorX+ (1 * i) , actorY+ (1 * i))); // Case au dessus droite
-                    _range.Add(GridManager.GetCase(parent , actorX- (1 * i) , actorY+ (1 * i))); // Case au dessus gauche
-                    _range.Add( GridManager.GetCase(parent , actorX+ (1 * i) , actorY- (1 * i))); // Case en bas droite
-                    _range.Add( GridManager.GetCase(parent , actorX- (1 * i) , actorY- (1 * i))); // Case en bas gauche
-                }
+                _range = CheckCaserightRange(    _range);
+                _range = CheckCasediagonalRange( _range);
             break;
             case RangeType.Radius:
                 _range = GridManager.GetRadiusCases(CurrentCase, range.rightRange);
             break;
         }
-        GridManager.SetCasePreview(_range);
-        return _range.ToArray();
+        GridManager.SetCaseAttackPreview(_range);
+
+        List<Case> _cases = new List<Case>();
+        // Permet de verifier que l'on donne pas des cases inutiles
+        foreach(Case _case in _range)
+        {
+            if (_case != null )
+                _cases.Add(_case);
+        }
+
+
+        return _cases.ToArray();
      
     }
     void ResetDestination()
@@ -172,5 +249,7 @@ public class Character : Actor
         Destination = null; 
         _indexPath = 0;
         pathToFollow = null;
+        
     }
 }
+//////

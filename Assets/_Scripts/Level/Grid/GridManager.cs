@@ -16,6 +16,14 @@ public class GridManager : MonoBehaviour
     [SerializeField] bool GenerateAGrid, ResetGrid;
 
     [SerializeField] bool _showScorePathFinding;
+
+    [field : SerializeField]
+    public List<Case> SpawnerCase
+    {
+        get;
+        set;
+    }
+
     public bool ShowScorePathFinding { get { return _showScorePathFinding; } }
 
     public int SizeX
@@ -77,7 +85,7 @@ public class GridManager : MonoBehaviour
     /// <summary> Cette fonction va generer la grille, et chaque cellule sera une entity de type Case </summary>
     void GenerateGrid()
     {
-        ClearGrid();
+        ClearGrid(); 
         _grid = new Case[SizeX, SizeY];
         // On genere les cases pour chaque coordonnée
         for (int x = 0; x < SizeX; x++)
@@ -129,7 +137,6 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
-    ///         !! Surement va etre supprimer car les cases sont maintenant des gameobject
     /// Permet d'avoir la position de la grille dans le world,
     /// Necessaire pour certaines situations et vue que la Case n'est pas un gameobject, il y a cette function de disponible
     /// </summary>
@@ -143,12 +150,7 @@ public class GridManager : MonoBehaviour
     {
         return new Vector3(caseToCheck.CaseStatut.x, 0, caseToCheck.CaseStatut.y) * caseToCheck.GridParent.CellSize;
     }
-    /*
-        WIP
-       
-    */
     /// <summary> Récupére une case dans la grille</summary>
-
     public Case GetCase(int x, int y)
     {
         if (x >= SizeX || y >= SizeY || x < 0 || y < 0)
@@ -158,7 +160,6 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary> Récupére une case dans la grille indiquer en paramètre</summary>
-  
     public static Case GetCase(GridManager gridParent, int x, int y)
     {
         if (x >= gridParent.SizeX || y >= gridParent.SizeY || x < 0 || y < 0)
@@ -187,7 +188,7 @@ public class GridManager : MonoBehaviour
         return cases;
     }
 
-
+    /// <summary> Recupere les cases autour d'une case choisi avec un rayon donnée, vraiment besoin d'un commentaire ? </summary>
     public static List<Case> GetRadiusCases(Case CurrentCase, int radius )
     {
         bool inside_circle(Case center, Case tile, float radius) 
@@ -200,7 +201,7 @@ public class GridManager : MonoBehaviour
 
         List<Case> RadiusCase = new List<Case>();
 
-        // Pour eviter de checker toute la grille, on va faire un zone en carré pour délimiter
+        // Pour eviter de checker toute la grille, on va faire un zone en carré pour délimiter, exemple d'optimisation ;)
         int xStart =  CurrentCase.x - radius;
         int yStart =  CurrentCase.y - radius;
         int xEnd =  CurrentCase.x + radius;
@@ -228,29 +229,61 @@ public class GridManager : MonoBehaviour
             {
                 if (grid._grid[x, y] != endCase && grid._grid[x, y] != startCase)
                 {
-                    grid._grid[x, y].Checked = false;
-                    grid._grid[x, y].Highlighted = false;
-                    grid._grid[x, y].hCost = 0;
-                    grid._grid[x, y].gCost = 0;
-                    //grid._grid[x, y].ChangeMaterial(grid.Data.caseDefault);
+                    ResetCasePreview(grid._grid[x, y]);
                 }
             }
         }
     }
+    /// <summary> Permet de reset la prévisualisation d'une case </summary>
+    public static void ResetCasePreview(Case _case)
+    {
+        _case.Checked = false;
+        _case.Highlighted = false;
+        _case.hCost = 0;
+        _case.gCost = 0;
+    }
+
     public static void SetCasePreview(Case aCase, bool Reset = false)
     {
         if(GetValidCase(aCase) == null) return;
-        if(Reset)
-            ResetCasesPreview(aCase.GridParent); 
+        
+         if(Reset) ResetCasesPreview(aCase.GridParent);
+
         aCase.Highlighted = true;
-        aCase.ChangeMaterial(aCase.GridParent.Data.caseNone);
+        aCase.ChangeMaterial(aCase.GridParent.Data.caseHighlight);
 
     }
     public static void SetCasePreview(List<Case> cases, bool Reset = false)
     {
+        if(cases == null || cases.Count == 0) return;
+        if(Reset)
+            ResetCasesPreview(cases[0].GridParent); 
+            
         for(int i = 0 ; i < cases.Count ; i++)
         {
-            SetCasePreview(cases[i], Reset);
+            SetCasePreview(cases[i]);
+        }
+    }
+
+    public static void SetCaseAttackPreview(Case aCase, bool Reset = false)
+    {
+        if (GetValidCase(aCase) == null) return;
+
+        if (Reset) ResetCasesPreview(aCase.GridParent);
+
+        aCase.Highlighted = true;
+        aCase.ChangeMaterial(aCase.GridParent.Data.caseOverwatch);
+
+    }
+    public static void SetCaseAttackPreview(List<Case> cases, bool Reset = false)
+    {
+        if (cases == null || cases.Count == 0) return;
+        if (Reset)
+            ResetCasesPreview(cases[0].GridParent);
+
+        for (int i = 0; i < cases.Count; i++)
+        {
+            SetCaseAttackPreview(cases[i]);
         }
     }
 
@@ -264,8 +297,6 @@ public class GridManager : MonoBehaviour
     void Update()
     {
         RegenerateCaseTable(); // Existe car entre le edit et runtime la table a double entrer foire // TODO : trouver une autre maniere
-
-
 
 
         if (GenerateAGrid)
@@ -304,7 +335,7 @@ public class GridManager : MonoBehaviour
                 }
             }
             
-            int childs = transform.childCount;
+                int childs = transform.childCount;
                 for (int i = childs - 1; i >= 0; i--)
                 {   
                     Case child = transform.GetChild(i).GetComponent<Case>();
@@ -360,23 +391,7 @@ public class GridManager : MonoBehaviour
         
         return randomCase;
     }
-    // /*
-    //     Permet de sauvegarder la grid dans le fichier data mais cest peut etre inutile donc a voir
-    // */
-    // void SaveGridToData()
-    // {
-    //     CaseInfo[] newCases = new CaseInfo[SizeX * SizeY];
-    //     for(int xi = 0 ; xi < SizeX; xi++)
-    //     {
-    //         for(int yi = 0 ; yi < SizeY; yi++)
-    //         {
-    //             Debug.Log(_grid[xi,yi].index);
-    //             newCases[_grid[xi,yi].index] = _grid[xi,yi].CaseStatut;              
-    //         }
-    //     }
-    //     Data.Grid = newCases;
-    // }
-
+ 
 }
 
 

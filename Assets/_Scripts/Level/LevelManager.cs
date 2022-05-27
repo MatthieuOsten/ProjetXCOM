@@ -45,7 +45,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] DataTeam[] _teams;
     
 
-    [SerializeField] int _currentTurn;
+    [SerializeField] private int _currentTurn;
 
     [SerializeField] int _currentTeamIndex;
     [SerializeField] PointControl[] PointControls;
@@ -53,9 +53,7 @@ public class LevelManager : MonoBehaviour
 
     [Header("Debug")]
     public List<Team> StaticlistTeam = new List<Team>();
-    /// <summary>
-    /// Permet de passer le tour au joueur actuel.
-    /// </summary>
+    /// <summary> Permet de passer le tour au joueur actuel./// </summary>
     public bool PassedTurn;
 
 
@@ -74,7 +72,7 @@ public class LevelManager : MonoBehaviour
     {
         SpawnTeam();
     }
-
+    /// <summary> Cette fonction spawn une Team en tant que Joueur ou Bot </summary>
     void SpawnTeam()
     {
         if(_teams.Length > 0)
@@ -94,6 +92,7 @@ public class LevelManager : MonoBehaviour
                 }
                 controller.Data = _teams[i];
                 teamInstance.name = "Team "+i;
+                
                 AddTeamToList(controller);
             }
         }
@@ -103,23 +102,25 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    /// <summary> Permet de renvoyer la team qui est en train de jouer </summary>
     public static Team GetCurrentController()
     {
         return listTeam[Instance._currentTeamIndex];
-
-        
     }
-
+    /// <summary>
+    /// Met fin au tour
+    /// </summary>
     void EndTurn()
     {
         listTeam[_currentTeamIndex].ItsYourTurn = false;
+        listTeam[_currentTeamIndex].EndTurn();
         _currentTurn++;
         _currentTeamIndex++;
         if(_currentTeamIndex >= listTeam.Count )
             _currentTeamIndex = 0;
         
         listTeam[_currentTeamIndex].ItsYourTurn = true;
-
+        listTeam[_currentTeamIndex].StartTurn();
     }
 
     // Update is called once per frame
@@ -131,12 +132,27 @@ public class LevelManager : MonoBehaviour
             WatchPointControlsPurified();
             WatchController();
         }
+        WatchLastSurvivor();
+    }
+    /// <summary> Regarde la derniere team en vie, si c'est le cas, gameover </summary>
+    void WatchLastSurvivor()
+    {
+        int howManyTeam = 0;
+        foreach (Team _team in listTeam)
+        {
+            if (_team != null) howManyTeam++;
+        }
+
+        if (howManyTeam <= 1)
+        {
+            UIManager.CreateSubtitle("END GAME");
+            Gameover = true;
+        }
     }
     // Cest pour debug
     void DebugWatcher()
     {
         StaticlistTeam = listTeam;
-        //Debug.Log(listTeam.Count);  
 
         if(PassedTurn)
         {
@@ -144,7 +160,7 @@ public class LevelManager : MonoBehaviour
             PassedTurn = false;
         } 
     }
-    // Cette function regarde si la team qui joue a terminé son tour
+    /// <summary> Cette function regarde si la team qui joue a terminé son tour</summary>
     void WatchController()
     {
         if(listTeam.Count > 0 && listTeam[_currentTeamIndex].ItsYourTurn == false)
@@ -152,9 +168,9 @@ public class LevelManager : MonoBehaviour
             EndTurn();
         }
     }
-    /*
-        Cette function regardera si tout les points de controle sont purifiés
-    */
+
+       
+   /// <summary> Cette function regardera si tout les points de controle sont purifiés </summary>
     void WatchPointControlsPurified()
     {
         bool endGame = false;
