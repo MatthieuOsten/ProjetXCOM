@@ -29,7 +29,7 @@ public class Actor_Tank : Character
         if( target is Character )
         {
             targetChar = (Character)target;
-            targetChar._currentActionPoint--;
+            targetChar.CurrentActionPoint--;
         }
 
         base.Attack(target);

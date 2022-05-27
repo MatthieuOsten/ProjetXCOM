@@ -23,10 +23,6 @@ public class Character : Actor
 
     }
 
-    public Case StartPos;
-    public Case Destination;
-    [SerializeField] public Case CurrentPos { get { return CurrentCase; } set { CurrentCase = value; } }
-
     Case[] pathToFollow;
     LineRenderer lr;
     int _indexPath = 0;
@@ -39,6 +35,7 @@ public class Character : Actor
     public int CurrentActionPoint
     {
         get { return _currentActionPoint; }
+        set { _currentActionPoint = value; }
     }
     /// <summary>Indique le max de point d'action que le personnage peut avoir </summary> 
     public int MaxActionPoint
@@ -84,6 +81,11 @@ public class Character : Actor
     public Color GetCharacterColor()
     {
         return _data.Color;
+    }
+    /// <summary> "Retourne le nom du personnage" </summary> // TODO : a mettre dans actor
+    public string GetCharacterName()
+    {
+        return _data.name;
     }
 
     // Effectue une action a la mort du personnage //
@@ -292,7 +294,7 @@ public class Character : Actor
     }
     void ResetDestination()
     {
-        Destination = null; 
+  
         _indexPath = 0;
         pathToFollow = null;
         

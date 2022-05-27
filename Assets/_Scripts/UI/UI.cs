@@ -80,10 +80,9 @@ public class UI : MonoBehaviour
             Ammo : 2/2
         */
         Character _char = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>();
-        DataCharacter data = _char.Data;
 
-        debugString += $"Character :{data.name} \n";
-        debugString += $"Action Point :  {_char._currentActionPoint} / {data.ActionPoints} \n";
+        debugString += $"Character :{_char.GetCharacterName()} \n";
+        debugString += $"Action Point :  {_char.CurrentActionPoint} / {_char.MaxActionPoint} \n";
         debugString += $"Health : {_char.Health} \n";
         debugString += $"State :{_char.State} \n";
         debugString += $"Ammo :{_char.Ammo} /  \n";
