@@ -189,7 +189,7 @@ public class Character : Actor
     public override Case[] AttackRange()
     {
         Range range = Data.weapons[0]._range;
-        List<Case> _range = new List<Case>((8*range.rightRange) + (8 * range.diagonalRange));
+        List<Case> _range = new List<Case>((8*range.RightRange) + (8 * range.DiagonalRange));
         int actorX = CurrentCase.x;
         int actorY = CurrentCase.y;
         GridManager parent = CurrentCase.GridParent;
@@ -197,7 +197,7 @@ public class Character : Actor
 
         List<Case> CheckCaserightRange( List<Case> _range)
         {
-            for (int i = 1; i < range.rightRange + 1; i++)
+            for (int i = 1; i < range.RightRange + 1; i++)
             {
                 Case _case = GridManager.GetCase(parent, actorX, actorY + (1 * i));
                 if (_case != null)
@@ -205,7 +205,7 @@ public class Character : Actor
 
                 _range.Add(_case);
             }
-            for (int i = 1; i < range.rightRange + 1; i++)
+            for (int i = 1; i < range.RightRange + 1; i++)
             {
                 Case _case = GridManager.GetCase(parent, actorX + (1 * i), actorY);
                 if (_case != null)
@@ -213,7 +213,7 @@ public class Character : Actor
 
                 _range.Add(_case);
             }
-            for (int i = 1; i < range.rightRange + 1; i++)
+            for (int i = 1; i < range.RightRange + 1; i++)
             {
                 Case _case = GridManager.GetCase(parent, actorX - (1 * i), actorY);
                 if (_case != null)
@@ -221,7 +221,7 @@ public class Character : Actor
 
                 _range.Add(_case);
             }
-            for (int i = 1; i < range.rightRange + 1; i++)
+            for (int i = 1; i < range.RightRange + 1; i++)
             {
                 Case _case = GridManager.GetCase(parent, actorX, actorY + (1 * i));
                 if (_case != null)
@@ -234,7 +234,7 @@ public class Character : Actor
 
         List<Case> CheckCasediagonalRange( List<Case> _range)
         {
-            for (int i = 1; i < range.diagonalRange + 1; i++)
+            for (int i = 1; i < range.DiagonalRange + 1; i++)
             {
                 Case _case = GridManager.GetCase(parent, actorX + (1 * i), actorY + (1 * i));
                 if (GridManager.GetValidCase(_case ) == null)
@@ -242,7 +242,7 @@ public class Character : Actor
 
                 _range.Add(_case);
             }
-            for (int i = 1; i < range.diagonalRange + 1; i++)
+            for (int i = 1; i < range.DiagonalRange + 1; i++)
             {
                 Case _case = GridManager.GetCase(parent, actorX - (1 * i), actorY + (1 * i));
                 if (GridManager.GetValidCase(_case) == null)
@@ -250,7 +250,7 @@ public class Character : Actor
 
                 _range.Add(_case);
             }
-            for (int i = 1; i < range.diagonalRange + 1; i++)
+            for (int i = 1; i < range.DiagonalRange + 1; i++)
             {
                 Case _case = GridManager.GetCase(parent, actorX + (1 * i), actorY - (1 * i));
                 if (GridManager.GetValidCase(_case) == null)
@@ -258,7 +258,7 @@ public class Character : Actor
 
                 _range.Add(_case);
             }
-            for (int i = 1; i < range.diagonalRange + 1; i++)
+            for (int i = 1; i < range.DiagonalRange + 1; i++)
             {
                 Case _case = GridManager.GetCase(parent, actorX - (1 * i), actorY - (1 * i));
                 if (GridManager.GetValidCase(_case) == null)
@@ -275,7 +275,7 @@ public class Character : Actor
                 _range = CheckCasediagonalRange( _range);
             break;
             case RangeType.Radius:
-                _range = GridManager.GetRadiusCases(CurrentCase, range.rightRange);
+                _range = GridManager.GetRadiusCases(CurrentCase, range.RightRange);
             break;
         }
         GridManager.SetCaseAttackPreview(_range);

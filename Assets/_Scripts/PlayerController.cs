@@ -174,17 +174,19 @@ public class PlayerController : Team
     public override void Start()
     {
         base.Start();
+        // On récupère la caméra dans la scène, si elle n'existe pas, on cherche l'object
         if (cameraIsometric == null) cameraIsometric = GameObject.FindObjectsOfType<CameraIsometric>()[0];
-        EnemyDetected = new List<GameObject>();
+        EnemyDetected = new List<GameObject>(); // On initialise la list d'ennemy detected, c'est peut etre inutile
 
 
     }
 
     void EnableInputManager()
     {
+
         if (_inputManager == null) _inputManager = new Controller();
         // On active les différents inputs
-        _inputManager.TestGrid.Enable();
+        _inputManager.TestGrid.Enable(); // TODO : faudra assembler les inputs
         _inputManager.ControlCamera.Enable();
     }
 
@@ -200,7 +202,8 @@ public class PlayerController : Team
         RaycastHit RayHit;
         Ray ray;
         Vector3 Hitpoint = Vector3.zero;
-        ray = Camera.main.ScreenPointToRay(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>());
+        // On trace un rayon avec la mousePosition de la souris
+        ray = Camera.main.ScreenPointToRay(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>()); 
         if (Physics.Raycast(ray, out RayHit))
         {
             Hitpoint = new Vector3(RayHit.point.x, RayHit.point.y, RayHit.point.z);
@@ -214,10 +217,12 @@ public class PlayerController : Team
     void SelectionAction()
     {
         Vector3 mousePos = MouseToWorldPosition();
+        // Les coordonnées sont calculés comme ça 
         int x = (int)Mathf.Round(mousePos.x / _selectedGrid.CellSize);
         int y = (int)Mathf.Round(mousePos.z / _selectedGrid.CellSize);
+        // Avec les coordonnées généré, on peut essayer d'obtenir la case 
         Case AimCase = GridManager.GetValidCase(GridManager.GetCase(_selectedGrid, x, y));
-
+        // VUE QUE MATTHIEU A CREE UNE GRAND MERE CE BATARD JE DOIS CAST
         Character guy = (Character)_selectedActor;
         if (!guy.CanAction)
         {
@@ -227,7 +232,8 @@ public class PlayerController : Team
             return;
         }
 
-        // Ici on est en pre action
+        // si le joueur est en mode action et qu'il a selectionner une sous-action est bien on peut executer des functions liés à chaque sous action
+        // Peut etre qu'on pourra faire de l'héritage et custom les function en fonction de la class de perso
         switch (_actionTypeMode)
         {
             case ActionTypeMode.Attack:
@@ -663,20 +669,4 @@ public class PlayerController : Team
         SelectedCaseB = EnemyDetected[EnemyDetectedIndex].GetComponent<Character>().CurrentCase;
     }
 
-    /*private void TakeCameraShoulder()
-   {
-       foreach (GameObject character in CharacterPlayer)
-       {
-           if(_virtualCamShoulder.Count < CharacterPlayer.Count)
-           {
-               childCam = character.transform.GetChild(0).GetChild(0).gameObject;
-               _virtualCamShoulder.Add(childCam);
-           }
-
-           else
-           {
-
-           }
-       }
-   }*/
 }
