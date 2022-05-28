@@ -105,6 +105,8 @@ public class PlayerController : Team
             _enemyIndex = value;
         }
     }
+
+    /// <summary> Id de de l'enemy selectionner dans la liste des ennemies detecter par la team influé par le personnage selectionner </summary>
     public int EnemyDetectedIndex
     {
         get {
@@ -123,22 +125,23 @@ public class PlayerController : Team
                 _enemyDetectedIndex = value;
         }
     }
+    /// <summary> Liste des gameObjects des membres d'escouade du joueur </summary>
     public List<GameObject> CharacterPlayer
     {
         get
         {
+            // on genere une list temporaire
             List<GameObject> newListSquad = new List<GameObject>();
-
             foreach (Actor actor in Squad)
-            {
-
+            { 
+                // Pour chaque actor dans l'escouade, on vérifie si il n'est pas null, sinon ca veut dire qu'il a été détruit ou mort
                 if (actor != null) newListSquad.Add(actor.gameObject);
             }
 
             return newListSquad;
         }
     }
-
+    /// <summary> Correspond à l'ID du personnage sélectionner dans la liste CharacterPlayer </summary>
     public int CharacterIndex
     {
         get { return _characterIndex; }
@@ -148,7 +151,7 @@ public class PlayerController : Team
         }
     }
 
-
+    /// <summary> Correspond au mode selectionner par le controller </summary>
     public SelectionMode SelectionMode
     {
         get { return _selectedMode; }
