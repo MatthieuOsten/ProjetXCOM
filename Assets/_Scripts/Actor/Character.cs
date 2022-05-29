@@ -16,7 +16,7 @@ public class Character : Actor
 
     public override int Health {
         get { return base.Health; }
-        protected set {   // Empeche la vie de monter au dessus du maximum
+         set {   // Empeche la vie de monter au dessus du maximum
             if (value > Data.Health) value = Data.Health;
             base.Health = value;
         }
@@ -28,6 +28,11 @@ public class Character : Actor
     int _indexPath = 0;
 
     // Getteur utile a prendre pour les autre script
+    /// <summary> Retourne le nombre max d'hp du personnage </summary> 
+    public int MaxHealth
+    {
+        get { return Data.Health; }
+    }
     /// <summary> Retourne toutes les informations des armes du personnages </summary> 
     public List<DataWeapon> Weapons { get { return Data.weapons; } }
     /// <summary>Indique le nombre actuelle de point d'action du personnage </summary> 

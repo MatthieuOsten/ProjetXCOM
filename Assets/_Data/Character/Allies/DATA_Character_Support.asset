@@ -29,6 +29,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 45630df41e4e28a49ab2d758abb60781, type: 2}
   _actionPoints: 2
   _movementCasesAction: 8
+  AbilityName: Soin
+  AbilityAltName: 
   CostAttack: 1
   CostVigilance: 1
   CostCompetence: 1

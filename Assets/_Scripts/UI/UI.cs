@@ -95,6 +95,15 @@ public class UI : MonoBehaviour
         _competence2.GetComponent<Image>().sprite = data.SpriteCompetence2;
         _icone.GetComponent<Image>().sprite = data.icon;
 
+        // Truc support ici matthieu
+        if (data.AbilityName != "")
+        {
+            _competence1.gameObject.SetActive(true);
+            _competence1.GetComponentInChildren<TextMeshProUGUI>().text = data.AbilityName;
+        }
+        else
+            _competence1.gameObject.SetActive(false);
+
         foreach(Image myPoint in _actionPoint)
         {
             myPoint.GetComponent<Image>().sprite = data.PointAction;            
@@ -118,7 +127,7 @@ public class UI : MonoBehaviour
         {
             _competence2.image.enabled = false;
             _competence2.enabled = false;
-
+            
             myText.enabled = false;
         }
 

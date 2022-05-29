@@ -30,6 +30,11 @@ public class DataCharacter : Data
     [SerializeField] private int _movementCasesAction = 4;
     public int MovementCasesAction{ get { return _movementCasesAction; }}
 
+    /// <summary> Nom de son abilité principal qui pourra être utiliser dans divers code </summary>
+    public string AbilityName = "";
+    /// <summary> Nom de son abilité secondaire qui pourra être utiliser dans divers code </summary>
+    public string AbilityAltName = "";
+
     [Header("COST ACTION")]
     [Range(1, 10)]
     public int CostAttack = 1;

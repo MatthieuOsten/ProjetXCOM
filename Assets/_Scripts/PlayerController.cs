@@ -243,6 +243,7 @@ public class PlayerController : Team
                 ExecOverWatch();
                 break;
             case ActionTypeMode.Competence1:
+                WatchAbility();
                 break;
             case ActionTypeMode.Competence2:
                 break;
@@ -269,6 +270,7 @@ public class PlayerController : Team
                         case ActionTypeMode.Overwatch:
                             break;
                         case ActionTypeMode.Competence1:
+                            ExecAbility();
                             break;
                         case ActionTypeMode.Competence2:
                             break;
@@ -290,6 +292,8 @@ public class PlayerController : Team
         }
     }
 
+    // TODO : Les watchers et exec des types d'action seront peut etre dépendant de chaque perso 
+    /// <summary> Ici on check les ennemies présent dans la porté du personnage selectionner </summary>
     void WatchAttack()
     {
         if (_selectedActor != null)
@@ -297,7 +301,7 @@ public class PlayerController : Team
             EnemyDetected = new List<GameObject>();
             foreach (Case aCase in _selectedActor.AttackRange())
             {
-                if(aCase._actor != null)
+                if (aCase._actor != null)
                 {
                     Actor actorToCheck = aCase._actor;
                     if (actorToCheck != null && actorToCheck.Owner != this)
@@ -306,10 +310,12 @@ public class PlayerController : Team
                         EnemyDetected.Add(actorToCheck.gameObject);
                     }
                 }
-               
+
             }
         }
     }
+
+    /// <summary> Ici on applique l'action attack sur l'actor présent dans la portée </summary>
     void ExecAttack()
     {
         // On verifie si la case possède un actor et que ce n'est pas un allié
@@ -322,7 +328,45 @@ public class PlayerController : Team
             SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
         }
     }
+    // TODO : Hum le nom de EnemyDetected est à renommer en ActorDetected ou CharacterDetected
+    /// <summary> Ici on check les allié présent dans la porté du personnage selectionner </summary>
+    void WatchAbility()
+    {
+        if (_selectedActor != null)
+        {
+            EnemyDetected = new List<GameObject>();
+            foreach (Case aCase in _selectedActor.AttackRange())
+            {
+                if (aCase._actor != null)
+                {
+                    Actor actorToCheck = aCase._actor;
+                    if (actorToCheck != null && actorToCheck.Owner == this)
+                    {
+                        // TODO : ajouter un raycast pour checker si il ya pas un model devant
+                        EnemyDetected.Add(actorToCheck.gameObject);
+                    }
+                }
 
+            }
+        }
+    }
+
+    void ExecAbility()
+    {
+        // On verifie si la case possède un actor et que ce n'est pas un allié
+        if (SelectedCaseB._actor != null && SelectedCaseB._actor.Owner == this && SelectedCaseB._actor != GetCurrentActorSelected)
+        {
+            // On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
+            if (EnemyDetected.Contains(SelectedCaseB._actor.gameObject))
+                _selectedActor.EnableAbility(SelectedCaseB._actor);
+
+            SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
+        }
+        else
+        {
+            Debug.Log("L'abilité ne peut pas être éxecuter sur l'actor sélectionner");
+        }
+    }
     void ExecOverWatch()
     {
         _selectedActor.State = ActorState.Overwatch;

@@ -38,7 +38,7 @@ public abstract class Actor : MonoBehaviour, IActor
     {
         get { return _health; }
 
-        protected set
+         set
         {
 
             // Empeche la valeur d'aller en dessous de zero -- //
