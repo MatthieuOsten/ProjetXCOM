@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
         Force à avoir qu'un seul level manager
     */
     private static LevelManager _instance = null;
+    /// <summary> Correspond à l'instance du level manager</summary>
     public static LevelManager Instance
     {
         get
@@ -15,7 +16,8 @@ public class LevelManager : MonoBehaviour
             if(_instance == null)
             {
                 _instance = GameObject.FindObjectOfType<LevelManager>();
-                if(_instance == null)
+                // Si vrai, l'instance va étre crée
+                if(_instance == null) 
                 {
                     var newObjectInstance = new GameObject();
                     newObjectInstance.name = typeof(LevelManager).ToString();
@@ -72,7 +74,7 @@ public class LevelManager : MonoBehaviour
     {
         SpawnTeam();
     }
-    /// <summary> Cette fonction spawn une Team en tant que Joueur ou Bot </summary>
+    /// <summary> Cette fonction spawn les teams en tant que Joueur ou Bot </summary>
     void SpawnTeam()
     {
         if(_teams.Length > 0)
@@ -107,9 +109,7 @@ public class LevelManager : MonoBehaviour
     {
         return listTeam[Instance._currentTeamIndex];
     }
-    /// <summary>
-    /// Met fin au tour
-    /// </summary>
+    /// <summary> Met fin au tour </summary>
     void EndTurn()
     {
         listTeam[_currentTeamIndex].ItsYourTurn = false;

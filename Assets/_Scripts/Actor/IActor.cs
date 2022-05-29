@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary> Enum des état de l'actor </summary>
 public enum ActorState
 {
+    /// <summary> Le personnage est en vie </summary>
     Alive,
+    /// <summary> Le personnage est en mode vigilance </summary>
     Overwatch,
+    /// <summary> Le personnage est mort </summary>
     Dead
 }
 // Linterface dit ce que fait la class

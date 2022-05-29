@@ -46,8 +46,7 @@ public class DataCharacter : Data
     [SerializeField] private Sprite spriteTir;
     [SerializeField] private Sprite spriteVigilance;
     [SerializeField] private Sprite spriteCompetence;
-    [SerializeField] private Sprite spriteCompetence2;
-    //[SerializeField] private Sprite icone; existe déja 
+    [SerializeField] private Sprite spriteCompetence2; 
     [SerializeField] private Sprite pointAction;
     [SerializeField] private Sprite ammo;
 

@@ -113,7 +113,7 @@ public class Team : MonoBehaviour, ITeam
         Case spawnCase = null;
         for(int i = 0; i < _selectedGrid.SpawnerCase.Count; i++)
         {
-            if(_selectedGrid.SpawnerCase[i].state == CaseState.Spawner)
+            if(_selectedGrid.SpawnerCase[i].State == CaseState.Spawner)
             {
                 spawnCase = _selectedGrid.SpawnerCase[i];
             }
@@ -125,7 +125,7 @@ public class Team : MonoBehaviour, ITeam
             {
                 Squad[i] = SpawnActor(Data.SquadComposition[i], spawnCase);
             }
-            spawnCase.state = CaseState.Empty; // On enleve l'état de spawn à la case pour éviter qu'elle serve de spawn à une autre team
+            spawnCase.State = CaseState.Empty; // On enleve l'état de spawn à la case pour éviter qu'elle serve de spawn à une autre team
         }
         else
         {

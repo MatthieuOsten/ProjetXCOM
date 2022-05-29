@@ -136,7 +136,9 @@ public class Character : Actor
     }
     public override void Attack(Actor target)
     {
+        
         _currentActionPoint--;
+        base.Attack(target);
     }
     void OnMove()
     {
