@@ -165,7 +165,7 @@ public class PlayerController : Team
         }
     }
 
-
+// UNITY EVENT
     public override void Awake()
     {
         base.Awake();
@@ -177,13 +177,10 @@ public class PlayerController : Team
         // On récupère la caméra dans la scène, si elle n'existe pas, on cherche l'object
         if (cameraIsometric == null) cameraIsometric = GameObject.FindObjectsOfType<CameraIsometric>()[0];
         EnemyDetected = new List<GameObject>(); // On initialise la list d'ennemy detected, c'est peut etre inutile
-
-
     }
 
     void EnableInputManager()
     {
-
         if (_inputManager == null) _inputManager = new Controller();
         // On active les différents inputs
         _inputManager.TestGrid.Enable(); // TODO : faudra assembler les inputs
@@ -381,8 +378,6 @@ public class PlayerController : Team
         Case AimCase = GridManager.GetValidCase(GridManager.GetCase(_selectedGrid, x, y));
         // Verifie si la case visé n'est pas vide
         if (AimCase == null) return;
-        // Si la case est valide on l'a met en surbrillance
-        AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected);
         
 
 
@@ -406,11 +401,16 @@ public class PlayerController : Team
                     GridManager.ResetCasesPreview(_selectedGrid);
                     UIManager.CreateSubtitle("Point d'action insuffisant pour ce personnage", 2);
                     ResetSelection();
+                    return;
                 }
+
+
 
             }
         }
-      
+        // Si la case est valide on l'a met en surbrillance
+        AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected);
+
         // On vérifie si le joueur clique sur le clique de la souris
         if (_inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {
