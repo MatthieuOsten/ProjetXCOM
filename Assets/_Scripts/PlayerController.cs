@@ -188,6 +188,7 @@ public class PlayerController : Team
         // On active les différents inputs
         _inputManager.TestGrid.Enable(); // TODO : faudra assembler les inputs
         _inputManager.ControlCamera.Enable();
+        _inputManager.System.Enable();
     }
 
     void DisableInputManager()
@@ -195,6 +196,7 @@ public class PlayerController : Team
         if (_inputManager == null) _inputManager = new Controller();
         _inputManager.TestGrid.Disable();
         _inputManager.ControlCamera.Disable();
+        _inputManager.System.Disable();
     }
     /// <summary> Retourne la position de la souris dans le monde 3D </summary> 
     Vector3 MouseToWorldPosition()
@@ -248,7 +250,8 @@ public class PlayerController : Team
                 break;
         }
         // On affiche la case que l'on vise
-        AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected); 
+        if (AimCase != null)
+            AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected); 
         // Ce qui se passe lorsque l'on appui sur le bouton
         if (_inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {
@@ -425,6 +428,12 @@ public class PlayerController : Team
     public override void Update()
     {
         if (_inputManager == null) EnableInputManager();
+
+        if (_inputManager.System.Exit.WasPressedThisFrame())
+        {
+            FindObjectOfType<LevelManager>().goToSceneReturn();
+        }
+
         if (ItsYourTurn)
         {
             if (_cooldownBeforeStartTurnTimer < _cooldownBeforeStartTurn)

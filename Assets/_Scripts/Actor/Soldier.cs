@@ -19,7 +19,7 @@ public class Soldier : Character
     }
 
     // -- Effectue l'attaque du soldat -- //
-    private void Attack(Actor actor)
+    public override void Attack(Actor actor)
     {
         if (actor != null)
         {

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public class WidgetActorInfo : HintstringProperty
 {
-    Character _actor;
+    private Character _actor;
 
     protected override void Start() {
         _actor = relatedObject.GetComponent<Character>();
