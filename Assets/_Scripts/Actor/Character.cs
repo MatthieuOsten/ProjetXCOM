@@ -63,12 +63,12 @@ public class Character : Actor
         return Data.weapons[indexWeapon];
     }
     /// <summary> Retourne le nombre actuelle de munition, si pas d'argument de spécifié ca sera la première arme  </summary>
-    public int GetWeaponCurrentAmmo(int indexWeapon = 0)
+    public  int GetWeaponCurrentAmmo(int indexWeapon = 0)
     {
         return Ammo[indexWeapon];
     }
     /// <summary> "Retourne la capacité du chargeur d'une arme, si pas d'argument de spécifié ca sera la première arme" </summary>
-    public int GetWeaponCapacityAmmo(int indexWeapon = 0) 
+    public  int GetWeaponCapacityAmmo(int indexWeapon = 0) 
     {
         return _data.weapons[indexWeapon].MaxAmmo;
     }

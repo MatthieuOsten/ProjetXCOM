@@ -7,6 +7,7 @@ using TMPro;
 public class UI : MonoBehaviour
 {
     [SerializeField] private PlayerController _pC;
+    [SerializeField] private Character _cH;
    // [SerializeField] private DataWeapon _weapon;
     [SerializeField] private Image _barreAction;
     [SerializeField] private Button _tir;
@@ -46,6 +47,7 @@ public class UI : MonoBehaviour
     void Start()
     {
         _pC = FindObjectOfType<PlayerController>();
+        _cH = FindObjectOfType<Character>();
         //_weapon = FindObjectOfType<DataWeapon>();
 
       //  _ammo = new List<Image>();
@@ -55,12 +57,11 @@ public class UI : MonoBehaviour
     void Update()
     {
         _pC = (PlayerController) LevelManager.GetCurrentController();
-       // DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
-
-        
+        _cH = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>();
+        _cH.GetWeaponCurrentAmmo(AmmoIndex);
         ShadeBar();
-
     }
+
     private void FixedUpdate()
     {
         AdaptBar();
@@ -117,71 +118,73 @@ public class UI : MonoBehaviour
 
     private void AdaptBar()
     {
-        DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Actor_TestSoldier>().Data;
-
-        _ammoIndex = _myAmmoMax;
-
-        myText = _textCompetence2.GetComponent<TextMeshProUGUI>();
-
-        _tir.GetComponent<Image>().sprite = data.SpriteTir;
-        _vigilance.GetComponent<Image>().sprite = data.SpriteVigilance;
-        _competence1.GetComponent<Image>().sprite = data.SpriteCompetence;
-        _competence2.GetComponent<Image>().sprite = data.SpriteCompetence2;
-        _icone.GetComponent<Image>().sprite = data.icon;
-
-        if (data.weapons[0] != null)
+        if (_pC.CharacterPlayer[_pC.CharacterIndex] != null)
         {
-            _myAmmoMax = data.weapons[0].Munition;
+            DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
 
-            if (_ammo.Count < _myAmmoMax)
+            _ammoIndex = _myAmmoMax;
+
+            myText = _textCompetence2.GetComponent<TextMeshProUGUI>();
+
+            _tir.GetComponent<Image>().sprite = data.SpriteTir;
+            _vigilance.GetComponent<Image>().sprite = data.SpriteVigilance;
+            _competence1.GetComponent<Image>().sprite = data.SpriteCompetence;
+            _competence2.GetComponent<Image>().sprite = data.SpriteCompetence2;
+            _icone.GetComponent<Image>().sprite = data.icon;
+
+             /*if (data.weapons[0] != null)
+             {
+                 _myAmmoMax = data.weapons[0].Munition;
+
+                 if (_ammo.Count < _myAmmoMax)
+                 {
+                     _ammo.Add(_myAmmo);
+                     Debug.Log("fonctionne");
+                 }
+             }*/
+
+
+            for (int i = 0; i < _ammo.Count; i++)
             {
-                _ammo.Add(_myAmmo);
-                Debug.Log("fonctionne");
+
+                if (i > AmmoIndex)
+                {
+                    _ammo[i].color = new Color(_ammo[i].color.r, _ammo[i].color.g, _ammo[i].color.b, 0f);
+                }
+
+                else
+                {
+                    _ammo[i].color = new Color(_ammo[i].color.r, _ammo[i].color.g, _ammo[i].color.b, 1f);
+                }
+            }
+
+            foreach (Image myPoint in _actionPoint)
+            {
+                myPoint.GetComponent<Image>().sprite = data.PointAction;
+            }
+
+            foreach (Image myAmmo in _ammo)
+            {
+                myAmmo.GetComponent<Image>().sprite = data.Ammo;
+
+                if (data.Ammo == null)
+                {
+                    myAmmo.enabled = false;
+                }
+                else
+                {
+                    myAmmo.enabled = true;
+                }
+            }
+
+            if (data.SpriteCompetence2 == null)
+            {
+                _competence2.image.enabled = false;
+                _competence2.enabled = false;
+
+                myText.enabled = false;
             }
         }
-        
-
-        for (int i = 0; i < _ammo.Count; i++)
-        {
-
-            if (i > AmmoIndex)
-            {
-                _ammo[i].color = new Color(_ammo[i].color.r, _ammo[i].color.g, _ammo[i].color.b, 0f);
-            }
-
-            else
-            {
-                _ammo[i].color = new Color(_ammo[i].color.r, _ammo[i].color.g, _ammo[i].color.b, 1f);
-            }
-        }
-
-        foreach(Image myPoint in _actionPoint)
-        {
-            myPoint.GetComponent<Image>().sprite = data.PointAction;            
-        }
-
-        foreach(Image myAmmo in _ammo)
-        {
-            myAmmo.GetComponent<Image>().sprite = data.Ammo;
-
-            if (data.Ammo == null)
-            {
-                myAmmo.enabled = false;
-            }
-            else
-            {
-                myAmmo.enabled = true;
-            }
-        }
-
-        if(data.SpriteCompetence2 == null)
-        {
-            _competence2.image.enabled = false;
-            _competence2.enabled = false;
-
-            myText.enabled = false;
-        }
-
         else
         {
             _competence2.image.enabled = true;
