@@ -801,6 +801,34 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""System"",
+            ""id"": ""cae95c18-8327-417b-834f-5a2efafa8ba1"",
+            ""actions"": [
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""6541fdc6-b15e-4a55-99b8-d1f9b843b947"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""32247366-967a-4a85-ae9f-36e9759bd4c8"",
+                    ""path"": ""<Keyboard>/delete"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -835,6 +863,9 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         m_ActionBar_VigilenceGauche = m_ActionBar.FindAction("VigilenceGauche", throwIfNotFound: true);
         m_ActionBar_Competence1 = m_ActionBar.FindAction("Competence1", throwIfNotFound: true);
         m_ActionBar_Competence2 = m_ActionBar.FindAction("Competence2", throwIfNotFound: true);
+        // System
+        m_System = asset.FindActionMap("System", throwIfNotFound: true);
+        m_System_Exit = m_System.FindAction("Exit", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1157,6 +1188,39 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         }
     }
     public ActionBarActions @ActionBar => new ActionBarActions(this);
+
+    // System
+    private readonly InputActionMap m_System;
+    private ISystemActions m_SystemActionsCallbackInterface;
+    private readonly InputAction m_System_Exit;
+    public struct SystemActions
+    {
+        private @Controller m_Wrapper;
+        public SystemActions(@Controller wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Exit => m_Wrapper.m_System_Exit;
+        public InputActionMap Get() { return m_Wrapper.m_System; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SystemActions set) { return set.Get(); }
+        public void SetCallbacks(ISystemActions instance)
+        {
+            if (m_Wrapper.m_SystemActionsCallbackInterface != null)
+            {
+                @Exit.started -= m_Wrapper.m_SystemActionsCallbackInterface.OnExit;
+                @Exit.performed -= m_Wrapper.m_SystemActionsCallbackInterface.OnExit;
+                @Exit.canceled -= m_Wrapper.m_SystemActionsCallbackInterface.OnExit;
+            }
+            m_Wrapper.m_SystemActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Exit.started += instance.OnExit;
+                @Exit.performed += instance.OnExit;
+                @Exit.canceled += instance.OnExit;
+            }
+        }
+    }
+    public SystemActions @System => new SystemActions(this);
     public interface IControlCameraActions
     {
         void OnRightHand(InputAction.CallbackContext context);
@@ -1189,5 +1253,9 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         void OnVigilenceGauche(InputAction.CallbackContext context);
         void OnCompetence1(InputAction.CallbackContext context);
         void OnCompetence2(InputAction.CallbackContext context);
+    }
+    public interface ISystemActions
+    {
+        void OnExit(InputAction.CallbackContext context);
     }
 }

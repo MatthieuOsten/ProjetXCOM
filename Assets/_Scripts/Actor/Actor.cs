@@ -11,8 +11,8 @@ public struct Range
 {
     [Range(0, 10)]
     [SerializeField] int right, diagonal;
-    public int rightRange { get { return right; } set { right = value; } }
-    public int diagonalRange { get { return diagonal; } set { diagonal = value; } }
+    public int RightRange { get { return right; } set { right = value; } }
+    public int DiagonalRange { get { return diagonal; } set { diagonal = value; } }
     [SerializeField] public RangeType type;
 
 }
@@ -27,9 +27,6 @@ public abstract class Actor : MonoBehaviour, IActor
     [SerializeField] private int _health;
     [Tooltip("La team auquelle le personnage appartient")]
     public Team Owner;
-
-    //[SerializeField] Range _range;
-    //public virtual Range Range{get { return _range; }  set{ _range = value;} }
 
     public virtual Case CurrentCase { get { return currentCase; } set { currentCase = value; } }
 
@@ -82,13 +79,11 @@ public abstract class Actor : MonoBehaviour, IActor
     public virtual void Death()
     {
         Destroy(gameObject);
-        throw new System.NotImplementedException();
     }
 
     public virtual void DoDamage(int amount)
     {
         Health -= amount;
-        throw new System.NotImplementedException();
     }
 
     public virtual void Attack(Actor target)

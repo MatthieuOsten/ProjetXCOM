@@ -105,34 +105,43 @@ public class PlayerController : Team
             _enemyIndex = value;
         }
     }
+
+    /// <summary> Id de de l'enemy selectionner dans la liste des ennemies detecter par la team influé par le personnage selectionner </summary>
     public int EnemyDetectedIndex
     {
-        get { return _enemyDetectedIndex; }
+        get {
+            if (_enemyDetectedIndex >= EnemyDetected.Count)
+            {
+                _enemyDetectedIndex = 0;
+            }
+            return _enemyDetectedIndex; }
         set
         {
-            if (_enemyDetectedIndex >= 1)
+            if (value >= EnemyDetected.Count)
             {
-                _enemyDetectedIndex = 1;
+                _enemyDetectedIndex = 0;
             }
-            _enemyDetectedIndex = value;
+            else
+                _enemyDetectedIndex = value;
         }
     }
+    /// <summary> Liste des gameObjects des membres d'escouade du joueur </summary>
     public List<GameObject> CharacterPlayer
     {
         get
         {
+            // on genere une list temporaire
             List<GameObject> newListSquad = new List<GameObject>();
-
             foreach (Actor actor in Squad)
-            {
-
+            { 
+                // Pour chaque actor dans l'escouade, on vérifie si il n'est pas null, sinon ca veut dire qu'il a été détruit ou mort
                 if (actor != null) newListSquad.Add(actor.gameObject);
             }
 
             return newListSquad;
         }
     }
-
+    /// <summary> Correspond à l'ID du personnage sélectionner dans la liste CharacterPlayer </summary>
     public int CharacterIndex
     {
         get { return _characterIndex; }
@@ -142,7 +151,7 @@ public class PlayerController : Team
         }
     }
 
-
+    /// <summary> Correspond au mode selectionner par le controller </summary>
     public SelectionMode SelectionMode
     {
         get { return _selectedMode; }
@@ -165,18 +174,21 @@ public class PlayerController : Team
     public override void Start()
     {
         base.Start();
+        // On récupère la caméra dans la scène, si elle n'existe pas, on cherche l'object
         if (cameraIsometric == null) cameraIsometric = GameObject.FindObjectsOfType<CameraIsometric>()[0];
-        EnemyDetected = new List<GameObject>();
+        EnemyDetected = new List<GameObject>(); // On initialise la list d'ennemy detected, c'est peut etre inutile
 
 
     }
 
     void EnableInputManager()
     {
+
         if (_inputManager == null) _inputManager = new Controller();
         // On active les différents inputs
-        _inputManager.TestGrid.Enable();
+        _inputManager.TestGrid.Enable(); // TODO : faudra assembler les inputs
         _inputManager.ControlCamera.Enable();
+        _inputManager.System.Enable();
     }
 
     void DisableInputManager()
@@ -184,6 +196,7 @@ public class PlayerController : Team
         if (_inputManager == null) _inputManager = new Controller();
         _inputManager.TestGrid.Disable();
         _inputManager.ControlCamera.Disable();
+        _inputManager.System.Disable();
     }
     /// <summary> Retourne la position de la souris dans le monde 3D </summary> 
     Vector3 MouseToWorldPosition()
@@ -191,7 +204,8 @@ public class PlayerController : Team
         RaycastHit RayHit;
         Ray ray;
         Vector3 Hitpoint = Vector3.zero;
-        ray = Camera.main.ScreenPointToRay(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>());
+        // On trace un rayon avec la mousePosition de la souris
+        ray = Camera.main.ScreenPointToRay(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>()); 
         if (Physics.Raycast(ray, out RayHit))
         {
             Hitpoint = new Vector3(RayHit.point.x, RayHit.point.y, RayHit.point.z);
@@ -205,10 +219,12 @@ public class PlayerController : Team
     void SelectionAction()
     {
         Vector3 mousePos = MouseToWorldPosition();
+        // Les coordonnées sont calculés comme ça 
         int x = (int)Mathf.Round(mousePos.x / _selectedGrid.CellSize);
         int y = (int)Mathf.Round(mousePos.z / _selectedGrid.CellSize);
+        // Avec les coordonnées généré, on peut essayer d'obtenir la case 
         Case AimCase = GridManager.GetValidCase(GridManager.GetCase(_selectedGrid, x, y));
-
+        // VUE QUE MATTHIEU A CREE UNE GRAND MERE CE BATARD JE DOIS CAST
         Character guy = (Character)_selectedActor;
         if (!guy.CanAction)
         {
@@ -218,7 +234,8 @@ public class PlayerController : Team
             return;
         }
 
-        // Ici on est en pre action
+        // si le joueur est en mode action et qu'il a selectionner une sous-action est bien on peut executer des functions liés à chaque sous action
+        // Peut etre qu'on pourra faire de l'héritage et custom les function en fonction de la class de perso
         switch (_actionTypeMode)
         {
             case ActionTypeMode.Attack:
@@ -233,7 +250,8 @@ public class PlayerController : Team
                 break;
         }
         // On affiche la case que l'on vise
-        AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected); 
+        if (AimCase != null)
+            AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected); 
         // Ce qui se passe lorsque l'on appui sur le bouton
         if (_inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {
@@ -410,6 +428,12 @@ public class PlayerController : Team
     public override void Update()
     {
         if (_inputManager == null) EnableInputManager();
+
+        if (_inputManager.System.Exit.WasPressedThisFrame())
+        {
+            FindObjectOfType<LevelManager>().goToSceneReturn();
+        }
+
         if (ItsYourTurn)
         {
             if (_cooldownBeforeStartTurnTimer < _cooldownBeforeStartTurn)
@@ -506,7 +530,7 @@ public class PlayerController : Team
             _inputManager.ControlCamera.RigthHandShoulder.performed += context => SwitchShoulderCam();
             _inputManager.ControlCamera.LeaveShoulder.performed += context => LeaveShoulderCam();
 
-            if (!_leftHand && _onEnemy)
+            if (!_leftHand && SelectionMode == SelectionMode.Action && _actionTypeMode == ActionTypeMode.Attack && EnemyDetected.Count > 0 )
             {
                 _inputManager.ControlCamera.SelectedEnemy.performed += context => SelectedEnemy();
             }
@@ -644,39 +668,14 @@ public class PlayerController : Team
             return;
         }
         _selectedActor = CharacterPlayer[CharacterIndex].GetComponent<Character>();
+        SelectionMode = SelectionMode.Selection;
     }
 
     //Permet de cibler un ennemie
     public void SelectedEnemy()
     {
-        //_canLook = true;
-
-        if (_onEnemy)
-        {
-            EnemyIndex++;
-        }
-
-        if (EnemyIndex >= Enemy.Count)
-        {
-            EnemyIndex = 0;
-        }
-        _selectedActor = Enemy[EnemyIndex].GetComponent<Character>();
+        EnemyDetectedIndex++;
+        SelectedCaseB = EnemyDetected[EnemyDetectedIndex].GetComponent<Character>().CurrentCase;
     }
 
-    /*private void TakeCameraShoulder()
-   {
-       foreach (GameObject character in CharacterPlayer)
-       {
-           if(_virtualCamShoulder.Count < CharacterPlayer.Count)
-           {
-               childCam = character.transform.GetChild(0).GetChild(0).gameObject;
-               _virtualCamShoulder.Add(childCam);
-           }
-
-           else
-           {
-
-           }
-       }
-   }*/
 }

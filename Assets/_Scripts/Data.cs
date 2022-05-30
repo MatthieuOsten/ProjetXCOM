@@ -8,7 +8,7 @@ public class Data : ScriptableObject
 {
     // -- Permet de decrire l'objet -- //
     [Header("DESCRIPTION")]
-    public string name;
+    public new string name;
     public string description;
     public string type;
     public List<string> tags;
