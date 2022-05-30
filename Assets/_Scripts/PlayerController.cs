@@ -165,7 +165,7 @@ public class PlayerController : Team
         }
     }
 
-
+// UNITY EVENT
     public override void Awake()
     {
         base.Awake();
@@ -177,13 +177,10 @@ public class PlayerController : Team
         // On récupère la caméra dans la scène, si elle n'existe pas, on cherche l'object
         if (cameraIsometric == null) cameraIsometric = GameObject.FindObjectsOfType<CameraIsometric>()[0];
         EnemyDetected = new List<GameObject>(); // On initialise la list d'ennemy detected, c'est peut etre inutile
-
-
     }
 
     void EnableInputManager()
     {
-
         if (_inputManager == null) _inputManager = new Controller();
         // On active les différents inputs
         _inputManager.TestGrid.Enable(); // TODO : faudra assembler les inputs
@@ -245,6 +242,7 @@ public class PlayerController : Team
                 ExecOverWatch();
                 break;
             case ActionTypeMode.Competence1:
+                WatchAbility();
                 break;
             case ActionTypeMode.Competence2:
                 break;
@@ -272,6 +270,7 @@ public class PlayerController : Team
                         case ActionTypeMode.Overwatch:
                             break;
                         case ActionTypeMode.Competence1:
+                            ExecAbility();
                             break;
                         case ActionTypeMode.Competence2:
                             break;
@@ -293,6 +292,8 @@ public class PlayerController : Team
         }
     }
 
+    // TODO : Les watchers et exec des types d'action seront peut etre dépendant de chaque perso 
+    /// <summary> Ici on check les ennemies présent dans la porté du personnage selectionner </summary>
     void WatchAttack()
     {
         if (_selectedActor != null)
@@ -300,7 +301,7 @@ public class PlayerController : Team
             EnemyDetected = new List<GameObject>();
             foreach (Case aCase in _selectedActor.AttackRange())
             {
-                if(aCase._actor != null)
+                if (aCase._actor != null)
                 {
                     Actor actorToCheck = aCase._actor;
                     if (actorToCheck != null && actorToCheck.Owner != this)
@@ -309,10 +310,12 @@ public class PlayerController : Team
                         EnemyDetected.Add(actorToCheck.gameObject);
                     }
                 }
-               
+
             }
         }
     }
+
+    /// <summary> Ici on applique l'action attack sur l'actor présent dans la portée </summary>
     void ExecAttack()
     {
         // On verifie si la case possède un actor et que ce n'est pas un allié
@@ -325,7 +328,45 @@ public class PlayerController : Team
             SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
         }
     }
+    // TODO : Hum le nom de EnemyDetected est à renommer en ActorDetected ou CharacterDetected
+    /// <summary> Ici on check les allié présent dans la porté du personnage selectionner </summary>
+    void WatchAbility()
+    {
+        if (_selectedActor != null)
+        {
+            EnemyDetected = new List<GameObject>();
+            foreach (Case aCase in _selectedActor.AttackRange())
+            {
+                if (aCase._actor != null)
+                {
+                    Actor actorToCheck = aCase._actor;
+                    if (actorToCheck != null && actorToCheck.Owner == this)
+                    {
+                        // TODO : ajouter un raycast pour checker si il ya pas un model devant
+                        EnemyDetected.Add(actorToCheck.gameObject);
+                    }
+                }
 
+            }
+        }
+    }
+
+    void ExecAbility()
+    {
+        // On verifie si la case possède un actor et que ce n'est pas un allié
+        if (SelectedCaseB._actor != null && SelectedCaseB._actor.Owner == this && SelectedCaseB._actor != GetCurrentActorSelected)
+        {
+            // On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
+            if (EnemyDetected.Contains(SelectedCaseB._actor.gameObject))
+                _selectedActor.EnableAbility(SelectedCaseB._actor);
+
+            SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
+        }
+        else
+        {
+            Debug.Log("L'abilité ne peut pas être éxecuter sur l'actor sélectionner");
+        }
+    }
     void ExecOverWatch()
     {
         _selectedActor.State = ActorState.Overwatch;
@@ -340,8 +381,6 @@ public class PlayerController : Team
         Case AimCase = GridManager.GetValidCase(GridManager.GetCase(_selectedGrid, x, y));
         // Verifie si la case visé n'est pas vide
         if (AimCase == null) return;
-        // Si la case est valide on l'a met en surbrillance
-        AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected);
         
 
 
@@ -365,11 +404,16 @@ public class PlayerController : Team
                     GridManager.ResetCasesPreview(_selectedGrid);
                     UIManager.CreateSubtitle("Point d'action insuffisant pour ce personnage", 2);
                     ResetSelection();
+                    return;
                 }
+
+
 
             }
         }
-      
+        // Si la case est valide on l'a met en surbrillance
+        AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected);
+
         // On vérifie si le joueur clique sur le clique de la souris
         if (_inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {

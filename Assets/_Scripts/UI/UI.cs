@@ -118,6 +118,7 @@ public class UI : MonoBehaviour
 
     private void AdaptBar()
     {
+        foreach(Image myPoint in _actionPoint)
         if (_pC.CharacterPlayer[_pC.CharacterIndex] != null)
         {
             DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
