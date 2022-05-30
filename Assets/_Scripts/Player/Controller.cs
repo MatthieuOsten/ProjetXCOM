@@ -820,7 +820,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""32247366-967a-4a85-ae9f-36e9759bd4c8"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""path"": ""<Keyboard>/numpadMultiply"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
