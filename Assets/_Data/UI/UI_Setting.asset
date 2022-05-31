@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c52882eb458c1141b640ac7f669eee8, type: 3}
   m_Name: UI_Setting
   m_EditorClassIdentifier: 
-  MessageBox: {fileID: 8123865611639504055, guid: e77d93ddef6f84a4c9de899e4b22f7cd,
+  MessageBox: {fileID: 8123865611639504055, guid: 8cc55477bf7059748a4b166b1a9e3966,
     type: 3}
   InputBox: {fileID: 8123865611639504055, guid: e1f31d93e99e30e48ad22536bf8bcc1a,
     type: 3}

@@ -10,6 +10,9 @@ MonoImporter:
   - caseHighlight: {fileID: 2100000, guid: c4af0984bbbed0045af9357f4152d68d, type: 2}
   - caseLocked: {fileID: 2100000, guid: fa0448777e63d8845800b328b5c6e6d7, type: 2}
   - caseNone: {fileID: 2100000, guid: 3c98cd8000ae3b142b84905032d05f74, type: 2}
+  - caseSelected: {fileID: 2100000, guid: 782be84fac61e3d4dbc1d6c02c91d8d4, type: 2}
+  - caseOverwatch: {fileID: 2100000, guid: 1a71e19f92ef06b498e0d9506dd46ca3, type: 2}
+  - caseSpawner: {fileID: 2100000, guid: 1f46a301cdc65f540a64f280edbf9af5, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

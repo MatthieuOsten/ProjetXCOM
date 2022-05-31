@@ -15,10 +15,10 @@ MonoBehaviour:
   active: 1
   quality:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 2
   intensity:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 1
   maximumVelocity:
     m_OverrideState: 0
     m_Value: 200
@@ -45,7 +45,7 @@ MonoBehaviour:
     m_Value: 1
   m_SampleCount:
     m_OverrideState: 1
-    m_Value: 8
+    m_Value: 12
 --- !u!114 &-1016694868962581565
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -259,7 +259,7 @@ MonoBehaviour:
     m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.2
+    m_Value: 0.23
   scatter:
     m_OverrideState: 0
     m_Value: 0.7
@@ -344,10 +344,10 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
   limitMin:
-    m_OverrideState: 0
-    m_Value: -10
+    m_OverrideState: 1
+    m_Value: 1.090909
   limitMax:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 10
   curveMap:
     m_OverrideState: 0
@@ -487,7 +487,7 @@ MonoBehaviour:
     m_Value: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 0.59
   directLightingStrength:
     m_OverrideState: 0
     m_Value: 0

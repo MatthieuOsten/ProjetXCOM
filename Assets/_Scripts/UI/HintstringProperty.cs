@@ -14,7 +14,7 @@ public class HintstringProperty : MonoBehaviour
 {
     public GameObject relatedObject;
     public float MinDistance = 50f;
-    public TMP_Text textComponent;
+    public TMP_Text[] textComponent;
     public Image icon;
     public bool enable = true;
 
@@ -27,12 +27,12 @@ public class HintstringProperty : MonoBehaviour
 
     GameObject Player;
 
-    private void Start()
+    protected virtual void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        //Player = GameObject.FindGameObjectWithTag("Player");
     }
     // A chaque update on check lexistance du gameobject, si il est null on delete le hintstring
-    void Update()
+    protected virtual void Update()
     {
         var isMissing = ReferenceEquals(relatedObject, null);
         if (relatedObject == null || isMissing)
@@ -43,7 +43,7 @@ public class HintstringProperty : MonoBehaviour
 
         if (!enable )
         {
-            textComponent.gameObject.SetActive(false);
+            textComponent[0].gameObject.SetActive(false);
             icon.gameObject.SetActive(false);
         }
         else
@@ -53,12 +53,12 @@ public class HintstringProperty : MonoBehaviour
             {
                 case SettingHintstring.HideWithDistance:
                     if (relatedObject != null && Vector3.Distance(Player.transform.position, relatedObject.transform.position) < 3)
-                        textComponent.gameObject.SetActive(true);
+                        textComponent[0].gameObject.SetActive(true);
                     else
-                        textComponent.gameObject.SetActive(false);
+                        textComponent[0].gameObject.SetActive(false);
                     break;
                 case SettingHintstring.AlwaysShow:
-                        textComponent.gameObject.SetActive(true);
+                        textComponent[0].gameObject.SetActive(true);
                     break;
                 default:
                     break;
@@ -75,7 +75,7 @@ public class HintstringProperty : MonoBehaviour
         {
             JaugeWidget.SetActive(true);
             RectTransform compo = JaugeProgression.transform.GetComponent<RectTransform>();
-            compo.sizeDelta = new Vector2(progression, compo.sizeDelta.y);
+            compo.sizeDelta = new Vector2(progression*100, compo.sizeDelta.y);
         }
         else
             JaugeWidget.SetActive(false);
