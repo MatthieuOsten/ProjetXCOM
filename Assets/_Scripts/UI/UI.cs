@@ -16,8 +16,10 @@ public class UI : MonoBehaviour
     [SerializeField] private Button _competence2;
     [SerializeField] private Image _icone;
     [SerializeField] private Image _myAmmo;
+    [SerializeField] private GameObject imageActionPoint;
+    [SerializeField] private GameObject parentActionPoint;
     [SerializeField] private List<Image> _children;
-    [SerializeField] private List<Image> _actionPoint;
+    [SerializeField] private List<GameObject> _actionPoint;
     [SerializeField] private List<Image> _ammoImage;
     [SerializeField] private int _myAmmoMax;
     [SerializeField] private int _ammoImageIndex;
@@ -56,8 +58,9 @@ public class UI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //ActualActionPoint();
+        
         GetActualScripts();
+        ActualActionPoint();
         MaximumAmmo();
         ShadeBar();
     }
@@ -128,10 +131,7 @@ public class UI : MonoBehaviour
             _competence2.GetComponent<Image>().sprite = data.SpriteCompetence2;
             _icone.GetComponent<Image>().sprite = data.icon;
 
-            foreach (Image myPoint in _actionPoint)
-            {
-                myPoint.GetComponent<Image>().sprite = data.PointAction;
-            }
+
 
 
             if (data.SpriteCompetence2 == null)
@@ -152,11 +152,25 @@ public class UI : MonoBehaviour
         }
     }
 
-   /* private void ActualActionPoint()
+    private void ActualActionPoint()
     {
         DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
 
-    }*/
+        for(int i = 0; i < _actionPoint.Count; i++)
+        {
+            GameObject addImageAction = Instantiate(imageActionPoint, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
+            addImageAction.transform.SetParent(parentActionPoint.transform,true);
+        }
+        if(_actionPoint.Count < data.ActionPoints)
+        {
+            _actionPoint.Add(imageActionPoint);
+        }
+
+        foreach (GameObject myPoint in _actionPoint)
+        {
+            myPoint.GetComponent<Image>().sprite = data.PointAction;
+        }
+    }
 
     //Gere l'affichage du nombre actuel des munitions
     private void ActualAmmo()
