@@ -188,7 +188,7 @@ public class Team : MonoBehaviour, ITeam
         foreach (Character _actor in Squad)
         {
 
-            if (_actor.CanAction)
+            if (_actor != null && _actor.CanAction || _actor.IsMoving)
                 AllPAUsed = true;
 
         }

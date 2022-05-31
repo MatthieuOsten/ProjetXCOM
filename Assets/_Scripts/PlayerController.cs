@@ -394,6 +394,8 @@ public class PlayerController : Team
             if (_selectedActor is Character)
             {
                 _char = (Character)_selectedActor;
+                if (_char.IsMoving)
+                    return;
                 // On vérifie si le personnage peut passer en mode action
                 if (_char.CanAction) 
                 {
@@ -412,8 +414,14 @@ public class PlayerController : Team
 
             }
         }
+        if (pathSuggested != null && pathSuggested[pathSuggested.Length-1] != AimCase)
+        {
+            pathSuggested[pathSuggested.Length - 1].ChangeMaterial(pathSuggested[pathSuggested.Length - 1].GridParent.Data.caseSelected);
+        }
+        else
+            AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected);
+
         // Si la case est valide on l'a met en surbrillance
-        AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected);
 
         // On vérifie si le joueur clique sur le clique de la souris
         if (_inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
@@ -685,6 +693,8 @@ public class PlayerController : Team
         if (CharacterPlayer.Any(y => y == null))
         {
             Debug.Log("Tout les perso sont mort");
+    
+
             LevelManager.Instance.PassedTurn = true;
         }
 
