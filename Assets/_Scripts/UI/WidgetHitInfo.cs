@@ -34,7 +34,12 @@ public class WidgetHitInfo : HintstringProperty
         if (IsTemp)
         {
             if (lifeTime > 0)
+            {
                 lifeTime -= Time.deltaTime;
+                Vector3 scale = transform.localScale;
+                transform.localScale = new Vector3(scale.x+ Time.deltaTime, scale.y + Time.deltaTime, scale.z + Time.deltaTime);
+            }
+                
             else
             {
                 Debug.Log("Hintstring destroy because the lifetime is 0");

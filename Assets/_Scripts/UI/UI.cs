@@ -200,7 +200,8 @@ public class UI : MonoBehaviour
     }
     public void EndTurn()
     {
-        LevelManager.Instance.PassedTurn = true;
+        if(_pC.CanPassTurn)
+            LevelManager.Instance.PassedTurn = true;
     }
 
 }
