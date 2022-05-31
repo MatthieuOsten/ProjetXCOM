@@ -62,6 +62,10 @@ public class PlayerController : Team
             _onVigilence = value;
         }
     }
+    public bool CanPassTurn
+    {
+        get { return _cooldownBeforeStartTurnTimer >= _cooldownBeforeStartTurn; }
+    }
     public bool OnEnemy
     {
         get { return _onEnemy; }

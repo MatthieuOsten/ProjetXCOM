@@ -18,10 +18,12 @@ public class Character : Actor
     public override int Health
     {
         get { return base.Health; }
-        set
-        {   // Empeche la vie de monter au dessus du maximum
+         set {   // Empeche la vie de monter au dessus du maximum
+            UIManager.CreateHitInfo(gameObject, -(base.Health - value), 0);
             if (value > Data.Health) value = Data.Health;
             base.Health = value;
+
+
         }
 
     }
@@ -43,7 +45,10 @@ public class Character : Actor
     public int CurrentActionPoint
     {
         get { return _currentActionPoint; }
-        set { _currentActionPoint = value; }
+        set {
+                
+            UIManager.CreateHitInfo(gameObject, 0,  - (_currentActionPoint  -  value));
+            _currentActionPoint = value; }
     }
     /// <summary>Indique le max de point d'action que le personnage peut avoir </summary> 
     public int MaxActionPoint
@@ -105,7 +110,9 @@ public class Character : Actor
     // Effectue une action a lorsque le personnage prend des degats //
     public override void DoDamage(int amount)
     {
+        
         Health -= amount;
+
     }
     public override void Start()
     {
@@ -141,12 +148,12 @@ public class Character : Actor
     public void SetDestination(Case[] path = null)
     {
         pathToFollow = path;
-        _currentActionPoint--;
+        CurrentActionPoint--;
     }
     public override void Attack(Actor target)
     {
 
-        _currentActionPoint--;
+        CurrentActionPoint--;
         base.Attack(target);
     }
     void OnMove()
