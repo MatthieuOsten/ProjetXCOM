@@ -104,7 +104,16 @@ public class UI : MonoBehaviour
         else
             _competence1.gameObject.SetActive(false);
 
-        foreach(Image myPoint in _actionPoint)
+        // Truc support ici matthieu
+        if (data.AbilityAltName != "")
+        {
+            _competence2.gameObject.SetActive(true);
+            _competence2.GetComponentInChildren<TextMeshProUGUI>().text = data.AbilityName;
+        }
+        else
+            _competence2.gameObject.SetActive(false);
+
+        foreach (Image myPoint in _actionPoint)
         {
             myPoint.GetComponent<Image>().sprite = data.PointAction;            
         }

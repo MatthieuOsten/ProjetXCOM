@@ -6,6 +6,8 @@ public class Actor_Tank : Character
 {
     bool AbilityEnabled;
     
+    int cooldownAbility = 0;
+    [SerializeField] Character _victim;
 
     /*
         Ici un belle exemple de l'interet de l'héritage
@@ -35,7 +37,60 @@ public class Actor_Tank : Character
         
         base.Attack(target);
     }
-   
 
-    
+    /*
+     Description “Réduction du portée de déplacement et de tir: Grande portée d’action sur un seul ennemi a la fois utiliser 
+    grâce à son Pistolame réduisant sa porté de déplacement 
+    et de tir pendant 2 tours le Tank a ensuite un CD de 4 tours.
+     */
+
+    public override void EnableAbility(Actor target)
+    {
+        if (cooldownAbility <= 0)
+        {
+            Character _char = null;
+            if (target is Character)
+            {
+                _char = (Character)target;
+                if(_char.Owner == Owner)
+                {
+                    UIManager.CreateSubtitle("Le personnage visée n'est pas un ennemi ",2);
+                    return;
+                }
+
+                _victim = _char;
+                Debug.Log("Bite");
+                cooldownAbility = 4;
+                CurrentActionPoint--;
+            }
+
+        }
+        else
+        {
+            
+            UIManager.CreateSubtitle("Le Tank peut réutiliser sa compétence dans " + cooldownAbility + " tours");
+        }
+        //base.EnableAbility(target);
+    }
+
+  
+    public override void EndTurnActor()
+    {
+        // On verifie si le tank a une victim pour lequel on va appliquer les malus
+        if (cooldownAbility <= 2)
+            _victim = null;
+
+        if(_victim != null)
+        {
+            // Si la victim est défini on enlève -2
+            _victim.LimitCaseMovement -= 2;
+
+        }
+
+        cooldownAbility--;
+        base.EndTurnActor();
+    }
+
+
+
 }

@@ -30,7 +30,14 @@ public class Character : Actor
     LineRenderer lr;
     int _indexPath = 0;
 
+    int _limitCaseMovement;
     // Getteur utile a prendre pour les autre script
+    /// <summary> Retourne le nombre max de case que le personnage peut faire avec 1 point d'action </summary> 
+    public int LimitCaseMovement
+    {
+        get { return _limitCaseMovement; }
+        set { _limitCaseMovement = value; }
+    }
     /// <summary> Retourne le nombre max d'hp du personnage </summary> 
     public int MaxHealth
     {
@@ -115,15 +122,19 @@ public class Character : Actor
     public override void Start()
     {
           lr = gameObject.AddComponent<LineRenderer>();
+        LimitCaseMovement = Data.MovementCasesAction; 
         //gameObject.AddComponent<RaycastCamera>();
         Health = Data.Health; // init la vie
         base.Start();
     }
-    /// <summary> Cette fonction est lancée lorsqu'un nouveau tour commence </summary>
-    public virtual void StartTurnActor()
+    /// <summary> Cette fonction est lancée lorsqu'un tour se termine</summary>
+    public virtual void EndTurnActor()
     {
         _currentActionPoint = Data.ActionPoints;
+        LimitCaseMovement = Data.MovementCasesAction;
     }
+   
+   
 
     public override void Update() {
         if(pathToFollow != null)

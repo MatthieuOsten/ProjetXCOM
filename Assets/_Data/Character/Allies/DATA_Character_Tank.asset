@@ -31,6 +31,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 61d8fc8d029515b4eab4b8a47d10ce02, type: 2}
   _actionPoints: 2
   _movementCasesAction: 3
+  AbilityName: Restreint mouvement
+  AbilityAltName: 
   CostAttack: 1
   CostVigilance: 1
   CostCompetence: 1

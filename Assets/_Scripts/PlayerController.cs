@@ -247,6 +247,7 @@ public class PlayerController : Team
                 WatchAbility();
                 break;
             case ActionTypeMode.Competence2:
+                WatchAbility();
                 break;
         }
         // On affiche la case que l'on vise
@@ -271,22 +272,21 @@ public class PlayerController : Team
                         case ActionTypeMode.Overwatch:
                             break;
                         case ActionTypeMode.Competence1:
-                            ExecAbility();
+                            ExecAbility(); // Execute la premiere compétence
                             break;
                         case ActionTypeMode.Competence2:
+                            ExecAbilityAlt(); // Execute la seconde compétence
                             break;
                     }
                     
             }
         }
         // quand le joueur press Echap en mode action, il retourn en mode Selection,
-        // les précedentes cases sélectionner sur clean
+        // les précedentes cases sélectionner sont clean
         if (_inputManager.TestGrid.Echap.IsPressed())
         {
-            Debug.Log("Echap in Action Mode");
             SelectedCaseA = null;
             SelectedCaseB = null;
-
             GridManager.ResetCasesPreview(_selectedGrid);
             // On force la mode selection
             _selectedMode = SelectionMode.Selection;
@@ -330,9 +330,10 @@ public class PlayerController : Team
         }
     }
     // TODO : Hum le nom de EnemyDetected est à renommer en ActorDetected ou CharacterDetected
-    /// <summary> Ici on check les allié présent dans la porté du personnage selectionner </summary>
+    /// <summary> Ici on check les personnage présent dans la porté du personnage selectionner </summary>
     void WatchAbility()
     {
+        // Il faudra surement crée des overrides par les actors
         if (_selectedActor != null)
         {
             EnemyDetected = new List<GameObject>();
@@ -351,15 +352,18 @@ public class PlayerController : Team
             }
         }
     }
-
+    // TODO : A faire des overrides avec les actors
     void ExecAbility()
     {
-        // On verifie si la case possède un actor et que ce n'est pas un allié
-        if (SelectedCaseB._actor != null && SelectedCaseB._actor.Owner == this && SelectedCaseB._actor != GetCurrentActorSelected)
+        // On verifie si la case possède un actor 
+        if (SelectedCaseB._actor != null )
         {
-            // On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
-            if (EnemyDetected.Contains(SelectedCaseB._actor.gameObject))
+            //// On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
+            //if (EnemyDetected.Contains(SelectedCaseB._actor.gameObject))
+            //{
+                Debug.Log("Exec EnableAbility");
                 _selectedActor.EnableAbility(SelectedCaseB._actor);
+            //}
 
             SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
         }
@@ -368,6 +372,27 @@ public class PlayerController : Team
             Debug.Log("L'abilité ne peut pas être éxecuter sur l'actor sélectionner");
         }
     }
+
+    void ExecAbilityAlt()
+    {
+        // On verifie si la case possède un actor 
+        if (SelectedCaseB._actor != null)
+        {
+            //// On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
+            //if (EnemyDetected.Contains(SelectedCaseB._actor.gameObject))
+            //{
+            Debug.Log("Exec EnableAbilityAlt");
+            _selectedActor.EnableAbilityAlt(SelectedCaseB._actor);
+            //}
+
+            SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
+        }
+        else
+        {
+            Debug.Log("L'abilité ne peut pas être éxecuter sur l'actor sélectionner");
+        }
+    }
+
     void ExecOverWatch()
     {
         _selectedActor.State = ActorState.Overwatch;
@@ -400,7 +425,7 @@ public class PlayerController : Team
                 if (_char.CanAction) 
                 {
                     UIManager.CreateSubtitle("", 1);
-                    pathSuggested = PathFinding.FindPath(_selectedActor.CurrentCase, AimCase, _char.Data.MovementCasesAction);
+                    pathSuggested = PathFinding.FindPath(_selectedActor.CurrentCase, AimCase, _char.LimitCaseMovement);
                 }
                 else
                 {

@@ -74,7 +74,7 @@ public class Team : MonoBehaviour, ITeam
         foreach (Character _actor in Squad)
         {
             if (_actor.State != ActorState.Dead)
-                _actor.StartTurnActor();
+                _actor.EndTurnActor();
 
         }
     }
@@ -158,7 +158,7 @@ public class Team : MonoBehaviour, ITeam
             component.CurrentCase = aRandCase;
             aRandCase._actor = component;
             component.transform.position = _selectedGrid.GetCaseWorldPosition(component.CurrentCase.x, component.CurrentCase.y);
-            component.StartTurnActor();
+            component.EndTurnActor();
         }
         else
         {

@@ -247,7 +247,7 @@ public class UIManager : MonoBehaviour
         return component;
     }
 
-    
+    /// <summary> Crée des boites d'information dans l'univers 3D pour afficher la vie et d'autres info du personnages </summary>
     public static HintstringProperty CreateBoxActorInfo(GameObject aGameObject, string message = "Actor Name", float minDistance = 50f , Sprite icon = null)    
     {
         if(aGameObject == null)
