@@ -31,6 +31,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 61d8fc8d029515b4eab4b8a47d10ce02, type: 2}
   _actionPoints: 2
   _movementCasesAction: 3
+  AbilityName: 
+  AbilityAltName: 
   CostAttack: 1
   CostVigilance: 1
   CostCompetence: 1
@@ -41,5 +43,5 @@ MonoBehaviour:
   spriteCompetence: {fileID: 21300000, guid: f9d826ed2cdfb594b916ba79efd8ad7e, type: 3}
   spriteCompetence2: {fileID: 0}
   pointAction: {fileID: 0}
-  ammo: {fileID: 21300000, guid: 301fe569da9047c4988d46c1707ea4e5, type: 3}
+  ammo: {fileID: 0}
   ClassName: Actor_Tank

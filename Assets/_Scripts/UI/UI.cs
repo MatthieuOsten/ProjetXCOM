@@ -47,7 +47,7 @@ public class UI : MonoBehaviour
     void Start()
     {
         FindScripts();
-        MaximumAmmo();
+
         //_weapon = FindObjectOfType<DataWeapon>();
 
       //  _ammoImage = new List<Image>();
@@ -56,8 +56,9 @@ public class UI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //ActualActionPoint();
         GetActualScripts();
-        CurrentAmmo();
+        MaximumAmmo();
         ShadeBar();
     }
 
@@ -78,17 +79,7 @@ public class UI : MonoBehaviour
     }
     private void MaximumAmmo()
     {
-        if(_cH != null)
-        {
-            _myAmmoMax = _cH.GetWeaponCapacityAmmo(0);
-            Debug.Log("fonctionne");
-        }
-
-    }
-
-    private void CurrentAmmo()
-    {
-        _cH.GetWeaponCurrentAmmo();
+         _myAmmoMax = _cH.GetWeaponCapacityAmmo(0);
     }
 
     private void ShadeBar()
@@ -119,7 +110,7 @@ public class UI : MonoBehaviour
     private void AdaptBar()
     {
         //foreach(Image myPoint in _actionPoint)
-        if (_pC.CharacterPlayer[_pC.CharacterIndex] != null)
+        if (_cH != null)
         {
             DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
 
@@ -142,11 +133,12 @@ public class UI : MonoBehaviour
                 }
             }*/
 
+
+
             foreach (Image myPoint in _actionPoint)
             {
                 myPoint.GetComponent<Image>().sprite = data.PointAction;
             }
-
 
 
             if (data.SpriteCompetence2 == null)
@@ -162,33 +154,41 @@ public class UI : MonoBehaviour
             _competence2.image.enabled = true;
             _competence2.enabled = true;
 
-            myText.enabled = true;
+            //myText.enabled = true;
 
         }
     }
 
+   /* private void ActualActionPoint()
+    {
+        DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
+
+    }*/
+
     private void ActualAmmo()
     {
         DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
-        _ammoImage = new List<Image>(_myAmmoMax);
+        //_ammoImage = new List<Image>(_myAmmoMax);
 
-        if(_ammoImage.Count<_myAmmoMax)
+        if(_ammoImage.Count < _myAmmoMax)
         {
-            _ammoImage.Add(_myAmmo);
+            _ammoImage.Add(_myAmmo);           
         }
 
         for (int i = 0; i < _ammoImage.Count; i++)
         {
+                if (i >= _cH.GetWeaponCurrentAmmo())
+                {
+                    _ammoImage[i].color = new Color(_ammoImage[i].color.r, _ammoImage[i].color.g, _ammoImage[i].color.b, 0f);
+                }
 
-            if (i > _myAmmoMax)
-            {
-                _ammoImage[i].color = new Color(_ammoImage[i].color.r, _ammoImage[i].color.g, _ammoImage[i].color.b, 0f);
-            }
 
-            else
-            {
-                _ammoImage[i].color = new Color(_ammoImage[i].color.r, _ammoImage[i].color.g, _ammoImage[i].color.b, 1f);
-            }
+                else
+                {
+                    _ammoImage[i].color = new Color(_ammoImage[i].color.r, _ammoImage[i].color.g, _ammoImage[i].color.b, 1f);
+                }
+            
+
         }
 
         foreach (Image myAmmo in _ammoImage)

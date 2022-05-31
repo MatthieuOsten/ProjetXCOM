@@ -78,7 +78,6 @@ public class Character : Actor
     /// <summary> "Retourne la capacité du chargeur d'une arme, si pas d'argument de spécifié ca sera la première arme" </summary>
     public  int GetWeaponCapacityAmmo(int indexWeapon = 0) 
     {
-        Debug.Log("fonctionne");
         return _data.weapons[indexWeapon].MaxAmmo;
     }
     /// <summary> "Retourne le sprite du personnage" </summary> // TODO : a mettre dans actor

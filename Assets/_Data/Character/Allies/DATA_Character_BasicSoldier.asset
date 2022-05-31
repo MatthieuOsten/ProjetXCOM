@@ -33,6 +33,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 57af8b557ab4f0f48b3900e191c51350, type: 2}
   _actionPoints: 2
   _movementCasesAction: 3
+  AbilityName: 
+  AbilityAltName: 
   CostAttack: 1
   CostVigilance: 1
   CostCompetence: 1

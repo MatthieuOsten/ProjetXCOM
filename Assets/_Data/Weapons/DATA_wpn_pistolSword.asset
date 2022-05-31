@@ -28,6 +28,7 @@ MonoBehaviour:
     right: 1
     diagonal: 1
     type: 1
+  _maxAmmo: 0
   _animIdle: {fileID: 0}
   _animFire: {fileID: 0}
   _soundFire: {fileID: 0}
