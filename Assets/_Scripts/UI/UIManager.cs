@@ -261,12 +261,16 @@ public class UIManager : MonoBehaviour
         component.MinDistance = minDistance;
         component.setting = SettingHintstring.AlwaysShow;
         component.textComponent[0].text = message;
-        if(icon == null)
+        if(component.icon != null)
         {
-            component.icon.color = new Color(0,0,0,0);
+            if (icon == null)
+            {
+                component.icon.color = new Color(0, 0, 0, 0);
+            }
+            else
+                component.icon.sprite = icon;
         }
-        else
-            component.icon.sprite = icon;
+        
 
         return component;
     }

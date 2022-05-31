@@ -83,8 +83,8 @@ public class HintstringProperty : MonoBehaviour
             }
             
 
-           
-            icon.gameObject.SetActive(true);
+            if(icon != null)
+                icon.gameObject.SetActive(true);
             //textComponent.enabled = true;
         }
 
