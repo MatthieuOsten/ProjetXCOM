@@ -72,20 +72,25 @@ public class UI : MonoBehaviour
         _pC = FindObjectOfType<PlayerController>();
         //_cH = FindObjectOfType<Character>();
     }
+
+    //recupere les scripts du character selectionner
     private void GetActualScripts()
     {
         _pC = (PlayerController)LevelManager.GetCurrentController();
         _cH = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>();
     }
+
+    //recupere les mun max de munition dans l'arme
     private void MaximumAmmo()
     {
          _myAmmoMax = _cH.GetWeaponCapacityAmmo(0);
     }
 
+    //gere si la barre doit etre invisible ou non
     private void ShadeBar()
     {
         
-
+        //Si pas en mode action quasi invisible
         if(_pC.GetCurrentActorSelected == null)
         {
             _barreAction.gameObject.SetActive(false); // desactive la barre d'action
@@ -95,6 +100,7 @@ public class UI : MonoBehaviour
                 image.color = new Color(image.color.r, image.color.g, image.color.b, 0.3f);
             }
         }
+        //si en mode action apparente
         else
         {
             _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 1f);
@@ -107,9 +113,9 @@ public class UI : MonoBehaviour
         }
     }
 
+    //Recupere les images correspondant aux capacites
     private void AdaptBar()
     {
-        //foreach(Image myPoint in _actionPoint)
         if (_cH != null)
         {
             DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
@@ -121,19 +127,6 @@ public class UI : MonoBehaviour
             _competence1.GetComponent<Image>().sprite = data.SpriteCompetence;
             _competence2.GetComponent<Image>().sprite = data.SpriteCompetence2;
             _icone.GetComponent<Image>().sprite = data.icon;
-
-            /*if (data.weapons[0] != null)
-            {
-                _myAmmoMax = data.weapons[0].Munition;
-
-                if (_ammoImage.Count < _myAmmoMax)
-                {
-                    _ammoImage.Add(_myAmmo);
-                    Debug.Log("fonctionne");
-                }
-            }*/
-
-
 
             foreach (Image myPoint in _actionPoint)
             {
@@ -165,16 +158,19 @@ public class UI : MonoBehaviour
 
     }*/
 
+    //Gere l'affichage du nombre actuel des munitions
     private void ActualAmmo()
     {
         DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
         //_ammoImage = new List<Image>(_myAmmoMax);
-
+        
+        //Ajoutes les images 
         if(_ammoImage.Count < _myAmmoMax)
         {
             _ammoImage.Add(_myAmmo);           
         }
 
+        //Rend invisible les images pour convenir au nombre actuel de munitions
         for (int i = 0; i < _ammoImage.Count; i++)
         {
                 if (i >= _cH.GetWeaponCurrentAmmo())
@@ -191,6 +187,7 @@ public class UI : MonoBehaviour
 
         }
 
+        //remplace les images par les images de munitions
         foreach (Image myAmmo in _ammoImage)
         {
             myAmmo.GetComponent<Image>().sprite = data.Ammo;
