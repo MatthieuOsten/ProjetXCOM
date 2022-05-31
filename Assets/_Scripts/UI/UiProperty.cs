@@ -5,9 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Scriptable Object/UI Property")]
 public class UiProperty : ScriptableObject
 {
+    [Header("Widget")]
     public GameObject MessageBox;
     public GameObject InputBox;
     public GameObject ClientBox;
     public GameObject HintstringList;
+    public GameObject WidgetHitInfo;
 
 }

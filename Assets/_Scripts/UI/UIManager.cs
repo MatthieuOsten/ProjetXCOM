@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Util;
     [SerializeField] UiProperty property;
+    static UiProperty staticProperty;
 
     [SerializeField] static GameObject MessageBox;
     [SerializeField] static GameObject InputBox;
@@ -39,6 +40,10 @@ public class UIManager : MonoBehaviour
         MessageBox = property.MessageBox;
         InputBox = property.InputBox;
         ClientBox = property.ClientBox;
+        staticProperty = property;
+
+
+
         HintstringList = new GameObject("HintstringList");
         HintstringList.transform.parent = transform;
         HintstringList.transform.SetSiblingIndex(0);
@@ -266,7 +271,49 @@ public class UIManager : MonoBehaviour
         return component;
     }
 
-   
+    public static HintstringProperty CreateHitInfo(GameObject aGameObject, float health , float pa, float minDistance = 50f, Sprite icon = null)
+    {
+        if (aGameObject == null)
+        {
+            Debug.Log("Attempt to create a hintstring on a non existant object (message : " );
+            return null;
+        }
+        GameObject hintString = Instantiate(staticProperty.WidgetHitInfo, aGameObject.transform.position, Quaternion.identity, HintstringList.transform);
+        WidgetHitInfo component = hintString.GetComponent<WidgetHitInfo>();
+        component.relatedObject = aGameObject;
+        component.MinDistance = minDistance;
+        component.setting = SettingHintstring.AlwaysShow;
+        component.IsTemp = true;
+
+        string IsPositiveOrNegatif(float value)
+        {
+            if (value > 0)
+                return "+"+value;
+            else
+                return ""+ value;
+        }
+
+        if(health != 0)
+        {
+            component.textComponent[0].text = IsPositiveOrNegatif(health)+ "PV";
+        }
+            
+        if(pa != 0)
+            component.textComponent[1].text = IsPositiveOrNegatif(pa) + "PA";
+
+        if (component.icon != null)
+        {
+            if (icon == null)
+            {
+                component.icon.color = new Color(0, 0, 0, 0);
+            }
+            else
+                component.icon.sprite = icon;
+        }
+        return component;
+    }
+
+
 
     public void BackToMenu()
     {

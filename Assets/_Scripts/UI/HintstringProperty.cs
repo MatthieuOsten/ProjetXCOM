@@ -27,6 +27,11 @@ public class HintstringProperty : MonoBehaviour
 
     GameObject Player;
 
+    public bool IgnoreRelatedObject;
+
+    [SerializeField] protected float lifeTime =4 ;
+    public bool IsTemp;
+
     protected virtual void Start()
     {
         //Player = GameObject.FindGameObjectWithTag("Player");
@@ -34,8 +39,20 @@ public class HintstringProperty : MonoBehaviour
     // A chaque update on check lexistance du gameobject, si il est null on delete le hintstring
     protected virtual void Update()
     {
+        if(IsTemp)
+        {
+            if (lifeTime > 0)
+                lifeTime -= Time.deltaTime;
+            else
+            {
+                Debug.Log("Hintstring destroy because the lifetime is 0");
+                Destroy(gameObject);
+            }
+                
+        }
+
         var isMissing = ReferenceEquals(relatedObject, null);
-        if (relatedObject == null || isMissing)
+        if (!IgnoreRelatedObject && ( relatedObject == null || isMissing))
         {
             Debug.Log("Hintstring destroy because the related gameObject is killed");
             Destroy(gameObject);

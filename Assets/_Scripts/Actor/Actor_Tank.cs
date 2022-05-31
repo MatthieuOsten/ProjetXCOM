@@ -32,6 +32,7 @@ public class Actor_Tank : Character
             targetChar.CurrentActionPoint--;
         }
         target.DoDamage(Data.weapons[0].Damage);
+        
         base.Attack(target);
     }
    
