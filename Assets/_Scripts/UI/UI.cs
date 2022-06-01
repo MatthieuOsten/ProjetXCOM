@@ -141,15 +141,48 @@ public class UI : MonoBehaviour
 
                 myText.enabled = false;
             }
+
+
+             // Truc support ici matthieu
+            if (data.AbilityName != "")
+            {
+                _competence1.gameObject.SetActive(true);
+                _competence1.GetComponentInChildren<TextMeshProUGUI>().text = data.AbilityName;
+            }
+            else
+                _competence1.gameObject.SetActive(false);
+
+             // Truc support ici matthieu
+            if (data.AbilityAltName != "")
+            {
+                _competence2.gameObject.SetActive(true);
+                _competence2.GetComponentInChildren<TextMeshProUGUI>().text = data.AbilityAltName;
+            }
+            else
+                _competence2.gameObject.SetActive(false);
+
+
         }
         else
         {
-            _competence2.image.enabled = true;
             _competence2.enabled = true;
-
+            _competence2.image.enabled = true;
             //myText.enabled = true;
-
         }
+        
+            // foreach (Image myPoint in _actionPoint)
+            // {
+                
+                
+
+                
+
+        //     // }
+        
+        // else
+        //     _competence1.gameObject.SetActive(false);
+
+       
     }
 
    /* private void ActualActionPoint()

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ffebdf3ef8750c49bc8bad5d6ff831c, type: 3}
-  m_Name: DATA_wpn_pistolSword
+  m_Name: DATA_wpn_pistolSword_ability
   m_EditorClassIdentifier: 
   name: Pistolame
   description: 
@@ -21,13 +21,13 @@ MonoBehaviour:
   _tabCosmetic: []
   _tabAccessory: []
   _typeW: 0
-  _damage: 2
+  _damage: 0
   _accuracy: 0
   _costPoint: 0
   _range:
-    right: 3
-    diagonal: 3
-    type: 1
+    right: 6
+    diagonal: 0
+    type: 0
   _maxAmmo: 0
   _animIdle: {fileID: 0}
   _animFire: {fileID: 0}

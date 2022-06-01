@@ -24,26 +24,47 @@ public class DataCharacter : Data
 
 
     [Header("CAPACITY")]
-    [SerializeField] private List<DataWeapon> _weapons;
+    [SerializeField] private DataWeapon _weapon;
     [Range(1, 10)]
     [SerializeField] private int _actionPoints = 2;
     [SerializeField] private int _movementCasesAction = 4;
     public int MovementCasesAction{ get { return _movementCasesAction; }}
 
+   [Header("MAIN ABILITY")]
+    /// <summary> Bool pour indiquer si l'abilité principal est utilisable en jeu</summary>
+    public bool AbilityAvailable = false;
+    [Range(1, 10)]
+    public int CostCompetence = 1;
     /// <summary> Nom de son abilité principal qui pourra être utiliser dans divers code </summary>
     public string AbilityName = "";
+    /// <summary> L'arme qu'on utilisera pour la première compétence </summary>
+    public DataWeapon WeaponAbility;
+    /// <summary> Le material utiliser pour les case lorsqu'on utilisera la première compétence </summary>
+    public Material casePreviewAbility;
+    /// <summary> Délai en tour avant de pour réutiliser la compétence </summary>
+    [Range(1, 10)]
+    public int CooldownAbility = 1;
+     [Header("ALT ABILITY")]
+    /// <summary> Bool pour indiquer si l'abilité secondaire est utilisable en jeu</summary>
+    public bool AbilityAltAvailable = false;
+      [Range(1, 10)]
+    public int CostCompetenceAlt = 1;
     /// <summary> Nom de son abilité secondaire qui pourra être utiliser dans divers code </summary>
     public string AbilityAltName = "";
+    /// <summary> L'arme qu'on utilisera pour la seconde compétence </summary>
+    public DataWeapon WeaponAbilityAlt;
+    /// <summary> Le material utiliser pour les case lorsqu'on utilisera la seconde compétence </summary>
+    public Material casePreviewAbilityAlt;
+    /// <summary> Délai en tour avant de pour réutiliser la compétence </summary>
+    [Range(1, 10)]
+    public int CooldownAbilityAlt = 1;
+
 
     [Header("COST ACTION")]
     [Range(1, 10)]
     public int CostAttack = 1;
     [Range(1, 10)]
-    public int CostVigilance = 1;
-    [Range(1, 10)]
-    public int CostCompetence = 1;
-    [Range(1, 10)]
-    public int CostCompetenceAlt = 1;
+    public int CostVigilance = 1;  
     [Range(1, 10)]
     public int CostReload = 1;
 
@@ -110,6 +131,6 @@ public class DataCharacter : Data
         get { return _shield; }
     }
 
-    public List<DataWeapon> weapons { get { return _weapons; } }
+    public DataWeapon Weapon { get { return _weapon; } }
 
 }

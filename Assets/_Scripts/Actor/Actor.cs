@@ -19,9 +19,9 @@ public struct Range
 public abstract class Actor : MonoBehaviour, IActor
 {
     [Header("Actor Info")]
-    [Tooltip("Correspond à la case ou il se trouve")]
+    [Tooltip("Correspond ï¿½ la case ou il se trouve")]
     [SerializeField] Case currentCase;
-    [Tooltip("L'état actuelle du personnage")]
+    [Tooltip("L'ï¿½tat actuelle du personnage")]
     [SerializeField] ActorState state = ActorState.Alive;
     [Tooltip("Vie du personnage")]
     [SerializeField] private int _health;
@@ -65,13 +65,13 @@ public abstract class Actor : MonoBehaviour, IActor
     public virtual void FixedUpdate() { }
     public virtual void Start()
     {
-        // Permet de crée la bulle d'information au dessus du personnage
+        // Permet de crï¿½e la bulle d'information au dessus du personnage
         UIManager.CreateBoxActorInfo(gameObject, "test");
     }
 
 
 
-    public virtual Case[] AttackRange()
+    public virtual Case[] AttackRange(DataWeapon weapon)
     {
         return null;
     }

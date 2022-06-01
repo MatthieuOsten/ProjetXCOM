@@ -50,8 +50,15 @@ public class PlayerController : Team
     float _cooldownBeforeStartTurn = 2;
     float _cooldownBeforeStartTurnTimer = 0;
 
-    /// <summary> Recupere le personnage selectionner par le player </summary>
+    /// <summary> Recupere l'actor selectionner par le player </summary>
     public Actor GetCurrentActorSelected { get { return _selectedActor; } }
+     /// <summary> Recupere le personnage selectionner par le player </summary>
+    public Character GetCurrentCharactedSelected { get { 
+        Character _char = null;
+        if(GetCurrentActorSelected is Character)
+            _char = (Character)GetCurrentActorSelected;
+
+        return _char; } }
 
     //Set, Get de toutes les variables ayant besoin d'�tre modifi�
     public bool OnVigilence
@@ -235,7 +242,7 @@ public class PlayerController : Team
             return;
         }
 
-        // si le joueur est en mode action et qu'il a selectionner une sous-action est bien on peut executer des functions liés à chaque sous action
+        // si le joueur est en mode action et qu'il a selectionner une sous-action et bien on peut executer des functions liés à chaque sous action
         // Peut etre qu'on pourra faire de l'héritage et custom les function en fonction de la class de perso
         switch (_actionTypeMode)
         {
@@ -249,6 +256,7 @@ public class PlayerController : Team
                 WatchAbility();
                 break;
             case ActionTypeMode.Competence2:
+                WatchAbilityAlt();
                 break;
         }
         // On affiche la case que l'on vise
@@ -274,22 +282,21 @@ public class PlayerController : Team
                         case ActionTypeMode.Overwatch:
                             break;
                         case ActionTypeMode.Competence1:
-                            ExecAbility();
+                            ExecAbility(); // Execute la premiere compétence
                             break;
                         case ActionTypeMode.Competence2:
+                            ExecAbilityAlt(); // Execute la seconde compétence
                             break;
                     }
                     
             }
         }
         // quand le joueur press Echap en mode action, il retourn en mode Selection,
-        // les précedentes cases sélectionner sur clean
+        // les précedentes cases sélectionner sont clean
         if (_inputManager.TestGrid.Echap.IsPressed())
         {
-            Debug.Log("Echap in Action Mode");
             SelectedCaseA = null;
             SelectedCaseB = null;
-
             GridManager.ResetCasesPreview(_selectedGrid);
             // On force la mode selection
             _selectedMode = SelectionMode.Selection;
@@ -303,7 +310,7 @@ public class PlayerController : Team
         if (_selectedActor != null)
         {
             EnemyDetected = new List<GameObject>();
-            foreach (Case aCase in _selectedActor.AttackRange())
+            foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetMainWeaponInfo()))
             {
                 if (aCase._actor != null)
                 {
@@ -333,13 +340,14 @@ public class PlayerController : Team
         }
     }
     // TODO : Hum le nom de EnemyDetected est à renommer en ActorDetected ou CharacterDetected
-    /// <summary> Ici on check les allié présent dans la porté du personnage selectionner </summary>
+    /// <summary> Ici on check les personnage présent dans la porté du personnage selectionner </summary>
     void WatchAbility()
     {
+        // Il faudra surement crée des overrides par les actors
         if (_selectedActor != null)
         {
             EnemyDetected = new List<GameObject>();
-            foreach (Case aCase in _selectedActor.AttackRange())
+            foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetWeaponAbilityInfo()))
             {
                 if (aCase._actor != null)
                 {
@@ -355,14 +363,41 @@ public class PlayerController : Team
         }
     }
 
+    // TODO : Hum le nom de EnemyDetected est à renommer en ActorDetected ou CharacterDetected
+    /// <summary> Ici on check les personnage présent dans la porté du personnage selectionner </summary>
+    void WatchAbilityAlt()
+    {
+        // Il faudra surement crée des overrides par les actors
+        if (_selectedActor != null)
+        {
+            EnemyDetected = new List<GameObject>();
+            foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetWeaponAbilityAltInfo()))
+            {
+                if (aCase._actor != null)
+                {
+                    Actor actorToCheck = aCase._actor;
+                    if (actorToCheck != null && actorToCheck.Owner == this)
+                    {
+                        // TODO : ajouter un raycast pour checker si il ya pas un model devant
+                        EnemyDetected.Add(actorToCheck.gameObject);
+                    }
+                }
+
+            }
+        }
+    }
+    // TODO : A faire des overrides avec les actors
     void ExecAbility()
     {
-        // On verifie si la case possède un actor et que ce n'est pas un allié
-        if (SelectedCaseB._actor != null && SelectedCaseB._actor.Owner == this && SelectedCaseB._actor != GetCurrentActorSelected)
+        // On verifie si la case possède un actor 
+        if (SelectedCaseB._actor != null )
         {
-            // On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
-            if (EnemyDetected.Contains(SelectedCaseB._actor.gameObject))
+            //// On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
+            //if (EnemyDetected.Contains(SelectedCaseB._actor.gameObject))
+            //{
+                Debug.Log("Exec EnableAbility");
                 _selectedActor.EnableAbility(SelectedCaseB._actor);
+            //}
 
             SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
         }
@@ -371,6 +406,27 @@ public class PlayerController : Team
             Debug.Log("L'abilité ne peut pas être éxecuter sur l'actor sélectionner");
         }
     }
+
+    void ExecAbilityAlt()
+    {
+        // On verifie si la case possède un actor 
+        if (SelectedCaseB._actor != null)
+        {
+            //// On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
+            //if (EnemyDetected.Contains(SelectedCaseB._actor.gameObject))
+            //{
+            Debug.Log("Exec EnableAbilityAlt");
+            _selectedActor.EnableAbilityAlt(SelectedCaseB._actor);
+            //}
+
+            SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
+        }
+        else
+        {
+            Debug.Log("L'abilité ne peut pas être éxecuter sur l'actor sélectionner");
+        }
+    }
+
     void ExecOverWatch()
     {
         _selectedActor.State = ActorState.Overwatch;
@@ -397,11 +453,13 @@ public class PlayerController : Team
             if (_selectedActor is Character)
             {
                 _char = (Character)_selectedActor;
+                if (_char.IsMoving)
+                    return;
                 // On vérifie si le personnage peut passer en mode action
                 if (_char.CanAction) 
                 {
                     UIManager.CreateSubtitle("", 1);
-                    pathSuggested = PathFinding.FindPath(_selectedActor.CurrentCase, AimCase, _char.Data.MovementCasesAction);
+                    pathSuggested = PathFinding.FindPath(_selectedActor.CurrentCase, AimCase, _char.LimitCaseMovement);
                 }
                 else
                 {
@@ -415,8 +473,14 @@ public class PlayerController : Team
 
             }
         }
+        if (pathSuggested != null && pathSuggested[pathSuggested.Length-1] != AimCase)
+        {
+            pathSuggested[pathSuggested.Length - 1].ChangeMaterial(pathSuggested[pathSuggested.Length - 1].GridParent.Data.caseSelected);
+        }
+        else
+            AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected);
+
         // Si la case est valide on l'a met en surbrillance
-        AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected);
 
         // On vérifie si le joueur clique sur le clique de la souris
         if (_inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
@@ -694,6 +758,8 @@ public class PlayerController : Team
         if (CharacterPlayer.Any(y => y == null))
         {
             Debug.Log("Tout les perso sont mort");
+    
+
             LevelManager.Instance.PassedTurn = true;
         }
 

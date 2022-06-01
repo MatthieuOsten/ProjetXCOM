@@ -27,21 +27,28 @@ MonoBehaviour:
   _health: 10
   _shield: 0
   _moveSpeed: 10
-  _weapons:
-  - {fileID: 11400000, guid: 61d8fc8d029515b4eab4b8a47d10ce02, type: 2}
+  _weapon: {fileID: 11400000, guid: 61d8fc8d029515b4eab4b8a47d10ce02, type: 2}
   _actionPoints: 2
   _movementCasesAction: 3
-  AbilityName: 
+  AbilityAvailable: 0
+  CostCompetence: 1
+  AbilityName: Restreint mouvement
+  WeaponAbility: {fileID: 11400000, guid: 9d827f7448998e448af6c6b460cceb38, type: 2}
+  casePreviewAbility: {fileID: 0}
+  CooldownAbility: 1
+  AbilityAltAvailable: 0
+  CostCompetenceAlt: 1
   AbilityAltName: 
+  WeaponAbilityAlt: {fileID: 0}
+  casePreviewAbilityAlt: {fileID: 0}
+  CooldownAbilityAlt: 1
   CostAttack: 1
   CostVigilance: 1
-  CostCompetence: 1
-  CostCompetenceAlt: 1
   CostReload: 1
   spriteTir: {fileID: 21300000, guid: 0135e3d1b81285f48997c72fd061f8d8, type: 3}
   spriteVigilance: {fileID: 21300000, guid: fa24baa939b84ad47bcbddd283623c62, type: 3}
   spriteCompetence: {fileID: 21300000, guid: f9d826ed2cdfb594b916ba79efd8ad7e, type: 3}
   spriteCompetence2: {fileID: 0}
   pointAction: {fileID: 0}
-  ammo: {fileID: 0}
+  ammo: {fileID: 21300000, guid: 301fe569da9047c4988d46c1707ea4e5, type: 3}
   ClassName: Actor_Tank
