@@ -8,7 +8,6 @@ public class UI : MonoBehaviour
 {
     [SerializeField] private PlayerController _pC;
     [SerializeField] private Character _cH;
-   // [SerializeField] private DataWeapon _weapon;
     [SerializeField] private Image _barreAction;
     [SerializeField] private Button _tir;
     [SerializeField] private Button _vigilance;
@@ -22,6 +21,7 @@ public class UI : MonoBehaviour
     [SerializeField] private List<GameObject> _actionPoint;
     [SerializeField] private List<Image> _ammoImage;
     [SerializeField] private int _myAmmoMax;
+    [SerializeField] private int _actionPointMax;
     [SerializeField] private int _ammoImageIndex;
     TextMeshProUGUI myText;
     [SerializeField] private GameObject _textCompetence2;
@@ -49,10 +49,11 @@ public class UI : MonoBehaviour
     void Start()
     {
         FindScripts();
-
+       /* DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
+        _actionPoint = new List<GameObject>(data.ActionPoints);*/
         //_weapon = FindObjectOfType<DataWeapon>();
 
-      //  _ammoImage = new List<Image>();
+        //  _ammoImage = new List<Image>();
     }
 
     // Update is called once per frame
@@ -154,29 +155,41 @@ public class UI : MonoBehaviour
 
     private void ActualActionPoint()
     {
-        DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
+        _actionPointMax = _cH.MaxActionPoint;
+        
+        if (_actionPoint.Count < _actionPointMax)
+        {
+            
+            for (int i = 0; i < _actionPointMax; i++)
+            {
+                GameObject addImageAction = Instantiate(imageActionPoint, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
+                addImageAction.transform.SetParent(parentActionPoint.transform, false);
+                _actionPoint.Add(addImageAction);
+            }
 
-        for(int i = 0; i < _actionPoint.Count; i++)
-        {
-            GameObject addImageAction = Instantiate(imageActionPoint, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
-            addImageAction.transform.SetParent(parentActionPoint.transform,true);
-        }
-        if(_actionPoint.Count < data.ActionPoints)
-        {
-            _actionPoint.Add(imageActionPoint);
+                       
         }
 
-        foreach (GameObject myPoint in _actionPoint)
+        for (int i = 0; i < _actionPointMax; i++)
         {
-            myPoint.GetComponent<Image>().sprite = data.PointAction;
+            if (i >= _cH.CurrentActionPoint)
+            {
+                _actionPoint[i].GetComponent<Image>().color = new Color(_actionPoint[i].GetComponent<Image>().color.r, _actionPoint[i].GetComponent<Image>().color.g, _actionPoint[i].GetComponent<Image>().color.b, 0f);
+            }
+
+            else
+            {
+                _actionPoint[i].GetComponent<Image>().color = new Color(_actionPoint[i].GetComponent<Image>().color.r, _actionPoint[i].GetComponent<Image>().color.g, _actionPoint[i].GetComponent<Image>().color.b, 1f);
+            }
         }
+
+
     }
 
     //Gere l'affichage du nombre actuel des munitions
     private void ActualAmmo()
     {
         DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
-        //_ammoImage = new List<Image>(_myAmmoMax);
         
         //Ajoutes les images 
         if(_ammoImage.Count < _myAmmoMax)
@@ -192,13 +205,10 @@ public class UI : MonoBehaviour
                     _ammoImage[i].color = new Color(_ammoImage[i].color.r, _ammoImage[i].color.g, _ammoImage[i].color.b, 0f);
                 }
 
-
                 else
                 {
                     _ammoImage[i].color = new Color(_ammoImage[i].color.r, _ammoImage[i].color.g, _ammoImage[i].color.b, 1f);
                 }
-            
-
         }
 
         //remplace les images par les images de munitions
