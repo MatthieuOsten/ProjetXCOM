@@ -6,6 +6,9 @@ public class Actor_Support : Character
 {
     bool AbilityEnabled;
 
+
+    Character AllieBuffed;
+
     int cooldownAbility = 0;
     int cooldownAbilityAlt = 0;
     /*
@@ -25,10 +28,15 @@ public class Actor_Support : Character
 
     public override void Attack(Actor target)
     {
-        target.DoDamage(Data.weapons[0].Damage);
+        target.DoDamage(Data.Weapon.Damage);
         base.Attack(target);
     }
 
+    /*
+        “heal over time” : grande distance de lancé , 
+        ce sort permet à un allié ciblé d’avoir un régénération de vie pour 2 tours ( +2 pv /tour)
+        Cout  1 PA. 4 tours de cd
+    */
     public override void EnableAbility(Actor target)
     {
         if(cooldownAbility <= 0)
@@ -42,14 +50,10 @@ public class Actor_Support : Character
                     UIManager.CreateSubtitle("Le personnage visée n'est pas un allié ", 2);
                     return;
                 }
-                if (_char.Health == _char.MaxHealth)
-                {
-                    UIManager.CreateSubtitle("Le personnage visée à déjà sa vie au maximum ", 2);
-                    return;
-                }
-                _char.Health = _char.MaxHealth;
+                
+                AllieBuffed = _char;
                 cooldownAbility = 4;
-                CurrentActionPoint--;
+                CurrentActionPoint -= Data.CostCompetence;
             }
             
         }
@@ -80,7 +84,7 @@ public class Actor_Support : Character
           
                 _char.CurrentActionPoint ++;
                 cooldownAbilityAlt = 3;
-                CurrentActionPoint--;
+                CurrentActionPoint -= Data.CostCompetenceAlt;
             }
 
         }
@@ -94,9 +98,16 @@ public class Actor_Support : Character
     // On diminue le cooldown de l'ability du support à chaque tour
     public override void EndTurnActor()
     {
+        if(AllieBuffed != null)
+            AllieBuffed.Health += AllieBuffed.MaxHealth/4;
+
         // Si il y 'a coold down on le diminue
         if(cooldownAbility > 0)
             cooldownAbility--;
+
+        if(cooldownAbility <= 2)
+            AllieBuffed = null;
+        
 
         if (cooldownAbilityAlt > 0)
             cooldownAbilityAlt--;

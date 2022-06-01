@@ -24,7 +24,7 @@ public class Actor_BasicSoldier : Character
 
     public override void Attack(Actor target)
     {
-        target.DoDamage(Data.weapons[0].Damage);
+        target.DoDamage(Data.Weapon.Damage);
         base.Attack(target);
     }
    

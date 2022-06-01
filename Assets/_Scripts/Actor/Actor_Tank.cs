@@ -33,7 +33,7 @@ public class Actor_Tank : Character
             targetChar = (Character)target;
             targetChar.CurrentActionPoint--;
         }
-        target.DoDamage(Data.weapons[0].Damage);
+        target.DoDamage(Data.Weapon.Damage);
         
         base.Attack(target);
     }
@@ -61,7 +61,7 @@ public class Actor_Tank : Character
                 _victim = _char;
                 Debug.Log("Bite");
                 cooldownAbility = 4;
-                CurrentActionPoint--;
+                CurrentActionPoint -= Data.CostCompetence;
             }
 
         }

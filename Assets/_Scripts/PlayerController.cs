@@ -50,8 +50,15 @@ public class PlayerController : Team
     float _cooldownBeforeStartTurn = 2;
     float _cooldownBeforeStartTurnTimer = 0;
 
-    /// <summary> Recupere le personnage selectionner par le player </summary>
+    /// <summary> Recupere l'actor selectionner par le player </summary>
     public Actor GetCurrentActorSelected { get { return _selectedActor; } }
+     /// <summary> Recupere le personnage selectionner par le player </summary>
+    public Character GetCurrentCharactedSelected { get { 
+        Character _char = null;
+        if(GetCurrentActorSelected is Character)
+            _char = (Character)GetCurrentActorSelected;
+
+        return _char; } }
 
     //Set, Get de toutes les variables ayant besoin d'�tre modifi�
     public bool OnVigilence
@@ -233,7 +240,7 @@ public class PlayerController : Team
             return;
         }
 
-        // si le joueur est en mode action et qu'il a selectionner une sous-action est bien on peut executer des functions liés à chaque sous action
+        // si le joueur est en mode action et qu'il a selectionner une sous-action et bien on peut executer des functions liés à chaque sous action
         // Peut etre qu'on pourra faire de l'héritage et custom les function en fonction de la class de perso
         switch (_actionTypeMode)
         {
@@ -247,7 +254,7 @@ public class PlayerController : Team
                 WatchAbility();
                 break;
             case ActionTypeMode.Competence2:
-                WatchAbility();
+                WatchAbilityAlt();
                 break;
         }
         // On affiche la case que l'on vise
@@ -300,7 +307,7 @@ public class PlayerController : Team
         if (_selectedActor != null)
         {
             EnemyDetected = new List<GameObject>();
-            foreach (Case aCase in _selectedActor.AttackRange())
+            foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetMainWeaponInfo()))
             {
                 if (aCase._actor != null)
                 {
@@ -337,7 +344,31 @@ public class PlayerController : Team
         if (_selectedActor != null)
         {
             EnemyDetected = new List<GameObject>();
-            foreach (Case aCase in _selectedActor.AttackRange())
+            foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetWeaponAbilityInfo()))
+            {
+                if (aCase._actor != null)
+                {
+                    Actor actorToCheck = aCase._actor;
+                    if (actorToCheck != null && actorToCheck.Owner == this)
+                    {
+                        // TODO : ajouter un raycast pour checker si il ya pas un model devant
+                        EnemyDetected.Add(actorToCheck.gameObject);
+                    }
+                }
+
+            }
+        }
+    }
+
+    // TODO : Hum le nom de EnemyDetected est à renommer en ActorDetected ou CharacterDetected
+    /// <summary> Ici on check les personnage présent dans la porté du personnage selectionner </summary>
+    void WatchAbilityAlt()
+    {
+        // Il faudra surement crée des overrides par les actors
+        if (_selectedActor != null)
+        {
+            EnemyDetected = new List<GameObject>();
+            foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetWeaponAbilityAltInfo()))
             {
                 if (aCase._actor != null)
                 {

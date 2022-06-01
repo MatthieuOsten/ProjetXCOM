@@ -65,7 +65,7 @@ public class UI : MonoBehaviour
 
         if(_pC.GetCurrentActorSelected == null)
         {
-            _barreAction.gameObject.SetActive(false); // désactive la barre d'action
+            _barreAction.gameObject.SetActive(false); // dï¿½sactive la barre d'action
             _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0.1f);
             foreach (Image image in _children)
             {
@@ -79,7 +79,7 @@ public class UI : MonoBehaviour
             {
                 image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
             }
-            _barreAction.gameObject.SetActive(true);  // réactive la barre d'action
+            _barreAction.gameObject.SetActive(true);  // rï¿½active la barre d'action
 
         }
     }
@@ -108,7 +108,7 @@ public class UI : MonoBehaviour
         if (data.AbilityAltName != "")
         {
             _competence2.gameObject.SetActive(true);
-            _competence2.GetComponentInChildren<TextMeshProUGUI>().text = data.AbilityName;
+            _competence2.GetComponentInChildren<TextMeshProUGUI>().text = data.AbilityAltName;
         }
         else
             _competence2.gameObject.SetActive(false);

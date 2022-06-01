@@ -44,7 +44,14 @@ public class Character : Actor
         get { return Data.Health; }
     }
     /// <summary> Retourne toutes les informations des armes du personnages </summary> 
-    public List<DataWeapon> Weapons { get { return Data.weapons; } }
+    public List<DataWeapon> Weapons { get { 
+        List<DataWeapon> weapons = new List<DataWeapon>();
+        weapons.Add(Data.Weapon);
+        weapons.Add(Data.WeaponAbility);
+        weapons.Add(Data.WeaponAbilityAlt);
+        return weapons; 
+        } 
+    }
     /// <summary>Indique le nombre actuelle de point d'action du personnage </summary> 
     [SerializeField] int _currentActionPoint;
     public int CurrentActionPoint
@@ -75,10 +82,25 @@ public class Character : Actor
     {
         get { return _currentActionPoint > 0; }
     }
-    /// <summary> Retourne les informations d'une arme, si pas d'argument de spécifié ca sera la première arme  </summary>
-    public DataWeapon GetWeaponInfo(int indexWeapon = 0)
+    /// <summary> Retourne les informations de l'arme principal  </summary>
+    public DataWeapon GetMainWeaponInfo()
     {
-        return Data.weapons[indexWeapon];
+        return Weapons[0];
+    }
+    /// <summary> Retourne les informations de l'arme pour la première compétence </summary>
+    public DataWeapon GetWeaponAbilityInfo()
+    {
+        return Weapons[1];
+    }
+    /// <summary> Retourne les informations de l'arme pour la seconde compétence </summary>
+    public DataWeapon GetWeaponAbilityAltInfo()
+    {
+        return Weapons[2];
+    }
+    /// <summary> Retourne les informations d'une arme, si pas d'argument de spécifié ca sera la première arme  </summary>
+    public DataWeapon GetWeaponsInfo(int indexWeapon = 0)
+    {
+        return Weapons[indexWeapon];
     }
     /// <summary> Retourne le nombre actuelle de munition, si pas d'argument de spécifié ca sera la première arme  </summary>
     public int GetWeaponCurrentAmmo(int indexWeapon = 0)
@@ -88,7 +110,7 @@ public class Character : Actor
     /// <summary> "Retourne la capacité du chargeur d'une arme, si pas d'argument de spécifié ca sera la première arme" </summary>
     public int GetWeaponCapacityAmmo(int indexWeapon = 0) 
     {
-        return _data.weapons[indexWeapon].MaxAmmo;
+        return Weapons[indexWeapon].MaxAmmo;
     }
     /// <summary> "Retourne le sprite du personnage" </summary> // TODO : a mettre dans actor
     public Sprite GetCharacterIcon()
@@ -149,7 +171,7 @@ public class Character : Actor
         // Si en overwatch on dessine les cases ou il regarde
         if(State == ActorState.Overwatch) 
         {
-            AttackRange();
+            AttackRange(Weapons[0]);
         }
     }
 
@@ -211,10 +233,15 @@ public class Character : Actor
 
         } 
     }
-
-    public override Case[] AttackRange()
+    /// <summary>
+    /// Défini la portée de l'action voulu, avec l'arme donné
+    /// </summary>
+    /// <param name="weapon"></param>
+    /// <returns></returns>
+    public override Case[] AttackRange(DataWeapon weapon)
     {
-        Range range = Data.weapons[0]._range;
+        // On récupère la portée d'attaque de l'arme donnée en parametre
+        Range range = weapon._range;
         List<Case> _range = new List<Case>((8*range.RightRange) + (8 * range.DiagonalRange));
         int actorX = CurrentCase.x;
         int actorY = CurrentCase.y;
