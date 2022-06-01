@@ -28,15 +28,11 @@ MonoBehaviour:
   _weapon: {fileID: 11400000, guid: f68312a4ab3bfb04791b0d1d7163d276, type: 2}
   _actionPoints: 2
   _movementCasesAction: 8
-  AbilityAvailable: 0
-  CostCompetence: 1
-  AbilityName: Soin
+  AbilityAvailable: 1
   WeaponAbility: {fileID: 11400000, guid: dcc644e6e1894ef49ab5745244dc54a0, type: 2}
   casePreviewAbility: {fileID: 0}
   CooldownAbility: 1
   AbilityAltAvailable: 0
-  CostCompetenceAlt: 1
-  AbilityAltName: A l'attaque
   WeaponAbilityAlt: {fileID: 11400000, guid: 3e204f481e730b844998740af75bf0d9, type: 2}
   casePreviewAbilityAlt: {fileID: 0}
   CooldownAbilityAlt: 1

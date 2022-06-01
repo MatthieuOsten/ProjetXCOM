@@ -33,31 +33,28 @@ public class DataCharacter : Data
    [Header("MAIN ABILITY")]
     /// <summary> Bool pour indiquer si l'abilité principal est utilisable en jeu</summary>
     public bool AbilityAvailable = false;
-    [Range(1, 10)]
-    public int CostCompetence = 1;
     /// <summary> Nom de son abilité principal qui pourra être utiliser dans divers code </summary>
-    public string AbilityName = "";
+    //public string AbilityName = "";
     /// <summary> L'arme qu'on utilisera pour la première compétence </summary>
-    public DataWeapon WeaponAbility;
+    [Tooltip("L'arme qui sera utilisé pour l'icon, le nom etc des boutons")] public DataWeapon WeaponAbility;
     /// <summary> Le material utiliser pour les case lorsqu'on utilisera la première compétence </summary>
     public Material casePreviewAbility;
     /// <summary> Délai en tour avant de pour réutiliser la compétence </summary>
-    [Range(1, 10)]
-    public int CooldownAbility = 1;
+    //[Range(1, 10)]
+    //public int CooldownAbility = 1;
      [Header("ALT ABILITY")]
     /// <summary> Bool pour indiquer si l'abilité secondaire est utilisable en jeu</summary>
     public bool AbilityAltAvailable = false;
-      [Range(1, 10)]
-    public int CostCompetenceAlt = 1;
     /// <summary> Nom de son abilité secondaire qui pourra être utiliser dans divers code </summary>
-    public string AbilityAltName = "";
+    //public string AbilityAltName = "";
+    
     /// <summary> L'arme qu'on utilisera pour la seconde compétence </summary>
-    public DataWeapon WeaponAbilityAlt;
+    [Tooltip("L'arme qui sera utilisé pour l'icon, le nom etc des boutons")] public DataWeapon WeaponAbilityAlt;
     /// <summary> Le material utiliser pour les case lorsqu'on utilisera la seconde compétence </summary>
     public Material casePreviewAbilityAlt;
     /// <summary> Délai en tour avant de pour réutiliser la compétence </summary>
-    [Range(1, 10)]
-    public int CooldownAbilityAlt = 1;
+    //[Range(1, 10)]
+    //public int CooldownAbilityAlt = 1;
 
 
     [Header("COST ACTION")]

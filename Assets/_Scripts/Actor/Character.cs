@@ -6,7 +6,7 @@ public class Character : Actor
 {
     [SerializeField] private DataCharacter _data;
     /// <summary> Tableau de Int </summary>
-    [SerializeField] private int[] _ammo;
+    [SerializeField] private int[] _ammo = new int[3];
 
     public int[] Ammo
     {
@@ -33,6 +33,13 @@ public class Character : Actor
     int _indexPath = 0;
 
     int _limitCaseMovement;
+
+    [Header("Cooldown Competence")]
+    /// <summary> Les tours d'attente avant que le personnage puisse réutilisé sa 1ère compétence </summary>
+    [SerializeField] protected int cooldownAbility = 0;
+    /// <summary> Les tours d'attente avant que le personnage puisse réutilisé sa 2nd compétence </summary>
+    [SerializeField] protected int cooldownAbilityAlt = 0;
+
     // Getteur utile a prendre pour les autre script
     /// <summary> Retourne le nombre max de case que le personnage peut faire avec 1 point d'action </summary> 
     public int LimitCaseMovement
@@ -64,10 +71,21 @@ public class Character : Actor
             UIManager.CreateHitInfo(gameObject, 0,  - (_currentActionPoint  -  value));
             _currentActionPoint = value; }
     }
+
+     /// <summary> TODO : GetAbilityCooldown  </summary>
+    public int GetCurrentAbilityCooldown{ get{ return cooldownAbility;}}
+    /// <summary> TODO : GetCurrentAbilityCooldown  </summary>
+    public int GetCurrentAbilityAltCooldown{ get{ return cooldownAbilityAlt;}}
+
     /// <summary> TODO : GetAbilityCooldown  </summary>
-    public int GetAbilityCooldown{ get{ return Data.CooldownAbility;}}
+    public int GetAbilityCooldown{ get{ return Data.WeaponAbility.Cooldown;}}
     /// <summary> TODO : GetAbilityCooldown  </summary>
-    public int GetAbilityAltCooldown{ get{ return Data.CooldownAbilityAlt;}}
+    public int GetAbilityAltCooldown{ get{ return Data.WeaponAbilityAlt.Cooldown;}}
+
+    /// <summary> Récupère le nom de la 1ère compétence  </summary>
+    public string GetAbilityName{ get{ return Data.WeaponAbility.name;}}
+    /// <summary> Récupère le nom de la seconde compétence  </summary>
+    public string GetAbilityAltName{ get{ return Data.WeaponAbilityAlt.name;}}
 
     /// <summary>Indique le max de point d'action que le personnage peut avoir </summary> 
     public int MaxActionPoint
@@ -154,12 +172,24 @@ public class Character : Actor
         LimitCaseMovement = Data.MovementCasesAction; 
         //gameObject.AddComponent<RaycastCamera>();
         Health = Data.Health; // init la vie
+        InitAmmo();
+
         base.Start();
+    }
+
+    void InitAmmo()
+    {
+        for(int i = 0; i < Ammo.Length ; i++)
+        {
+            Ammo[i] = GetWeaponsInfo().MaxAmmo;
+        }
     }
     /// <summary> Cette fonction est lancée lorsqu'un tour se termine</summary>
     public virtual void EndTurnActor()
     {
-        _currentActionPoint = Data.ActionPoints;
+        if(_currentActionPoint < Data.ActionPoints) 
+            _currentActionPoint = Data.ActionPoints;
+
         LimitCaseMovement = Data.MovementCasesAction;
     }
    
@@ -190,7 +220,10 @@ public class Character : Actor
     }
     public override void Attack(Actor target)
     {
-
+        // On vérifie si l'arme a des munitions de base
+        if(GetWeaponCapacityAmmo() > 0)
+            Ammo[0]--;
+        
         CurrentActionPoint--;
         base.Attack(target);
     }
@@ -366,11 +399,15 @@ public class Character : Actor
 
     public override void EnableAbility(Actor target)
     {
-        
+        // Si on arrive ici, c'est que l'actor a effectuer sa compétence du coup, 
+        //on lui retire les pa indiqué par l'arme de la compétence utilisé
+        CurrentActionPoint -= GetWeaponAbilityInfo().CostPoint;
     }
     public override void EnableAbilityAlt(Actor target)
     {
-        
+         // Si on arrive ici, c'est que l'actor a effectuer sa compétence du coup, 
+        //on lui retire les pa indiqué par l'arme de la compétence utilisé
+        CurrentActionPoint -= GetWeaponAbilityAltInfo().CostPoint;
     }
 }
 //////

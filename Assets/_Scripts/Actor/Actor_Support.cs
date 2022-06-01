@@ -9,8 +9,7 @@ public class Actor_Support : Character
 
     Character AllieBuffed;
 
-    int cooldownAbility = 0;
-    int cooldownAbilityAlt = 0;
+
     /*
         Ici un belle exemple de l'interet de l'héritage
         Admettons que notre soldat TestSoldier a une capacité de resistance, et bien
@@ -53,7 +52,8 @@ public class Actor_Support : Character
                 
                 AllieBuffed = _char;
                 cooldownAbility = GetAbilityCooldown;
-                CurrentActionPoint -= Data.CostCompetence;
+             
+                base.EnableAbility(target);
             }
             
         }
@@ -62,6 +62,7 @@ public class Actor_Support : Character
             UIManager.CreateSubtitle("Le support peut réutiliser sa compétence dans " + cooldownAbility + " tours");
             return;
         }
+        
 
     }
     /*Description “ A l’attaque” : moyenne distance de lancé , 
@@ -84,7 +85,7 @@ public class Actor_Support : Character
           
                 _char.CurrentActionPoint ++;
                 cooldownAbilityAlt = GetAbilityAltCooldown;
-                CurrentActionPoint -= Data.CostCompetenceAlt;
+                base.EnableAbilityAlt(target);
             }
 
         }

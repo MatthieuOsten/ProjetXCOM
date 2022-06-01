@@ -134,29 +134,29 @@ public class UI : MonoBehaviour
             }
 
 
-            if (data.SpriteCompetence2 == null)
-            {
-                _competence2.image.enabled = false;
-                _competence2.enabled = false;
+            // if (data.SpriteCompetence2 == null)
+            // {
+            //     _competence2.image.enabled = false;
+            //     _competence2.enabled = false;
 
-                myText.enabled = false;
-            }
+            //     myText.enabled = false;
+            // }
 
 
-             // Truc support ici matthieu
-            if (data.AbilityName != "")
+             // On vérifie si la compétence peut être utilisable en jeu et lors du développement
+            if (data.AbilityAvailable)
             {
                 _competence1.gameObject.SetActive(true);
-                _competence1.GetComponentInChildren<TextMeshProUGUI>().text = data.AbilityName;
+                _competence1.GetComponentInChildren<TextMeshProUGUI>().text = _cH.GetAbilityName;
             }
             else
                 _competence1.gameObject.SetActive(false);
 
-             // Truc support ici matthieu
-            if (data.AbilityAltName != "")
+             // On vérifie si la compétence peut être utilisable en jeu et lors du développement
+            if (data.AbilityAltAvailable)
             {
                 _competence2.gameObject.SetActive(true);
-                _competence2.GetComponentInChildren<TextMeshProUGUI>().text = data.AbilityAltName;
+                _competence2.GetComponentInChildren<TextMeshProUGUI>().text = _cH.GetAbilityAltName;
             }
             else
                 _competence2.gameObject.SetActive(false);

@@ -6,7 +6,6 @@ public class Actor_Tank : Character
 {
     bool AbilityEnabled;
     
-    int cooldownAbility = 0;
     [SerializeField] Character _victim;
 
     /*
@@ -61,7 +60,7 @@ public class Actor_Tank : Character
                 _victim = _char;
                 Debug.Log("Bite");
                 cooldownAbility = GetAbilityCooldown;
-                CurrentActionPoint -= Data.CostCompetence;
+                 base.EnableAbility(target);
             }
 
         }
@@ -71,7 +70,6 @@ public class Actor_Tank : Character
             UIManager.CreateSubtitle("Le Tank peut réutiliser sa compétence dans " + cooldownAbility + " tours");
         }
         
-        base.EnableAbility(target);
     }
 
   
