@@ -30,10 +30,10 @@ public class WidgetActorInfo : HintstringProperty
             _selectedActor = player.GetCurrentActorSelected;
         }
         Image[] images = gameObject.GetComponentsInChildren<Image>();
-        // Si le personnage du widget correspond à la team qui joue
+        // Si le personnage du widget correspond ï¿½ la team qui joue
         if (_selectedActor != null && _actor.Owner == currentTeam)
         {
-            // Si le personnage sélectionner n'est pas celui du widget, on diminue l'opacité
+            // Si le personnage sï¿½lectionner n'est pas celui du widget, on diminue l'opacitï¿½
             if (_selectedActor != _actor)
             {
                 for (int i = 0; i < images.Length; i++)
@@ -45,7 +45,7 @@ public class WidgetActorInfo : HintstringProperty
                     textComponent[i].color = SetOpacity(textComponent[i].color, _lowOpacity);
                 }
             }
-            else // Si on est la, c'est qu'on est sur le personnage sélectionner par le widget
+            else // Si on est la, c'est qu'on est sur le personnage sï¿½lectionner par le widget
             {
                 for (int i = 0; i < textComponent.Length; i++)
                 {

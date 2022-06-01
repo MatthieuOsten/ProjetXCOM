@@ -9,7 +9,7 @@ public class Team : MonoBehaviour, ITeam
     public string Name { get { return _name; } set { _name = value; } }
 
     [SerializeField] DataTeam _data;
-    public DataTeam Data { protected get { return _data; } set { _data = value; } }
+    public DataTeam Data { get { return _data; } set { _data = value; } }
 
     [SerializeField] bool _itsYourTurn;
     public bool ItsYourTurn { get { return _itsYourTurn; }
@@ -27,7 +27,7 @@ public class Team : MonoBehaviour, ITeam
     [SerializeField] Actor[] _squad;
     public Actor[] Squad { get { return _squad; } set { _squad = value; } }
 
-    [SerializeField] bool _spawnRandomlyActor = true;
+    //[SerializeField] bool _spawnRandomlyActor = true;
     [Tooltip("Retourne la grille selectionner par la team")]
     [SerializeField] protected GridManager _selectedGrid;
     public Case startSpawnCase; // On indique le point de spawn 

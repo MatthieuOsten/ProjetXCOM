@@ -1,14 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class LevelManager : MonoBehaviour 
+public class LevelManager : MonoBehaviour
 {
     /*
         Force à avoir qu'un seul level manager
     */
     private static LevelManager _instance = null;
     /// <summary> Correspond à l'instance du level manager</summary>
+    [SerializeField] private string sceneReturn;
+
+    public void goToSceneReturn()
+    {
+        if (sceneReturn != null) { SceneManager.LoadScene(sceneReturn); }
+        else { Application.Quit(); }
+        
+    }
+
     public static LevelManager Instance
     {
         get
@@ -107,7 +117,10 @@ public class LevelManager : MonoBehaviour
     /// <summary> Permet de renvoyer la team qui est en train de jouer </summary>
     public static Team GetCurrentController()
     {
-        return listTeam[Instance._currentTeamIndex];
+        if (Instance._currentTeamIndex >= 0 && Instance._currentTeamIndex < listTeam.Count)
+            return listTeam[Instance._currentTeamIndex];
+        else 
+            return null;
     }
     /// <summary> Met fin au tour </summary>
     void EndTurn()
@@ -145,7 +158,10 @@ public class LevelManager : MonoBehaviour
 
         if (howManyTeam <= 1)
         {
-            UIManager.CreateSubtitle("END GAME");
+            foreach (Team _team in listTeam)
+            {
+                if (_team != null) UIManager.CreateSubtitle("END GAME, La team " + _team.Data.name + " a gagné");
+            }
             Gameover = true;
         }
     }

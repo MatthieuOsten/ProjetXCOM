@@ -79,13 +79,11 @@ public abstract class Actor : MonoBehaviour, IActor
     public virtual void Death()
     {
         Destroy(gameObject);
-        throw new System.NotImplementedException();
     }
 
     public virtual void DoDamage(int amount)
     {
         Health -= amount;
-        throw new System.NotImplementedException();
     }
 
     public virtual void Attack(Actor target)
