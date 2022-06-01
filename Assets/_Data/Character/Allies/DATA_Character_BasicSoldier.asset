@@ -29,14 +29,23 @@ MonoBehaviour:
   _health: 10
   _shield: 0
   _moveSpeed: 10
-  _weapons:
-  - {fileID: 11400000, guid: 57af8b557ab4f0f48b3900e191c51350, type: 2}
+  _weapon: {fileID: 11400000, guid: 57af8b557ab4f0f48b3900e191c51350, type: 2}
   _actionPoints: 2
   _movementCasesAction: 3
+  AbilityAvailable: 0
+  CostCompetence: 1
+  AbilityName: "Bombe de lanc\xE9"
+  WeaponAbility: {fileID: 11400000, guid: 520b4552b48c4e742a81f87eb67c72b8, type: 2}
+  casePreviewAbility: {fileID: 0}
+  CooldownAbility: 1
+  AbilityAltAvailable: 0
+  CostCompetenceAlt: 1
+  AbilityAltName: 
+  WeaponAbilityAlt: {fileID: 0}
+  casePreviewAbilityAlt: {fileID: 0}
+  CooldownAbilityAlt: 1
   CostAttack: 1
   CostVigilance: 1
-  CostCompetence: 1
-  CostCompetenceAlt: 1
   CostReload: 1
   spriteTir: {fileID: 21300000, guid: 0135e3d1b81285f48997c72fd061f8d8, type: 3}
   spriteVigilance: {fileID: 21300000, guid: fa24baa939b84ad47bcbddd283623c62, type: 3}

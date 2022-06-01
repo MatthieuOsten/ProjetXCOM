@@ -41,6 +41,9 @@ public class DataCharacter : Data
     public DataWeapon WeaponAbility;
     /// <summary> Le material utiliser pour les case lorsqu'on utilisera la première compétence </summary>
     public Material casePreviewAbility;
+    /// <summary> Délai en tour avant de pour réutiliser la compétence </summary>
+    [Range(1, 10)]
+    public int CooldownAbility = 1;
      [Header("ALT ABILITY")]
     /// <summary> Bool pour indiquer si l'abilité secondaire est utilisable en jeu</summary>
     public bool AbilityAltAvailable = false;
@@ -52,6 +55,9 @@ public class DataCharacter : Data
     public DataWeapon WeaponAbilityAlt;
     /// <summary> Le material utiliser pour les case lorsqu'on utilisera la seconde compétence </summary>
     public Material casePreviewAbilityAlt;
+    /// <summary> Délai en tour avant de pour réutiliser la compétence </summary>
+    [Range(1, 10)]
+    public int CooldownAbilityAlt = 1;
 
 
     [Header("COST ACTION")]

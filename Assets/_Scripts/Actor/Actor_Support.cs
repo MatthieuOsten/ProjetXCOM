@@ -52,7 +52,7 @@ public class Actor_Support : Character
                 }
                 
                 AllieBuffed = _char;
-                cooldownAbility = 4;
+                cooldownAbility = GetAbilityCooldown;
                 CurrentActionPoint -= Data.CostCompetence;
             }
             
@@ -60,13 +60,13 @@ public class Actor_Support : Character
         else
         {
             UIManager.CreateSubtitle("Le support peut réutiliser sa compétence dans " + cooldownAbility + " tours");
+            return;
         }
+
     }
     /*Description “ A l’attaque” : moyenne distance de lancé , 
      * ce sort permet à un allié ciblé d’avoir un point d’action supplémentaire.
         cout : 1 PA. 3 tours de cd
-     * 
-     * 
      */
     public override void EnableAbilityAlt(Actor target)
     {
@@ -83,7 +83,7 @@ public class Actor_Support : Character
                 }
           
                 _char.CurrentActionPoint ++;
-                cooldownAbilityAlt = 3;
+                cooldownAbilityAlt = GetAbilityAltCooldown;
                 CurrentActionPoint -= Data.CostCompetenceAlt;
             }
 

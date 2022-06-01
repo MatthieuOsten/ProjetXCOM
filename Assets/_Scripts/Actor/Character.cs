@@ -62,6 +62,11 @@ public class Character : Actor
             UIManager.CreateHitInfo(gameObject, 0,  - (_currentActionPoint  -  value));
             _currentActionPoint = value; }
     }
+    /// <summary> TODO : GetAbilityCooldown  </summary>
+    public int GetAbilityCooldown{ get{ return Data.CooldownAbility;}}
+    /// <summary> TODO : GetAbilityCooldown  </summary>
+    public int GetAbilityAltCooldown{ get{ return Data.CooldownAbilityAlt;}}
+
     /// <summary>Indique le max de point d'action que le personnage peut avoir </summary> 
     public int MaxActionPoint
     {
@@ -253,7 +258,7 @@ public class Character : Actor
             for (int i = 1; i < range.RightRange + 1; i++)
             {
                 Case _case = GridManager.GetCase(parent, actorX, actorY + (1 * i));
-                if (_case != null)
+                 if (GridManager.GetValidCase(_case ) == null)
                     break;
 
                 _range.Add(_case);
@@ -261,7 +266,7 @@ public class Character : Actor
             for (int i = 1; i < range.RightRange + 1; i++)
             {
                 Case _case = GridManager.GetCase(parent, actorX + (1 * i), actorY);
-                if (_case != null)
+                 if (GridManager.GetValidCase(_case ) == null)
                     break;
 
                 _range.Add(_case);
@@ -269,15 +274,15 @@ public class Character : Actor
             for (int i = 1; i < range.RightRange + 1; i++)
             {
                 Case _case = GridManager.GetCase(parent, actorX - (1 * i), actorY);
-                if (_case != null)
+                 if (GridManager.GetValidCase(_case ) == null)
                     break;
 
                 _range.Add(_case);
             }
             for (int i = 1; i < range.RightRange + 1; i++)
             {
-                Case _case = GridManager.GetCase(parent, actorX, actorY + (1 * i));
-                if (_case != null)
+                Case _case = GridManager.GetCase(parent, actorX, actorY - (1 * i));
+                 if (GridManager.GetValidCase(_case ) == null)
                     break;
 
                 _range.Add(_case);
@@ -321,6 +326,9 @@ public class Character : Actor
             }
             return _range;
         }
+
+
+
         switch (range.type)
         {
             case RangeType.Simple:
@@ -350,6 +358,15 @@ public class Character : Actor
   
         _indexPath = 0;
         pathToFollow = null;
+        
+    }
+
+    public override void EnableAbility(Actor target)
+    {
+        
+    }
+    public override void EnableAbilityAlt(Actor target)
+    {
         
     }
 }
