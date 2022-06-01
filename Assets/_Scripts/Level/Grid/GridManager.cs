@@ -113,7 +113,7 @@ public class GridManager : MonoBehaviour
 
         newCase.GridParent = this; // on dit à quelle grid appartient la case
         newCase.index = _currentCellCreated; // son index 
-        newCase.state = CaseState.Empty; // son etat
+        newCase.State = CaseState.Empty; // son etat
         return newCase;
     }
 
@@ -361,7 +361,7 @@ public class GridManager : MonoBehaviour
         int y = (int)pos.z / CellSize;
 
         Case caseToEdit = GetCase(x, y);
-        caseToEdit.state = caseState;
+        caseToEdit.State = caseState;
     }
 
     /// <summary> Verifie si la case est accessible </summary>
@@ -370,7 +370,7 @@ public class GridManager : MonoBehaviour
         if (caseToCheck == null)
             return null;
 
-        if (caseToCheck.state == CaseState.Occupied || caseToCheck.state == CaseState.Null )
+        if (caseToCheck.State == CaseState.Occupied || caseToCheck.State == CaseState.Null )
             return null;
 
         return caseToCheck;

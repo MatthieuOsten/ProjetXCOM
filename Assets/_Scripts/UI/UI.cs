@@ -7,71 +7,100 @@ using TMPro;
 public class UI : MonoBehaviour
 {
     [SerializeField] private PlayerController _pC;
+    [SerializeField] private Character _cH;
+   // [SerializeField] private DataWeapon _weapon;
     [SerializeField] private Image _barreAction;
     [SerializeField] private Button _tir;
     [SerializeField] private Button _vigilance;
     [SerializeField] private Button _competence1;
     [SerializeField] private Button _competence2;
     [SerializeField] private Image _icone;
+    [SerializeField] private Image _myAmmo;
     [SerializeField] private List<Image> _children;
     [SerializeField] private List<Image> _actionPoint;
-    [SerializeField] private List<Image> _ammo;
+    [SerializeField] private List<Image> _ammoImage;
+    [SerializeField] private int _myAmmoMax;
+    [SerializeField] private int _ammoImageIndex;
     TextMeshProUGUI myText;
     [SerializeField] private GameObject _textCompetence2;
-
     [SerializeField] private TextMeshProUGUI _textDebug;
+
+    public int AmmoIndex
+    {
+        get { return _ammoImageIndex; }
+        set
+        {
+            _ammoImageIndex = value;
+        }
+    }
+
+    public List<Image> Ammo
+    {
+        get { return _ammoImage; }
+        set
+        {
+            _ammoImage = value;
+        }       
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        _pC = FindObjectOfType<PlayerController>();
+        FindScripts();
+
+        //_weapon = FindObjectOfType<DataWeapon>();
+
+      //  _ammoImage = new List<Image>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        _pC = (PlayerController) LevelManager.GetCurrentController();
-
+        //ActualActionPoint();
+        GetActualScripts();
+        MaximumAmmo();
         ShadeBar();
-        AdaptBar();
-
-
-        if (_pC.GetCurrentActorSelected == null)
-        {
-            _textDebug.text = "";
-            return;
-        }
-        string debugString = "";
-        /*
-            Character : Name
-            Action Point : i / i
-            Health : 1 / 1
-            State : Alive
-            Ammo : 2/2
-        */
-        Character _char = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>();
-
-        debugString += $"Character :{_char.GetCharacterName()} \n";
-        debugString += $"Action Point :  {_char.CurrentActionPoint} / {_char.MaxActionPoint} \n";
-        debugString += $"Health : {_char.Health} \n";
-        debugString += $"State :{_char.State} \n";
-        debugString += $"Ammo :{_char.Ammo} /  \n";
-        _textDebug.text = debugString;
-
     }
 
+    private void FixedUpdate()
+    {
+        AdaptBar();
+        ActualAmmo();
+    }
+    private void FindScripts()
+    {
+        _pC = FindObjectOfType<PlayerController>();
+        //_cH = FindObjectOfType<Character>();
+    }
+
+    //recupere les scripts du character selectionner
+    private void GetActualScripts()
+    {
+        _pC = (PlayerController)LevelManager.GetCurrentController();
+        _cH = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>();
+    }
+
+    //recupere les mun max de munition dans l'arme
+    private void MaximumAmmo()
+    {
+         _myAmmoMax = _cH.GetWeaponCapacityAmmo(0);
+    }
+
+    //gere si la barre doit etre invisible ou non
     private void ShadeBar()
     {
         
-
+        //Si pas en mode action quasi invisible
         if(_pC.GetCurrentActorSelected == null)
         {
-            _barreAction.gameObject.SetActive(false); // désactive la barre d'action
+            _barreAction.gameObject.SetActive(false); // desactive la barre d'action
             _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0.1f);
             foreach (Image image in _children)
             {
                 image.color = new Color(image.color.r, image.color.g, image.color.b, 0.3f);
             }
         }
+        //si en mode action apparente
         else
         {
             _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 1f);
@@ -79,28 +108,87 @@ public class UI : MonoBehaviour
             {
                 image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
             }
-            _barreAction.gameObject.SetActive(true);  // réactive la barre d'action
+            _barreAction.gameObject.SetActive(true);  // reactive la barre d'action
 
         }
     }
 
+    //Recupere les images correspondant aux capacites
     private void AdaptBar()
     {
-        DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
-        myText = _textCompetence2.GetComponent<TextMeshProUGUI>();
-
-        _tir.GetComponent<Image>().sprite = data.SpriteTir;
-        _vigilance.GetComponent<Image>().sprite = data.SpriteVigilance;
-        _competence1.GetComponent<Image>().sprite = data.SpriteCompetence;
-        _competence2.GetComponent<Image>().sprite = data.SpriteCompetence2;
-        _icone.GetComponent<Image>().sprite = data.icon;
-
-        foreach(Image myPoint in _actionPoint)
+        if (_cH != null)
         {
-            myPoint.GetComponent<Image>().sprite = data.PointAction;            
+            DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
+
+            myText = _textCompetence2.GetComponent<TextMeshProUGUI>();
+
+            _tir.GetComponent<Image>().sprite = data.SpriteTir;
+            _vigilance.GetComponent<Image>().sprite = data.SpriteVigilance;
+            _competence1.GetComponent<Image>().sprite = data.SpriteCompetence;
+            _competence2.GetComponent<Image>().sprite = data.SpriteCompetence2;
+            _icone.GetComponent<Image>().sprite = data.icon;
+
+            foreach (Image myPoint in _actionPoint)
+            {
+                myPoint.GetComponent<Image>().sprite = data.PointAction;
+            }
+
+
+            if (data.SpriteCompetence2 == null)
+            {
+                _competence2.image.enabled = false;
+                _competence2.enabled = false;
+
+                myText.enabled = false;
+            }
+        }
+        else
+        {
+            _competence2.image.enabled = true;
+            _competence2.enabled = true;
+
+            //myText.enabled = true;
+
+        }
+    }
+
+   /* private void ActualActionPoint()
+    {
+        DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
+
+    }*/
+
+    //Gere l'affichage du nombre actuel des munitions
+    private void ActualAmmo()
+    {
+        DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
+        //_ammoImage = new List<Image>(_myAmmoMax);
+        
+        //Ajoutes les images 
+        if(_ammoImage.Count < _myAmmoMax)
+        {
+            _ammoImage.Add(_myAmmo);           
         }
 
-        foreach(Image myAmmo in _ammo)
+        //Rend invisible les images pour convenir au nombre actuel de munitions
+        for (int i = 0; i < _ammoImage.Count; i++)
+        {
+                if (i >= _cH.GetWeaponCurrentAmmo())
+                {
+                    _ammoImage[i].color = new Color(_ammoImage[i].color.r, _ammoImage[i].color.g, _ammoImage[i].color.b, 0f);
+                }
+
+
+                else
+                {
+                    _ammoImage[i].color = new Color(_ammoImage[i].color.r, _ammoImage[i].color.g, _ammoImage[i].color.b, 1f);
+                }
+            
+
+        }
+
+        //remplace les images par les images de munitions
+        foreach (Image myAmmo in _ammoImage)
         {
             myAmmo.GetComponent<Image>().sprite = data.Ammo;
 
@@ -112,22 +200,6 @@ public class UI : MonoBehaviour
             {
                 myAmmo.enabled = true;
             }
-        }
-
-        if(data.SpriteCompetence2 == null)
-        {
-            _competence2.image.enabled = false;
-            _competence2.enabled = false;
-
-            myText.enabled = false;
-        }
-
-        else
-        {
-            _competence2.image.enabled = true;
-            _competence2.enabled = true;
-
-            myText.enabled = true;
         }
     }
 
@@ -191,7 +263,29 @@ public class UI : MonoBehaviour
     }
     public void EndTurn()
     {
-        LevelManager.Instance.PassedTurn = true;
+        if(_pC.CanPassTurn)
+            LevelManager.Instance.PassedTurn = true;
     }
 
+    /* if (_pC.GetCurrentActorSelected == null)
+       {
+           _textDebug.text = "";
+           return;
+       }
+       string debugString = "";
+
+           Character : Name
+           Action Point : i / i
+           Health : 1 / 1
+           State : Alive
+           Ammo : 2/2
+
+       Character _char = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>();
+
+       debugString += $"Character :{_char.GetCharacterName()} \n";
+       debugString += $"Action Point :  {_char.CurrentActionPoint} / {_char.MaxActionPoint} \n";
+       debugString += $"Health : {_char.Health} \n";
+       debugString += $"State :{_char.State} \n";
+       debugString += $"Ammo :{_char.Ammo} /  \n";
+       _textDebug.text = debugString;*/
 }

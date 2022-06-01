@@ -48,7 +48,7 @@ public class Case : MonoBehaviour
     */
     public int x { get { return CaseStatut.x; } set { CaseStatut.x = value; } }
     public int y { get { return CaseStatut.y; } set { CaseStatut.y = value; } }
-    public CaseState state { get { return CaseStatut._state; } set { CaseStatut._state = value; } }
+    public CaseState State { get { return CaseStatut._state; } set { CaseStatut._state = value; } }
     public int index { get { return CaseStatut.index; } set { CaseStatut.index = value; } }
 
     [Header("DEBUG")]
@@ -62,7 +62,7 @@ public class Case : MonoBehaviour
     {
         _sr = GetComponentInChildren<SpriteRenderer>();
         // Ajoute la case à la grid pour dire qu'elle peut servir de spawn, on verifie si elle est dans le state spawn et qu'elle ny 'ai pas déja
-        if (state == CaseState.Spawner && !GridParent.SpawnerCase.Contains(this) ) 
+        if (State == CaseState.Spawner && !GridParent.SpawnerCase.Contains(this) ) 
             GridParent.SpawnerCase.Add(this);
 
     }

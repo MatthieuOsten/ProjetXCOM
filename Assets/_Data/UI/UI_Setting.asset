@@ -19,3 +19,5 @@ MonoBehaviour:
   ClientBox: {fileID: 8123865611639504055, guid: dbaabea30f9fc6241b06fc8ee9f25139,
     type: 3}
   HintstringList: {fileID: 0}
+  WidgetHitInfo: {fileID: 8123865611639504055, guid: ef8ffd9d62929a74a8b78ebe840db02c,
+    type: 3}

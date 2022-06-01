@@ -24,6 +24,7 @@ MonoBehaviour:
   _damage: 2.5
   _accuracy: 0
   _costPoint: 0
+  _munition: 4
   _range:
     right: 2
     diagonal: 2
