@@ -553,6 +553,20 @@ public class PlayerController : Team
                 _cooldownBeforeStartTurnTimer += Time.deltaTime;
                 return;
             }
+            else
+            {
+                if(_cooldownBeforeStartTurnTimer < 5)
+                {
+                    _cooldownBeforeStartTurnTimer += Time.deltaTime;
+                   
+                }
+                else if(_cooldownBeforeStartTurnTimer != 99)
+                {
+                     AudioManager.PlaySoundAtPosition("turn_start", Vector3.zero);
+                    _cooldownBeforeStartTurnTimer = 99;
+                }
+            }
+            
             // C'est notre tour du coup on active l'inputManager
             EnableInputManager();
             // On regarde dans quelle selected mode nous sommes

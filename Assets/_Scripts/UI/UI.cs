@@ -297,7 +297,11 @@ public class UI : MonoBehaviour
     public void EndTurn()
     {
         if(_pC.CanPassTurn)
+        {
             LevelManager.Instance.PassedTurn = true;
+            
+        }
+            
     }
 
     /* if (_pC.GetCurrentActorSelected == null)

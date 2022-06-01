@@ -82,6 +82,7 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AudioManager.PlaySoundAtPosition("game_start", Vector3.zero);
         SpawnTeam();
     }
     /// <summary> Cette fonction spawn les teams en tant que Joueur ou Bot </summary>
