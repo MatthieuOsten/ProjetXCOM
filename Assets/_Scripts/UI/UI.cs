@@ -16,6 +16,8 @@ public class UI : MonoBehaviour
     [SerializeField] private Button _competence2;
     [SerializeField] private Image _icone;
     [SerializeField] private Image _iconeTeam;
+    /// <summary> Correspond à la couleur qui sera afficher derrière la liste des personnages </summary>
+    [SerializeField] private Image _glowTeam;
 
 
     [SerializeField] private GameObject imageAmmo;
@@ -119,6 +121,7 @@ public class UI : MonoBehaviour
         if (_cH != null)
         {
             DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
+
 
             myText = _textCompetence2.GetComponent<TextMeshProUGUI>();
 
@@ -251,6 +254,7 @@ public class UI : MonoBehaviour
 
     private void ListTeam()
     {
+        _glowTeam.color = _pC.Data.Color;
         foreach(Character character in _pC.Squad)
         {
             if(_teamImage.Count < _pC.Squad.Length)

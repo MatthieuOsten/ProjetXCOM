@@ -29,7 +29,7 @@ MonoBehaviour:
   _moveSpeed: 10
   _weapon: {fileID: 11400000, guid: 61d8fc8d029515b4eab4b8a47d10ce02, type: 2}
   _actionPoints: 2
-  _movementCasesAction: 3
+  _movementCasesAction: 6
   AbilityAvailable: 1
   WeaponAbility: {fileID: 11400000, guid: 9d827f7448998e448af6c6b460cceb38, type: 2}
   casePreviewAbility: {fileID: 0}

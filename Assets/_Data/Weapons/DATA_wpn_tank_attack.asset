@@ -25,12 +25,12 @@ MonoBehaviour:
   _damage: 2
   _costPoint: 1
   _range:
-    right: 3
-    diagonal: 3
-    type: 1
+    right: 1
+    diagonal: 1
+    type: 0
   _maxAmmo: 0
   Cooldown: 0
   _animIdle: {fileID: 0}
   _animFire: {fileID: 0}
-  _soundFire: {fileID: 0}
-  _soundReload: {fileID: 0}
+  _soundFire: 
+  _soundReload: 
