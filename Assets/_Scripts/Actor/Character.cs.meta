@@ -3,7 +3,11 @@ guid: 9242a0e7b141d8a428ba16110055f31d
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - currentCase: {instanceID: 0}
+  - Owner: {instanceID: 0}
+  - _mtl_red_flick: {fileID: 2100000, guid: abbfc98669dc8544abbe918ae5c5cdf7, type: 2}
+  - _data: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -158,6 +158,7 @@ public class PlayerController : Team
         get { return _characterIndex; }
         set
         {
+            AudioManager.PlaySoundAtPosition("character_change", Vector3.zero);
             _characterIndex = value;
         }
     }
@@ -334,7 +335,16 @@ public class PlayerController : Team
         {
             // On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
             if(EnemyDetected.Contains(SelectedCaseB._actor.gameObject))
+            {
                 _selectedActor.Attack(SelectedCaseB._actor);
+                AudioManager.PlaySoundAtPosition("ExecAttack", Vector3.zero);
+            }
+            else
+            {
+                AudioManager.PlaySoundAtPosition("case_refus", Vector3.zero);
+
+            }
+                
 
             SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
         }
@@ -475,6 +485,7 @@ public class PlayerController : Team
         }
         if (pathSuggested != null && pathSuggested[pathSuggested.Length-1] != AimCase)
         {
+           
             pathSuggested[pathSuggested.Length - 1].ChangeMaterial(pathSuggested[pathSuggested.Length - 1].GridParent.Data.caseSelected);
         }
         else
@@ -485,10 +496,12 @@ public class PlayerController : Team
         // On vérifie si le joueur clique sur le clique de la souris
         if (_inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {
+
             // Si un chemin est suggéré, qu'un personnage est sélectionner, et que celui ne bouge pas, on lui implante une nouvelle destination 
             if (pathSuggested != null && _char != null && pathSuggested.Length > 0 && !_char.IsMoving)
             {
                 _char.SetDestination(pathSuggested);
+                AudioManager.PlaySoundAtPosition("character_deplacement_valid", Vector3.zero);
                 return;
             }
 
@@ -496,12 +509,17 @@ public class PlayerController : Team
             SelectedCaseA = AimCase; 
             if (SelectedCaseA != null && (pathSuggested == null || pathSuggested.Length == 0))
             {
+                AudioManager.PlaySoundAtPosition("case_select", Vector3.zero);
                 GridManager.SetCasePreview(SelectedCaseA, true);
                 if (_selectedActor == null && SelectedCaseA._actor.Owner == this) // On check si l'actor appartient à celui de la team
                 {
                     _selectedActor = SelectedCaseA._actor;
                     SetActorSelection(_selectedActor);
                 }
+            }
+            else
+            {
+                AudioManager.PlaySoundAtPosition("case_refus", Vector3.zero);
             }
             pathSuggested = null;
 
@@ -528,6 +546,7 @@ public class PlayerController : Team
     void ResetSelection()
     {
         Debug.Log("ResetSelection");
+        AudioManager.PlaySoundAtPosition("case_reset", Vector3.zero);
         SelectedCaseA = null;
         SelectedCaseB = null;
         _selectedActor = null;
@@ -553,19 +572,7 @@ public class PlayerController : Team
                 _cooldownBeforeStartTurnTimer += Time.deltaTime;
                 return;
             }
-            else
-            {
-                if(_cooldownBeforeStartTurnTimer < 5)
-                {
-                    _cooldownBeforeStartTurnTimer += Time.deltaTime;
-                   
-                }
-                else if(_cooldownBeforeStartTurnTimer != 99)
-                {
-                     AudioManager.PlaySoundAtPosition("turn_start", Vector3.zero);
-                    _cooldownBeforeStartTurnTimer = 99;
-                }
-            }
+        
             
             // C'est notre tour du coup on active l'inputManager
             EnableInputManager();
@@ -797,6 +804,7 @@ public class PlayerController : Team
         }
         _selectedActor = CharacterPlayer[CharacterIndex].GetComponent<Character>();
         SelectionMode = SelectionMode.Selection;
+        //AudioManager.PlaySoundAtPosition("character_change", Vector3.zero);
     }
 
     //Permet de cibler un ennemie

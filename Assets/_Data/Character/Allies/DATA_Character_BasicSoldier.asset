@@ -33,17 +33,11 @@ MonoBehaviour:
   _actionPoints: 2
   _movementCasesAction: 3
   AbilityAvailable: 0
-  CostCompetence: 1
-  AbilityName: "Bombe de lanc\xE9"
   WeaponAbility: {fileID: 11400000, guid: 520b4552b48c4e742a81f87eb67c72b8, type: 2}
   casePreviewAbility: {fileID: 0}
-  CooldownAbility: 1
   AbilityAltAvailable: 0
-  CostCompetenceAlt: 1
-  AbilityAltName: 
   WeaponAbilityAlt: {fileID: 0}
   casePreviewAbilityAlt: {fileID: 0}
-  CooldownAbilityAlt: 1
   CostAttack: 1
   CostVigilance: 1
   CostReload: 1
@@ -54,3 +48,4 @@ MonoBehaviour:
   pointAction: {fileID: 0}
   ammo: {fileID: 21300000, guid: 301fe569da9047c4988d46c1707ea4e5, type: 3}
   ClassName: Actor_BasicSoldier
+  mtl_red_flick: {fileID: 2100000, guid: abbfc98669dc8544abbe918ae5c5cdf7, type: 2}

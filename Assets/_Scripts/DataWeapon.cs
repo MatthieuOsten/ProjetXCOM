@@ -35,8 +35,8 @@ public class DataWeapon : Data
 
     [Header("SOUND")]
 
-    [SerializeField] private AudioSource _soundFire;
-    [SerializeField] private AudioSource _soundReload;
+    [SerializeField] private string _soundFire;
+    [SerializeField] private string _soundReload;
 
     public typeWeapon TypeW { get { return _typeW; } }
     public Range Range { get { return _range; } }
@@ -49,8 +49,8 @@ public class DataWeapon : Data
 
     public Animation AnimIdle { get { return _animIdle; } }
     public Animation AnimFire { get { return _animFire; } }
-    public AudioSource SoundFire { get { return _soundFire; } }
-    public AudioSource SoundReload { get { return _soundReload; } }
+    public string SoundFire { get { return _soundFire; } }
+    public string SoundReload { get { return _soundReload; } }
 
     
 

@@ -31,11 +31,9 @@ MonoBehaviour:
   AbilityAvailable: 1
   WeaponAbility: {fileID: 11400000, guid: dcc644e6e1894ef49ab5745244dc54a0, type: 2}
   casePreviewAbility: {fileID: 0}
-  CooldownAbility: 1
   AbilityAltAvailable: 0
   WeaponAbilityAlt: {fileID: 11400000, guid: 3e204f481e730b844998740af75bf0d9, type: 2}
   casePreviewAbilityAlt: {fileID: 0}
-  CooldownAbilityAlt: 1
   CostAttack: 1
   CostVigilance: 1
   CostReload: 1
@@ -46,3 +44,4 @@ MonoBehaviour:
   pointAction: {fileID: 0}
   ammo: {fileID: 0}
   ClassName: Actor_Support
+  mtl_red_flick: {fileID: 2100000, guid: abbfc98669dc8544abbe918ae5c5cdf7, type: 2}

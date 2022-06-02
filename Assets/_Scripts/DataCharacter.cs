@@ -104,6 +104,9 @@ public class DataCharacter : Data
     [Tooltip("Le nom du component a ajouté sur le actor qu'on créera")]
     [SerializeField] public string ClassName;
 
+    [SerializeField] public Material mtl_red_flick;
+    
+
     public void OnValidate() {
         if(ClassName == null || ClassName == "")
             Debug.LogError($"Attention ClassName n'est pas défini, il est nécessaire de lui associer un component sinon l'actor ne pourra pas être spawn");

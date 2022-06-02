@@ -44,6 +44,7 @@ MonoBehaviour:
       m_RotationOrder: 0
     Text: 
     customDuration: 0
+    isInit: 1
   - name: turn_end
     MixerGroup: {fileID: 0}
     audio:
@@ -72,6 +73,7 @@ MonoBehaviour:
       m_RotationOrder: 0
     Text: 
     customDuration: 0
+    isInit: 1
   - name: game_start
     MixerGroup: {fileID: 0}
     audio:
@@ -80,7 +82,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 1
+    volume: 0.209
     isLooping: 0
     minPitch: 0.99
     maxPitch: 1
@@ -100,31 +102,50 @@ MonoBehaviour:
       m_RotationOrder: 0
     Text: 
     customDuration: 0
-  - name: game_over
+    isInit: 1
+  - name: newAliase
     MixerGroup: {fileID: 0}
-    audio:
-    - {fileID: 8300000, guid: db49300ce573e874eb8e3142096ae4f1, type: 3}
+    audio: []
     bypassEffects: 0
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0
+    volume: 0.8
     isLooping: 0
-    minPitch: 0
-    maxPitch: 0
+    minPitch: 1
+    maxPitch: 1.01
     stereoPan: 0
     spatialBlend: 0
-    reverbZoneMix: 0
-    dopplerLevel: 0
-    Spread: 0
-    MinDistance: 0
-    MaxDistance: 0
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 1
+    MaxDistance: 500
     CurveType: 0
     distanceCurve:
       serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 0
-      m_PostInfinity: 0
-      m_RotationOrder: 0
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
     Text: 
     customDuration: 0
+    isInit: 1

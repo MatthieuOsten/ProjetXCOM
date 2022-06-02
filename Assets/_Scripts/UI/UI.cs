@@ -240,13 +240,13 @@ public class UI : MonoBehaviour
     {
         if (_pC.SelectionMode != SelectionMode.Action)
         {
+            AudioManager.PlaySoundAtPosition("action_attack", Vector3.zero);
             _pC.SelectionMode = SelectionMode.Action;
             _pC.ActionTypeMode = ActionTypeMode.Attack;
         } 
         else
         {
-            _pC.SelectionMode = SelectionMode.Selection;
-            _pC.ActionTypeMode = ActionTypeMode.None;
+            ResetSelection();
         }
 
     }
@@ -254,13 +254,13 @@ public class UI : MonoBehaviour
     {
         if (_pC.SelectionMode != SelectionMode.Action)
         {
+            AudioManager.PlaySoundAtPosition("action_overwatch", Vector3.zero);
             _pC.SelectionMode = SelectionMode.Action;
             _pC.ActionTypeMode = ActionTypeMode.Overwatch;
         }
         else
         {
-            _pC.SelectionMode = SelectionMode.Selection;
-            _pC.ActionTypeMode = ActionTypeMode.None;
+            ResetSelection();
         }
 
     }
@@ -268,13 +268,13 @@ public class UI : MonoBehaviour
     {
         if (_pC.SelectionMode != SelectionMode.Action)
         {
+            AudioManager.PlaySoundAtPosition("action_competence1", Vector3.zero);
             _pC.SelectionMode = SelectionMode.Action;
             _pC.ActionTypeMode = ActionTypeMode.Competence1;
         }
         else
         {
-            _pC.SelectionMode = SelectionMode.Selection;
-            _pC.ActionTypeMode = ActionTypeMode.None;
+            ResetSelection();
         }
 
 
@@ -283,15 +283,23 @@ public class UI : MonoBehaviour
     {
         if (_pC.SelectionMode != SelectionMode.Action)
         {
+            AudioManager.PlaySoundAtPosition("action_competence2", Vector3.zero);
             _pC.SelectionMode = SelectionMode.Action;
             _pC.ActionTypeMode = ActionTypeMode.Competence2;
         }
         else
         {
-            _pC.SelectionMode = SelectionMode.Selection;
-            _pC.ActionTypeMode = ActionTypeMode.None;
+            ResetSelection();
         }
 
+
+    }
+
+    void ResetSelection()
+    {
+        _pC.SelectionMode = SelectionMode.Selection;
+        _pC.ActionTypeMode = ActionTypeMode.None;
+        AudioManager.PlaySoundAtPosition("action_reset", Vector3.zero);
 
     }
     public void EndTurn()

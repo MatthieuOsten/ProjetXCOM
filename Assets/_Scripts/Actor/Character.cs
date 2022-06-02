@@ -40,6 +40,10 @@ public class Character : Actor
     /// <summary> Les tours d'attente avant que le personnage puisse réutilisé sa 2nd compétence </summary>
     [SerializeField] protected int cooldownAbilityAlt = 0;
 
+     Material _mtl_og;
+     float _damageCooldown;
+
+
     // Getteur utile a prendre pour les autre script
     /// <summary> Retourne le nombre max de case que le personnage peut faire avec 1 point d'action </summary> 
     public int LimitCaseMovement
@@ -164,6 +168,8 @@ public class Character : Actor
     {
         
         Health -= amount;
+         _damageCooldown = 2;
+         AudioManager.PlaySoundAtPosition("character_damaged", transform.position);
 
     }
     public override void Start()
@@ -172,6 +178,8 @@ public class Character : Actor
         LimitCaseMovement = Data.MovementCasesAction; 
         //gameObject.AddComponent<RaycastCamera>();
         Health = Data.Health; // init la vie
+                _mtl_og = gameObject.GetComponentInChildren<MeshRenderer>().material;
+
         InitAmmo();
 
         base.Start();
@@ -197,6 +205,18 @@ public class Character : Actor
 
     public override void Update()
     {
+        
+        if(_damageCooldown > 0)
+        {
+            _damageCooldown -= Time.deltaTime;
+            gameObject.GetComponentInChildren<MeshRenderer>().material = Data.mtl_red_flick;
+        }    
+        else
+        {
+            gameObject.GetComponentInChildren<MeshRenderer>().material = _mtl_og;
+        }
+
+
         if (pathToFollow != null)
         {
             OnMove();
@@ -211,6 +231,7 @@ public class Character : Actor
         {
             AttackRange(Weapons[0]);
         }
+        base.Update();
     }
 
     public void SetDestination(Case[] path = null)
@@ -244,6 +265,9 @@ public class Character : Actor
 
         if (transform.position == GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]))
         {
+            
+            AudioManager.PlaySoundAtPosition("character_footstep_concrete", transform.position);
+        
             Case LastCase = pathToFollow[pathToFollow.Length - 1];
             if (pathToFollow.Length == 0 || pathToFollow == null)
             {
@@ -401,12 +425,14 @@ public class Character : Actor
     {
         // Si on arrive ici, c'est que l'actor a effectuer sa compétence du coup, 
         //on lui retire les pa indiqué par l'arme de la compétence utilisé
+        AudioManager.PlaySoundAtPosition(GetWeaponAbilityInfo().SoundFire, transform.position);
         CurrentActionPoint -= GetWeaponAbilityInfo().CostPoint;
     }
     public override void EnableAbilityAlt(Actor target)
     {
          // Si on arrive ici, c'est que l'actor a effectuer sa compétence du coup, 
         //on lui retire les pa indiqué par l'arme de la compétence utilisé
+        AudioManager.PlaySoundAtPosition(GetWeaponAbilityAltInfo().SoundFire, transform.position);
         CurrentActionPoint -= GetWeaponAbilityAltInfo().CostPoint;
     }
 }

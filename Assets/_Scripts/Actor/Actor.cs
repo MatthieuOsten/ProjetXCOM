@@ -59,6 +59,7 @@ public abstract class Actor : MonoBehaviour, IActor
 
     public virtual void Update()
     {
+
         if (State == ActorState.Dead || Health <= 0)
             Death();
     }
@@ -67,6 +68,7 @@ public abstract class Actor : MonoBehaviour, IActor
     {
         // Permet de cr�e la bulle d'information au dessus du personnage
         UIManager.CreateBoxActorInfo(gameObject, "test");
+
     }
 
 
@@ -84,6 +86,7 @@ public abstract class Actor : MonoBehaviour, IActor
     public virtual void DoDamage(int amount)
     {
         Health -= amount;
+       
     }
 
     public virtual void Attack(Actor target)
