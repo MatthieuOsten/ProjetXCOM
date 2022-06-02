@@ -34,6 +34,8 @@ public class WidgetActorInfo : HintstringProperty
             _selectedActor = player.GetCurrentActorSelected;
         }
         Image[] images = gameObject.GetComponentsInChildren<Image>();
+
+        
         // Si le personnage du widget correspond � la team qui joue
         if (_selectedActor != null && _actor.Owner == currentTeam)
         {
@@ -83,7 +85,18 @@ public class WidgetActorInfo : HintstringProperty
         textComponent[2].text = _actor.CurrentActionPoint + "/" + _actor.MaxActionPoint + " PA ";
         progression = (float)_actor.Health/(float)_actor.Data.Health;
 
-    
+        if(!_actor.CanAction)
+        {
+            for (int i = 0; i < images.Length; i++)
+            {
+                images[i].color = SetOpacity(images[i].color, _lowOpacity);
+            }
+            for (int i = 0; i < textComponent.Length; i++)
+            {
+                textComponent[i].color = SetOpacity(textComponent[i].color, _lowOpacity);
+            }
+            return;
+        }
 
 
         base.Update();

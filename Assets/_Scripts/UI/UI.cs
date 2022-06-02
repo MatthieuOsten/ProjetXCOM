@@ -126,10 +126,10 @@ public class UI : MonoBehaviour
             _competence2.GetComponent<Image>().sprite = data.SpriteCompetence2;
             _icone.GetComponent<Image>().sprite = data.icon;
 
-            foreach (Image myPoint in _actionPoint)
-            {
-                myPoint.GetComponent<Image>().sprite = data.PointAction;
-            }
+            // foreach (Image myPoint in _actionPoint)
+            // {
+            //     myPoint.GetComponent<Image>().sprite = data.PointAction;
+            // }
 
 
             // if (data.SpriteCompetence2 == null)
