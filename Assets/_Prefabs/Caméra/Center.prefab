@@ -170,7 +170,7 @@ MonoBehaviour:
   zMax: 57
   yTransform: 1.1
   myTransform: {fileID: 3434260536948107593}
-  edgeTolerance: 0.1
+  edgeTolerance: 0.05
   targetPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &3434260537809050828
 GameObject:

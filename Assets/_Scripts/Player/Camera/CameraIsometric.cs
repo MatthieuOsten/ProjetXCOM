@@ -145,7 +145,12 @@ public class CameraIsometric : MonoBehaviour
             moveDirection += GetCameraForward() /** _speed * Time.deltaTime*/;
         }
 
-        controller.Move(moveDirection * _speedMouse * Time.deltaTime); ;
+        controller.Move(moveDirection * _speedMouse * Time.deltaTime);
+
+        if(controller.velocity.x > 40f || controller.velocity.y > 40f)
+        {
+            PlayerController.CanMoveCam = true;
+        }
     }
 
     private Vector3 GetCameraRight()
