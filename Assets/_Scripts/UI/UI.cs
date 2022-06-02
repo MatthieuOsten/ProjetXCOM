@@ -77,6 +77,7 @@ public class UI : MonoBehaviour
     {
         _pC = (PlayerController)LevelManager.GetCurrentController();
         _cH = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>();
+
     }
 
     //recupere les mun max de munition dans l'arme
@@ -188,11 +189,14 @@ public class UI : MonoBehaviour
     private void ActualActionPoint()
     {
         _actionPointMax = _cH.MaxActionPoint;
-        
+        if(_actionPointMax < _cH.CurrentActionPoint)
+        {
+            _actionPointMax = _cH.CurrentActionPoint;
+        }
         if (_actionPoint.Count < _actionPointMax)
         {
             
-            for (int i = 0; i < _actionPointMax; i++)
+            for (int i = _actionPoint.Count; i < _actionPointMax; i++)
             {
                 GameObject addImageAction = Instantiate(imageActionPoint, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
                 addImageAction.transform.SetParent(parentActionPoint.transform, false);
@@ -200,7 +204,7 @@ public class UI : MonoBehaviour
             }                     
         }
 
-        for (int i = 0; i < _actionPointMax; i++)
+        for (int i = 0; i < _actionPoint.Count; i++)
         {
             if (i >= _cH.CurrentActionPoint)
             {
