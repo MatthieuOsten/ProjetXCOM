@@ -31,7 +31,7 @@ MonoBehaviour:
   AbilityAvailable: 1
   WeaponAbility: {fileID: 11400000, guid: dcc644e6e1894ef49ab5745244dc54a0, type: 2}
   casePreviewAbility: {fileID: 0}
-  AbilityAltAvailable: 0
+  AbilityAltAvailable: 1
   WeaponAbilityAlt: {fileID: 11400000, guid: 3e204f481e730b844998740af75bf0d9, type: 2}
   casePreviewAbilityAlt: {fileID: 0}
   CostAttack: 1
