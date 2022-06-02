@@ -29,7 +29,7 @@ public class PlayerController : Team
     [Header("BOOLS")]
     [SerializeField] private bool _leftHand = false;
     [SerializeField] private bool _onEnemy = false;
-    [SerializeField] private bool _canMoveCam;
+    [SerializeField] private static bool _canMoveCam;
     [SerializeField] private bool _onVigilence = false;
 
     [Header("LIST")]
@@ -61,6 +61,15 @@ public class PlayerController : Team
         return _char; } }
 
     //Set, Get de toutes les variables ayant besoin d'�tre modifi�
+
+    public static bool CanMoveCam
+    {
+        get { return _canMoveCam; }
+        set
+        {
+            _canMoveCam = value;
+        }
+    }
     public bool OnVigilence
     {
         get { return _onVigilence; }
