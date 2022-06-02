@@ -14,6 +14,7 @@ public class UI : MonoBehaviour
     [SerializeField] private Button _vigilance;
     [SerializeField] private Button _competence1;
     [SerializeField] private Button _competence2;
+    [SerializeField] private Button _reload;
     [SerializeField] private Image _icone;
     [SerializeField] private Image _iconeTeam;
 
@@ -128,6 +129,33 @@ public class UI : MonoBehaviour
             _competence2.GetComponent<Image>().sprite = data.SpriteCompetence2;
             _icone.GetComponent<Image>().sprite = data.icon;
 
+            if (_cH.GetWeaponCapacityAmmo() > 0)
+            {
+                Color colorReload = _reload.GetComponent<Image>().color;
+                _reload.gameObject.SetActive(true);
+
+                if (_cH.GetWeaponCurrentAmmo() < _myAmmoMax)
+                {
+                    colorReload.a = 1f;
+                    _reload.GetComponent<Image>().color = colorReload;
+                    _reload.interactable = true;
+
+                }
+
+                else
+                {
+                    colorReload.a = 0.3f;
+                    _reload.GetComponent<Image>().color = colorReload;
+                    _reload.interactable = false;
+                }
+
+            }
+
+            else
+            {
+                _reload.gameObject.SetActive(false);
+            }
+
             // foreach (Image myPoint in _actionPoint)
             // {
             //     myPoint.GetComponent<Image>().sprite = data.PointAction;
@@ -169,21 +197,7 @@ public class UI : MonoBehaviour
             _competence2.enabled = true;
             _competence2.image.enabled = true;
             //myText.enabled = true;
-        }
-        
-            // foreach (Image myPoint in _actionPoint)
-            // {
-                
-                
-
-                
-
-        //     // }
-        
-        // else
-        //     _competence1.gameObject.SetActive(false);
-
-       
+        }       
     }
 
     private void ActualActionPoint()
