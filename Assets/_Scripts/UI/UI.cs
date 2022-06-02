@@ -271,7 +271,7 @@ public class UI : MonoBehaviour
                 GameObject addIconeTeam = Instantiate(imageIconeTeam, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
                 addIconeTeam.transform.SetParent(parentIconeTeam.transform, false);
                 _teamImage.Add(addIconeTeam);
-                addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
+                
 
                 if (character == null)
                 {
@@ -283,15 +283,17 @@ public class UI : MonoBehaviour
                     addIconeTeam.GetComponent<Image>().color = colorIcone;
                 }
 
-                if(_pC.GetCurrentCharactedSelected)
+                if(character == _pC.GetCurrentCharactedSelected)
                 {
+                    addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
                     Color colorIcone = addIconeTeam.GetComponent<Image>().color;
                     colorIcone.a = 1f;
                     addIconeTeam.GetComponent<Image>().color = colorIcone;
                 }
 
                 else
-                {                  
+                {
+                    addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
                     Color colorIcone = addIconeTeam.GetComponent<Image>().color;
                     colorIcone.a = 0.5f;
                     addIconeTeam.GetComponent<Image>().color = colorIcone;
