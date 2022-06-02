@@ -470,6 +470,7 @@ public class PlayerController : Team
                 {
                     UIManager.CreateSubtitle("", 1);
                     pathSuggested = PathFinding.FindPath(_selectedActor.CurrentCase, AimCase, _char.LimitCaseMovement);
+                    _char.transform.LookAt(AimCase.transform);
                 }
                 else
                 {
@@ -501,6 +502,7 @@ public class PlayerController : Team
             if (pathSuggested != null && _char != null && pathSuggested.Length > 0 && !_char.IsMoving)
             {
                 _char.SetDestination(pathSuggested);
+                _char.transform.LookAt(AimCase.transform);
                 AudioManager.PlaySoundAtPosition("character_deplacement_valid", Vector3.zero);
                 return;
             }

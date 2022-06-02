@@ -13,6 +13,7 @@ public class WidgetActorInfo : HintstringProperty
 
     protected override void Start() {
         _actor = relatedObject.GetComponent<Character>();
+        offset = new Vector3(0, 23, 0);
     }
 
     protected override void Update()
