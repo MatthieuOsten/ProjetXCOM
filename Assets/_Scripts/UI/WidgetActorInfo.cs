@@ -9,11 +9,14 @@ using UnityEngine.UI;
 public class WidgetActorInfo : HintstringProperty
 {
     Character _actor;
+    [SerializeField] Image _iconActor;
     float _lowOpacity = 0.1f;
 
     protected override void Start() {
         _actor = relatedObject.GetComponent<Character>();
         offset = new Vector3(0, 23, 0);
+
+        _iconActor.sprite = _actor.GetCharacterIcon();
     }
 
     protected override void Update()
@@ -74,7 +77,8 @@ public class WidgetActorInfo : HintstringProperty
                 images[i].color = SetOpacity(images[i].color, 1);
             }
         }
-        textComponent[0].text = _actor.Data.name; 
+        //textComponent[0].text = _actor.Data.name; 
+        textComponent[0].text = "";
         textComponent[1].text = _actor.Health+"/"+_actor.Data.Health;
         textComponent[2].text = _actor.CurrentActionPoint + "/" + _actor.MaxActionPoint + " PA ";
         progression = (float)_actor.Health/(float)_actor.Data.Health;
