@@ -160,31 +160,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 562858f734c98134a91bbe687d4a927a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnerTest: {fileID: 0}
   _rb: {fileID: 2807584952771544518}
-  _speed: 100
-  _speedRotation: 0.5
+  _speed: 50
+  _speedMouse: 50
   _speedToCharacter: 1000
-  _leftHand: 0
-  _canMoveCam: 1
-  _onShoulder: 0
-  _center: {fileID: 0}
-  _isometricCamera: {fileID: 3434260536100999236}
-  childCam: {fileID: 5147938169950352806, guid: 80f3ea85c9a59974aa6fd1c0b139b42a,
-    type: 3}
-  _virtualCam:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 270, z: 0}
-  - {x: 0, y: 180, z: 0}
-  - {x: 0, y: 90, z: 0}
-  _characterPlayer:
-  - {fileID: 0}
-  - {fileID: 0}
-  _virtualCamShoulder:
-  - {fileID: 0}
-  - {fileID: 0}
-  _characterIndex: 0
-  _index: 0
+  xMin: -2
+  xMax: 58
+  zMin: -1.5
+  zMax: 57
+  yTransform: 1.1
+  myTransform: {fileID: 3434260536948107593}
+  edgeTolerance: 0.1
+  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &3434260537809050828
 GameObject:
   m_ObjectHideFlags: 0
