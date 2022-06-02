@@ -16,7 +16,8 @@ public enum ActionTypeMode
     Attack,
     Overwatch,
     Competence1,
-    Competence2
+    Competence2,
+    Reload
 }
 
 public class PlayerController : Team
@@ -268,6 +269,9 @@ public class PlayerController : Team
             case ActionTypeMode.Competence2:
                 WatchAbilityAlt();
                 break;
+            case ActionTypeMode.Reload:
+                ExecReload();
+                return;
         }
         // On affiche la case que l'on vise
         if (AimCase != null)
@@ -432,6 +436,25 @@ public class PlayerController : Team
         }
     }
 
+    // TODO : A faire des overrides avec les actors
+    void ExecReload()
+    {
+        // On verifie si la case possède un actor 
+        if (GetCurrentCharactedSelected != null )
+        {
+                Debug.Log("Exec reload");
+            
+            Character character = GetCurrentCharactedSelected;
+            character.CurrentActionPoint -= character.Data.CostReload;
+            character.Ammo[0] = character.GetWeaponCapacityAmmo();
+            SelectedCaseB = null; 
+        }
+        else
+        {
+            Debug.Log("Le rechargement ne peut pas être éxecuter sur l'actor sélectionner");
+        }
+    }
+
     void ExecAbilityAlt()
     {
         // On verifie si la case possède un actor 
@@ -456,6 +479,8 @@ public class PlayerController : Team
     {
         _selectedActor.State = ActorState.Overwatch;
     }
+
+
     /// <summary> Fonction qui est exécuté quand le joueur n'est pas en mode action </summary>
     void SelectionWatcher()
     {

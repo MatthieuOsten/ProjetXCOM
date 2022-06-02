@@ -370,6 +370,21 @@ public class UI : MonoBehaviour
         AudioManager.PlaySoundAtPosition("action_reset", Vector3.zero);
 
     }
+
+    public void SetActionModeReload()
+    {
+        if (_pC.SelectionMode != SelectionMode.Action)
+        {
+            AudioManager.PlaySoundAtPosition("action_reload", Vector3.zero);
+            _pC.SelectionMode = SelectionMode.Action;
+            _pC.ActionTypeMode = ActionTypeMode.Reload;
+        }
+        else
+        {
+            ResetSelection();
+        }
+
+    }
     public void EndTurn()
     {
         if(_pC.CanPassTurn)
