@@ -139,7 +139,6 @@ public class UI : MonoBehaviour
                     colorReload.a = 1f;
                     _reload.GetComponent<Image>().color = colorReload;
                     _reload.interactable = true;
-
                 }
 
                 else
@@ -272,8 +271,31 @@ public class UI : MonoBehaviour
                 GameObject addIconeTeam = Instantiate(imageIconeTeam, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
                 addIconeTeam.transform.SetParent(parentIconeTeam.transform, false);
                 _teamImage.Add(addIconeTeam);
-
                 addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
+
+                if (character == null)
+                {
+                    Color colorIcone = addIconeTeam.GetComponent<Image>().color;
+                    colorIcone.r = 0.5f;
+                    colorIcone.g = 0f;
+                    colorIcone.b = 0f;
+                    colorIcone.a = 0.3f;
+                    addIconeTeam.GetComponent<Image>().color = colorIcone;
+                }
+
+                if(_pC.GetCurrentCharactedSelected)
+                {
+                    Color colorIcone = addIconeTeam.GetComponent<Image>().color;
+                    colorIcone.a = 1f;
+                    addIconeTeam.GetComponent<Image>().color = colorIcone;
+                }
+
+                else
+                {                  
+                    Color colorIcone = addIconeTeam.GetComponent<Image>().color;
+                    colorIcone.a = 0.5f;
+                    addIconeTeam.GetComponent<Image>().color = colorIcone;
+                }
             }
         }
     }
