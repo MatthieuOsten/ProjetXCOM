@@ -8,21 +8,30 @@ public class UI : MonoBehaviour
 {
     [SerializeField] private PlayerController _pC;
     [SerializeField] private Character _cH;
+
     [SerializeField] private Image _barreAction;
     [SerializeField] private Button _tir;
     [SerializeField] private Button _vigilance;
     [SerializeField] private Button _competence1;
     [SerializeField] private Button _competence2;
     [SerializeField] private Image _icone;
-    [SerializeField] private Image _myAmmo;
+    [SerializeField] private Image _iconeTeam;
+
+    [SerializeField] private GameObject imageAmmo;
+    [SerializeField] private GameObject parentAmmo;
     [SerializeField] private GameObject imageActionPoint;
     [SerializeField] private GameObject parentActionPoint;
+    [SerializeField] private GameObject imageIconeTeam;
+    [SerializeField] private GameObject parentIconeTeam;
     [SerializeField] private List<Image> _children;
     [SerializeField] private List<GameObject> _actionPoint;
-    [SerializeField] private List<Image> _ammoImage;
+    [SerializeField] private List<GameObject> _ammo;
+    [SerializeField] private List<GameObject> _teamImage;
+
     [SerializeField] private int _myAmmoMax;
     [SerializeField] private int _actionPointMax;
     [SerializeField] private int _ammoImageIndex;
+
     TextMeshProUGUI myText;
     [SerializeField] private GameObject _textCompetence2;
     [SerializeField] private TextMeshProUGUI _textDebug;
@@ -36,34 +45,20 @@ public class UI : MonoBehaviour
         }
     }
 
-    public List<Image> Ammo
-    {
-        get { return _ammoImage; }
-        set
-        {
-            _ammoImage = value;
-        }       
-    }
-
     // Start is called before the first frame update
     void Start()
     {
         FindScripts();
-       /* DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
-        _actionPoint = new List<GameObject>(data.ActionPoints);*/
-        //_weapon = FindObjectOfType<DataWeapon>();
-
-        //  _ammoImage = new List<Image>();
     }
 
     // Update is called once per frame
     void Update()
-    {
-        
+    {      
         GetActualScripts();
         ActualActionPoint();
         MaximumAmmo();
         ShadeBar();
+        ListTeam();
     }
 
     private void FixedUpdate()
@@ -74,7 +69,6 @@ public class UI : MonoBehaviour
     private void FindScripts()
     {
         _pC = FindObjectOfType<PlayerController>();
-        //_cH = FindObjectOfType<Character>();
     }
 
     //recupere les scripts du character selectionner
@@ -132,9 +126,6 @@ public class UI : MonoBehaviour
             _competence2.GetComponent<Image>().sprite = data.SpriteCompetence2;
             _icone.GetComponent<Image>().sprite = data.icon;
 
-
-
-
             if (data.SpriteCompetence2 == null)
             {
                 _competence2.image.enabled = false;
@@ -143,6 +134,7 @@ public class UI : MonoBehaviour
                 myText.enabled = false;
             }
         }
+
         else
         {
             _competence2.image.enabled = true;
@@ -165,9 +157,7 @@ public class UI : MonoBehaviour
                 GameObject addImageAction = Instantiate(imageActionPoint, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
                 addImageAction.transform.SetParent(parentActionPoint.transform, false);
                 _actionPoint.Add(addImageAction);
-            }
-
-                       
+            }                     
         }
 
         for (int i = 0; i < _actionPointMax; i++)
@@ -183,46 +173,49 @@ public class UI : MonoBehaviour
             }
         }
 
-
     }
 
     //Gere l'affichage du nombre actuel des munitions
     private void ActualAmmo()
     {
-        DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
-        
-        //Ajoutes les images 
-        if(_ammoImage.Count < _myAmmoMax)
+        if(_cH.Ammo != null)
         {
-            _ammoImage.Add(_myAmmo);           
-        }
+            if (_ammo.Count < _myAmmoMax)
+            {
+                for (int i = 0; i < _actionPointMax; i++)
+                {
+                    GameObject addImageAmmo = Instantiate(imageAmmo, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
+                    addImageAmmo.transform.SetParent(parentAmmo.transform, false);
+                    _ammo.Add(addImageAmmo);
+                }
+            }
 
-        //Rend invisible les images pour convenir au nombre actuel de munitions
-        for (int i = 0; i < _ammoImage.Count; i++)
-        {
+            for (int i = 0; i < _ammo.Count; i++)
+            {
                 if (i >= _cH.GetWeaponCurrentAmmo())
                 {
-                    _ammoImage[i].color = new Color(_ammoImage[i].color.r, _ammoImage[i].color.g, _ammoImage[i].color.b, 0f);
+                    _ammo[i].GetComponent<Image>().color = new Color(_ammo[i].GetComponent<Image>().color.r, _ammo[i].GetComponent<Image>().color.g, _ammo[i].GetComponent<Image>().color.b, 0f);
                 }
 
                 else
                 {
-                    _ammoImage[i].color = new Color(_ammoImage[i].color.r, _ammoImage[i].color.g, _ammoImage[i].color.b, 1f);
+                    _ammo[i].GetComponent<Image>().color = new Color(_ammo[i].GetComponent<Image>().color.r, _ammo[i].GetComponent<Image>().color.g, _ammo[i].GetComponent<Image>().color.b, 1f);
                 }
-        }
-
-        //remplace les images par les images de munitions
-        foreach (Image myAmmo in _ammoImage)
-        {
-            myAmmo.GetComponent<Image>().sprite = data.Ammo;
-
-            if (data.Ammo == null)
-            {
-                myAmmo.enabled = false;
             }
-            else
+        }
+    }
+
+    private void ListTeam()
+    {
+        foreach(Character character in _pC.Squad)
+        {
+            if(_teamImage.Count < _pC.Squad.Length)
             {
-                myAmmo.enabled = true;
+                GameObject addIconeTeam = Instantiate(imageIconeTeam, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
+                addIconeTeam.transform.SetParent(parentIconeTeam.transform, false);
+                _teamImage.Add(addIconeTeam);
+
+                addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
             }
         }
     }
