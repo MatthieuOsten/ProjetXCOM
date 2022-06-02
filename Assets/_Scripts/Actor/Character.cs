@@ -43,8 +43,24 @@ public class Character : Actor
      Material _mtl_og;
      float _damageCooldown;
 
+    public int _rangeDebuffValue = 0;
 
     // Getteur utile a prendre pour les autre script
+
+    public int GetRightRange(int indexWeapon)
+    {
+        int rangeValue = GetWeaponsInfo(indexWeapon)._range.RightRange + _rangeDebuffValue;
+
+        return rangeValue;
+
+    }
+    public int GetDiagonalRange(int indexWeapon)
+    {
+        int rangeValue = GetWeaponsInfo(indexWeapon)._range.DiagonalRange + _rangeDebuffValue;
+
+        return rangeValue;
+    }
+
     /// <summary> Retourne le nombre max de case que le personnage peut faire avec 1 point d'action </summary> 
     public int LimitCaseMovement
     {
@@ -203,6 +219,7 @@ public class Character : Actor
             _currentActionPoint = Data.ActionPoints;
 
         LimitCaseMovement = Data.MovementCasesAction;
+        _rangeDebuffValue = 0;
     }
    
    
@@ -311,6 +328,15 @@ public class Character : Actor
     {
         // On récupère la portée d'attaque de l'arme donnée en parametre
         Range range = weapon._range;
+        range.DiagonalRange -= _rangeDebuffValue;
+        range.RightRange -= _rangeDebuffValue;
+
+        if(range.DiagonalRange <= 0 && range.RightRange <= 0)
+        {
+            range.RightRange = 1;
+            range.DiagonalRange = 1;
+        }
+
         List<Case> _range = new List<Case>((8*range.RightRange) + (8 * range.DiagonalRange));
         int actorX = CurrentCase.x;
         int actorY = CurrentCase.y;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c3afe4d4ebdce4eab6a7e6910e01ac, type: 3}
   m_Name: DATA_Team_Player_0 1
   m_EditorClassIdentifier: 
-  name: Equipe Rouge
+  name: Rouge
   description: 
   type: 
   tags: []
@@ -23,4 +23,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8629e9851f032ff448c71fc9d27e5a7c, type: 2}
   - {fileID: 11400000, guid: 3acb1dfbf24d14c4a8f6fa3405a7834b, type: 2}
   userType: 0
-  Color: {r: 1, g: 0, b: 0, a: 0}
+  Color: {r: 1, g: 0, b: 0, a: 1}

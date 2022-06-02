@@ -26,11 +26,11 @@ MonoBehaviour:
   _costPoint: 1
   _range:
     right: 0
-    diagonal: 3
+    diagonal: 4
     type: 0
   _maxAmmo: 0
   Cooldown: 0
   _animIdle: {fileID: 0}
   _animFire: {fileID: 0}
-  _soundFire: {fileID: 0}
-  _soundReload: {fileID: 0}
+  _soundFire: 
+  _soundReload: 

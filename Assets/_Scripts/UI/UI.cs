@@ -17,6 +17,8 @@ public class UI : MonoBehaviour
     [SerializeField] private Button _reload;
     [SerializeField] private Image _icone;
     [SerializeField] private Image _iconeTeam;
+    /// <summary> Correspond à la couleur qui sera afficher derrière la liste des personnages </summary>
+    [SerializeField] private Image _glowTeam;
 
 
     [SerializeField] private GameObject imageAmmo;
@@ -120,6 +122,7 @@ public class UI : MonoBehaviour
         if (_cH != null)
         {
             DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
+
 
             myText = _textCompetence2.GetComponent<TextMeshProUGUI>();
 
@@ -264,6 +267,7 @@ public class UI : MonoBehaviour
 
     private void ListTeam()
     {
+        _glowTeam.color = _pC.Data.Color;
         foreach(Character character in _pC.Squad)
         {
             if(_teamImage.Count < _pC.Squad.Length)
@@ -366,6 +370,21 @@ public class UI : MonoBehaviour
         _pC.SelectionMode = SelectionMode.Selection;
         _pC.ActionTypeMode = ActionTypeMode.None;
         AudioManager.PlaySoundAtPosition("action_reset", Vector3.zero);
+
+    }
+
+    public void SetActionModeReload()
+    {
+        if (_pC.SelectionMode != SelectionMode.Action)
+        {
+            AudioManager.PlaySoundAtPosition("action_reload", Vector3.zero);
+            _pC.SelectionMode = SelectionMode.Action;
+            _pC.ActionTypeMode = ActionTypeMode.Reload;
+        }
+        else
+        {
+            ResetSelection();
+        }
 
     }
     public void EndTurn()

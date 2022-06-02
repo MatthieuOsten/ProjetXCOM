@@ -21,7 +21,7 @@ MonoBehaviour:
   _tabCosmetic: []
   _tabAccessory: []
   _typeW: 1
-  _damage: 2
+  _damage: 3
   _costPoint: 1
   _range:
     right: 6
@@ -31,5 +31,5 @@ MonoBehaviour:
   Cooldown: 0
   _animIdle: {fileID: 0}
   _animFire: {fileID: 0}
-  _soundFire: {fileID: 0}
-  _soundReload: {fileID: 0}
+  _soundFire: 
+  _soundReload: 

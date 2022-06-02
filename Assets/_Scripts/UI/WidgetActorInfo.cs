@@ -25,6 +25,7 @@ public class WidgetActorInfo : HintstringProperty
         _color.b = _color.b/0.75f;
 
         _background.color = _color;
+        _background.gameObject.SetActive(false);
         JaugeProgression.GetComponent<Image>().color = _actor.GetTeamColor();
 
     }
@@ -52,6 +53,7 @@ public class WidgetActorInfo : HintstringProperty
             // Si le personnage s�lectionner n'est pas celui du widget, on diminue l'opacit�
             if (_selectedActor != _actor)
             {
+                _background.gameObject.SetActive(false);
                 for (int i = 0; i < images.Length; i++)
                 {
                     images[i].color = SetOpacity(images[i].color, _lowOpacity);
@@ -63,6 +65,7 @@ public class WidgetActorInfo : HintstringProperty
             }
             else // Si on est la, c'est qu'on est sur le personnage s�lectionner par le widget
             {
+                _background.gameObject.SetActive(true);
                 for (int i = 0; i < textComponent.Length; i++)
                 {
                     textComponent[i].color = SetOpacity(textComponent[i].color, 1);
@@ -79,14 +82,15 @@ public class WidgetActorInfo : HintstringProperty
         }
         else
         {
+            _background.gameObject.SetActive(false);
             for (int i = 0; i < textComponent.Length; i++)
             {
-                textComponent[i].color = SetOpacity(textComponent[i].color, 1);
+                textComponent[i].color = SetOpacity(textComponent[i].color, 0.8f);
             }
             for (int i = 0; i < images.Length; i++)
             {
          
-                images[i].color = SetOpacity(images[i].color, 1);
+                images[i].color = SetOpacity(images[i].color, 0.8f);
             }
         }
         //textComponent[0].text = _actor.Data.name; 

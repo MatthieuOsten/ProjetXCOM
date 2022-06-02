@@ -33,7 +33,7 @@ public class CameraIsometric : MonoBehaviour
     private Vector3 playerMoveInput;
 
 
-    //Set, Get de toutes les variables ayant besoin d'être modifié
+    //Set, Get de toutes les variables ayant besoin d'ï¿½tre modifiï¿½
     public Vector3 PlayerMoveInput
     {
         get { return playerMoveInput; }
@@ -65,7 +65,7 @@ public class CameraIsometric : MonoBehaviour
         MoveCam();
         MoveCamMouse();
         ClampCamera();
-        Cursor.lockState = CursorLockMode.Confined;
+        //Cursor.lockState = CursorLockMode.Confined;
         // MakeRotation();
     }
 

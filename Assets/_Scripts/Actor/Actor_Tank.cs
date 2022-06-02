@@ -83,6 +83,7 @@ public class Actor_Tank : Character
         {
             // Si la victim est défini on enlève -2
             _victim.LimitCaseMovement -= 2;
+            _victim._rangeDebuffValue = 2;
 
         }
 
