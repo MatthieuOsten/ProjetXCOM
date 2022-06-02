@@ -44,7 +44,7 @@ MonoBehaviour:
   spriteTir: {fileID: 21300000, guid: 0135e3d1b81285f48997c72fd061f8d8, type: 3}
   spriteVigilance: {fileID: 21300000, guid: fa24baa939b84ad47bcbddd283623c62, type: 3}
   spriteCompetence: {fileID: 21300000, guid: f9d826ed2cdfb594b916ba79efd8ad7e, type: 3}
-  spriteCompetence2: {fileID: 0}
+  spriteCompetence2: {fileID: 21300000, guid: 3fa719a8f0beb164b89eacd7130bb9f3, type: 3}
   pointAction: {fileID: 0}
   ammo: {fileID: 21300000, guid: 301fe569da9047c4988d46c1707ea4e5, type: 3}
   ClassName: Actor_BasicSoldier

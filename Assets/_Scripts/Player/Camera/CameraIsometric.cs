@@ -57,7 +57,6 @@ public class CameraIsometric : MonoBehaviour
     {
         //Recuperation du Charactere controller necessaire pour se deplacer
         controller = GetComponent<CharacterController>();
-
     }
 
     // Update is called once per frame
@@ -147,7 +146,7 @@ public class CameraIsometric : MonoBehaviour
 
         controller.Move(moveDirection * _speedMouse * Time.deltaTime);
 
-        if(controller.velocity.x > 40f || controller.velocity.y > 40f)
+        if(controller.velocity.x > 30f || controller.velocity.y > 30f)
         {
             PlayerController.CanMoveCam = true;
         }
