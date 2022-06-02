@@ -21,7 +21,7 @@ MonoBehaviour:
   type: 
   tags: []
   icon: {fileID: 21300000, guid: 26e7f36fd347a684387119fbe8fae6ee, type: 3}
-  _prefabBody: {fileID: 8067521322994565020, guid: 9b652cfa7f83ce54fa6e3f5d3d7367f0,
+  _prefabBody: {fileID: 4518816553629253755, guid: 118ddfd221c7e934f8cae637737d81b6,
     type: 3}
   _tabCosmetic: []
   _tabAccessory: []
@@ -29,16 +29,17 @@ MonoBehaviour:
   _health: 10
   _shield: 0
   _moveSpeed: 10
-  _weapons:
-  - {fileID: 11400000, guid: 57af8b557ab4f0f48b3900e191c51350, type: 2}
+  _weapon: {fileID: 11400000, guid: 57af8b557ab4f0f48b3900e191c51350, type: 2}
   _actionPoints: 2
   _movementCasesAction: 3
-  AbilityName: 
-  AbilityAltName: 
+  AbilityAvailable: 0
+  WeaponAbility: {fileID: 11400000, guid: 520b4552b48c4e742a81f87eb67c72b8, type: 2}
+  casePreviewAbility: {fileID: 0}
+  AbilityAltAvailable: 0
+  WeaponAbilityAlt: {fileID: 0}
+  casePreviewAbilityAlt: {fileID: 0}
   CostAttack: 1
   CostVigilance: 1
-  CostCompetence: 1
-  CostCompetenceAlt: 1
   CostReload: 1
   spriteTir: {fileID: 21300000, guid: 0135e3d1b81285f48997c72fd061f8d8, type: 3}
   spriteVigilance: {fileID: 21300000, guid: fa24baa939b84ad47bcbddd283623c62, type: 3}
@@ -47,3 +48,4 @@ MonoBehaviour:
   pointAction: {fileID: 0}
   ammo: {fileID: 21300000, guid: 301fe569da9047c4988d46c1707ea4e5, type: 3}
   ClassName: Actor_BasicSoldier
+  mtl_red_flick: {fileID: 2100000, guid: abbfc98669dc8544abbe918ae5c5cdf7, type: 2}

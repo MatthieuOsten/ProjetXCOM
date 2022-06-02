@@ -77,6 +77,7 @@ public class UI : MonoBehaviour
     {
         _pC = (PlayerController)LevelManager.GetCurrentController();
         _cH = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>();
+
     }
 
     //recupere les mun max de munition dans l'arme
@@ -127,33 +128,75 @@ public class UI : MonoBehaviour
             _competence2.GetComponent<Image>().sprite = data.SpriteCompetence2;
             _icone.GetComponent<Image>().sprite = data.icon;
 
-            if (data.SpriteCompetence2 == null)
-            {
-                _competence2.image.enabled = false;
-                _competence2.enabled = false;
+            // foreach (Image myPoint in _actionPoint)
+            // {
+            //     myPoint.GetComponent<Image>().sprite = data.PointAction;
+            // }
 
-                myText.enabled = false;
+
+            // if (data.SpriteCompetence2 == null)
+            // {
+            //     _competence2.image.enabled = false;
+            //     _competence2.enabled = false;
+
+            //     myText.enabled = false;
+            // }
+
+
+             // On vérifie si la compétence peut être utilisable en jeu et lors du développement
+            if (data.AbilityAvailable)
+            {
+                _competence1.gameObject.SetActive(true);
+                _competence1.GetComponentInChildren<TextMeshProUGUI>().text = _cH.GetAbilityName;
             }
+            else
+                _competence1.gameObject.SetActive(false);
+
+             // On vérifie si la compétence peut être utilisable en jeu et lors du développement
+            if (data.AbilityAltAvailable)
+            {
+                _competence2.gameObject.SetActive(true);
+                _competence2.GetComponentInChildren<TextMeshProUGUI>().text = _cH.GetAbilityAltName;
+            }
+            else
+                _competence2.gameObject.SetActive(false);
+
+
         }
 
         else
         {
-            _competence2.image.enabled = true;
             _competence2.enabled = true;
-
+            _competence2.image.enabled = true;
             //myText.enabled = true;
-
         }
+        
+            // foreach (Image myPoint in _actionPoint)
+            // {
+                
+                
+
+                
+
+        //     // }
+        
+        // else
+        //     _competence1.gameObject.SetActive(false);
+
+       
     }
 
     private void ActualActionPoint()
     {
         _actionPointMax = _cH.MaxActionPoint;
-        
+        if(_actionPointMax < _cH.CurrentActionPoint)
+        {
+            _actionPointMax = _cH.CurrentActionPoint;
+        }
         if (_actionPoint.Count < _actionPointMax)
         {
             
-            for (int i = 0; i < _actionPointMax; i++)
+            for (int i = _actionPoint.Count; i < _actionPointMax; i++)
             {
                 GameObject addImageAction = Instantiate(imageActionPoint, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
                 addImageAction.transform.SetParent(parentActionPoint.transform, false);
@@ -161,7 +204,7 @@ public class UI : MonoBehaviour
             }                     
         }
 
-        for (int i = 0; i < _actionPointMax; i++)
+        for (int i = 0; i < _actionPoint.Count; i++)
         {
             if (i >= _cH.CurrentActionPoint)
             {
@@ -225,13 +268,13 @@ public class UI : MonoBehaviour
     {
         if (_pC.SelectionMode != SelectionMode.Action)
         {
+            AudioManager.PlaySoundAtPosition("action_attack", Vector3.zero);
             _pC.SelectionMode = SelectionMode.Action;
             _pC.ActionTypeMode = ActionTypeMode.Attack;
         } 
         else
         {
-            _pC.SelectionMode = SelectionMode.Selection;
-            _pC.ActionTypeMode = ActionTypeMode.None;
+            ResetSelection();
         }
 
     }
@@ -239,13 +282,13 @@ public class UI : MonoBehaviour
     {
         if (_pC.SelectionMode != SelectionMode.Action)
         {
+            AudioManager.PlaySoundAtPosition("action_overwatch", Vector3.zero);
             _pC.SelectionMode = SelectionMode.Action;
             _pC.ActionTypeMode = ActionTypeMode.Overwatch;
         }
         else
         {
-            _pC.SelectionMode = SelectionMode.Selection;
-            _pC.ActionTypeMode = ActionTypeMode.None;
+            ResetSelection();
         }
 
     }
@@ -253,13 +296,13 @@ public class UI : MonoBehaviour
     {
         if (_pC.SelectionMode != SelectionMode.Action)
         {
+            AudioManager.PlaySoundAtPosition("action_competence1", Vector3.zero);
             _pC.SelectionMode = SelectionMode.Action;
             _pC.ActionTypeMode = ActionTypeMode.Competence1;
         }
         else
         {
-            _pC.SelectionMode = SelectionMode.Selection;
-            _pC.ActionTypeMode = ActionTypeMode.None;
+            ResetSelection();
         }
 
 
@@ -268,21 +311,33 @@ public class UI : MonoBehaviour
     {
         if (_pC.SelectionMode != SelectionMode.Action)
         {
+            AudioManager.PlaySoundAtPosition("action_competence2", Vector3.zero);
             _pC.SelectionMode = SelectionMode.Action;
             _pC.ActionTypeMode = ActionTypeMode.Competence2;
         }
         else
         {
-            _pC.SelectionMode = SelectionMode.Selection;
-            _pC.ActionTypeMode = ActionTypeMode.None;
+            ResetSelection();
         }
 
+
+    }
+
+    void ResetSelection()
+    {
+        _pC.SelectionMode = SelectionMode.Selection;
+        _pC.ActionTypeMode = ActionTypeMode.None;
+        AudioManager.PlaySoundAtPosition("action_reset", Vector3.zero);
 
     }
     public void EndTurn()
     {
         if(_pC.CanPassTurn)
+        {
             LevelManager.Instance.PassedTurn = true;
+            
+        }
+            
     }
 
     /* if (_pC.GetCurrentActorSelected == null)

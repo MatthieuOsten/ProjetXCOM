@@ -6,7 +6,10 @@ public class Actor_Support : Character
 {
     bool AbilityEnabled;
 
-    int cooldownAbility = 0;
+
+    Character AllieBuffed;
+
+
     /*
         Ici un belle exemple de l'interet de l'héritage
         Admettons que notre soldat TestSoldier a une capacité de resistance, et bien
@@ -24,10 +27,15 @@ public class Actor_Support : Character
 
     public override void Attack(Actor target)
     {
-        target.DoDamage(Data.weapons[0].Damage);
+        target.DoDamage(Data.Weapon.Damage);
         base.Attack(target);
     }
 
+    /*
+        “heal over time” : grande distance de lancé , 
+        ce sort permet à un allié ciblé d’avoir un régénération de vie pour 2 tours ( +2 pv /tour)
+        Cout  1 PA. 4 tours de cd
+    */
     public override void EnableAbility(Actor target)
     {
         if(cooldownAbility <= 0)
@@ -36,30 +44,76 @@ public class Actor_Support : Character
             if( target is Character)
             {
                 _char = (Character)target;
-                if(_char.Health == _char.MaxHealth)
+                if (_char.Owner != Owner)
                 {
-                    UIManager.CreateSubtitle("Le personnage visée à déjà sa vie au maximum ");
+                    UIManager.CreateSubtitle("Le personnage visée n'est pas un allié ", 2);
                     return;
                 }
-                _char.Health = _char.MaxHealth;
-                cooldownAbility = 4;
-                CurrentActionPoint--;
+                
+                AllieBuffed = _char;
+                cooldownAbility = GetAbilityCooldown;
+             
+                base.EnableAbility(target);
             }
             
         }
         else
         {
             UIManager.CreateSubtitle("Le support peut réutiliser sa compétence dans " + cooldownAbility + " tours");
+            return;
+        }
+        
+
+    }
+    /*Description “ A l’attaque” : moyenne distance de lancé , 
+     * ce sort permet à un allié ciblé d’avoir un point d’action supplémentaire.
+        cout : 1 PA. 3 tours de cd
+     */
+    public override void EnableAbilityAlt(Actor target)
+    {
+        if (cooldownAbilityAlt <= 0)
+        {
+            Character _char = null;
+            if (target is Character)
+            {
+                _char = (Character)target;
+                if (_char.Owner != Owner)
+                {
+                    UIManager.CreateSubtitle("Le personnage visée n'est pas un allié ", 2);
+                    return;
+                }
+          
+                _char.CurrentActionPoint ++;
+                cooldownAbilityAlt = GetAbilityAltCooldown;
+                base.EnableAbilityAlt(target);
+            }
+
+        }
+        else
+        {
+            UIManager.CreateSubtitle("Le support peut réutiliser sa compétence dans " + cooldownAbilityAlt + " tours");
         }
     }
+
+
     // On diminue le cooldown de l'ability du support à chaque tour
-    public override void StartTurnActor()
+    public override void EndTurnActor()
     {
+        if(AllieBuffed != null)
+            AllieBuffed.Health += AllieBuffed.MaxHealth/4;
+
         // Si il y 'a coold down on le diminue
         if(cooldownAbility > 0)
             cooldownAbility--;
+
+        if(cooldownAbility <= 2)
+            AllieBuffed = null;
         
-        base.StartTurnActor();
+
+        if (cooldownAbilityAlt > 0)
+            cooldownAbilityAlt--;
+
+        base.EndTurnActor();
     }
 
 

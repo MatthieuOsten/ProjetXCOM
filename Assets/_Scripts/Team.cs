@@ -56,25 +56,26 @@ public class Team : MonoBehaviour, ITeam
     public virtual void StartTurn()
     {
         GridManager.ResetCasesPreview(_selectedGrid);
-        UIManager.CreateSubtitle($"C'est à l'équipe {Data.name} de jouer", 2);
+        UIManager.CreateSubtitle($"C'est ï¿½ l'ï¿½quipe {Data.name} de jouer", 2);
         foreach (Character _actor in Squad)
         {
             // Si le personnage est en overwatch, on lui remet alive lorsque son tour a repris
-            // Mais est vraiment nécessaire ? on verra 
+            // Mais est vraiment nï¿½cessaire ? on verra 
             if (_actor.State == ActorState.Overwatch)
                 _actor.State = ActorState.Alive;
 
-            // _actor.StartTurnActor(); et non on doit le faire quand il passe le tour car si débuff ca sera pas appliqué
+            // _actor.StartTurnActor(); et non on doit le faire quand il passe le tour car si dï¿½buff ca sera pas appliquï¿½
 
         }
     }
 
     public virtual void EndTurn()
     {
+        AudioManager.PlaySoundAtPosition("turn_end", Vector3.zero);
         foreach (Character _actor in Squad)
         {
             if (_actor.State != ActorState.Dead)
-                _actor.StartTurnActor();
+                _actor.EndTurnActor();
 
         }
     }
@@ -101,7 +102,7 @@ public class Team : MonoBehaviour, ITeam
     /// <summary> Fonction qui s'occupe de spawn l'escouade </summary>
     public void SpawnSquad()
     {
-        // On vérifie si un point de spawn existe
+        // On vï¿½rifie si un point de spawn existe
         if (Data.SquadComposition == null || Data.SquadComposition.Length == 0)
         {
             Debug.LogWarning($"Attention la team {typeof(Team)} n'a pas de personnages dans Squad");
@@ -109,7 +110,7 @@ public class Team : MonoBehaviour, ITeam
         }
         Squad = new Actor[Data.SquadComposition.Length];
 
-        // On vérifie si une case de spawn est disponible
+        // On vï¿½rifie si une case de spawn est disponible
         Case spawnCase = null;
         for(int i = 0; i < _selectedGrid.SpawnerCase.Count; i++)
         {
@@ -118,14 +119,14 @@ public class Team : MonoBehaviour, ITeam
                 spawnCase = _selectedGrid.SpawnerCase[i];
             }
         }
-        // Si une case de spawn est sélectionné, on peut spawn l'escouade
+        // Si une case de spawn est sï¿½lectionnï¿½, on peut spawn l'escouade
         if(spawnCase != null)
         {
             for (int i = 0; i < Data.SquadComposition.Length; i++)
             {
                 Squad[i] = SpawnActor(Data.SquadComposition[i], spawnCase);
             }
-            spawnCase.State = CaseState.Empty; // On enleve l'état de spawn à la case pour éviter qu'elle serve de spawn à une autre team
+            spawnCase.State = CaseState.Empty; // On enleve l'ï¿½tat de spawn ï¿½ la case pour ï¿½viter qu'elle serve de spawn ï¿½ une autre team
         }
         else
         {
@@ -158,11 +159,11 @@ public class Team : MonoBehaviour, ITeam
             component.CurrentCase = aRandCase;
             aRandCase._actor = component;
             component.transform.position = _selectedGrid.GetCaseWorldPosition(component.CurrentCase.x, component.CurrentCase.y);
-            component.StartTurnActor();
+            component.EndTurnActor();
         }
         else
         {
-            Debug.LogWarning("Un actor n'a pas réussi à spawn car pas de place");
+            Debug.LogWarning("Un actor n'a pas rï¿½ussi ï¿½ spawn car pas de place");
         }
         return component;
     }
@@ -188,7 +189,7 @@ public class Team : MonoBehaviour, ITeam
         foreach (Character _actor in Squad)
         {
 
-            if (_actor.CanAction)
+            if (_actor != null && _actor.CanAction || _actor.IsMoving)
                 AllPAUsed = true;
 
         }

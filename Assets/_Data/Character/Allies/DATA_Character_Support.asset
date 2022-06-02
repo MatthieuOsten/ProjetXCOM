@@ -17,7 +17,7 @@ MonoBehaviour:
   type: 
   tags: []
   icon: {fileID: 21300000, guid: b0026bbb9fb1ed14eb2b67f8166dbdf5, type: 3}
-  _prefabBody: {fileID: 8067521322994565020, guid: 9b652cfa7f83ce54fa6e3f5d3d7367f0,
+  _prefabBody: {fileID: 4518816553629253755, guid: 6e8e0400a4189fd48b335255075f4ab2,
     type: 3}
   _tabCosmetic: []
   _tabAccessory: []
@@ -25,16 +25,17 @@ MonoBehaviour:
   _health: 4
   _shield: 0
   _moveSpeed: 10
-  _weapons:
-  - {fileID: 11400000, guid: 45630df41e4e28a49ab2d758abb60781, type: 2}
+  _weapon: {fileID: 11400000, guid: f68312a4ab3bfb04791b0d1d7163d276, type: 2}
   _actionPoints: 2
   _movementCasesAction: 8
-  AbilityName: Soin
-  AbilityAltName: 
+  AbilityAvailable: 1
+  WeaponAbility: {fileID: 11400000, guid: dcc644e6e1894ef49ab5745244dc54a0, type: 2}
+  casePreviewAbility: {fileID: 0}
+  AbilityAltAvailable: 1
+  WeaponAbilityAlt: {fileID: 11400000, guid: 3e204f481e730b844998740af75bf0d9, type: 2}
+  casePreviewAbilityAlt: {fileID: 0}
   CostAttack: 1
   CostVigilance: 1
-  CostCompetence: 1
-  CostCompetenceAlt: 1
   CostReload: 1
   spriteTir: {fileID: 21300000, guid: 0135e3d1b81285f48997c72fd061f8d8, type: 3}
   spriteVigilance: {fileID: 21300000, guid: fa24baa939b84ad47bcbddd283623c62, type: 3}
@@ -43,3 +44,4 @@ MonoBehaviour:
   pointAction: {fileID: 0}
   ammo: {fileID: 0}
   ClassName: Actor_Support
+  mtl_red_flick: {fileID: 2100000, guid: abbfc98669dc8544abbe918ae5c5cdf7, type: 2}
