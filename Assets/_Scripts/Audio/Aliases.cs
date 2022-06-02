@@ -19,6 +19,13 @@ public class Aliases : ScriptableObject
 
         for(int i = 0 ; i < aliases.Count; i++)
         {
+            if(!aliases[i].isInit )
+            {
+                aliases[i].isInit = true;
+                if(aliases[i].volume == 0)
+                    aliases[i] = new Aliase();
+            }
+
             if(aliases[i].minPitch > aliases[i].maxPitch)
                 aliases[i].minPitch = aliases[i].maxPitch - 0.01f;
         

@@ -6,7 +6,9 @@ using UnityEngine.Audio;
 [System.Serializable]
     public class Aliase 
     {
+        
         public string name;
+        public string description;
         public AudioMixerGroup MixerGroup;
         public AudioClip[] audio;
 
@@ -44,6 +46,21 @@ using UnityEngine.Audio;
         [Header("Subtitle")]
         public string Text;
         public float customDuration;
+
+        public bool isInit;
+
+        public Aliase ()
+        {
+            name = "newAliase";
+            volume = 0.8f;
+            minPitch = 1f;
+            maxPitch = 1.01f;
+            reverbZoneMix = 1;
+            dopplerLevel = 1;
+            Spread = 1;
+            MinDistance = 1;
+            MaxDistance = 500;
+        }
 
     }
 

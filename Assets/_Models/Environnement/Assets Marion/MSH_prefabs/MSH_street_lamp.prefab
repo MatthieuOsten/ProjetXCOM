@@ -71,7 +71,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: ce7e72213ecfe834d8b56b478ed8636d, type: 2}
+      objectReference: {fileID: 2100000, guid: cd03c6a6dfd6ef94ebb511a841cbe75e, type: 2}
     - target: {fileID: -60101253828293910, guid: 88c2e25f8e8142642a64f000ec26742b,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -80,7 +80,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 88c2e25f8e8142642a64f000ec26742b,
         type: 3}
       propertyPath: m_Name
-      value: Street lamp final
+      value: MSH_street_lamp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88c2e25f8e8142642a64f000ec26742b, type: 3}

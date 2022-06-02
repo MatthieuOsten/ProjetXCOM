@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ffebdf3ef8750c49bc8bad5d6ff831c, type: 3}
+  m_Name: DATA_wpn_tank_attack
+  m_EditorClassIdentifier: 
+  name: Bouclier
+  description: "Le \u201CBouclier\u201D tape au CaC d\u2019une case de distance autour
+    de lui."
+  type: 
+  tags: []
+  icon: {fileID: 0}
+  _prefabWeapon: {fileID: 0}
+  _tabCosmetic: []
+  _tabAccessory: []
+  _typeW: 0
+  _damage: 2
+  _costPoint: 1
+  _range:
+    right: 1
+    diagonal: 1
+    type: 0
+  _maxAmmo: 0
+  Cooldown: 0
+  _animIdle: {fileID: 0}
+  _animFire: {fileID: 0}
+  _soundFire: 
+  _soundReload: 

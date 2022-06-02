@@ -19,6 +19,9 @@ public class DataTeam : Data
     public DataCharacter[] SquadComposition;
     [Tooltip("Permet de dire si c'est un joueur ou alors un bot qui controle la team")]
     public UserType userType;
+
+    [Tooltip("Couleur de la team")]
+    public Color Color;
     
     
     // Permet l'affichage de l'objet et de ces parametres

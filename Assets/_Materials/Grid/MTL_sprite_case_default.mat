@@ -46,7 +46,7 @@ Material:
   - _DISABLE_SSR
   - _DISABLE_SSR_TRANSPARENT
   - _EMISSIVE_COLOR_MAP
-  - _NORMALMAP_TANGENT_SPACE
+  - _SPECULAR_OCCLUSION_NONE
   m_InvalidKeywords:
   - _LAYER_MASK_VERTEX_COLOR_MUL
   - _NORMALMAP_TANGENT_SPACE0
@@ -415,7 +415,7 @@ Material:
     - _AlphaClipThreshold: 0
     - _AlphaClipThresholdDepthPostpass: 0.6
     - _AlphaClipThresholdDepthPrepass: 0.9
-    - _AlphaCutoff: 0.5
+    - _AlphaCutoff: 1
     - _AlphaCutoffEnable: 0
     - _AlphaCutoffPostpass: 0.5
     - _AlphaCutoffPrepass: 0.5
@@ -424,7 +424,7 @@ Material:
     - _AlphaSrcBlend: 1
     - _AlphaThresholdShadow: 0.5
     - _AlphaToMask: 0
-    - _AlphaToMaskInspectorValue: 0
+    - _AlphaToMaskInspectorValue: 1
     - _Anisotropy: 0
     - _BlendMode: 0
     - _BlendOp: 0
@@ -439,8 +439,8 @@ Material:
     - _Cull: 2
     - _CullMode: 2
     - _CullModeForward: 2
-    - _Cutoff: 0.5
-    - _DepthOffsetEnable: 0
+    - _Cutoff: 1
+    - _DepthOffsetEnable: 1
     - _DetailAlbedoScale: 1
     - _DetailAlbedoScale0: 1
     - _DetailAlbedoScale1: 1
@@ -475,7 +475,7 @@ Material:
     - _DistortionStrength: 1
     - _DistortionStrengthScaled: 0
     - _DoubleSidedEnable: 0
-    - _DoubleSidedGIMode: 0
+    - _DoubleSidedGIMode: 2
     - _DoubleSidedNormalMode: 1
     - _DstBlend: 0
     - _EmissionEnabled: 0
@@ -583,7 +583,7 @@ Material:
     - _MetallicRemapMin3: 0
     - _Mode: 0
     - _NormalMapKwToggle: 1
-    - _NormalMapSpace: 0
+    - _NormalMapSpace: 1
     - _NormalMapSpace0: 0
     - _NormalMapSpace1: 0
     - _NormalMapSpace2: 0
@@ -601,11 +601,11 @@ Material:
     - _OpacityAsDensity2: 0
     - _OpacityAsDensity3: 0
     - _OpaqueCullMode: 2
-    - _PPDLodThreshold: 5
-    - _PPDMaxSamples: 15
-    - _PPDMinSamples: 5
-    - _PPDPrimitiveLength: 1
-    - _PPDPrimitiveWidth: 1
+    - _PPDLodThreshold: 13.57
+    - _PPDMaxSamples: 56
+    - _PPDMinSamples: 21
+    - _PPDPrimitiveLength: 3.43
+    - _PPDPrimitiveWidth: 3.55
     - _Parallax: 0.02
     - _RayTracing: 0
     - _ReceivesSSR: 0
@@ -640,7 +640,7 @@ Material:
     - _SpecularAAScreenSpaceVariance: 0.1
     - _SpecularAAThreshold: 0.2
     - _SpecularHighlights: 1
-    - _SpecularOcclusionMode: 1
+    - _SpecularOcclusionMode: 0
     - _SpecularShift: 0.5
     - _SrcBlend: 1
     - _Stencil: 0
@@ -739,7 +739,7 @@ Material:
     - _EmissiveColorLDR: {r: 0.740566, g: 0.92267853, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _HueVariationColor: {r: 1, g: 0.5, b: 0, a: 0.2}
-    - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
+    - _InvPrimScale: {r: 0.29154518, g: 0.28169015, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}

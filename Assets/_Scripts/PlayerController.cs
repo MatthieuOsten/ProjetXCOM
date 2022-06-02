@@ -16,7 +16,8 @@ public enum ActionTypeMode
     Attack,
     Overwatch,
     Competence1,
-    Competence2
+    Competence2,
+    Reload
 }
 
 public class PlayerController : Team
@@ -29,7 +30,7 @@ public class PlayerController : Team
     [Header("BOOLS")]
     [SerializeField] private bool _leftHand = false;
     [SerializeField] private bool _onEnemy = false;
-    [SerializeField] private bool _canMoveCam;
+    [SerializeField] private static bool _canMoveCam;
     [SerializeField] private bool _onVigilence = false;
 
     [Header("LIST")]
@@ -61,6 +62,15 @@ public class PlayerController : Team
         return _char; } }
 
     //Set, Get de toutes les variables ayant besoin d'�tre modifi�
+
+    public static bool CanMoveCam
+    {
+        get { return _canMoveCam; }
+        set
+        {
+            _canMoveCam = value;
+        }
+    }
     public bool OnVigilence
     {
         get { return _onVigilence; }
@@ -158,6 +168,7 @@ public class PlayerController : Team
         get { return _characterIndex; }
         set
         {
+            AudioManager.PlaySoundAtPosition("character_change", Vector3.zero);
             _characterIndex = value;
         }
     }
@@ -258,6 +269,9 @@ public class PlayerController : Team
             case ActionTypeMode.Competence2:
                 WatchAbilityAlt();
                 break;
+            case ActionTypeMode.Reload:
+                ExecReload();
+                return;
         }
         // On affiche la case que l'on vise
         if (AimCase != null)
@@ -309,6 +323,12 @@ public class PlayerController : Team
     {
         if (_selectedActor != null)
         {
+            // Si le personnage a une arme avec des munitions, il faut check
+            if(GetCurrentCharactedSelected.GetWeaponCapacityAmmo(0) > 0 && GetCurrentCharactedSelected.Ammo[0] <= 0)
+            {
+                UIManager.CreateSubtitle("Plus de munition pour l'arme principal, rechargement necessaire", 2);
+                ResetSelection();
+            }
             EnemyDetected = new List<GameObject>();
             foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetMainWeaponInfo()))
             {
@@ -334,7 +354,16 @@ public class PlayerController : Team
         {
             // On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
             if(EnemyDetected.Contains(SelectedCaseB._actor.gameObject))
+            {
                 _selectedActor.Attack(SelectedCaseB._actor);
+                AudioManager.PlaySoundAtPosition("ExecAttack", Vector3.zero);
+            }
+            else
+            {
+                AudioManager.PlaySoundAtPosition("case_refus", Vector3.zero);
+
+            }
+                
 
             SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
         }
@@ -407,6 +436,25 @@ public class PlayerController : Team
         }
     }
 
+    // TODO : A faire des overrides avec les actors
+    void ExecReload()
+    {
+        // On verifie si la case possède un actor 
+        if (GetCurrentCharactedSelected != null )
+        {
+                Debug.Log("Exec reload");
+            
+            Character character = GetCurrentCharactedSelected;
+            character.CurrentActionPoint -= character.Data.CostReload;
+            character.Ammo[0] = character.GetWeaponCapacityAmmo();
+            SelectedCaseB = null; 
+        }
+        else
+        {
+            Debug.Log("Le rechargement ne peut pas être éxecuter sur l'actor sélectionner");
+        }
+    }
+
     void ExecAbilityAlt()
     {
         // On verifie si la case possède un actor 
@@ -431,6 +479,8 @@ public class PlayerController : Team
     {
         _selectedActor.State = ActorState.Overwatch;
     }
+
+
     /// <summary> Fonction qui est exécuté quand le joueur n'est pas en mode action </summary>
     void SelectionWatcher()
     {
@@ -460,6 +510,7 @@ public class PlayerController : Team
                 {
                     UIManager.CreateSubtitle("", 1);
                     pathSuggested = PathFinding.FindPath(_selectedActor.CurrentCase, AimCase, _char.LimitCaseMovement);
+                    _char.transform.LookAt(AimCase.transform);
                 }
                 else
                 {
@@ -475,6 +526,7 @@ public class PlayerController : Team
         }
         if (pathSuggested != null && pathSuggested[pathSuggested.Length-1] != AimCase)
         {
+           
             pathSuggested[pathSuggested.Length - 1].ChangeMaterial(pathSuggested[pathSuggested.Length - 1].GridParent.Data.caseSelected);
         }
         else
@@ -485,10 +537,13 @@ public class PlayerController : Team
         // On vérifie si le joueur clique sur le clique de la souris
         if (_inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {
+
             // Si un chemin est suggéré, qu'un personnage est sélectionner, et que celui ne bouge pas, on lui implante une nouvelle destination 
             if (pathSuggested != null && _char != null && pathSuggested.Length > 0 && !_char.IsMoving)
             {
                 _char.SetDestination(pathSuggested);
+                _char.transform.LookAt(AimCase.transform);
+                AudioManager.PlaySoundAtPosition("character_deplacement_valid", Vector3.zero);
                 return;
             }
 
@@ -496,12 +551,17 @@ public class PlayerController : Team
             SelectedCaseA = AimCase; 
             if (SelectedCaseA != null && (pathSuggested == null || pathSuggested.Length == 0))
             {
+                AudioManager.PlaySoundAtPosition("case_select", Vector3.zero);
                 GridManager.SetCasePreview(SelectedCaseA, true);
                 if (_selectedActor == null && SelectedCaseA._actor.Owner == this) // On check si l'actor appartient à celui de la team
                 {
                     _selectedActor = SelectedCaseA._actor;
                     SetActorSelection(_selectedActor);
                 }
+            }
+            else
+            {
+                AudioManager.PlaySoundAtPosition("case_refus", Vector3.zero);
             }
             pathSuggested = null;
 
@@ -528,6 +588,7 @@ public class PlayerController : Team
     void ResetSelection()
     {
         Debug.Log("ResetSelection");
+        AudioManager.PlaySoundAtPosition("case_reset", Vector3.zero);
         SelectedCaseA = null;
         SelectedCaseB = null;
         _selectedActor = null;
@@ -553,6 +614,8 @@ public class PlayerController : Team
                 _cooldownBeforeStartTurnTimer += Time.deltaTime;
                 return;
             }
+        
+            
             // C'est notre tour du coup on active l'inputManager
             EnableInputManager();
             // On regarde dans quelle selected mode nous sommes
@@ -783,6 +846,7 @@ public class PlayerController : Team
         }
         _selectedActor = CharacterPlayer[CharacterIndex].GetComponent<Character>();
         SelectionMode = SelectionMode.Selection;
+        //AudioManager.PlaySoundAtPosition("character_change", Vector3.zero);
     }
 
     //Permet de cibler un ennemie

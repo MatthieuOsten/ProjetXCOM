@@ -8,19 +8,34 @@ public class UI : MonoBehaviour
 {
     [SerializeField] private PlayerController _pC;
     [SerializeField] private Character _cH;
-   // [SerializeField] private DataWeapon _weapon;
+
     [SerializeField] private Image _barreAction;
     [SerializeField] private Button _tir;
     [SerializeField] private Button _vigilance;
     [SerializeField] private Button _competence1;
     [SerializeField] private Button _competence2;
+    [SerializeField] private Button _reload;
     [SerializeField] private Image _icone;
-    [SerializeField] private Image _myAmmo;
+    [SerializeField] private Image _iconeTeam;
+    /// <summary> Correspond à la couleur qui sera afficher derrière la liste des personnages </summary>
+    [SerializeField] private Image _glowTeam;
+
+
+    [SerializeField] private GameObject imageAmmo;
+    [SerializeField] private GameObject parentAmmo;
+    [SerializeField] private GameObject imageActionPoint;
+    [SerializeField] private GameObject parentActionPoint;
+    [SerializeField] private GameObject imageIconeTeam;
+    [SerializeField] private GameObject parentIconeTeam;
     [SerializeField] private List<Image> _children;
-    [SerializeField] private List<Image> _actionPoint;
-    [SerializeField] private List<Image> _ammoImage;
+    [SerializeField] private List<GameObject> _actionPoint;
+    [SerializeField] private List<GameObject> _ammo;
+    [SerializeField] private List<GameObject> _teamImage;
+
     [SerializeField] private int _myAmmoMax;
+    [SerializeField] private int _actionPointMax;
     [SerializeField] private int _ammoImageIndex;
+
     TextMeshProUGUI myText;
     [SerializeField] private GameObject _textCompetence2;
     [SerializeField] private TextMeshProUGUI _textDebug;
@@ -34,32 +49,20 @@ public class UI : MonoBehaviour
         }
     }
 
-    public List<Image> Ammo
-    {
-        get { return _ammoImage; }
-        set
-        {
-            _ammoImage = value;
-        }       
-    }
-
     // Start is called before the first frame update
     void Start()
     {
         FindScripts();
-
-        //_weapon = FindObjectOfType<DataWeapon>();
-
-      //  _ammoImage = new List<Image>();
     }
 
     // Update is called once per frame
     void Update()
-    {
-        //ActualActionPoint();
+    {      
         GetActualScripts();
+        ActualActionPoint();
         MaximumAmmo();
         ShadeBar();
+        ListTeam();
     }
 
     private void FixedUpdate()
@@ -70,7 +73,6 @@ public class UI : MonoBehaviour
     private void FindScripts()
     {
         _pC = FindObjectOfType<PlayerController>();
-        //_cH = FindObjectOfType<Character>();
     }
 
     //recupere les scripts du character selectionner
@@ -78,6 +80,7 @@ public class UI : MonoBehaviour
     {
         _pC = (PlayerController)LevelManager.GetCurrentController();
         _cH = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>();
+
     }
 
     //recupere les mun max de munition dans l'arme
@@ -120,6 +123,7 @@ public class UI : MonoBehaviour
         {
             DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
 
+
             myText = _textCompetence2.GetComponent<TextMeshProUGUI>();
 
             _tir.GetComponent<Image>().sprite = data.SpriteTir;
@@ -128,110 +132,176 @@ public class UI : MonoBehaviour
             _competence2.GetComponent<Image>().sprite = data.SpriteCompetence2;
             _icone.GetComponent<Image>().sprite = data.icon;
 
-            foreach (Image myPoint in _actionPoint)
+            if (_cH.GetWeaponCapacityAmmo() > 0)
             {
-                myPoint.GetComponent<Image>().sprite = data.PointAction;
+                Color colorReload = _reload.GetComponent<Image>().color;
+                _reload.gameObject.SetActive(true);
+
+                if (_cH.GetWeaponCurrentAmmo() < _myAmmoMax)
+                {
+                    colorReload.a = 1f;
+                    _reload.GetComponent<Image>().color = colorReload;
+                    _reload.interactable = true;
+                }
+
+                else
+                {
+                    colorReload.a = 0.3f;
+                    _reload.GetComponent<Image>().color = colorReload;
+                    _reload.interactable = false;
+                }
+
             }
 
-
-            if (data.SpriteCompetence2 == null)
+            else
             {
-                _competence2.image.enabled = false;
-                _competence2.enabled = false;
-
-                myText.enabled = false;
+                _reload.gameObject.SetActive(false);
             }
 
+            // foreach (Image myPoint in _actionPoint)
+            // {
+            //     myPoint.GetComponent<Image>().sprite = data.PointAction;
+            // }
 
-             // Truc support ici matthieu
-            if (data.AbilityName != "")
+
+            // if (data.SpriteCompetence2 == null)
+            // {
+            //     _competence2.image.enabled = false;
+            //     _competence2.enabled = false;
+
+            //     myText.enabled = false;
+            // }
+
+
+             // On vérifie si la compétence peut être utilisable en jeu et lors du développement
+            if (data.AbilityAvailable)
             {
                 _competence1.gameObject.SetActive(true);
-                _competence1.GetComponentInChildren<TextMeshProUGUI>().text = data.AbilityName;
+                _competence1.GetComponentInChildren<TextMeshProUGUI>().text = _cH.GetAbilityName;
             }
             else
                 _competence1.gameObject.SetActive(false);
 
-             // Truc support ici matthieu
-            if (data.AbilityAltName != "")
+             // On vérifie si la compétence peut être utilisable en jeu et lors du développement
+            if (data.AbilityAltAvailable)
             {
                 _competence2.gameObject.SetActive(true);
-                _competence2.GetComponentInChildren<TextMeshProUGUI>().text = data.AbilityAltName;
+                _competence2.GetComponentInChildren<TextMeshProUGUI>().text = _cH.GetAbilityAltName;
             }
             else
                 _competence2.gameObject.SetActive(false);
 
 
         }
+
         else
         {
             _competence2.enabled = true;
             _competence2.image.enabled = true;
             //myText.enabled = true;
-        }
-        
-            // foreach (Image myPoint in _actionPoint)
-            // {
-                
-                
-
-                
-
-        //     // }
-        
-        // else
-        //     _competence1.gameObject.SetActive(false);
-
-       
+        }       
     }
 
-   /* private void ActualActionPoint()
+    private void ActualActionPoint()
     {
-        DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
+        _actionPointMax = _cH.MaxActionPoint;
+        if(_actionPointMax < _cH.CurrentActionPoint)
+        {
+            _actionPointMax = _cH.CurrentActionPoint;
+        }
+        if (_actionPoint.Count < _actionPointMax)
+        {
+            
+            for (int i = _actionPoint.Count; i < _actionPointMax; i++)
+            {
+                GameObject addImageAction = Instantiate(imageActionPoint, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
+                addImageAction.transform.SetParent(parentActionPoint.transform, false);
+                _actionPoint.Add(addImageAction);
+            }                     
+        }
 
-    }*/
+        for (int i = 0; i < _actionPoint.Count; i++)
+        {
+            if (i >= _cH.CurrentActionPoint)
+            {
+                _actionPoint[i].GetComponent<Image>().color = new Color(_actionPoint[i].GetComponent<Image>().color.r, _actionPoint[i].GetComponent<Image>().color.g, _actionPoint[i].GetComponent<Image>().color.b, 0f);
+            }
+
+            else
+            {
+                _actionPoint[i].GetComponent<Image>().color = new Color(_actionPoint[i].GetComponent<Image>().color.r, _actionPoint[i].GetComponent<Image>().color.g, _actionPoint[i].GetComponent<Image>().color.b, 1f);
+            }
+        }
+
+    }
 
     //Gere l'affichage du nombre actuel des munitions
     private void ActualAmmo()
     {
-        DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
-        //_ammoImage = new List<Image>(_myAmmoMax);
-        
-        //Ajoutes les images 
-        if(_ammoImage.Count < _myAmmoMax)
+        if(_cH.Ammo != null)
         {
-            _ammoImage.Add(_myAmmo);           
-        }
+            if (_ammo.Count < _myAmmoMax)
+            {
+                for (int i = 0; i < _actionPointMax; i++)
+                {
+                    GameObject addImageAmmo = Instantiate(imageAmmo, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
+                    addImageAmmo.transform.SetParent(parentAmmo.transform, false);
+                    _ammo.Add(addImageAmmo);
+                }
+            }
 
-        //Rend invisible les images pour convenir au nombre actuel de munitions
-        for (int i = 0; i < _ammoImage.Count; i++)
-        {
+            for (int i = 0; i < _ammo.Count; i++)
+            {
                 if (i >= _cH.GetWeaponCurrentAmmo())
                 {
-                    _ammoImage[i].color = new Color(_ammoImage[i].color.r, _ammoImage[i].color.g, _ammoImage[i].color.b, 0f);
+                    _ammo[i].GetComponent<Image>().color = new Color(_ammo[i].GetComponent<Image>().color.r, _ammo[i].GetComponent<Image>().color.g, _ammo[i].GetComponent<Image>().color.b, 0f);
                 }
-
 
                 else
                 {
-                    _ammoImage[i].color = new Color(_ammoImage[i].color.r, _ammoImage[i].color.g, _ammoImage[i].color.b, 1f);
+                    _ammo[i].GetComponent<Image>().color = new Color(_ammo[i].GetComponent<Image>().color.r, _ammo[i].GetComponent<Image>().color.g, _ammo[i].GetComponent<Image>().color.b, 1f);
                 }
-            
-
-        }
-
-        //remplace les images par les images de munitions
-        foreach (Image myAmmo in _ammoImage)
-        {
-            myAmmo.GetComponent<Image>().sprite = data.Ammo;
-
-            if (data.Ammo == null)
-            {
-                myAmmo.enabled = false;
             }
-            else
+        }
+    }
+
+    private void ListTeam()
+    {
+        _glowTeam.color = _pC.Data.Color;
+        foreach(Character character in _pC.Squad)
+        {
+            if(_teamImage.Count < _pC.Squad.Length)
             {
-                myAmmo.enabled = true;
+                GameObject addIconeTeam = Instantiate(imageIconeTeam, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
+                addIconeTeam.transform.SetParent(parentIconeTeam.transform, false);
+                _teamImage.Add(addIconeTeam);
+                
+
+                if (character == null)
+                {
+                    Color colorIcone = addIconeTeam.GetComponent<Image>().color;
+                    colorIcone.r = 0.5f;
+                    colorIcone.g = 0f;
+                    colorIcone.b = 0f;
+                    colorIcone.a = 0.3f;
+                    addIconeTeam.GetComponent<Image>().color = colorIcone;
+                }
+
+                if(character == _pC.GetCurrentCharactedSelected)
+                {
+                    addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
+                    Color colorIcone = addIconeTeam.GetComponent<Image>().color;
+                    colorIcone.a = 1f;
+                    addIconeTeam.GetComponent<Image>().color = colorIcone;
+                }
+
+                else
+                {
+                    addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
+                    Color colorIcone = addIconeTeam.GetComponent<Image>().color;
+                    colorIcone.a = 0.5f;
+                    addIconeTeam.GetComponent<Image>().color = colorIcone;
+                }
             }
         }
     }
@@ -240,13 +310,13 @@ public class UI : MonoBehaviour
     {
         if (_pC.SelectionMode != SelectionMode.Action)
         {
+            AudioManager.PlaySoundAtPosition("action_attack", Vector3.zero);
             _pC.SelectionMode = SelectionMode.Action;
             _pC.ActionTypeMode = ActionTypeMode.Attack;
         } 
         else
         {
-            _pC.SelectionMode = SelectionMode.Selection;
-            _pC.ActionTypeMode = ActionTypeMode.None;
+            ResetSelection();
         }
 
     }
@@ -254,13 +324,13 @@ public class UI : MonoBehaviour
     {
         if (_pC.SelectionMode != SelectionMode.Action)
         {
+            AudioManager.PlaySoundAtPosition("action_overwatch", Vector3.zero);
             _pC.SelectionMode = SelectionMode.Action;
             _pC.ActionTypeMode = ActionTypeMode.Overwatch;
         }
         else
         {
-            _pC.SelectionMode = SelectionMode.Selection;
-            _pC.ActionTypeMode = ActionTypeMode.None;
+            ResetSelection();
         }
 
     }
@@ -268,13 +338,13 @@ public class UI : MonoBehaviour
     {
         if (_pC.SelectionMode != SelectionMode.Action)
         {
+            AudioManager.PlaySoundAtPosition("action_competence1", Vector3.zero);
             _pC.SelectionMode = SelectionMode.Action;
             _pC.ActionTypeMode = ActionTypeMode.Competence1;
         }
         else
         {
-            _pC.SelectionMode = SelectionMode.Selection;
-            _pC.ActionTypeMode = ActionTypeMode.None;
+            ResetSelection();
         }
 
 
@@ -283,21 +353,48 @@ public class UI : MonoBehaviour
     {
         if (_pC.SelectionMode != SelectionMode.Action)
         {
+            AudioManager.PlaySoundAtPosition("action_competence2", Vector3.zero);
             _pC.SelectionMode = SelectionMode.Action;
             _pC.ActionTypeMode = ActionTypeMode.Competence2;
         }
         else
         {
-            _pC.SelectionMode = SelectionMode.Selection;
-            _pC.ActionTypeMode = ActionTypeMode.None;
+            ResetSelection();
         }
 
+
+    }
+
+    void ResetSelection()
+    {
+        _pC.SelectionMode = SelectionMode.Selection;
+        _pC.ActionTypeMode = ActionTypeMode.None;
+        AudioManager.PlaySoundAtPosition("action_reset", Vector3.zero);
+
+    }
+
+    public void SetActionModeReload()
+    {
+        if (_pC.SelectionMode != SelectionMode.Action)
+        {
+            AudioManager.PlaySoundAtPosition("action_reload", Vector3.zero);
+            _pC.SelectionMode = SelectionMode.Action;
+            _pC.ActionTypeMode = ActionTypeMode.Reload;
+        }
+        else
+        {
+            ResetSelection();
+        }
 
     }
     public void EndTurn()
     {
         if(_pC.CanPassTurn)
+        {
             LevelManager.Instance.PassedTurn = true;
+            
+        }
+            
     }
 
     /* if (_pC.GetCurrentActorSelected == null)
