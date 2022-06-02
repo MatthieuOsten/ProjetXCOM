@@ -156,7 +156,11 @@ public class Character : Actor
     {
         return _data.name;
     }
-
+    /// <summary> "Retourne la couleur de la team" </summary> // TODO : a mettre dans actor
+    public Color GetTeamColor()
+    {
+        return Owner.Data.Color;
+    }
     // Effectue une action a la mort du personnage //
     public override void Death()
     {

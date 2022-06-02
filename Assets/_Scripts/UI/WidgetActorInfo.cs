@@ -9,7 +9,9 @@ using UnityEngine.UI;
 public class WidgetActorInfo : HintstringProperty
 {
     Character _actor;
+    [Header("WIDGETS")]
     [SerializeField] Image _iconActor;
+    [SerializeField] Image _background;
     float _lowOpacity = 0.1f;
 
     protected override void Start() {
@@ -17,14 +19,22 @@ public class WidgetActorInfo : HintstringProperty
         offset = new Vector3(0, 23, 0);
 
         _iconActor.sprite = _actor.GetCharacterIcon();
+        Color _color = _actor.GetTeamColor();
+        _color.r = _color.r/0.75f;
+        _color.g = _color.g/0.75f;
+        _color.b = _color.b/0.75f;
+
+        _background.color = _color;
+        JaugeProgression.GetComponent<Image>().color = _actor.GetTeamColor();
+
     }
 
     protected override void Update()
     {
-        if (LevelManager.GetCurrentController() == _actor.Owner)
-            JaugeProgression.GetComponent<Image>().color = Color.green;
-        else
-            JaugeProgression.GetComponent<Image>().color = Color.red;
+        // if (LevelManager.GetCurrentController() == _actor.Owner)
+        //     JaugeProgression.GetComponent<Image>().color = Color.green;
+        // else
+        //     JaugeProgression.GetComponent<Image>().color = Color.red;
 
         Team currentTeam = LevelManager.GetCurrentController();
         Actor _selectedActor = null;

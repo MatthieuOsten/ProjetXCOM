@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 6205964829244061962}
   - component: {fileID: 7936455468875016240}
   m_Layer: 2
-  m_Name: ContourProgression
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -549,6 +549,7 @@ MonoBehaviour:
   lifeTime: 4
   IsTemp: 0
   _iconActor: {fileID: 6558862702179268417}
+  _background: {fileID: 7936455468875016240}
 --- !u!1 &8123865612418306450
 GameObject:
   m_ObjectHideFlags: 0

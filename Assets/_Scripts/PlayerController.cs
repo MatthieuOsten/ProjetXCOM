@@ -310,6 +310,11 @@ public class PlayerController : Team
     {
         if (_selectedActor != null)
         {
+            if(GetCurrentCharactedSelected.Ammo[0] <= 0)
+            {
+                UIManager.CreateSubtitle("Plus de munition pour l'arme principal, rechargement necessaire", 2);
+                ResetSelection();
+            }
             EnemyDetected = new List<GameObject>();
             foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetMainWeaponInfo()))
             {
