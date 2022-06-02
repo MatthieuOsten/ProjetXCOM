@@ -11,6 +11,7 @@ public class CameraIsometric : MonoBehaviour
     [Header("MOVEMENT")]
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private float _speed = 100f;
+    [SerializeField] private float _speedMouse = 10f;
     //[SerializeField] private float _speedRotation = 0.5f;
     [SerializeField] private float _speedToCharacter = 1000f;
     [SerializeField] private float xMin;
@@ -20,7 +21,7 @@ public class CameraIsometric : MonoBehaviour
     [SerializeField] private float yTransform;
     [SerializeField] private Transform myTransform;
     [SerializeField] [Range(0f, 0.1f)] private float edgeTolerance = 0.05f;
-    private Vector2 mouseVector;
+    [SerializeField] private Vector3 targetPosition;
     // [SerializeField] private float timeRotation;
 
     /* [Header("LIST_VECTEUR")]
@@ -41,16 +42,16 @@ public class CameraIsometric : MonoBehaviour
             playerMoveInput = value;
         }
     }
-   
-   /* public int Index
-    {
-        get { return _index; }
-        set
-        {
-            _index = value;
-        }
-    }*/
-    
+
+    /* public int Index
+     {
+         get { return _index; }
+         set
+         {
+             _index = value;
+         }
+     }*/
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,8 +64,9 @@ public class CameraIsometric : MonoBehaviour
     void Update()
     {
         MoveCam();
+        MoveCamMouse();
         ClampCamera();
-       // Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Confined;
         // MakeRotation();
     }
 
@@ -114,50 +116,47 @@ public class CameraIsometric : MonoBehaviour
     //Execute le deplacement de la camera
     public void MoveCam()
     {
-        /*Vector3 pos = transform.position;
-        float ledgeScreen = 30f;*/
-        //var mRightDirection = Vector3.right;
-
-        Vector3 moveVector = transform.TransformDirection(playerMoveInput);
+        Vector3 moveVector = myTransform.TransformDirection(playerMoveInput);
         controller.Move(moveVector * _speed * Time.deltaTime);
+    }
 
-        
-        mouseVector = _inputManager.TestGrid.MousePosition.ReadValue<Vector2>();
+    private void MoveCamMouse()
+    {
         Vector2 mousePosition = Mouse.current.position.ReadValue();
         Vector3 moveDirection = Vector3.zero;
 
-        if (mousePosition.x <  edgeTolerance * Screen.width)
+        if (mousePosition.x < edgeTolerance * Screen.width)
         {
-            moveDirection += -GetCameraRight();
-        }
-           
-        else if (mousePosition.x < (1f - edgeTolerance) * Screen.width)
-        {
-            moveDirection += GetCameraRight();
+            moveDirection += -GetCameraRight() /** _speed * Time.deltaTime*/;
         }
 
-        if (mousePosition.y < edgeTolerance * Screen.width)
+        else if (mousePosition.x > (1f - edgeTolerance) * Screen.width)
         {
-            moveDirection += -GetCameraForward();
+            moveDirection += GetCameraRight() /** _speed * Time.deltaTime*/;
         }
 
-        else if (mousePosition.y < (1f - edgeTolerance) * Screen.width)
+        if (mousePosition.y < edgeTolerance * Screen.height)
         {
-            moveDirection += GetCameraForward();
+            moveDirection += -GetCameraForward() /** _speed * Time.deltaTime*/;
         }
 
-        //Debug.Log(mouseVector);*/
+        else if (mousePosition.y > (1f - edgeTolerance) * Screen.height)
+        {
+            moveDirection += GetCameraForward() /** _speed * Time.deltaTime*/;
+        }
+
+        controller.Move(moveDirection * _speedMouse * Time.deltaTime); ;
     }
 
     private Vector3 GetCameraRight()
     {
-        Vector3 right = transform.right;
+        Vector3 right = myTransform.right;
         right.y = 0;
         return right;
     }
     private Vector3 GetCameraForward()
     {
-        Vector3 forward = transform.forward;
+        Vector3 forward = myTransform.forward;
         forward.y = 0;
         return forward;
     }

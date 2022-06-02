@@ -17,6 +17,7 @@ public class UI : MonoBehaviour
     [SerializeField] private Image _icone;
     [SerializeField] private Image _iconeTeam;
 
+
     [SerializeField] private GameObject imageAmmo;
     [SerializeField] private GameObject parentAmmo;
     [SerializeField] private GameObject imageActionPoint;
