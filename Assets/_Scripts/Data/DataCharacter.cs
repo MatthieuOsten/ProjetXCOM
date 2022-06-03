@@ -2,12 +2,42 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "DATA_char_", menuName = "ScriptableObjects/Character", order = 2)]
+[CreateAssetMenu(fileName = "DATA_Character_", menuName = "Data/Character", order = 2)]
 [System.Serializable]
 public class DataCharacter : Data
 {
+    [System.Serializable]
+    public struct Capacity
+    {
+        public string name;
+        public string description;
+        public Sprite icon;
+        public ActionTypeMode typeA;
+
+        public Capacity(ActionTypeMode typeMode, Data data = null)
+        {
+            if (data == null)
+            {
+                this.name = null;
+                this.description = null;
+                this.icon = null;
+            } 
+            else
+            {
+                this.name = data.name;
+                this.description = data.description;
+                this.icon = data.icon;
+            }
+
+            this.typeA = typeMode;
+        }
+
+        public void SetName(string value) { this.name = value; }
+    }
+
     // Permet l'affichage de l'objet et de ces parametres
     [Header("RENDER")]
     [SerializeField] public GameObject _prefabBody;
@@ -20,15 +50,16 @@ public class DataCharacter : Data
     [SerializeField] private int _shield;
     [Range(1f,20)]
     [SerializeField] float _moveSpeed = 10;
-    public float MoveSpeed{ get { return _moveSpeed; }}
-
 
     [Header("CAPACITY")]
     [SerializeField] private DataWeapon _weapon;
+    [SerializeField] private Data _dataOverwatch;
+    [SerializeField] private Data _dataReload;
+
     [Range(1, 10)]
     [SerializeField] private int _actionPoints = 2;
     [SerializeField] private int _movementCasesAction = 4;
-    public int MovementCasesAction{ get { return _movementCasesAction; }}
+
 
    [Header("MAIN ABILITY")]
     /// <summary> Bool pour indiquer si l'abilité principal est utilisable en jeu</summary>
@@ -56,7 +87,6 @@ public class DataCharacter : Data
     //[Range(1, 10)]
     //public int CooldownAbilityAlt = 1;
 
-
     [Header("COST ACTION")]
     [Range(1, 10)]
     public int CostAttack = 1;
@@ -66,12 +96,36 @@ public class DataCharacter : Data
     public int CostReload = 1;
 
     [Header("UI")]
-    [SerializeField] private Sprite spriteTir;
-    [SerializeField] private Sprite spriteVigilance;
-    [SerializeField] private Sprite spriteCompetence;
-    [SerializeField] private Sprite spriteCompetence2; 
     [SerializeField] private Sprite pointAction;
     [SerializeField] private Sprite ammo;
+
+    public float MoveSpeed { get { return _moveSpeed; } }
+    public int MovementCasesAction { get { return _movementCasesAction; } }
+
+    public List<Capacity> ListCapacity { 
+                get {
+            List<Capacity> listCapacity = new List<Capacity>();
+
+            Capacity capacity;
+
+            if (Weapon != null) { capacity = new Capacity(ActionTypeMode.Attack, (Data)Weapon); } else { capacity = new Capacity(ActionTypeMode.Attack); }
+            listCapacity.Add(capacity);
+
+            if (_dataOverwatch != null) { capacity = new Capacity(ActionTypeMode.Overwatch, (Data)_dataOverwatch); } else { capacity = new Capacity(ActionTypeMode.Overwatch); }
+            listCapacity.Add(capacity);
+
+            if (WeaponAbility != null) { capacity = new Capacity(ActionTypeMode.Competence1, (Data)WeaponAbility); } else { capacity = new Capacity(ActionTypeMode.Competence1); }
+            listCapacity.Add(capacity);
+
+            if (WeaponAbilityAlt != null) { capacity = new Capacity(ActionTypeMode.Competence2, (Data)WeaponAbilityAlt); } else { capacity = new Capacity(ActionTypeMode.Competence2); }
+            listCapacity.Add(capacity);
+
+            if (_dataReload != null) { capacity = new Capacity(ActionTypeMode.Reload, (Data)_dataReload); } else { capacity = new Capacity(ActionTypeMode.Reload); }
+            listCapacity.Add(capacity);
+
+            return listCapacity;
+        }
+    }
 
     public Sprite PointAction
     {
@@ -83,22 +137,7 @@ public class DataCharacter : Data
     }
 
     public Color Color { get { return _color; } }
-    public Sprite SpriteCompetence2
-    {
-        get { return spriteCompetence2; }
-    }
-    public Sprite SpriteCompetence
-    {
-        get { return spriteCompetence; }
-    }
-    public Sprite SpriteVigilance
-    {
-        get { return spriteVigilance; }
-    }
-    public Sprite SpriteTir
-    {
-        get { return spriteTir; }
-	}
+
     // info : https://answers.unity.com/questions/1339301/list-of-scripts.html
     [Header("Instantiating")]
     [Tooltip("Le nom du component a ajouté sur le actor qu'on créera")]

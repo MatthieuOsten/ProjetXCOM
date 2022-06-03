@@ -14,11 +14,13 @@ public class HUD_Manager : MonoBehaviour
 
     [Header("ACTION BAR")]
     [SerializeField] private List<GameObject> _actionButton;
-    [SerializeField] private List<DataWeapon> _actionCapacity;
+    [SerializeField] private List<DataCharacter.Capacity> _actionCapacity;
     [SerializeField] private GameObject _layoutGroup;
     [SerializeField] private GameObject _prefabButton;
     [SerializeField] private GameObject _objectPopUp;
     [SerializeField] private GameObject _prefabPopUp;
+
+    [SerializeField] private int _difference;
 
     private void Start()
     {
@@ -64,11 +66,14 @@ public class HUD_Manager : MonoBehaviour
     {
         DataCharacter data;
 
-        if (_pC != null) {
+        if (_pC != null)
+        {
             // Recupere la base de donnée du personnage selectionner
             data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
             return data;
-        } else {
+        }
+        else
+        {
 
             if (_dataCH != null)
             {
@@ -76,9 +81,72 @@ public class HUD_Manager : MonoBehaviour
                 return data;
             }
 
-            return new DataCharacter() ;
+            return new DataCharacter();
         }
 
+    }
+
+    private void UpdateButtonInformation()
+    {
+        // ---- Initialise chaque bouttons en rapport avec les capacités actuel ---- //
+        for (int i = 0; i < _actionButton.Count; i++)
+        {
+            if (_actionCapacity.Count < i) { break; }
+
+            // Nettoie la liste d'action du boutton
+            _actionButton[i].GetComponent<Button>().onClick.RemoveAllListeners();
+
+            // -- Initialise les données du boutton initialiser -- //
+
+            // Insert l'action effectuer si le boutton est appuyer
+            int index = i;
+            _actionButton[i].GetComponent<Button>().onClick.AddListener(() => SetActionMode(_actionCapacity[index].typeA));
+
+            // Verifie que l'objet a une icone et l'affiche
+            if (_actionCapacity[i].icon != null)
+                _actionButton[i].GetComponent<Image>().sprite = _actionCapacity[i].icon;
+
+            // Verifie que l'objet a un nom et l'ecrit
+            if (_actionCapacity[i].name != null)
+                _actionButton[i].GetComponentInChildren<TextMeshProUGUI>().text = _actionCapacity[i].name;
+
+            // -- Initialise "DisplayDescription" sur le boutton -- //
+            if (_actionCapacity[i].description != null) // Verifie que la description est remplie
+            {
+                // Recupere le "EventTrigger" du boutton
+                EventTrigger eventTrigger;
+
+                if (_actionButton[i].TryGetComponent<EventTrigger>(out eventTrigger))
+                {
+                    eventTrigger.triggers.Clear();
+
+                    // Initialise un event "EventTrigger"
+                    EventTrigger.Entry onSelected = new EventTrigger.Entry();
+                    // Nettoie la liste d'evenement
+                    onSelected.callback.RemoveAllListeners();
+                    // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
+                    onSelected.eventID = EventTriggerType.PointerEnter;
+                    // Insert dans sa liste de reaction, l'affichage de la pop-up de description
+                    int indexTrigger = i;
+                    onSelected.callback.AddListener((eventData) => { DisplayPopUp(_actionButton[indexTrigger].transform.position, _actionCapacity[indexTrigger].description, _actionCapacity[indexTrigger].name); });
+                    // Ajoute le composant et ces parametres dans le boutton
+                    eventTrigger.triggers.Add(onSelected);
+
+                    // Initialise un event "EventTrigger"
+                    EventTrigger.Entry onDeselected = new EventTrigger.Entry();
+                    // Nettoie la liste d'evenement
+                    onDeselected.callback.RemoveAllListeners();
+                    // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
+                    onDeselected.eventID = EventTriggerType.PointerExit;
+                    // Insert dans sa liste de reaction, l'affichage de la pop-up de description
+                    onDeselected.callback.AddListener((eventData) => { HidePopUp(); });
+                    // Ajoute le composant et ces parametres dans le boutton
+                    eventTrigger.triggers.Add(onDeselected);
+                }
+
+            }
+
+        }
     }
 
     /// <summary>
@@ -92,110 +160,75 @@ public class HUD_Manager : MonoBehaviour
             DataCharacter data = GetData();
 
             // Initialise "_actionCapacity" en y rentrant toute les capacité du personnage
+            //_actionCapacity.Clear();
+            //_actionCapacity.Add(data.Weapon);
+            //_actionCapacity.Add(data.WeaponAbility);
+            //_actionCapacity.Add(data.WeaponAbilityAlt);
+
             _actionCapacity.Clear();
-            _actionCapacity.Add(data.Weapon);
-            _actionCapacity.Add(data.WeaponAbility);
-            _actionCapacity.Add(data.WeaponAbilityAlt);
+            _actionCapacity = data.ListCapacity;
 
             // Nettoie la liste des actions
             if (_actionCapacity.Count > 0)
             {
-                _actionCapacity.RemoveAll(item => item == null);
+                _actionCapacity.RemoveAll(item => item.name == null);
             }
 
-            // Verifie que les donnée soit bien initialiser avant de procedé
-            if (data != null && _actionCapacity.Count > 0)
-            {
-
                 // Verifie si il contient assez de bouton comparer au nombre de capacité du personnage
-                if (_actionButton.Count != _actionCapacity.Count) {
-
-                    // Supprime les bouttons en trop
-                    if (_actionButton.Count > _actionCapacity.Count)
-                    {
-                        // Detruit chaque bouttons un par un
-                        foreach (var button in _actionButton)
-                        {
-                            Destroy(button);
-                        }
-
-                        // Nettoie les reference de la liste
-                        _actionButton.RemoveAll(item => item == null);
-                    }
-
-                    if (_actionButton.Count < _actionCapacity.Count)
-                    {
-                        // Initialise des bouttons en plus si besoin
-                        for (int i = 0; i < _actionCapacity.Count - _actionButton.Count; i++)
-                        {   
-                            _actionButton.Add(Instantiate(_prefabButton, _layoutGroup.transform.position, Quaternion.identity, _layoutGroup.transform));
-                        }
-                    }
-
-                }
-
-                // ---- Initialise chaque bouttons en rapport avec les capacités actuel ---- //
-                for (int i = 0; i < _actionButton.Count; i++)
+                if (_actionButton.Count != _actionCapacity.Count)
                 {
-                    // Nettoie la liste d'action du boutton
-                    _actionButton[i].GetComponent<Button>().onClick.RemoveAllListeners();
 
-                    // -- Initialise les données du boutton initialiser -- //
+                    //Debug.Log("Nombre de boutton : " + _actionButton.Count);
+                    //Debug.Log("Nombre de capacités : " + _actionCapacity.Count);
 
-                    // Insert l'action effectuer si le boutton est appuyer
-                    int index = i;
-                    _actionButton[i].GetComponent<Button>().onClick.AddListener(() => SetActionMode(_actionCapacity[index].TypeA));
-
-                    // Verifie que l'objet a une icone et l'affiche
-                    if (_actionCapacity[i].icon != null)
-                        _actionButton[i].GetComponent<Image>().sprite = _actionCapacity[i].icon;
-
-                    // Verifie que l'objet a un nom et l'ecrit
-                    if (_actionCapacity[i].name != null)
-                        _actionButton[i].GetComponentInChildren<TextMeshProUGUI>().text = _actionCapacity[i].name;
-
-                    // -- Initialise "DisplayDescription" sur le boutton -- //
-                    if (_actionCapacity[i].description != null) // Verifie que la description est remplie
-                    {
-                        // Recupere le "EventTrigger" du boutton
-                        EventTrigger eventTrigger;
-
-                        if (_actionButton[i].TryGetComponent<EventTrigger>(out eventTrigger))
+                    // Si il y a moins de boutons que de capacités alors rajoute des boutons
+                    if (_actionButton.Count < _actionCapacity.Count)
                         {
-                            eventTrigger.triggers.Clear();
+                            InstantiateButton(_actionButton.Count,_actionCapacity.Count, _prefabButton, _layoutGroup);
+                        }
+                        // Supprime les bouttons en trop
+                        else if (_actionButton.Count > _actionCapacity.Count)
+                        {
 
-                            // Initialise un event "EventTrigger"
-                            EventTrigger.Entry onSelected = new EventTrigger.Entry();
-                            // Nettoie la liste d'evenement
-                            onSelected.callback.RemoveAllListeners();
-                            // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
-                            onSelected.eventID = EventTriggerType.PointerEnter;
-                            // Insert dans sa liste de reaction, l'affichage de la pop-up de description
-                            int indexTrigger = i;
-                            onSelected.callback.AddListener((eventData) => { DisplayPopUp(_actionButton[indexTrigger].transform.position,_actionCapacity[indexTrigger].description); });
-                            // Ajoute le composant et ces parametres dans le boutton
-                            eventTrigger.triggers.Add(onSelected);
+                                // Detruit chaque bouttons un par un
+                                foreach (var button in _actionButton)
+                                {
+                                    //Debug.Log("Boutton : " + button.name + " " + button.GetInstanceID() + " Supprimer");
+                                    Destroy(button);                        
 
-                            // Initialise un event "EventTrigger"
-                            EventTrigger.Entry onDeselected = new EventTrigger.Entry();
-                            // Nettoie la liste d'evenement
-                            onDeselected.callback.RemoveAllListeners();
-                            // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
-                            onDeselected.eventID = EventTriggerType.PointerExit;
-                            // Insert dans sa liste de reaction, l'affichage de la pop-up de description
-                            onDeselected.callback.AddListener((eventData) => { HidePopUp(); });
-                            // Ajoute le composant et ces parametres dans le boutton
-                            eventTrigger.triggers.Add(onDeselected);
+                                }
+                                _actionButton.Clear();
+
+                            InstantiateButton(_actionButton.Count, _actionCapacity.Count,_prefabButton,_layoutGroup);
+
                         }
 
-                    }
-
+                // Verifie que les donnée soit bien initialiser avant de procedé
+                if (data != null && _actionCapacity.Count > 0 && _actionButton.Count > 0)
+                {
+                    UpdateButtonInformation();
                 }
 
             }
 
         }
 
+    }
+
+    /// <summary>
+    /// Cree un nombre d'objet definit avec un for, a la position de son parent
+    /// </summary>
+    /// <param name="start">Nombre d'objet deja initialiser</param>
+    /// <param name="end">Nombre total d'objet voulu</param>
+    /// <param name="prefab">Prefab de l'objet</param>
+    /// <param name="parent">Parent de l'objet instancier</param>
+    private void InstantiateButton(int start, int end, GameObject prefab, GameObject parent)
+    {
+        // Initialise des bouttons en plus si besoin
+        for (int i = start; i < end; i++)
+        {
+            _actionButton.Add(Instantiate(prefab, parent.transform.position, Quaternion.identity, parent.transform));
+        }
     }
 
     /// <summary>
@@ -209,9 +242,11 @@ public class HUD_Manager : MonoBehaviour
             if (_prefabPopUp != null)
             {
                 // Initialise le popup si il n'existe pas et que la prefab a etais definit
-                _objectPopUp = Instantiate(_objectPopUp,Vector3.zero,Quaternion.identity,transform);
-            } else { 
-                return; 
+                _objectPopUp = Instantiate(_objectPopUp, Vector3.zero, Quaternion.identity, transform);
+            }
+            else
+            {
+                return;
             }
 
         }
@@ -224,7 +259,7 @@ public class HUD_Manager : MonoBehaviour
             // Change le titre du PopUp
             ModifyTextBox("Title", title);
             // Change la description du PopUp
-            ModifyTextBox("Description",description);
+            ModifyTextBox("Description", description);
 
             if (_objectPopUp.activeSelf == false) { _objectPopUp.SetActive(true); }
         }
@@ -254,13 +289,13 @@ public class HUD_Manager : MonoBehaviour
         // -- Initialise le texte de la boite de texte de "Description" -- //
         textBox = _objectPopUp.transform.Find(nameChild);
         // Si le composant text est present alors change le texte
-        if (textBox.TryGetComponent<TextMeshProUGUI>(out textMesh)) 
-        { 
-            textMesh.text = valueString; 
+        if (textBox.TryGetComponent<TextMeshProUGUI>(out textMesh))
+        {
+            textMesh.text = valueString;
         }
-        else if (textBox.TryGetComponent<Text>(out text)) 
-        { 
-            text.text = valueString; 
+        else if (textBox.TryGetComponent<Text>(out text))
+        {
+            text.text = valueString;
         }
     }
 

@@ -100,7 +100,7 @@ public class LevelManager : MonoBehaviour
                         controller = teamInstance.AddComponent<PlayerController>();
                     break;
                     case UserType.Bot:
-                        controller = teamInstance.AddComponent<IAController>();
+                        controller = teamInstance.AddComponent<AIController>();
                     break;
                 }
                 controller.Data = _teams[i];

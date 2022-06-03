@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class UI : MonoBehaviour
@@ -10,11 +11,7 @@ public class UI : MonoBehaviour
     [SerializeField] private Character _cH;
 
     [SerializeField] private Image _barreAction;
-    [SerializeField] private Button _tir;
-    [SerializeField] private Button _vigilance;
-    [SerializeField] private Button _competence1;
-    [SerializeField] private Button _competence2;
-    [SerializeField] private Button _reload;
+
     [SerializeField] private Image _icone;
     [SerializeField] private Image _iconeTeam;
     /// <summary> Correspond à la couleur qui sera afficher derrière la liste des personnages </summary>
@@ -39,6 +36,17 @@ public class UI : MonoBehaviour
     TextMeshProUGUI myText;
     [SerializeField] private GameObject _textCompetence2;
     [SerializeField] private TextMeshProUGUI _textDebug;
+
+    [Header("BOUTTON")]
+    [SerializeField] private Button _tir;
+    [SerializeField] private Button _vigilance;
+    [SerializeField] private Button _competence1;
+    [SerializeField] private Button _competence2;
+    [SerializeField] private Button _reload;
+
+    [Header("PopUp")]
+    [SerializeField] private GameObject _objectPopUp;
+    [SerializeField] private GameObject _prefabPopUp;
 
     public int AmmoIndex
     {
@@ -123,40 +131,96 @@ public class UI : MonoBehaviour
         {
             DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
 
-
             myText = _textCompetence2.GetComponent<TextMeshProUGUI>();
 
-            _tir.GetComponent<Image>().sprite = data.SpriteTir;
-            _vigilance.GetComponent<Image>().sprite = data.SpriteVigilance;
-            _competence1.GetComponent<Image>().sprite = data.SpriteCompetence;
-            _competence2.GetComponent<Image>().sprite = data.SpriteCompetence2;
+            // Met a jour l'icone du personnage
             _icone.GetComponent<Image>().sprite = data.icon;
 
-            if (_cH.GetWeaponCapacityAmmo() > 0)
-            {
-                Color colorReload = _reload.GetComponent<Image>().color;
-                _reload.gameObject.SetActive(true);
+            List<Button> _actionButton = new List<Button>();
 
-                if (_cH.GetWeaponCurrentAmmo() < _myAmmoMax)
+            _actionButton.Add(_tir.GetComponent<Button>());
+            _actionButton.Add(_vigilance.GetComponent<Button>());
+            _actionButton.Add(_competence1.GetComponent<Button>());
+            _actionButton.Add(_competence2.GetComponent<Button>());
+            _actionButton.Add(_reload.GetComponent<Button>());
+
+            List<DataCharacter.Capacity> _actionCapacity = data.ListCapacity;
+
+            
+                if (_cH.GetWeaponCapacityAmmo() > 0)
                 {
-                    colorReload.a = 1f;
-                    _reload.GetComponent<Image>().color = colorReload;
-                    _reload.interactable = true;
+                    Color colorReload = _reload.GetComponent<Image>().color;
+                    _reload.gameObject.SetActive(true);
+
+                    if (_cH.GetWeaponCurrentAmmo() < _myAmmoMax)
+                    {
+                        colorReload.a = 1f;
+                        _reload.GetComponent<Image>().color = colorReload;
+                        _reload.interactable = true;
+                    }
+
+                    else
+                    {
+                        colorReload.a = 0.3f;
+                        _reload.GetComponent<Image>().color = colorReload;
+                        _reload.interactable = false;
+                    }
+
+                     _actionCapacity[4].SetName("null");
                 }
 
                 else
                 {
-                    colorReload.a = 0.3f;
-                    _reload.GetComponent<Image>().color = colorReload;
-                    _reload.interactable = false;
+                
+                //_reload.gameObject.SetActive(false);
+            }
+
+                for (int i = 0; i < _actionCapacity.Count; i++)
+            {
+                if (_actionCapacity[i].name != "null")
+                {
+                    if (_actionCapacity[i].icon != null)
+                        _actionButton[i].GetComponent<Image>().sprite = _actionCapacity[i].icon;
+
+                    _actionButton[i].gameObject.SetActive(true);
+
+                    // Recupere le "EventTrigger" du boutton
+                    EventTrigger eventTrigger;
+
+                    if (_actionButton[i].TryGetComponent<EventTrigger>(out eventTrigger))
+                    {
+                        eventTrigger.triggers.Clear();
+
+                        // Initialise un event "EventTrigger"
+                        EventTrigger.Entry onSelected = new EventTrigger.Entry();
+                        // Nettoie la liste d'evenement
+                        onSelected.callback.RemoveAllListeners();
+                        // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
+                        onSelected.eventID = EventTriggerType.PointerEnter;
+                        // Insert dans sa liste de reaction, l'affichage de la pop-up de description
+                        int indexTrigger = i;
+                        onSelected.callback.AddListener((eventData) => { DisplayPopUp(_actionButton[indexTrigger].transform.position, _actionCapacity[indexTrigger].description, _actionCapacity[indexTrigger].name); });
+                        // Ajoute le composant et ces parametres dans le boutton
+                        eventTrigger.triggers.Add(onSelected);
+
+                        // Initialise un event "EventTrigger"
+                        EventTrigger.Entry onDeselected = new EventTrigger.Entry();
+                        // Nettoie la liste d'evenement
+                        onDeselected.callback.RemoveAllListeners();
+                        // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
+                        onDeselected.eventID = EventTriggerType.PointerExit;
+                        // Insert dans sa liste de reaction, l'affichage de la pop-up de description
+                        onDeselected.callback.AddListener((eventData) => { HidePopUp(); });
+                        // Ajoute le composant et ces parametres dans le boutton
+                        eventTrigger.triggers.Add(onDeselected);
+                    }
+                } else
+                {
+                    _actionButton[i].gameObject.SetActive(false);
                 }
 
             }
 
-            else
-            {
-                _reload.gameObject.SetActive(false);
-            }
 
             // foreach (Image myPoint in _actionPoint)
             // {
@@ -173,7 +237,7 @@ public class UI : MonoBehaviour
             // }
 
 
-             // On vérifie si la compétence peut être utilisable en jeu et lors du développement
+            // On vérifie si la compétence peut être utilisable en jeu et lors du développement
             if (data.AbilityAvailable)
             {
                 _competence1.gameObject.SetActive(true);
@@ -200,6 +264,74 @@ public class UI : MonoBehaviour
             _competence2.image.enabled = true;
             //myText.enabled = true;
         }       
+    }
+
+    /// <summary>
+    /// Affiche une pop-up sur la souris avec les information entrer
+    /// </summary>
+    private void DisplayPopUp(Vector3 position, string description = " ", string title = "Information")
+    {
+
+        if (_objectPopUp == null)
+        {
+            if (_prefabPopUp != null)
+            {
+                // Initialise le popup si il n'existe pas et que la prefab a etais definit
+                _objectPopUp = Instantiate(_objectPopUp, Vector3.zero, Quaternion.identity, transform);
+            }
+            else
+            {
+                return;
+            }
+
+        }
+
+        // Si le popUp est initialiser, l'affiche et change son texte
+        if (_objectPopUp != null)
+        {
+            // Deplace le popUp a l'endroit indiquer
+            _objectPopUp.transform.position = position;
+            // Change le titre du PopUp
+            ModifyTextBox("Title", title);
+            // Change la description du PopUp
+            ModifyTextBox("Description", description);
+
+            if (_objectPopUp.activeSelf == false) { _objectPopUp.SetActive(true); }
+        }
+
+    }
+
+    private void HidePopUp()
+    {
+        // Si le popUp est initialiser, le cache
+        if (_objectPopUp != null)
+        {
+            if (_objectPopUp.activeSelf == true) { _objectPopUp.SetActive(false); }
+        }
+    }
+
+    /// <summary>
+    /// Met a jour la boite de texte enfant d'un GameObject
+    /// </summary>
+    /// <param name="nameChild">Enfant a chercher du GameObject</param>
+    /// <param name="valueString">Chaine de charactere a inserer</param>
+    private void ModifyTextBox(string nameChild, string valueString)
+    {
+        TextMeshProUGUI textMesh;
+        Text text;
+        Transform textBox;
+
+        // -- Initialise le texte de la boite de texte de "Description" -- //
+        textBox = _objectPopUp.transform.Find(nameChild);
+        // Si le composant text est present alors change le texte
+        if (textBox.TryGetComponent<TextMeshProUGUI>(out textMesh))
+        {
+            textMesh.text = valueString;
+        }
+        else if (textBox.TryGetComponent<Text>(out text))
+        {
+            text.text = valueString;
+        }
     }
 
     private void ActualActionPoint()

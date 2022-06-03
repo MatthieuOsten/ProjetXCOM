@@ -11,7 +11,7 @@ public enum UserType
     Bot
 }
 
-[CreateAssetMenu(fileName = "DATA_team_", menuName = "ScriptableObjects/Team", order = 3)]
+[CreateAssetMenu(fileName = "DATA_Team_", menuName = "Data/Team", order = 3)]
 [System.Serializable]
 public class DataTeam : Data
 {
