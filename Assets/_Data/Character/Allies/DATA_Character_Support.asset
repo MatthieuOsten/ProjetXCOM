@@ -26,6 +26,8 @@ MonoBehaviour:
   _shield: 0
   _moveSpeed: 10
   _weapon: {fileID: 11400000, guid: f68312a4ab3bfb04791b0d1d7163d276, type: 2}
+  _dataOverwatch: {fileID: 11400000, guid: 39eebddb0d95b414eaf5b704f2c132f9, type: 2}
+  _dataReload: {fileID: 11400000, guid: 7767073ceb9b99c4983a651ea4c01a79, type: 2}
   _actionPoints: 2
   _movementCasesAction: 8
   AbilityAvailable: 1
@@ -37,10 +39,6 @@ MonoBehaviour:
   CostAttack: 1
   CostVigilance: 1
   CostReload: 1
-  spriteTir: {fileID: 21300000, guid: 0135e3d1b81285f48997c72fd061f8d8, type: 3}
-  spriteVigilance: {fileID: 21300000, guid: fa24baa939b84ad47bcbddd283623c62, type: 3}
-  spriteCompetence: {fileID: 21300000, guid: 1e08dbd0de1d24b4fa9ac49c8b10c0fe, type: 3}
-  spriteCompetence2: {fileID: 21300000, guid: b938362154adb7647b816e89388f2492, type: 3}
   pointAction: {fileID: 0}
   ammo: {fileID: 0}
   ClassName: Actor_Support
