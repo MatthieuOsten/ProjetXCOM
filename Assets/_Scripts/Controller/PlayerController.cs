@@ -524,7 +524,7 @@ public class PlayerController : Team
 
             }
         }
-        if (pathSuggested != null && pathSuggested[pathSuggested.Length-1] != AimCase)
+        if (pathSuggested != null && pathSuggested.Length > 0 &&  pathSuggested[pathSuggested.Length-1] != AimCase)
         {
            
             pathSuggested[pathSuggested.Length - 1].ChangeMaterial(pathSuggested[pathSuggested.Length - 1].GridParent.Data.caseSelected);
@@ -553,7 +553,7 @@ public class PlayerController : Team
             {
                 AudioManager.PlaySoundAtPosition("case_select", Vector3.zero);
                 GridManager.SetCasePreview(SelectedCaseA, true);
-                if (_selectedActor == null && SelectedCaseA._actor.Owner == this) // On check si l'actor appartient à celui de la team
+                if (_selectedActor == null && SelectedCaseA._actor != null && SelectedCaseA._actor.Owner == this) // On check si l'actor appartient à celui de la team
                 {
                     _selectedActor = SelectedCaseA._actor;
                     SetActorSelection(_selectedActor);
@@ -636,12 +636,13 @@ public class PlayerController : Team
             if (_selectedActor != null)
             {
                 _selectedActor.CurrentCase.Highlighted = true;
-                Material mtl = new Material(_selectedActor.CurrentCase.GridParent.Data.caseSelected);
+                //Material mtl = new Material(_selectedActor.CurrentCase.GridParent.Data.caseSelected);
             
                 Character _char = (Character)_selectedActor;
                 
-                mtl.SetColor("_EmissiveColor", _char.GetCharacterColor());
-                _selectedActor.CurrentCase.ChangeMaterial(mtl);
+                //mtl.SetColor("_EmissiveColor", _char.GetCharacterColor());
+                //_selectedActor.CurrentCase.ChangeMaterial(mtl);
+                _selectedActor.CurrentCase.ChangeMaterial(_selectedActor.CurrentCase.GridParent.Data.caseSelected);
             }
 
         }
@@ -853,7 +854,12 @@ public class PlayerController : Team
     public void SelectedEnemy()
     {
         EnemyDetectedIndex++;
-        SelectedCaseB = EnemyDetected[EnemyDetectedIndex].GetComponent<Character>().CurrentCase;
+        if(EnemyDetected[EnemyDetectedIndex] != null)
+            SelectedCaseB = EnemyDetected[EnemyDetectedIndex].GetComponent<Character>().CurrentCase;
+        else
+        {
+            Debug.Log("SelectedEnemy dans PlayerController a voulu attribuer un enemi mort");
+        }
     }
 
 }

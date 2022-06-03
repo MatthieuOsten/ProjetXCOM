@@ -23,7 +23,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MTL_sprite_case_overwatch
+  m_Name: MTL_sprite_case_healovertime
   m_Shader: {fileID: 4800000, guid: 6e4ae4064600d784cac1e41a9e6f2e59, type: 3}
   m_ValidKeywords:
   - _DISABLE_SSR_TRANSPARENT
@@ -73,7 +73,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissiveColorMap:
-        m_Texture: {fileID: 2800000, guid: 7a0c2bb77df773d4eb833452967adb0c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7f40e90d7980fd941874b485ec5f4ec8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightMap:
@@ -178,7 +178,7 @@ Material:
     - _DstBlend: 0
     - _EmissiveColorMode: 1
     - _EmissiveExposureWeight: 0
-    - _EmissiveIntensity: 14.699215
+    - _EmissiveIntensity: 1.53
     - _EmissiveIntensityUnit: 0
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableExternalAlpha: 0
@@ -260,8 +260,8 @@ Material:
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissiveColor: {r: 11.01, g: 0.007862015, b: 0, a: 11.01}
-    - _EmissiveColorLDR: {r: 0.88031507, g: 0.04984007, b: 0, a: 1}
+    - _EmissiveColor: {r: 0, g: 1.53, b: 0.030550502, a: 1.53}
+    - _EmissiveColorLDR: {r: 0, g: 1, b: 0.15156436, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _InvPrimScale: {r: 1, g: 1, b: 0, a: 0}
     - _IridescenceThicknessRemap: {r: 0, g: 1, b: 0, a: 0}

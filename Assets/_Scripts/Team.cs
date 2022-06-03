@@ -56,7 +56,7 @@ public class Team : MonoBehaviour, ITeam
     public virtual void StartTurn()
     {
         GridManager.ResetCasesPreview(_selectedGrid);
-        UIManager.CreateSubtitle($"C'est � l'�quipe {Data.name} de jouer", 2);
+        UIManager.CreateSubtitle($"Equipe {Data.name} it's your turn !", 2);
         foreach (Character _actor in Squad)
         {
             // Si le personnage est en overwatch, on lui remet alive lorsque son tour a repris

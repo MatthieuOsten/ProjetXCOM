@@ -13,7 +13,8 @@ public struct Range
     [SerializeField] int right, diagonal;
     public int RightRange { get { return right; } set { right = value; } }
     public int DiagonalRange { get { return diagonal; } set { diagonal = value; } }
-    [SerializeField] public RangeType type;
+    public RangeType type;
+    public Material caseRange;
 
 }
 public abstract class Actor : MonoBehaviour, IActor

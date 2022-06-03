@@ -70,14 +70,14 @@ public class Case : MonoBehaviour
     {
         
 
-        Debug();
+        Debuga();
         if (Highlighted || Checked)
             return;
         WatchCaseState();
         return;
     }
 
-    void Debug()
+    void Debuga()
     {
         if (GridParent.ShowScorePathFinding)
         {
@@ -136,6 +136,7 @@ public class Case : MonoBehaviour
     /// <summary> Change la couleur de la cellule </summary>
     public void ChangeMaterial(Material newMtl)
     {
-        _sr.material = newMtl;
+        //Debug.Log(newMtl.name);
+        _sr.sharedMaterial = newMtl;
     }
 }

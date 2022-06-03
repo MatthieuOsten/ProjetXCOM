@@ -16,8 +16,8 @@ public class WidgetHitInfo : HintstringProperty
     protected override void Start() {
         //_actor = relatedObject.GetComponent<Character>();
         IgnoreRelatedObject = true;
-        textComponent[0].text = "";
-        textComponent[0].text = "";
+        //textComponent[0].text = "";
+        //textComponent[0].text = "";
         _prevColorHealthText = textComponent[0].color;
         _prevColorPaText = textComponent[1].color;
         textComponent[0].color = RemoveOpacity(textComponent[0].color);
