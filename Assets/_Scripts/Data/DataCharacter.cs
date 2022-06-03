@@ -14,6 +14,7 @@ public class DataCharacter : Data
     {
         public string name;
         public string description;
+        public string sound;
         public Sprite icon;
         public ActionTypeMode typeA;
 
@@ -24,12 +25,16 @@ public class DataCharacter : Data
                 this.name = null;
                 this.description = null;
                 this.icon = null;
+                this.sound = null;
             } 
             else
             {
                 this.name = data.name;
                 this.description = data.description;
                 this.icon = data.icon;
+
+                // Recupere le premier tag de la data pour definir le son
+                if (data.tags != null && data.tags.Count > 0) { this.sound = data.tags[0]; } else { this.sound = null; }
             }
 
             this.typeA = typeMode;

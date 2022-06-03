@@ -10,17 +10,18 @@ public class HUD_Manager : MonoBehaviour
 {
     [SerializeField] private PlayerController _pC;
     [SerializeField] private DataCharacter _dataCH;
-    [SerializeField] private bool _updateActionBar;
 
     [Header("ACTION BAR")]
     [SerializeField] private List<GameObject> _actionButton;
     [SerializeField] private List<DataCharacter.Capacity> _actionCapacity;
     [SerializeField] private GameObject _layoutGroup;
     [SerializeField] private GameObject _prefabButton;
+    [SerializeField] private int _difference;
+    [SerializeField] private bool _updateActionBar;
+
+    [Header("PopUp")]
     [SerializeField] private GameObject _objectPopUp;
     [SerializeField] private GameObject _prefabPopUp;
-
-    [SerializeField] private int _difference;
 
     private void Start()
     {
