@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DATA_accessory_", menuName = "ScriptableObjects/Accessory", order = 4)]
+[CreateAssetMenu(fileName = "DATA_Cosmetic_", menuName = "Data/Cosmetic", order = 5)]
 [System.Serializable]
-public class DataAccessory : Data
+public class DataCosmetic : Data
 {
     [Header("RENDER")]
     [SerializeField] private GameObject prefabObject;
