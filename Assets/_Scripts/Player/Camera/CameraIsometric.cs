@@ -126,22 +126,22 @@ public class CameraIsometric : MonoBehaviour
 
         if (mousePosition.x < edgeTolerance * Screen.width)
         {
-            moveDirection += -GetCameraRight() /** _speed * Time.deltaTime*/;
+            moveDirection += -GetCameraRight();
         }
 
         else if (mousePosition.x > (1f - edgeTolerance) * Screen.width)
         {
-            moveDirection += GetCameraRight() /** _speed * Time.deltaTime*/;
+            moveDirection += GetCameraRight();
         }
 
         if (mousePosition.y < edgeTolerance * Screen.height)
         {
-            moveDirection += -GetCameraForward() /** _speed * Time.deltaTime*/;
+            moveDirection += -GetCameraForward();
         }
 
         else if (mousePosition.y > (1f - edgeTolerance) * Screen.height)
         {
-            moveDirection += GetCameraForward() /** _speed * Time.deltaTime*/;
+            moveDirection += GetCameraForward();
         }
 
         controller.Move(moveDirection * _speedMouse * Time.deltaTime);
