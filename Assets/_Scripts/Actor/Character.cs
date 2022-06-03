@@ -180,6 +180,8 @@ public class Character : Actor
     // Effectue une action a la mort du personnage //
     public override void Death()
     {
+        AudioManager.PlaySoundAtPosition(Data.AliaseDeath, transform.position);
+
         base.Death();
     }
 
@@ -265,6 +267,8 @@ public class Character : Actor
         // On vérifie si l'arme a des munitions de base
         if(GetWeaponCapacityAmmo() > 0)
             Ammo[0]--;
+
+        AudioManager.PlaySoundAtPosition(GetMainWeaponInfo().SoundFire, transform.position);
         
         CurrentActionPoint--;
         base.Attack(target);
@@ -429,7 +433,7 @@ public class Character : Actor
                 _range = GridManager.GetRadiusCases(CurrentCase, range.RightRange);
                 break;
         }
-        GridManager.SetCaseAttackPreview(_range);
+        GridManager.SetCaseAttackPreview(_range, false , range.caseRange );
 
         List<Case> _cases = new List<Case>();
         // Permet de verifier que l'on donne pas des cases inutiles

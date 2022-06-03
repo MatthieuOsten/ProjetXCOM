@@ -28,6 +28,7 @@ MonoBehaviour:
     right: 2
     diagonal: 2
     type: 1
+    caseRange: {fileID: 2100000, guid: 6c0ca3d4d429da34c9e76339f0420947, type: 2}
   _maxAmmo: 0
   Cooldown: 4
   _animIdle: {fileID: 0}

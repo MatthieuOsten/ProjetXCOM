@@ -41,5 +41,9 @@ MonoBehaviour:
   CostReload: 1
   pointAction: {fileID: 0}
   ammo: {fileID: 0}
+  AliaseDeath: character_death
+  AliaseSpawn: 
+  AliaseDamaged: 
+  AliaseOnMove: 
   ClassName: Actor_Support
   mtl_red_flick: {fileID: 2100000, guid: abbfc98669dc8544abbe918ae5c5cdf7, type: 2}

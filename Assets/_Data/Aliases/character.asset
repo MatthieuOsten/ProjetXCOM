@@ -120,3 +120,51 @@ MonoBehaviour:
     Text: 
     customDuration: 0
     isInit: 1
+  - name: character_death
+    description: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: a6c81efc0d4fe714b920994c73bc028d, type: 3}
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 132.4
+    volume: 0.879
+    isLooping: 0
+    minPitch: 0.8
+    maxPitch: 1.31
+    stereoPan: 0
+    spatialBlend: 1
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 0
+    MaxDistance: 500
+    CurveType: 1
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    Text: 
+    customDuration: 0
+    isInit: 1

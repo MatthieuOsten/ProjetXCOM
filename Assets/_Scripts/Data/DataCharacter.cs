@@ -104,6 +104,12 @@ public class DataCharacter : Data
     [SerializeField] private Sprite pointAction;
     [SerializeField] private Sprite ammo;
 
+    [Header("Sound Aliase")]
+    public string AliaseDeath;
+    public string AliaseSpawn;
+    public string AliaseDamaged;
+    public string AliaseOnMove;
+
     public float MoveSpeed { get { return _moveSpeed; } }
     public int MovementCasesAction { get { return _movementCasesAction; } }
 

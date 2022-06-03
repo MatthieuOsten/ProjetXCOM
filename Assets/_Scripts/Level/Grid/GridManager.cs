@@ -265,17 +265,20 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public static void SetCaseAttackPreview(Case aCase, bool Reset = false)
+    public static void SetCaseAttackPreview(Case aCase, bool Reset = false , Material specificMaterial = null)
     {
         if (GetValidCase(aCase) == null) return;
 
         if (Reset) ResetCasesPreview(aCase.GridParent);
 
         aCase.Highlighted = true;
-        aCase.ChangeMaterial(aCase.GridParent.Data.caseOverwatch);
+        if(specificMaterial != null) 
+            aCase.ChangeMaterial(specificMaterial);
+        else
+            aCase.ChangeMaterial(aCase.GridParent.Data.caseOverwatch);
 
     }
-    public static void SetCaseAttackPreview(List<Case> cases, bool Reset = false)
+    public static void SetCaseAttackPreview(List<Case> cases, bool Reset = false, Material specificMaterial = null)
     {
         if (cases == null || cases.Count == 0) return;
         if (Reset)
@@ -283,7 +286,7 @@ public class GridManager : MonoBehaviour
 
         for (int i = 0; i < cases.Count; i++)
         {
-            SetCaseAttackPreview(cases[i]);
+            SetCaseAttackPreview(cases[i] ,Reset, specificMaterial );
         }
     }
 
