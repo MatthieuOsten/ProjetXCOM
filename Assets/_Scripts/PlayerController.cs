@@ -582,6 +582,7 @@ public class PlayerController : Team
     public override void EndTurn()
     {
         ResetSelection();
+        CanMoveCam = false;
         cameraIsometric.MoveToCharacter(CharacterPlayer[CharacterIndex].transform, _canMoveCam, _onEnemy);
         base.EndTurn();
     }
