@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DATA_wpn_soldier_attack
   m_EditorClassIdentifier: 
   name: Carabine
-  description: '[ 1 PA ] [ 4 Munitions rechargeable ]'
+  description: "[ 1 PA ] [ 4 Munitions rechargeable ] Inflige 3 Points de d\xE9gats"
   type: 
   tags: []
   icon: {fileID: 0}

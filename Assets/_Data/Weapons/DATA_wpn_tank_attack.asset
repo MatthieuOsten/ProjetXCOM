@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: DATA_wpn_tank_attack
   m_EditorClassIdentifier: 
   name: Bouclier
-  description: "Le \u201CBouclier\u201D tape au CaC d\u2019une case de distance autour
-    de lui."
+  description: "[1 PA]  Inflige 2 Points de d\xE9gats et retire 1 PA \xE0 la cible.
+    \\n Le \u201CBouclier\u201D tape au CaC d\u2019une case de distance autour de
+    lui."
   type: 
   tags: []
   icon: {fileID: 0}

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: DATA_wpn_support_attack
   m_EditorClassIdentifier: 
   name: Sceptre
-  description: " [ 1 PA ] Le \u201CSceptre\u201D tire sur les diagonales en m\xEAme
-    temps avec une faible port\xE9e."
+  description: "[ 1 PA ] Inflige 2 de d\xE9gats. \\n Le \u201CSceptre\u201D tire
+    sur les diagonales en m\xEAme temps avec une faible port\xE9e."
   type: 
   tags: []
   icon: {fileID: 0}

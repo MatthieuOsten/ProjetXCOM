@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Debuff
   description: "[ 1 PA ] [Cooldown 4 tours] Grande port\xE9e d\u2019action sur un
-    seul ennemi a la fois utiliser gr\xE2ce \xE0 son Pistolame r\xE9duisant sa port\xE9
-    de d\xE9placement et de tir pendant 2 tours le Tank a ensuite un CD de 4 tours."
+    seul ennemi \xE0 la fois utiliser gr\xE2ce \xE0 son Pistolame r\xE9duisant sa
+    port\xE9 de d\xE9placement et de tir pendant 2 tours le Tank a ensuite un CD
+    de 4 tours."
   type: 
   tags: []
   icon: {fileID: 0}
@@ -33,5 +34,5 @@ MonoBehaviour:
   Cooldown: 4
   _animIdle: {fileID: 0}
   _animFire: {fileID: 0}
-  _soundFire: {fileID: 0}
-  _soundReload: {fileID: 0}
+  _soundFire: 
+  _soundReload: 
