@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ffebdf3ef8750c49bc8bad5d6ff831c, type: 3}
   m_Name: DATA_wpn_support_comp_alattaque
   m_EditorClassIdentifier: 
-  name: A L'attaque
+  name: Don de PA
   description: "[ 1 PA ] [ 4 Tours Cooldown ] moyenne distance de lanc\xE9 , ce sort
     permet \xE0 un alli\xE9 cibl\xE9 d\u2019avoir un point d\u2019action suppl\xE9mentaire."
   type: 
