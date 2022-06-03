@@ -36,6 +36,14 @@ public class UI : MonoBehaviour
     [SerializeField] private GameObject _textCompetence2;
     [SerializeField] private TextMeshProUGUI _textDebug;
 
+    public List<GameObject> TeamImage
+    {
+        get { return _teamImage; }
+        set
+        {
+            _teamImage = value;
+        }
+    }
     [Header("BOUTTON")]
     [SerializeField] private Button _tir;
     [SerializeField] private Button _vigilance;
@@ -311,6 +319,86 @@ public class UI : MonoBehaviour
         }
     }
 
+    public void SetActionModeAttack()
+    {
+        if (_pC.SelectionMode != SelectionMode.Action)
+        {
+            AudioManager.PlaySoundAtPosition("action_attack", Vector3.zero);
+            _pC.SelectionMode = SelectionMode.Action;
+            _pC.ActionTypeMode = ActionTypeMode.Attack;
+        } 
+        else
+        {
+            ResetSelection();
+        }
+
+    }
+    public void SetActionModeOverwatch()
+    {
+        if (_pC.SelectionMode != SelectionMode.Action)
+        {
+            AudioManager.PlaySoundAtPosition("action_overwatch", Vector3.zero);
+            _pC.SelectionMode = SelectionMode.Action;
+            _pC.ActionTypeMode = ActionTypeMode.Overwatch;
+        }
+        else
+        {
+            ResetSelection();
+        }
+    }
+    public void SetActionModeCompetence()
+    {
+        if (_pC.SelectionMode != SelectionMode.Action)
+        {
+            AudioManager.PlaySoundAtPosition("action_competence1", Vector3.zero);
+            _pC.SelectionMode = SelectionMode.Action;
+            _pC.ActionTypeMode = ActionTypeMode.Competence1;
+        }
+        else
+        {
+            ResetSelection();
+        }
+
+
+    }
+    public void SetActionModeCompetenceAlt()
+    {
+        if (_pC.SelectionMode != SelectionMode.Action)
+        {
+            AudioManager.PlaySoundAtPosition("action_competence2", Vector3.zero);
+            _pC.SelectionMode = SelectionMode.Action;
+            _pC.ActionTypeMode = ActionTypeMode.Competence2;
+        }
+        else
+        {
+            ResetSelection();
+        }
+
+
+    }
+
+    void ResetSelection()
+    {
+        _pC.SelectionMode = SelectionMode.Selection;
+        _pC.ActionTypeMode = ActionTypeMode.None;
+        AudioManager.PlaySoundAtPosition("action_reset", Vector3.zero);
+
+    }
+
+    public void SetActionModeReload()
+    {
+        if (_pC.SelectionMode != SelectionMode.Action)
+        {
+            AudioManager.PlaySoundAtPosition("action_reload", Vector3.zero);
+            _pC.SelectionMode = SelectionMode.Action;
+            _pC.ActionTypeMode = ActionTypeMode.Reload;
+        }
+        else
+        {
+            ResetSelection();
+        }
+
+    }
     public void EndTurn()
     {
         if (_pC.CanPassTurn)
