@@ -91,6 +91,15 @@ public class Actor_Tank : Character
         base.EndTurnActor();
     }
 
+     void OnDestroy()
+    {
+        if(_victim != null)
+        {
+            _victim._rangeDebuffValue = 0;
+
+        }
+    }
+
 
 
 }
