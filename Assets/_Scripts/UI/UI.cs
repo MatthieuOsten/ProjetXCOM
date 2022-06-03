@@ -48,6 +48,16 @@ public class UI : MonoBehaviour
     [SerializeField] private GameObject _objectPopUp;
     [SerializeField] private GameObject _prefabPopUp;
 
+     [SerializeField] private bool _updateActionBar;
+
+    [Header("ACTION BAR")]
+    [SerializeField] private List<GameObject> _actionButton;
+    [SerializeField] private List<DataCharacter.Capacity> _actionCapacity;
+    [SerializeField] private GameObject _layoutGroup;
+    [SerializeField] private GameObject _prefabButton;
+
+    [SerializeField] private int _difference;
+
     public int AmmoIndex
     {
         get { return _ammoImageIndex; }
@@ -71,6 +81,7 @@ public class UI : MonoBehaviour
         MaximumAmmo();
         ShadeBar();
         ListTeam();
+        UpdateButtonInformation();
     }
 
     private void FixedUpdate()
@@ -139,87 +150,62 @@ public class UI : MonoBehaviour
             List<Button> _actionButton = new List<Button>();
 
             _actionButton.Add(_tir.GetComponent<Button>());
-            _actionButton.Add(_vigilance.GetComponent<Button>());
+            //_actionButton.Add(_vigilance.GetComponent<Button>());
             _actionButton.Add(_competence1.GetComponent<Button>());
             _actionButton.Add(_competence2.GetComponent<Button>());
             _actionButton.Add(_reload.GetComponent<Button>());
 
             List<DataCharacter.Capacity> _actionCapacity = data.ListCapacity;
 
+            WatchReloadButton();
+
             
-                if (_cH.GetWeaponCapacityAmmo() > 0)
-                {
-                    Color colorReload = _reload.GetComponent<Image>().color;
-                    _reload.gameObject.SetActive(true);
 
-                    if (_cH.GetWeaponCurrentAmmo() < _myAmmoMax)
-                    {
-                        colorReload.a = 1f;
-                        _reload.GetComponent<Image>().color = colorReload;
-                        _reload.interactable = true;
-                    }
+            //     for (int i = 0; i < _actionCapacity.Count; i++)
+            // {
+            //     if (_actionCapacity[i].name != "null")
+            //     {
+            //         if (_actionCapacity[i].icon != null)
+            //             _actionButton[i].GetComponent<Image>().sprite = _actionCapacity[i].icon;
 
-                    else
-                    {
-                        colorReload.a = 0.3f;
-                        _reload.GetComponent<Image>().color = colorReload;
-                        _reload.interactable = false;
-                    }
+            //         _actionButton[i].gameObject.SetActive(true);
 
-                     _actionCapacity[4].SetName("null");
-                }
+            //         // Recupere le "EventTrigger" du boutton
+            //         EventTrigger eventTrigger;
 
-                else
-                {
-                
-                //_reload.gameObject.SetActive(false);
-            }
+            //         if (_actionButton[i].TryGetComponent<EventTrigger>(out eventTrigger))
+            //         {
+            //             eventTrigger.triggers.Clear();
 
-                for (int i = 0; i < _actionCapacity.Count; i++)
-            {
-                if (_actionCapacity[i].name != "null")
-                {
-                    if (_actionCapacity[i].icon != null)
-                        _actionButton[i].GetComponent<Image>().sprite = _actionCapacity[i].icon;
+            //             // Initialise un event "EventTrigger"
+            //             EventTrigger.Entry onSelected = new EventTrigger.Entry();
+            //             // Nettoie la liste d'evenement
+            //             onSelected.callback.RemoveAllListeners();
+            //             // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
+            //             onSelected.eventID = EventTriggerType.PointerEnter;
+            //             // Insert dans sa liste de reaction, l'affichage de la pop-up de description
+            //             int indexTrigger = i;
+            //             onSelected.callback.AddListener((eventData) => { DisplayPopUp(_actionButton[indexTrigger].transform.position, _actionCapacity[indexTrigger].description, _actionCapacity[indexTrigger].name); });
+            //             // Ajoute le composant et ces parametres dans le boutton
+            //             eventTrigger.triggers.Add(onSelected);
 
-                    _actionButton[i].gameObject.SetActive(true);
+            //             // Initialise un event "EventTrigger"
+            //             EventTrigger.Entry onDeselected = new EventTrigger.Entry();
+            //             // Nettoie la liste d'evenement
+            //             onDeselected.callback.RemoveAllListeners();
+            //             // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
+            //             onDeselected.eventID = EventTriggerType.PointerExit;
+            //             // Insert dans sa liste de reaction, l'affichage de la pop-up de description
+            //             onDeselected.callback.AddListener((eventData) => { HidePopUp(); });
+            //             // Ajoute le composant et ces parametres dans le boutton
+            //             eventTrigger.triggers.Add(onDeselected);
+            //         }
+            //     } else
+            //     {
+            //         _actionButton[i].gameObject.SetActive(false);
+            //     }
 
-                    // Recupere le "EventTrigger" du boutton
-                    EventTrigger eventTrigger;
-
-                    if (_actionButton[i].TryGetComponent<EventTrigger>(out eventTrigger))
-                    {
-                        eventTrigger.triggers.Clear();
-
-                        // Initialise un event "EventTrigger"
-                        EventTrigger.Entry onSelected = new EventTrigger.Entry();
-                        // Nettoie la liste d'evenement
-                        onSelected.callback.RemoveAllListeners();
-                        // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
-                        onSelected.eventID = EventTriggerType.PointerEnter;
-                        // Insert dans sa liste de reaction, l'affichage de la pop-up de description
-                        int indexTrigger = i;
-                        onSelected.callback.AddListener((eventData) => { DisplayPopUp(_actionButton[indexTrigger].transform.position, _actionCapacity[indexTrigger].description, _actionCapacity[indexTrigger].name); });
-                        // Ajoute le composant et ces parametres dans le boutton
-                        eventTrigger.triggers.Add(onSelected);
-
-                        // Initialise un event "EventTrigger"
-                        EventTrigger.Entry onDeselected = new EventTrigger.Entry();
-                        // Nettoie la liste d'evenement
-                        onDeselected.callback.RemoveAllListeners();
-                        // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
-                        onDeselected.eventID = EventTriggerType.PointerExit;
-                        // Insert dans sa liste de reaction, l'affichage de la pop-up de description
-                        onDeselected.callback.AddListener((eventData) => { HidePopUp(); });
-                        // Ajoute le composant et ces parametres dans le boutton
-                        eventTrigger.triggers.Add(onDeselected);
-                    }
-                } else
-                {
-                    _actionButton[i].gameObject.SetActive(false);
-                }
-
-            }
+            //}
 
 
             // foreach (Image myPoint in _actionPoint)
@@ -237,6 +223,21 @@ public class UI : MonoBehaviour
             // }
 
 
+            WatchAbilitiesButton();
+
+        }
+
+        else
+        {
+            _competence2.enabled = true;
+            _competence2.image.enabled = true;
+            //myText.enabled = true;
+        }       
+    }
+
+    void WatchAbilitiesButton()
+    {
+            DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
             // On vérifie si la compétence peut être utilisable en jeu et lors du développement
             if (data.AbilityAvailable)
             {
@@ -255,15 +256,102 @@ public class UI : MonoBehaviour
             else
                 _competence2.gameObject.SetActive(false);
 
+    }
+
+    void WatchReloadButton()
+    {
+            if (_cH.GetWeaponCapacityAmmo() > 0)
+                {
+                    Color colorReload = _reload.GetComponent<Image>().color;
+                    _reload.gameObject.SetActive(true);
+
+                    if (_cH.GetWeaponCurrentAmmo() < _myAmmoMax)
+                    {
+                        colorReload.a = 1f;
+                        _reload.GetComponent<Image>().color = colorReload;
+                        _reload.interactable = true;
+                    }
+
+                    else
+                    {
+                        colorReload.a = 0.3f;
+                        _reload.GetComponent<Image>().color = colorReload;
+                        _reload.interactable = false;
+                    }
+
+                     //_actionCapacity[4].SetName("null");
+                }
+
+                else
+                {
+                
+                    _reload.gameObject.SetActive(false);
+                }
+    }
+
+    private void UpdateButtonInformation()
+    {
+         _actionCapacity.Clear();
+            _actionCapacity = _cH.Data.ListCapacity;
+        // ---- Initialise chaque bouttons en rapport avec les capacit�s actuel ---- //
+        for (int i = 0; i < _actionButton.Count; i++)
+        {
+            if (_actionCapacity.Count < i) { break; }
+
+            // Nettoie la liste d'action du boutton
+            _actionButton[i].GetComponent<Button>().onClick.RemoveAllListeners();
+
+            // -- Initialise les donn�es du boutton initialiser -- //
+
+            // Insert l'action effectuer si le boutton est appuyer
+            int index = i;
+            _actionButton[i].GetComponent<Button>().onClick.AddListener(() => SetActionMode(_actionCapacity[index].typeA));
+
+            // Verifie que l'objet a une icone et l'affiche
+            if (_actionCapacity[i].icon != null)
+                _actionButton[i].GetComponent<Image>().sprite = _actionCapacity[i].icon;
+
+            // Verifie que l'objet a un nom et l'ecrit
+            if (_actionCapacity[i].name != null)
+                _actionButton[i].GetComponentInChildren<TextMeshProUGUI>().text = _actionCapacity[i].name;
+
+            // -- Initialise "DisplayDescription" sur le boutton -- //
+            if (_actionCapacity[i].description != null) // Verifie que la description est remplie
+            {
+                // Recupere le "EventTrigger" du boutton
+                EventTrigger eventTrigger;
+
+                if (_actionButton[i].TryGetComponent<EventTrigger>(out eventTrigger))
+                {
+                    eventTrigger.triggers.Clear();
+
+                    // Initialise un event "EventTrigger"
+                    EventTrigger.Entry onSelected = new EventTrigger.Entry();
+                    // Nettoie la liste d'evenement
+                    onSelected.callback.RemoveAllListeners();
+                    // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
+                    onSelected.eventID = EventTriggerType.PointerEnter;
+                    // Insert dans sa liste de reaction, l'affichage de la pop-up de description
+                    int indexTrigger = i;
+                    onSelected.callback.AddListener((eventData) => { DisplayPopUp(_actionButton[indexTrigger].transform.position, _actionCapacity[indexTrigger].description, _actionCapacity[indexTrigger].name); });
+                    // Ajoute le composant et ces parametres dans le boutton
+                    eventTrigger.triggers.Add(onSelected);
+
+                    // Initialise un event "EventTrigger"
+                    EventTrigger.Entry onDeselected = new EventTrigger.Entry();
+                    // Nettoie la liste d'evenement
+                    onDeselected.callback.RemoveAllListeners();
+                    // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
+                    onDeselected.eventID = EventTriggerType.PointerExit;
+                    // Insert dans sa liste de reaction, l'affichage de la pop-up de description
+                    onDeselected.callback.AddListener((eventData) => { HidePopUp(); });
+                    // Ajoute le composant et ces parametres dans le boutton
+                    eventTrigger.triggers.Add(onDeselected);
+                }
+
+            }
 
         }
-
-        else
-        {
-            _competence2.enabled = true;
-            _competence2.image.enabled = true;
-            //myText.enabled = true;
-        }       
     }
 
     /// <summary>
@@ -334,6 +422,28 @@ public class UI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Active ou desactive le mode action par rapport a son "ActionTypeMode"
+    /// </summary>
+    public void SetActionMode(ActionTypeMode actionType)
+    {
+        // Si le playerController est null alors quitte la fonction
+        if (_pC == null) { return; }
+
+        // Si le joueur est pas en mode action alors active le mode action et change son type
+        if (_pC.SelectionMode != SelectionMode.Action)
+        {
+            _pC.SelectionMode = SelectionMode.Action;
+            _pC.ActionTypeMode = actionType;
+        }
+        else // Sinon Desactive le mode action pour le mode selection et retire le type action en le changeant par "none"
+        {
+            _pC.SelectionMode = SelectionMode.Selection;
+            _pC.ActionTypeMode = ActionTypeMode.None;
+        }
+
+    }
+
     private void ActualActionPoint()
     {
         _actionPointMax = _cH.MaxActionPoint;
@@ -370,7 +480,7 @@ public class UI : MonoBehaviour
     //Gere l'affichage du nombre actuel des munitions
     private void ActualAmmo()
     {
-        if(_cH.Ammo != null)
+        if(_cH != null && _cH.Ammo != null)
         {
             if (_ammo.Count < _myAmmoMax)
             {
