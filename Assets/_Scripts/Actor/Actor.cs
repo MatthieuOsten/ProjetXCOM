@@ -29,7 +29,8 @@ public abstract class Actor : MonoBehaviour, IActor
     [Tooltip("La team auquelle le personnage appartient")]
     public Team Owner;
 
-    public virtual Case CurrentCase { get { return currentCase; } set { currentCase = value; } }
+    public virtual Case CurrentCase { get { return currentCase; } set { currentCase = value; 
+                                                                        currentCase.Actor = this;} }
 
     public virtual ActorState State { get { return state; } set { state = value; } }
 
@@ -39,9 +40,8 @@ public abstract class Actor : MonoBehaviour, IActor
     {
         get { return _health; }
 
-         set
+        set
         {
-
             // Empeche la valeur d'aller en dessous de zero -- //
             if (value >= 0)
             {

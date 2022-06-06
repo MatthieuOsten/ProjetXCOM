@@ -109,8 +109,15 @@ public class UI : MonoBehaviour
     private void GetActualScripts()
     {
         _pC = (PlayerController)LevelManager.GetCurrentController();
-        _cH = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>();
-
+        if(_pC != null)
+        {
+            _cH = _pC.GetCurrentCharactedSelected;
+        }
+        else
+        {
+            Debug.LogWarning("UI : Attention l'UI n'arrive pas à récupérer le PlayerController depuis le Level Manager");
+        }
+        
     }
 
     //recupere les mun max de munition dans l'arme

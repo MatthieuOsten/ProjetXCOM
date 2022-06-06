@@ -12,12 +12,7 @@ public class LevelManager : MonoBehaviour
     /// <summary> Correspond à l'instance du level manager</summary>
     [SerializeField] private string sceneReturn;
 
-    public void goToSceneReturn()
-    {
-        if (sceneReturn != null) { SceneManager.LoadScene(sceneReturn); }
-        else { Application.Quit(); }
-        
-    }
+    
 
     public static LevelManager Instance
     {
@@ -38,6 +33,13 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void goToSceneReturn()
+    {
+        if (sceneReturn != null) { SceneManager.LoadScene(sceneReturn); }
+        else { Application.Quit(); }
+        
+    }
+
     public void Awake()
     {
         if(_instance != null)
@@ -52,7 +54,9 @@ public class LevelManager : MonoBehaviour
     }
 
         
-    public static List<Team> listTeam = new List<Team>();
+    [SerializeField] List<Team> _listTeam = new List<Team>();
+
+    public static List<Team> listTeam {get { return Instance._listTeam;}}
     
     [SerializeField] DataTeam[] _teams;
     
@@ -63,8 +67,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] PointControl[] PointControls;
     [SerializeField] bool Gameover;
 
-    [Header("Debug")]
-    public List<Team> StaticlistTeam = new List<Team>();
+
+    //public List<Team> StaticlistTeam = new List<Team>();
     /// <summary> Permet de passer le tour au joueur actuel./// </summary>
     public bool PassedTurn;
 
@@ -75,7 +79,7 @@ public class LevelManager : MonoBehaviour
     {
         if(!listTeam.Contains(newTeam)) // On verifie si la list des teams contient cette team
         {
-            listTeam.Add(newTeam);
+             listTeam.Add(newTeam);
         }
     }
 
@@ -126,15 +130,17 @@ public class LevelManager : MonoBehaviour
     /// <summary> Met fin au tour </summary>
     void EndTurn()
     {
-        listTeam[_currentTeamIndex].ItsYourTurn = false;
-        listTeam[_currentTeamIndex].EndTurn();
+        Team CurrentTeam = listTeam[_currentTeamIndex];
+        CurrentTeam.ItsYourTurn = false;
+        CurrentTeam.EndTurn();
         _currentTurn++;
         _currentTeamIndex++;
         if(_currentTeamIndex >= listTeam.Count )
             _currentTeamIndex = 0;
         
-        listTeam[_currentTeamIndex].ItsYourTurn = true;
-        listTeam[_currentTeamIndex].StartTurn();
+        Team NewTeam = listTeam[_currentTeamIndex];
+        NewTeam.ItsYourTurn = true;
+        NewTeam.StartTurn();
     }
 
     // Update is called once per frame
@@ -169,7 +175,7 @@ public class LevelManager : MonoBehaviour
     // Cest pour debug
     void DebugWatcher()
     {
-        StaticlistTeam = listTeam;
+        _listTeam = listTeam;
 
         if(PassedTurn)
         {
