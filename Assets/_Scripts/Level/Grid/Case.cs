@@ -42,7 +42,20 @@ public class Case : MonoBehaviour
 
 
     [Header("Reference")]
-    public Actor _actor; // Une reference de l'actor qui est dessus
+    Actor _actor; // Une reference de l'actor qui est dessus
+
+    public Actor Actor{get{ return _actor;} set{ _actor = value;} }
+
+    public Character Character{
+        get{ 
+
+            if(Actor is Character)
+                return (Character)_actor;
+            
+            return null ;} 
+    }
+
+    public bool HaveActor{ get {return _actor != null;}}
     /* Next properties to include
     Interact _interact // A ref to a interact like a echelle 
     */
@@ -70,10 +83,11 @@ public class Case : MonoBehaviour
     {
         
 
-        Debuga();
+      
         if (Highlighted || Checked)
             return;
         WatchCaseState();
+          Debuga();
         return;
     }
 
@@ -133,10 +147,11 @@ public class Case : MonoBehaviour
     }
 
 
-    /// <summary> Change la couleur de la cellule </summary>
+    /// <summary> Change le material de la cellule </summary>
     public void ChangeMaterial(Material newMtl)
     {
         //Debug.Log(newMtl.name);
-        _sr.sharedMaterial = newMtl;
+        if(_sr.sharedMaterial != newMtl) // On vérifie si le matérial n'est pas déjà assignés
+            _sr.sharedMaterial = newMtl; // On utilise sharedMaterial pour eviter de crée une nouvelle instance
     }
 }

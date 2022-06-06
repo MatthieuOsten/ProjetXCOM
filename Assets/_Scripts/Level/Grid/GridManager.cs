@@ -264,7 +264,7 @@ public class GridManager : MonoBehaviour
             SetCasePreview(cases[i]);
         }
     }
-
+    /// <summary> Met une case en mode prévisualisation </summary>
     public static void SetCaseAttackPreview(Case aCase, bool Reset = false , Material specificMaterial = null)
     {
         if (GetValidCase(aCase) == null) return;
@@ -278,6 +278,7 @@ public class GridManager : MonoBehaviour
             aCase.ChangeMaterial(aCase.GridParent.Data.caseOverwatch);
 
     }
+    /// <summary> Met une list de case en mode prévisualisation </summary>
     public static void SetCaseAttackPreview(List<Case> cases, bool Reset = false, Material specificMaterial = null)
     {
         if (cases == null || cases.Count == 0) return;
@@ -293,7 +294,6 @@ public class GridManager : MonoBehaviour
     void Start()
     {
         RegenerateCaseTable(); // Existe car entre le edit et runtime la table a double entrer foire // TODO : trouver une autre maniere
-
     }
 
     // Update is called once per frame
@@ -324,14 +324,14 @@ public class GridManager : MonoBehaviour
             {
                 for (int y = 0; y < SizeY; y++)
                 {   
-                   // Debug.Log($"{_grid.GetLength(0)} && {_grid.GetLength(1)} with {x};{y}");
+                    // Si la case existait déja, on la reprend
                     if(x < _grid.GetLength(0) && y < _grid.GetLength(1) && _grid[x,y] != null)
                     {
                         tempGrid[x,y] = _grid[x,y];
                     }
-                    else
+                    else // la case n'existait pas, et donc on la regénère
                     {
-                         tempGrid[x, y] = GenerateCase(x, y);
+                        tempGrid[x, y] = GenerateCase(x, y);
                     }
                    
                     _currentCellCreated++;

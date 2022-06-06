@@ -9,7 +9,7 @@ public class Team : MonoBehaviour, ITeam
     public string Name { get { return _name; } set { _name = value; } }
 
     [SerializeField] DataTeam _data;
-    public DataTeam Data { get { return _data; } set { _data = value; } }
+    [SerializeField] public DataTeam Data { get { return _data; } set { _data = value; } }
 
     [SerializeField] bool _itsYourTurn;
     public bool ItsYourTurn { get { return _itsYourTurn; }
@@ -21,13 +21,13 @@ public class Team : MonoBehaviour, ITeam
 
     public static Team[] AllTeams;
     public Team[] hisEnnemies;
-    //ITeam[] _team;
-    //public ITeam[] Teama{get{ return _team;} set{ _team = value;}}
 
-    [SerializeField] Actor[] _squad;
-    public Actor[] Squad { get { return _squad; } set { _squad = value; } }
+    // [SerializeField] Actor[] _squad;
+    // public Actor[] Squad { get { return _squad; } set { _squad = value; } }
 
-    //[SerializeField] bool _spawnRandomlyActor = true;
+    [field : SerializeField] public Actor[] Squad { get; set;}
+
+
     [Tooltip("Retourne la grille selectionner par la team")]
     [SerializeField] protected GridManager _selectedGrid;
     public Case startSpawnCase; // On indique le point de spawn 
@@ -48,7 +48,6 @@ public class Team : MonoBehaviour, ITeam
     // Start is called before the first frame update
     public virtual void Start()
     {
-
         SpawnSquad();
         InitEnemiTeam();
     }
@@ -147,7 +146,7 @@ public class Team : MonoBehaviour, ITeam
         Case spawner = null;
         for(int i = 0; i < cases.Count; i++)
         {
-            if(GridManager.GetValidCase(cases[i]) != null && cases[i]._actor == null )
+            if(GridManager.GetValidCase(cases[i]) != null && !cases[i].HaveActor )
             {
                 spawner = cases[i];
             }
@@ -157,7 +156,7 @@ public class Team : MonoBehaviour, ITeam
         {
             Case aRandCase = spawner;
             component.CurrentCase = aRandCase;
-            aRandCase._actor = component;
+            aRandCase.Actor = component;
             component.transform.position = _selectedGrid.GetCaseWorldPosition(component.CurrentCase.x, component.CurrentCase.y);
             component.EndTurnActor();
         }

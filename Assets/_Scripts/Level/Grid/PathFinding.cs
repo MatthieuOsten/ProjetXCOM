@@ -77,7 +77,7 @@ public class PathFinding : MonoBehaviour
             }
             foreach (Case adjacentCase in GridManager.GetAdjacentCases(currentNode))
             {
-                if (adjacentCase == null || adjacentCase.State != CaseState.Empty || adjacentCase._actor != null || closedSet.Contains(adjacentCase))
+                if (adjacentCase == null || adjacentCase.State != CaseState.Empty || adjacentCase.HaveActor || closedSet.Contains(adjacentCase))
                 {
                     continue;
                 }

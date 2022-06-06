@@ -49,14 +49,14 @@ public class Character : Actor
 
     public int GetRightRange(int indexWeapon)
     {
-        int rangeValue = GetWeaponsInfo(indexWeapon)._range.RightRange + _rangeDebuffValue;
+        int rangeValue = GetWeaponsInfo(indexWeapon)._range.RightRange - _rangeDebuffValue;
 
         return rangeValue;
 
     }
     public int GetDiagonalRange(int indexWeapon)
     {
-        int rangeValue = GetWeaponsInfo(indexWeapon)._range.DiagonalRange + _rangeDebuffValue;
+        int rangeValue = GetWeaponsInfo(indexWeapon)._range.DiagonalRange - _rangeDebuffValue;
 
         return rangeValue;
     }
@@ -200,7 +200,7 @@ public class Character : Actor
         LimitCaseMovement = Data.MovementCasesAction; 
         //gameObject.AddComponent<RaycastCamera>();
         Health = Data.Health; // init la vie
-                _mtl_og = gameObject.GetComponentInChildren<MeshRenderer>().material;
+        _mtl_og = gameObject.GetComponentInChildren<MeshRenderer>().material;
 
         InitAmmo();
 
@@ -225,7 +225,6 @@ public class Character : Actor
     }
    
    
-
     public override void Update()
     {
         
@@ -268,6 +267,7 @@ public class Character : Actor
         if(GetWeaponCapacityAmmo() > 0)
             Ammo[0]--;
 
+        // On joue le son de tire provenant de l'arme
         AudioManager.PlaySoundAtPosition(GetMainWeaponInfo().SoundFire, transform.position);
         
         CurrentActionPoint--;
@@ -300,9 +300,9 @@ public class Character : Actor
                 return;
             }
 
-            CurrentCase._actor = null;
+            CurrentCase.Actor = null;
             CurrentCase = pathToFollow[_indexPath];
-            CurrentCase._actor = this;
+            CurrentCase.Actor = this;
             _indexPath++;
             int newIndex = pathToFollow.Length - _indexPath;
             if (newIndex > 1) lr.positionCount = newIndex;
@@ -314,7 +314,7 @@ public class Character : Actor
 
             if (CurrentCase == LastCase)
             {
-                LastCase._actor = this;
+                LastCase.Actor = this;
                 Debug.Log("Destination atteint");
                 ResetDestination();
 
@@ -341,7 +341,7 @@ public class Character : Actor
             range.DiagonalRange = 1;
         }
 
-        List<Case> _range = new List<Case>((8*range.RightRange) + (8 * range.DiagonalRange));
+        List<Case> _range = new List<Case>((8 * range.RightRange) + (8 * range.DiagonalRange));
         int actorX = CurrentCase.x;
         int actorY = CurrentCase.y;
         GridManager parent = CurrentCase.GridParent;
