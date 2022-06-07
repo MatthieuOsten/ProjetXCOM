@@ -17,7 +17,7 @@ MonoBehaviour:
   cellSize: 3
   CasePrefab: {fileID: 3561150613161783381, guid: 2274426bbc64a254d98c78b3b01db0ea,
     type: 3}
-  caseDefault: {fileID: 2100000, guid: 211aebb26afe4f048b1e7b541a64f232, type: 2}
+  caseDefault: {fileID: 2100000, guid: db90ce99a1ec5ef4ca0bdce3b0119e6c, type: 2}
   caseHighlight: {fileID: 2100000, guid: c4af0984bbbed0045af9357f4152d68d, type: 2}
   caseLocked: {fileID: 2100000, guid: fa0448777e63d8845800b328b5c6e6d7, type: 2}
   caseNone: {fileID: 2100000, guid: 3c98cd8000ae3b142b84905032d05f74, type: 2}
