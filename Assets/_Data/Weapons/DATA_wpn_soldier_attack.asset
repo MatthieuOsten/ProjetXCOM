@@ -24,12 +24,18 @@ MonoBehaviour:
   _damage: 3
   _costPoint: 1
   _range:
-    right: 6
+    right: 3
     diagonal: 6
     type: 0
+    caseRange: {fileID: 0}
   _maxAmmo: 4
   Cooldown: 0
   _animIdle: {fileID: 0}
   _animFire: {fileID: 0}
   _soundFire: 
   _soundReload: 
+  fxImpact: {fileID: 8926484042661614526, guid: 38743bb30546ff646a0917bcc9591c4e,
+    type: 3}
+  fxProjectileTrail: {fileID: 3745955780004049469, guid: 3e8257ac05bf1f34b9458cbd605f3cbe,
+    type: 3}
+  fxMuzzle: {fileID: 0}
