@@ -181,7 +181,7 @@ public class Character : Actor
     public override void Death()
     {
         AudioManager.PlaySoundAtPosition(Data.AliaseDeath, transform.position);
-
+        ParticleManager.PlayFXAtPosition(transform.position, Data.fxDeath);
         base.Death();
     }
 
@@ -190,6 +190,8 @@ public class Character : Actor
     {
         
         Health -= amount;
+        ParticleManager.PlayFXAtPosition(transform.position, Data.fxDamaged);
+
          _damageCooldown = 2;
          AudioManager.PlaySoundAtPosition("character_damaged", transform.position);
 
@@ -269,7 +271,12 @@ public class Character : Actor
 
         // On joue le son de tire provenant de l'arme
         AudioManager.PlaySoundAtPosition(GetMainWeaponInfo().SoundFire, transform.position);
-        
+        if(GetMainWeaponInfo().TypeW == DataWeapon.typeWeapon.distance)
+        {
+            ParticleManager.PlayTrailFXto( GetMainWeaponInfo().fxProjectileTrail ,transform.position, target.transform);
+            
+        }
+        ParticleManager.PlayFXAtPosition(target.transform.position, GetMainWeaponInfo().fxImpact);
         CurrentActionPoint--;
         base.Attack(target);
     }
@@ -292,7 +299,8 @@ public class Character : Actor
         {
             
             AudioManager.PlaySoundAtPosition("character_footstep_concrete", transform.position);
-        
+            ParticleManager.PlayFXAtPosition(transform.position, Data.fxFootstep);
+
             Case LastCase = pathToFollow[pathToFollow.Length - 1];
             if (pathToFollow.Length == 0 || pathToFollow == null)
             {

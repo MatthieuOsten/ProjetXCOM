@@ -361,10 +361,9 @@ public class PlayerController : Team
                 _selectedActor.Attack(SelectedCaseB.Actor);
                 AudioManager.PlaySoundAtPosition("ExecAttack", Vector3.zero);
             }
-            else
+            else // N'est pas dans la portée
             {
                 AudioManager.PlaySoundAtPosition("case_refus", Vector3.zero);
-
             }
                 
 

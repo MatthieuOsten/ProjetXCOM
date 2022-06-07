@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 [CreateAssetMenu(fileName = "DATA_Character_", menuName = "Data/Character", order = 2)]
 [System.Serializable]
@@ -109,6 +110,12 @@ public class DataCharacter : Data
     public string AliaseSpawn;
     public string AliaseDamaged;
     public string AliaseOnMove;
+
+    [Header("FX")]
+    public VisualEffectAsset fxFootstep;
+    public VisualEffectAsset fxDeath;
+    public VisualEffectAsset fxDamaged;
+    
 
     public float MoveSpeed { get { return _moveSpeed; } }
     public int MovementCasesAction { get { return _movementCasesAction; } }

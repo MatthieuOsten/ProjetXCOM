@@ -463,8 +463,19 @@ public class UI : MonoBehaviour
 
             // Verifie que l'objet a une icone et l'affiche
             if (_actionCapacity[i].icon != null)
-                _actionButton[i].GetComponent<Image>().sprite = _actionCapacity[i].icon;
+            {
+                for(int ii = 0 ; ii < _actionButton[i].transform.childCount; ii++)
+                {
+                    if(_actionButton[i].transform.GetChild(ii).TryGetComponent<Image>( out Image iimage) )
+                    {
+                        iimage.sprite = _actionCapacity[i].icon;
+                    }
+                }
+                
+             
 
+            }
+                
             // Verifie que l'objet a un nom et l'ecrit
             if (_actionCapacity[i].name != null)
                 _actionButton[i].GetComponentInChildren<TextMeshProUGUI>().text = _actionCapacity[i].name;

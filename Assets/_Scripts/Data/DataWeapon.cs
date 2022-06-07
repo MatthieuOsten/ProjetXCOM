@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 [CreateAssetMenu(fileName = "DATA_Weapon_", menuName = "Data/Weapon", order = 3)]
 [System.Serializable]
@@ -52,6 +53,9 @@ public class DataWeapon : Data
     public string SoundFire { get { return _soundFire; } }
     public string SoundReload { get { return _soundReload; } }
 
-    
+    [Header("FX")]
+    public VisualEffectAsset fxImpact;
+    public GameObject fxProjectileTrail;
+    public VisualEffectAsset fxMuzzle; 
 
 }
