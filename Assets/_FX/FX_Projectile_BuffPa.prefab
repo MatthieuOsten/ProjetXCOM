@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 370379092473254124}
   m_Layer: 0
-  m_Name: FX_Projectile
+  m_Name: FX_Projectile_BuffPa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -255,8 +255,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0.45594516, g: 0.6684566, b: 0.8867924, a: 1}
-      maxColor: {r: 0, g: 0.28193712, b: 1, a: 0.34117648}
+      minColor: {r: 0.8862745, g: 0.7862618, b: 0.45490196, a: 1}
+      maxColor: {r: 1, g: 0.8197487, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -318,8 +318,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 9
-      minScalar: 11
+      scalar: 2.18
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -371,8 +371,8 @@ ParticleSystem:
     startSizeY:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 5
-      minScalar: 5
+      scalar: 1
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -424,8 +424,8 @@ ParticleSystem:
     startSizeZ:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 10
-      minScalar: 10
+      scalar: 1.6
+      minScalar: 1.66
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -4794,7 +4794,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0b01f570aa370ee4dbd64e951c908904, type: 2}
+  - {fileID: 2100000, guid: 010b82d1432149647808f451e93c83f5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4829,7 +4829,7 @@ ParticleSystemRenderer:
   m_RenderAlignment: 2
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
-  m_UseCustomVertexStreams: 0
+  m_UseCustomVertexStreams: 1
   m_EnableGPUInstancing: 1
   m_ApplyActiveColorSpace: 1
   m_AllowRoll: 0

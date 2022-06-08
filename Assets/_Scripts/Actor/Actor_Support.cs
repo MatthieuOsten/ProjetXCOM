@@ -25,10 +25,13 @@ public class Actor_Support : Character
         base.DoDamage(amount);
     }
 
-    public override void Attack(Actor target)
+    public override void Attack(Actor target, Actor[] detectedTargets)
     {
-        target.DoDamage(Data.Weapon.Damage);
-        base.Attack(target);
+        foreach( Actor _target in detectedTargets)
+        {
+            _target.DoDamage(Data.Weapon.Damage);
+        }
+        base.Attack(target,detectedTargets);
     }
 
     /*

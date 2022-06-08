@@ -123,7 +123,11 @@ public class ParticleManager : MonoBehaviour
     public static void PlayFXAtPosition(Vector3 position, VisualEffectAsset fx)
     {   
         if(fx == null)
+        {
+            Debug.LogWarning("Un FX non défini a été jouer, veuillez le définir");
             return;
+        }
+            
 
         VisualEffect vfx = GetVisualEffect();
         vfx.visualEffectAsset = fx;
@@ -141,7 +145,11 @@ public class ParticleManager : MonoBehaviour
     public static void PlayTrailFXto(GameObject fxToPlay ,Vector3 startPosition ,Transform target)
     {   
         if(fxToPlay == null || target == null)
+        {
+            Debug.LogWarning("Un FX trail non défini a été jouer, veuillez le définir");
             return;
+        }
+           
 
         GameObject Fx = Instantiate(fxToPlay, startPosition,Quaternion.identity);
         Fx.transform.LookAt(target);
@@ -161,35 +169,6 @@ public class ParticleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if(GameManager.GameState != State.InGame )
-        //      return;
-
-        // for(int i = 0 ; i < FXpool.Count; i++)
-        // {
-        //     //Debug.Log(FXpool[i].GetComponent<ParticleSystem>().isPlaying);
-        //     if(FXpool[i] != null)
-        //     {
-        //         if(FXpool[i].TryGetComponent<ParticleSystem>(out ParticleSystem compo) ) 
-        //         {
-        //             if(!compo.isPlaying)
-        //             {
-        //                 Destroy(FXpool[i]);
-        //                 FXpool.Remove(FXpool[i]);
-        //             }  
-        //         }
-        //         if(FXpool[i].TryGetComponent<VisualEffect>(out VisualEffect compvfx))
-        //         {
-                    
-        //             if(compvfx.pause)
-        //             {
-                       
-        //                 Destroy(FXpool[i]);
-        //                 FXpool.Remove(FXpool[i]);
-        //             }
-        //         }
-        //     }
-        // }
-
 
         for(int i = 0 ; i < FXTrailPool.Count; i++)
         {
@@ -200,16 +179,16 @@ public class ParticleManager : MonoBehaviour
                 FXTrailPoolTarget.Remove(FXTrailPoolTarget[i]);
                 return;
             }
-            if(Vector3.Distance(FXTrailPool[i].transform.position, FXTrailPoolTarget[i].position) < 1f)
+            if(Vector3.Distance(FXTrailPool[i].transform.position, FXTrailPoolTarget[i].position) < 0.1f)
             {
                 Debug.Log("oh");
                 Destroy(FXTrailPool[i]);
-                FXTrailPool[i].GetComponent<ParticleSystem>().Stop(true);
+                //FXTrailPool[i].GetComponent<ParticleSystem>().Stop(true);
             }      //
             else
             {
                 Debug.Log("oh");
-                FXTrailPool[i].transform.position = Vector3.Lerp(FXTrailPool[i].transform.position, FXTrailPoolTarget[i].position, 5*Time.deltaTime);
+                FXTrailPool[i].transform.position = Vector3.Lerp(FXTrailPool[i].transform.position, FXTrailPoolTarget[i].position, SpeedTrailTo*Time.deltaTime);
             }   
             // if(!FXTrailPool[i].GetComponent<ParticleSystem>().isPlaying)
             // {

@@ -73,7 +73,7 @@ public class LevelManager : MonoBehaviour
     public bool PassedTurn;
 
 
-
+    public static int CurrentTurn{get{return Instance._currentTurn;}}
     // Ajoute une team dans la liste
     public static void AddTeamToList( Team newTeam )
     {
@@ -150,7 +150,8 @@ public class LevelManager : MonoBehaviour
         {
             DebugWatcher();
             WatchPointControlsPurified();
-            WatchController();
+            
+                WatchController();
         }
         WatchLastSurvivor();
     }

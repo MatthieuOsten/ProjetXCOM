@@ -18,8 +18,9 @@ MonoBehaviour:
     port\xE9 de d\xE9placement et de tir pendant 2 tours le Tank a ensuite un CD
     de 4 tours."
   type: 
-  tags: []
-  icon: {fileID: 0}
+  tags:
+  - action_competence1
+  icon: {fileID: 21300000, guid: ca7036f6b12846447bae5b0ebf1eab72, type: 3}
   _prefabWeapon: {fileID: 0}
   _tabCosmetic: []
   _tabAccessory: []
@@ -30,9 +31,13 @@ MonoBehaviour:
     right: 6
     diagonal: 0
     type: 0
+    caseRange: {fileID: 0}
   _maxAmmo: 0
   Cooldown: 4
   _animIdle: {fileID: 0}
   _animFire: {fileID: 0}
   _soundFire: 
   _soundReload: 
+  fxImpact: {fileID: 0}
+  fxProjectileTrail: {fileID: 0}
+  fxMuzzle: {fileID: 0}

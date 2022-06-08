@@ -43,6 +43,8 @@ public class PlayerController : Team
     [SerializeField] Case SelectedCaseA, SelectedCaseB;
     [SerializeField] Actor _selectedActor;
 
+   [SerializeField] Material caseSelected; // change de couleur par rapport à la team
+
     //[SerializeField] private Character character;
     /// <summary> Correspond au mode de selection sélectionner par le joueur </summary>
     [SerializeField] SelectionMode _selectedMode;
@@ -99,6 +101,19 @@ public class PlayerController : Team
         set
         {
             _enemyDetected = value;
+        }
+    }
+
+    public List<Actor> ActorDetected
+    {
+        get{ 
+            List<Actor> oof = new List<Actor>();
+            foreach(GameObject go in EnemyDetected)
+            {
+                oof.Add(go.GetComponent<Actor>());
+            }
+            return oof;
+
         }
     }
 
@@ -202,6 +217,10 @@ public class PlayerController : Team
         // On récupère la caméra dans la scène, si elle n'existe pas, on cherche l'object
         if (cameraIsometric == null) cameraIsometric = GameObject.FindObjectsOfType<CameraIsometric>()[0];
         EnemyDetected = new List<GameObject>(); // On initialise la list d'ennemy detected, c'est peut etre inutile
+
+        caseSelected = new Material(_selectedGrid.Data.caseSelected);
+        //caseSelected.SetColor("_EmissiveColor", Data.Color * 20);
+        
     }
 
     void EnableInputManager()
@@ -247,12 +266,12 @@ public class PlayerController : Team
         // Avec les coordonnées généré, on peut essayer d'obtenir la case 
         Case AimCase = GridManager.GetValidCase(GridManager.GetCase(_selectedGrid, x, y));
         // VUE QUE MATTHIEU A CREE UNE GRAND MERE CE BATARD JE DOIS CAST
-        Character guy = (Character)_selectedActor;
-        if (!guy.CanAction)
+        //Character guy = GetCurrentCharactedSelected;
+        if (!GetCurrentCharactedSelected.CanAction)
         {
-            Debug.Log($"Le personnage {guy.name} n'a plus de point d'action");
+            Debug.Log($"Le personnage {GetCurrentCharactedSelected.name} n'a plus de point d'action");
             // On force la mode selection
-            _selectedMode = SelectionMode.Selection;
+            ResetSelection();
             return;
         }
 
@@ -278,7 +297,7 @@ public class PlayerController : Team
         }
         // On affiche la case que l'on vise
         if (AimCase != null)
-            AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected); 
+            AimCase.ChangeMaterial(caseSelected); 
         // Ce qui se passe lorsque l'on appui sur le bouton
         if (_inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {
@@ -312,11 +331,7 @@ public class PlayerController : Team
         // les précedentes cases sélectionner sont clean
         if (_inputManager.TestGrid.Echap.IsPressed())
         {
-            SelectedCaseA = null;
-            SelectedCaseB = null;
-            GridManager.ResetCasesPreview(_selectedGrid);
-            // On force la mode selection
-            _selectedMode = SelectionMode.Selection;
+             ExitActionMode();
         }
     }
 
@@ -330,7 +345,11 @@ public class PlayerController : Team
             if(GetCurrentCharactedSelected.GetWeaponCapacityAmmo(0) > 0 && GetCurrentCharactedSelected.Ammo[0] <= 0)
             {
                 UIManager.CreateSubtitle("Plus de munition pour l'arme principal, rechargement necessaire", 2);
-                ResetSelection();
+                AudioManager.PlaySoundAtPosition("no_ammo", transform.position);
+                if(!GetCurrentCharactedSelected.CanAction)
+                    ResetSelection();
+                else
+                    ActionTypeMode = ActionTypeMode.None;
             }
             EnemyDetected = new List<GameObject>();
             foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetMainWeaponInfo()))
@@ -358,7 +377,9 @@ public class PlayerController : Team
             // On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
             if(EnemyDetected.Contains(SelectedCaseB.Actor.gameObject))
             {
-                _selectedActor.Attack(SelectedCaseB.Actor);
+                
+                _selectedActor.Attack(SelectedCaseB.Actor, ActorDetected.ToArray());
+                
                 AudioManager.PlaySoundAtPosition("ExecAttack", Vector3.zero);
             }
             else // N'est pas dans la portée
@@ -407,7 +428,7 @@ public class PlayerController : Team
                 if (aCase.HaveActor)
                 {
                     Actor actorToCheck = aCase.Actor;
-                    if (actorToCheck != null && actorToCheck.Owner == this)
+                    if ( actorToCheck.Owner == this)
                     {
                         // TODO : ajouter un raycast pour checker si il ya pas un model devant
                         EnemyDetected.Add(actorToCheck.gameObject);
@@ -446,10 +467,19 @@ public class PlayerController : Team
         {
             Debug.Log("Exec reload");
             Character character = GetCurrentCharactedSelected;
+            if(GetCurrentCharactedSelected.Ammo[0] == GetCurrentCharactedSelected.GetWeaponCapacityAmmo())
+            {
+                UIManager.CreateSubtitle("Munition déja au maximum.");
+                ExitActionMode();
+                return;
+            }    
+            
+            
             character.CurrentActionPoint -= character.Data.CostReload;
+            AudioManager.PlaySoundAtPosition(character.GetMainWeaponInfo().SoundReload, transform.position);
+
             character.Ammo[0] = character.GetWeaponCapacityAmmo();
-            SelectedCaseB = null; 
-            _actionTypeMode = ActionTypeMode.None; // On réinitialise apres avoir fait l'action
+            ExitActionMode();
         }
         else
         {
@@ -527,10 +557,10 @@ public class PlayerController : Team
         if (pathSuggested != null && pathSuggested.Length > 0 &&  pathSuggested[pathSuggested.Length-1] != AimCase)
         {
            
-            pathSuggested[pathSuggested.Length - 1].ChangeMaterial(pathSuggested[pathSuggested.Length - 1].GridParent.Data.caseSelected);
+            pathSuggested[pathSuggested.Length - 1].ChangeMaterial(caseSelected);
         }
         else
-            AimCase.ChangeMaterial(AimCase.GridParent.Data.caseSelected);
+            AimCase.ChangeMaterial(caseSelected);
 
         // Si la case est valide on l'a met en surbrillance
 
@@ -585,6 +615,19 @@ public class PlayerController : Team
         base.EndTurn();
     }
 
+    /// <summary> Quitte le mode action sans enlever la selection du personnage </summary>
+    public void ExitActionMode()
+    {
+        Debug.Log("ExitActionMode");
+        AudioManager.PlaySoundAtPosition("case_reset", Vector3.zero);
+        SelectedCaseA = null;
+        SelectedCaseB = null;
+        GridManager.ResetCasesPreview(_selectedGrid);
+        // On force la mode selection
+        _selectedMode = SelectionMode.Selection;    
+    }
+
+    /// <summary> Quitte le mode action et le personnage selectionner </summary>
     void ResetSelection()
     {
         Debug.Log("ResetSelection");
@@ -636,7 +679,7 @@ public class PlayerController : Team
             if (_selectedActor != null)
             {
                 _selectedActor.CurrentCase.Highlighted = true;
-                _selectedActor.CurrentCase.ChangeMaterial(_selectedActor.CurrentCase.GridParent.Data.caseSelected);
+                _selectedActor.CurrentCase.ChangeMaterial(caseSelected);
             }
 
         }

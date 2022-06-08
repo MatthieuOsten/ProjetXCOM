@@ -16,6 +16,7 @@ MonoBehaviour:
   defaultMixerGroup: {fileID: 0}
   aliases:
   - name: turn_start
+    description: 
     MixerGroup: {fileID: 0}
     audio:
     - {fileID: 8300000, guid: f2b67c073e6e9004ab6b52951af2e991, type: 3}
@@ -45,7 +46,9 @@ MonoBehaviour:
     Text: 
     customDuration: 0
     isInit: 1
+    isPlaholder: 1
   - name: turn_end
+    description: 
     MixerGroup: {fileID: 0}
     audio:
     - {fileID: 8300000, guid: c518feb9c27c1164fb76330c6d4af58a, type: 3}
@@ -74,7 +77,9 @@ MonoBehaviour:
     Text: 
     customDuration: 0
     isInit: 1
+    isPlaholder: 1
   - name: game_start
+    description: 
     MixerGroup: {fileID: 0}
     audio:
     - {fileID: 8300000, guid: 8e76a8788bbeb1142826cc81ec9c9317, type: 3}
@@ -82,7 +87,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.209
+    volume: 1
     isLooping: 0
     minPitch: 0.99
     maxPitch: 1
@@ -103,7 +108,9 @@ MonoBehaviour:
     Text: 
     customDuration: 0
     isInit: 1
+    isPlaholder: 1
   - name: newAliase
+    description: 
     MixerGroup: {fileID: 0}
     audio: []
     bypassEffects: 0
@@ -149,3 +156,4 @@ MonoBehaviour:
     Text: 
     customDuration: 0
     isInit: 1
+    isPlaholder: 1

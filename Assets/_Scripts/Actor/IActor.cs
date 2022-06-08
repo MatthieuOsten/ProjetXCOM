@@ -26,7 +26,8 @@ public interface IActor
     /// <summary> Cette fonction applique des d�gats � l'actor lui m�me </summary>
     void DoDamage(int amount);
     /// <summary> Cette fonction lance une attaque sur le actor target  </summary>
-    void Attack(Actor target);
+    void Attack(Actor target,Actor[] detectedTargets);
+
     /// <summary> Cette fonction active la premiere comp�tence de l'actor  </summary>
     void EnableAbility(Actor target);
     /// <summary> Cette fonction active la seconde comp�tence de l'actor </summary>

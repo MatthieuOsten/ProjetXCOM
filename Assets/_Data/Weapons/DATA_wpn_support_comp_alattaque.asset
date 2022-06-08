@@ -16,8 +16,9 @@ MonoBehaviour:
   description: "[ 1 PA ] [ 4 Tours Cooldown ] moyenne distance de lanc\xE9 , ce sort
     permet \xE0 un alli\xE9 cibl\xE9 d\u2019avoir un point d\u2019action suppl\xE9mentaire."
   type: 
-  tags: []
-  icon: {fileID: 0}
+  tags:
+  - action_competence2
+  icon: {fileID: 21300000, guid: 4654d2c0dd624274ba2457f6bfa8f1b0, type: 3}
   _prefabWeapon: {fileID: 0}
   _tabCosmetic: []
   _tabAccessory: []
@@ -35,3 +36,6 @@ MonoBehaviour:
   _animFire: {fileID: 0}
   _soundFire: 
   _soundReload: 
+  fxImpact: {fileID: 0}
+  fxProjectileTrail: {fileID: 0}
+  fxMuzzle: {fileID: 0}

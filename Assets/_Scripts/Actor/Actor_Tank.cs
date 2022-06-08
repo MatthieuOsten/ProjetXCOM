@@ -23,7 +23,7 @@ public class Actor_Tank : Character
         base.DoDamage(amount);
     }
 
-    public override void Attack(Actor target)
+    public override void Attack(Actor target , Actor[] detectedTargets)
     {
         
         Character targetChar = null;
@@ -34,7 +34,7 @@ public class Actor_Tank : Character
         }
         target.DoDamage(Data.Weapon.Damage);
         
-        base.Attack(target);
+        base.Attack(target ,  detectedTargets );
     }
 
     /*

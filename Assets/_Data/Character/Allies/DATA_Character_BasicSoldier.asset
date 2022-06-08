@@ -19,8 +19,9 @@ MonoBehaviour:
     avec des d\xE9g\xE2ts corrects en m\xEAlant tout \xE7a avec une mobilit\xE9 moyenne
     il peut \xEAtre utilis\xE9 pour des contournements."
   type: 
-  tags: []
-  icon: {fileID: 21300000, guid: 26e7f36fd347a684387119fbe8fae6ee, type: 3}
+  tags:
+  - 
+  icon: {fileID: 21300000, guid: b2099bf31d9598548b15a5b8049560e4, type: 3}
   _prefabBody: {fileID: 4518816553629253755, guid: 118ddfd221c7e934f8cae637737d81b6,
     type: 3}
   _tabCosmetic: []

@@ -40,7 +40,11 @@ public class Character : Actor
     /// <summary> Les tours d'attente avant que le personnage puisse réutilisé sa 2nd compétence </summary>
     [SerializeField] protected int cooldownAbilityAlt = 0;
 
-     Material _mtl_og;
+    // ViewModel Data
+    List<MeshRenderer> _meshRenderers;
+    Material[] _mtls_og;
+
+
      float _damageCooldown;
 
     public int _rangeDebuffValue = 0;
@@ -187,26 +191,47 @@ public class Character : Actor
 
     // Effectue une action a lorsque le personnage prend des degats //
     public override void DoDamage(int amount)
-    {
-        
+    { 
         Health -= amount;
         ParticleManager.PlayFXAtPosition(transform.position, Data.fxDamaged);
-
-         _damageCooldown = 2;
-         AudioManager.PlaySoundAtPosition("character_damaged", transform.position);
-
+        _damageCooldown = 2;
+        AudioManager.PlaySoundAtPosition("character_damaged", transform.position);
     }
     public override void Start()
     {
-          lr = gameObject.AddComponent<LineRenderer>();
+        lr = gameObject.AddComponent<LineRenderer>();
         LimitCaseMovement = Data.MovementCasesAction; 
-        //gameObject.AddComponent<RaycastCamera>();
         Health = Data.Health; // init la vie
-        _mtl_og = gameObject.GetComponentInChildren<MeshRenderer>().material;
-
+        // Get og material
+        //GetOgMaterials();
         InitAmmo();
-
         base.Start();
+    }
+
+    void GetOgMaterials()
+    {
+        int countOg ;
+        for(int i = 0 ; i < transform.childCount; i ++)
+        {
+            if(transform.GetChild(i).TryGetComponent<MeshRenderer>(out MeshRenderer _mr))
+            {
+                _meshRenderers.Add(_mr);
+                
+            }
+            
+        }
+        countOg = _meshRenderers.Count;
+        _mtls_og = new Material[countOg];
+
+        for(int ii = 0 ; ii < countOg; ii ++)
+        {
+            //_mtls_og[ii] = _meshRenderers[]
+        }
+
+
+
+
+        _mtls_og[0] = gameObject.GetComponentInChildren<MeshRenderer>().material;
     }
 
     void InitAmmo()
@@ -230,15 +255,15 @@ public class Character : Actor
     public override void Update()
     {
         
-        if(_damageCooldown > 0)
-        {
-            _damageCooldown -= Time.deltaTime;
-            gameObject.GetComponentInChildren<MeshRenderer>().material = Data.mtl_red_flick;
-        }    
-        else
-        {
-            gameObject.GetComponentInChildren<MeshRenderer>().material = _mtl_og;
-        }
+        // if(_damageCooldown > 0)
+        // {
+        //     _damageCooldown -= Time.deltaTime;
+        //     gameObject.GetComponentInChildren<MeshRenderer>().material = Data.mtl_red_flick;
+        // }    
+        // else
+        // {
+        //     gameObject.GetComponentInChildren<MeshRenderer>().material = _mtls_og[0];
+        // }
 
 
         if (pathToFollow != null)
@@ -258,27 +283,28 @@ public class Character : Actor
         base.Update();
     }
 
+    void SetMaterialViewModel()
+    {
+        for(int i = 0 ; i < transform.childCount; i++)
+        {
+            transform.GetChild(i).GetComponentInChildren<MeshRenderer>();
+        }
+    }
+
     public void SetDestination(Case[] path = null)
     {
         pathToFollow = path;
         CurrentActionPoint--;
     }
-    public override void Attack(Actor target)
+    public override void Attack(Actor target, Actor[] detectedTargets)
     {
         // On vérifie si l'arme a des munitions de base
         if(GetWeaponCapacityAmmo() > 0)
             Ammo[0]--;
 
-        // On joue le son de tire provenant de l'arme
-        AudioManager.PlaySoundAtPosition(GetMainWeaponInfo().SoundFire, transform.position);
-        if(GetMainWeaponInfo().TypeW == DataWeapon.typeWeapon.distance)
-        {
-            ParticleManager.PlayTrailFXto( GetMainWeaponInfo().fxProjectileTrail ,transform.position, target.transform);
-            
-        }
-        ParticleManager.PlayFXAtPosition(target.transform.position, GetMainWeaponInfo().fxImpact);
+        ActionAnimation(GetMainWeaponInfo(), target);
         CurrentActionPoint--;
-        base.Attack(target);
+        base.Attack(target, detectedTargets);
     }
     void OnMove()
     {
@@ -466,16 +492,30 @@ public class Character : Actor
     public override void EnableAbility(Actor target)
     {
         // Si on arrive ici, c'est que l'actor a effectuer sa compétence du coup, 
+        ActionAnimation(GetWeaponAbilityInfo(), target);
         //on lui retire les pa indiqué par l'arme de la compétence utilisé
-        AudioManager.PlaySoundAtPosition(GetWeaponAbilityInfo().SoundFire, transform.position);
         CurrentActionPoint -= GetWeaponAbilityInfo().CostPoint;
     }
     public override void EnableAbilityAlt(Actor target)
     {
          // Si on arrive ici, c'est que l'actor a effectuer sa compétence du coup, 
-        //on lui retire les pa indiqué par l'arme de la compétence utilisé
-        AudioManager.PlaySoundAtPosition(GetWeaponAbilityAltInfo().SoundFire, transform.position);
+             
+        ActionAnimation(GetWeaponAbilityAltInfo(), target);
+         //on lui retire les pa indiqué par l'arme de la compétence utilisé  
         CurrentActionPoint -= GetWeaponAbilityAltInfo().CostPoint;
+    }
+    void ActionAnimation(DataWeapon weapon, Actor target)
+    {
+                // On joue le son de tire provenant de l'arme
+        AudioManager.PlaySoundAtPosition(weapon.SoundFire, transform.position);
+        // Si l'arme est à distance, on joue le fx de projectile
+        if(weapon.TypeW == DataWeapon.typeWeapon.distance)
+        {
+            ParticleManager.PlayTrailFXto( weapon.fxProjectileTrail ,transform.position, target.transform);
+            
+        }
+        ParticleManager.PlayFXAtPosition(target.transform.position, weapon.fxImpact);
+
     }
 }
 //////

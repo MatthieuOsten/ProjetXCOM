@@ -90,10 +90,11 @@ public abstract class Actor : MonoBehaviour, IActor
        
     }
 
-    public virtual void Attack(Actor target)
+    public virtual void Attack(Actor target, Actor[] detectedTargets)
     {
         throw new System.NotImplementedException();
     }
+    
 
     public virtual void EnableAbility(Actor target)
     {

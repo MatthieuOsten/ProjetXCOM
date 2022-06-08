@@ -48,6 +48,7 @@ using UnityEngine.Audio;
         public float customDuration;
 
         public bool isInit;
+        public bool isPlaholder = true;
 
         public Aliase ()
         {
@@ -227,12 +228,23 @@ public class AudioManager : MonoBehaviour
     }
     public static Aliase PlaySoundAtPosition(string aliaseName, Vector3 position)
     {
+        if( aliaseName == "" || aliaseName == null)
+        {
+            Debug.LogError("AudioManager : Un son a voulu être jouer sans d'aliaseName, il faut en assigné un dans le script qui a exécuté la function");
+            return null;
+        }
+
         Aliase clip = GetSoundByAliase(aliaseName);
         if( clip == null || clip.audio.Length == 0)
         {
             Debug.LogError("AudioManager : Aliase: "+aliaseName+" contains no sounds.");
             return null;
         }
+        if(clip.isPlaholder)
+        {
+            Debug.LogWarning("Un son placeholder a été jouer, il faut le changer , nom de l'aliase "+aliaseName );
+        }
+
         AudioSource audioS = GetAudioSource();
         if(audioS == null)
         {

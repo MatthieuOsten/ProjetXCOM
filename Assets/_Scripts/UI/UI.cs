@@ -56,7 +56,7 @@ public class UI : MonoBehaviour
     [SerializeField] private List<DataCharacter.Capacity> _actionCapacity;
     [SerializeField] private GameObject _layoutGroup;
     [SerializeField] private GameObject _prefabButton;
-    [SerializeField] private static string _soundResetSelection;
+    [SerializeField] private static string _soundResetSelection = "action_reset";
     [SerializeField] private int _difference;
     [SerializeField] private bool _updateActionBar;
 
@@ -109,6 +109,7 @@ public class UI : MonoBehaviour
     private void GetActualScripts()
     {
         _pC = (PlayerController)LevelManager.GetCurrentController();
+        
         if(_pC != null)
         {
             _cH = _pC.GetCurrentCharactedSelected;
@@ -324,64 +325,6 @@ public class UI : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void SetActionModeAttack()
-    {
-        if (_pC.SelectionMode != SelectionMode.Action)
-        {
-            AudioManager.PlaySoundAtPosition("action_attack", Vector3.zero);
-            _pC.SelectionMode = SelectionMode.Action;
-            _pC.ActionTypeMode = ActionTypeMode.Attack;
-        } 
-        else
-        {
-            ResetSelection();
-        }
-
-    }
-    public void SetActionModeOverwatch()
-    {
-        if (_pC.SelectionMode != SelectionMode.Action)
-        {
-            AudioManager.PlaySoundAtPosition("action_overwatch", Vector3.zero);
-            _pC.SelectionMode = SelectionMode.Action;
-            _pC.ActionTypeMode = ActionTypeMode.Overwatch;
-        }
-        else
-        {
-            ResetSelection();
-        }
-    }
-    public void SetActionModeCompetence()
-    {
-        if (_pC.SelectionMode != SelectionMode.Action)
-        {
-            AudioManager.PlaySoundAtPosition("action_competence1", Vector3.zero);
-            _pC.SelectionMode = SelectionMode.Action;
-            _pC.ActionTypeMode = ActionTypeMode.Competence1;
-        }
-        else
-        {
-            ResetSelection();
-        }
-
-
-    }
-    public void SetActionModeCompetenceAlt()
-    {
-        if (_pC.SelectionMode != SelectionMode.Action)
-        {
-            AudioManager.PlaySoundAtPosition("action_competence2", Vector3.zero);
-            _pC.SelectionMode = SelectionMode.Action;
-            _pC.ActionTypeMode = ActionTypeMode.Competence2;
-        }
-        else
-        {
-            ResetSelection();
-        }
-
-
     }
 
     void ResetSelection()
@@ -693,8 +636,7 @@ public class UI : MonoBehaviour
             if (sound != null)
                 AudioManager.PlaySoundAtPosition(_soundResetSelection, Vector3.zero);
 
-            _pC.SelectionMode = SelectionMode.Selection;
-            _pC.ActionTypeMode = ActionTypeMode.None;
+            _pC.ExitActionMode();
         }
 
     }

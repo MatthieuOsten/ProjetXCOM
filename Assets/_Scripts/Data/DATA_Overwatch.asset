@@ -15,5 +15,6 @@ MonoBehaviour:
   name: Overwatch
   description: Permet de passer le personnage en mode vigilance.
   type: 
-  tags: []
+  tags:
+  - action_overwatch
   icon: {fileID: 21300000, guid: b8e8e3f5289b61440b0df71eeecea4ae, type: 3}

@@ -16,8 +16,9 @@ MonoBehaviour:
   description: "[ 1 PA ] Inflige 2 de d\xE9gats. \\n Le \u201CSceptre\u201D tire
     sur les diagonales en m\xEAme temps avec une faible port\xE9e."
   type: 
-  tags: []
-  icon: {fileID: 0}
+  tags:
+  - action_attack
+  icon: {fileID: 21300000, guid: 038b75418b3476248ae4990510a46418, type: 3}
   _prefabWeapon: {fileID: 0}
   _tabCosmetic: []
   _tabAccessory: []
@@ -28,9 +29,13 @@ MonoBehaviour:
     right: 0
     diagonal: 4
     type: 0
+    caseRange: {fileID: 0}
   _maxAmmo: 0
   Cooldown: 0
   _animIdle: {fileID: 0}
   _animFire: {fileID: 0}
   _soundFire: 
   _soundReload: 
+  fxImpact: {fileID: 0}
+  fxProjectileTrail: {fileID: 0}
+  fxMuzzle: {fileID: 0}

@@ -55,7 +55,9 @@ public class Team : MonoBehaviour, ITeam
     public virtual void StartTurn()
     {
         GridManager.ResetCasesPreview(_selectedGrid);
-        UIManager.CreateSubtitle($"Equipe {Data.name} it's your turn !", 2);
+        //UIManager.CreateSubtitle($"Equipe {Data.name} it's your turn !", 2);
+        UIManager.CreateYourTurnMessage(Data.name, Data.Color);
+
         foreach (Character _actor in Squad)
         {
             // Si le personnage est en overwatch, on lui remet alive lorsque son tour a repris
@@ -70,7 +72,8 @@ public class Team : MonoBehaviour, ITeam
 
     public virtual void EndTurn()
     {
-        AudioManager.PlaySoundAtPosition("turn_end", Vector3.zero);
+        if(LevelManager.CurrentTurn > 0)
+            AudioManager.PlaySoundAtPosition("turn_end", Vector3.zero);
         foreach (Character _actor in Squad)
         {
             if (_actor.State != ActorState.Dead)

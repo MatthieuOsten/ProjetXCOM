@@ -15,5 +15,6 @@ MonoBehaviour:
   name: Reload
   description: Permet de recharger
   type: 
-  tags: []
-  icon: {fileID: 21300000, guid: 380a24cb7426df2488b581cba5fe7a41, type: 3}
+  tags:
+  - action_reload
+  icon: {fileID: 21300000, guid: 2dd099484880988439e11fc98ef9e42a, type: 3}

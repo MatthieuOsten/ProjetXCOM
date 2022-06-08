@@ -25,6 +25,10 @@ public class UIManager : MonoBehaviour
 
     // [SerializeField] TMP_Text commandText;
 
+    [Header("Widget")]
+    [SerializeField] UIPopupYourTurn YourTurnPopup;
+
+
     [Header("SUBTITLE")]
     [SerializeField] TMP_Text subtitleComponent;
     static float _durationSubtitle;
@@ -177,6 +181,33 @@ public class UIManager : MonoBehaviour
 
         // return component;
     }
+
+    /*
+        This function will create a subtitle on the screen
+    */
+    public static void CreateYourTurnMessage(string message, Color teamColor) 
+    {
+        UIManager.Util.YourTurnPopup.SetWidget(message,teamColor);
+        // if(aGameObject == null)
+        // {
+        //     Debug.Log("Attempt to create a hintstring on a non existant object (message : "+message);
+        //     return null;
+        // }
+        // GameObject hintString = Instantiate(MessageBox, aGameObject.transform.position, Quaternion.identity, HintstringList.transform);
+        // HintstringProperty component = hintString.GetComponent<HintstringProperty>();
+        // component.relatedObject = aGameObject;
+        // component.MinDistance = minDistance;
+        // component.setting = SettingHintstring.AlwaysShow;
+        // component.textComponent.text = message;
+        // if(icon == null)
+        // {
+        //     component.icon.color = new Color(0,0,0,0);
+        // }
+        // else
+        //     component.icon.sprite = icon;
+
+        // return component;
+    }
     
 
 
@@ -247,7 +278,7 @@ public class UIManager : MonoBehaviour
         return component;
     }
 
-    /// <summary> Crée des boites d'information dans l'univers 3D pour afficher la vie et d'autres info du personnages </summary>
+    /// <summary> Crï¿½e des boites d'information dans l'univers 3D pour afficher la vie et d'autres info du personnages </summary>
     public static HintstringProperty CreateBoxActorInfo(GameObject aGameObject, string message = "Actor Name", float minDistance = 50f , Sprite icon = null)    
     {
         if(aGameObject == null)
