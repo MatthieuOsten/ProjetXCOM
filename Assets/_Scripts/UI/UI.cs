@@ -27,6 +27,7 @@ public class UI : MonoBehaviour
     [SerializeField] private List<GameObject> _actionPoint;
     [SerializeField] private List<GameObject> _ammo;
     [SerializeField] private List<GameObject> _teamImage;
+    GameObject iconeTeam;
 
     [SerializeField] private int _myAmmoMax;
     [SerializeField] private int _actionPointMax;
@@ -49,7 +50,7 @@ public class UI : MonoBehaviour
     [SerializeField] private Button _vigilance;
     [SerializeField] private Button _competence1;
     [SerializeField] private Button _competence2;
-    [SerializeField] private Button _reload;
+    //[SerializeField] private Button _reload;
 
     [Header("ACTION BAR")]
     [SerializeField] private List<GameObject> _actionButton;
@@ -91,8 +92,8 @@ public class UI : MonoBehaviour
         ActualActionPoint();
         MaximumAmmo();
         ShadeBar();
-        ListTeam();
         UpdateButtonInformation();
+        ListTeam(iconeTeam);        
     }
 
     private void FixedUpdate()
@@ -108,9 +109,21 @@ public class UI : MonoBehaviour
     //recupere les scripts du character selectionner
     private void GetActualScripts()
     {
+        if(_pC != LevelManager.GetCurrentController())
+        {
+            if(_teamImage.Count > 0)
+            {
+                foreach(GameObject image in _teamImage)
+                {
+                    Destroy(image);
+                }
+
+                _teamImage = new List<GameObject>();
+            }
+        }
+
         _pC = (PlayerController)LevelManager.GetCurrentController();
         _cH = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>();
-
     }
 
     //recupere les mun max de munition dans l'arme
@@ -122,7 +135,9 @@ public class UI : MonoBehaviour
     //gere si la barre doit etre invisible ou non
     private void ShadeBar()
     {
-        
+        DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
+        _icone.sprite = data.icon;
+
         if (_layoutGroup != null)
         {
             Image _barreAction = _layoutGroup.GetComponent<Image>();
@@ -183,36 +198,72 @@ public class UI : MonoBehaviour
     //            _competence2.gameObject.SetActive(false);
 
     //}
-
-    void WatchReloadButton()
+    void WatchReloadButton(GameObject _reload)
     {
-            if (_cH.GetWeaponCapacityAmmo() > 0)
-                {
+            //if (_cH.GetWeaponCapacityAmmo() > 0)
+           //     {
                     Color colorReload = _reload.GetComponent<Image>().color;
-                    _reload.gameObject.SetActive(true);
 
                     if (_cH.GetWeaponCurrentAmmo() < _myAmmoMax)
                     {
                         colorReload.a = 1f;
                         _reload.GetComponent<Image>().color = colorReload;
-                        _reload.interactable = true;
+                        _reload.GetComponent<Button>().interactable = true;
+                       // Debug.Log("marche");
                     }
 
-                    else
-                    {
-                        colorReload.a = 0.3f;
-                        _reload.GetComponent<Image>().color = colorReload;
-                        _reload.interactable = false;
-                    }
+                    
 
                      //_actionCapacity[4].SetName("null");
-                }
+           // }
+            else
+            {
+               colorReload.a = 0.3f;
+               _reload.GetComponent<Image>().color = colorReload;
+               _reload.GetComponent<Button>().interactable = false;
+            } 
 
-                else
-                {
-                
-                    _reload.gameObject.SetActive(false);
-                }
+    }
+
+    private void AdaptIcone1(GameObject _competence1)
+    {
+        Color colorCompetence1 = _competence1.GetComponent<Image>().color;
+
+        if (_cH.GetCurrentAbilityCooldown == 0)
+        {          
+            //_competence1.gameObject.SetActive(true);
+            colorCompetence1.a = 1f;
+            _competence1.GetComponent<Button>().interactable = true;
+            _competence1.GetComponent<Image>().color = colorCompetence1;
+        }
+
+        else
+        {
+            //_competence1.gameObject.SetActive(false);
+            colorCompetence1.a = 0.3f;
+            _competence1.GetComponent<Image>().color = colorCompetence1;
+            _competence1.GetComponent<Button>().interactable = false;           
+        }
+    }
+
+    private void AdaptIcone2(GameObject _competence2)
+    {
+        Color colorCompetence2 = _competence2.GetComponent<Image>().color;
+
+        if (_cH.GetCurrentAbilityAltCooldown == 0)
+        {
+            colorCompetence2.a = 1f;
+            _competence2.GetComponent<Button>().interactable = true;
+            _competence2.GetComponent<Image>().color = colorCompetence2;
+        }
+
+        else
+        {
+            colorCompetence2.a = 0.3f;
+            _competence2.GetComponent<Image>().color = colorCompetence2;
+            _competence2.GetComponent<Button>().interactable = false;           
+        }
+        
     }
 
     private void ActualActionPoint()
@@ -278,43 +329,63 @@ public class UI : MonoBehaviour
         }
     }
 
-    private void ListTeam()
+    private void ListTeam(GameObject addIconeTeam)
     {
+        iconeTeam = addIconeTeam;
         _glowTeam.color = _pC.Data.Color;
+     
         foreach (Character character in _pC.Squad)
         {
+
             if (_teamImage.Count < _pC.Squad.Length)
             {
-                GameObject addIconeTeam = Instantiate(imageIconeTeam, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
+                addIconeTeam = Instantiate(imageIconeTeam, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
                 addIconeTeam.transform.SetParent(parentIconeTeam.transform, false);
                 _teamImage.Add(addIconeTeam);
+                addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
 
-
-                if (character == null)
-                {
+               if (character == null)
+               {
                     Color colorIcone = addIconeTeam.GetComponent<Image>().color;
-                    colorIcone.r = 0.5f;
+                    colorIcone.r = 0.8f;
                     colorIcone.g = 0f;
                     colorIcone.b = 0f;
-                    colorIcone.a = 0.3f;
+                    colorIcone.a = 0.6f;
                     addIconeTeam.GetComponent<Image>().color = colorIcone;
-                }
+               }
+            }
 
-                if (character == _pC.GetCurrentCharactedSelected)
-                {
-                    addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
-                    Color colorIcone = addIconeTeam.GetComponent<Image>().color;
-                    colorIcone.a = 1f;
-                    addIconeTeam.GetComponent<Image>().color = colorIcone;
-                }
+           /* if (character == _pC.GetCurrentCharactedSelected)
+            {
+                //addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
+                Color colorIcone = addIconeTeam.GetComponent<Image>().color;
+                colorIcone.a = 1f;
+                addIconeTeam.GetComponent<Image>().color = colorIcone;
+            }
 
-                else
-                {
-                    addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
-                    Color colorIcone = addIconeTeam.GetComponent<Image>().color;
-                    colorIcone.a = 0.5f;
-                    addIconeTeam.GetComponent<Image>().color = colorIcone;
-                }
+            if(character != _pC.GetCurrentCharactedSelected)
+            {
+               // addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
+                Color colorIcone = addIconeTeam.GetComponent<Image>().color;
+                colorIcone.a = 0.5f;
+                addIconeTeam.GetComponent<Image>().color = colorIcone;
+            }*/
+        }
+
+        for (int i = 0; i < _teamImage.Count; i++)
+        {
+            if(i == _pC.CharacterIndex)
+            {
+                Color colorIcone = _teamImage[i].GetComponent<Image>().color;
+                colorIcone.a = 1f;
+                _teamImage[i].GetComponent<Image>().color = colorIcone;
+            }
+
+            else
+            {
+                Color colorIcone = _teamImage[i].GetComponent<Image>().color;
+                colorIcone.a = 0.5f;
+                _teamImage[i].GetComponent<Image>().color = colorIcone;
             }
         }
     }
@@ -373,8 +444,6 @@ public class UI : MonoBehaviour
         {
             ResetSelection();
         }
-
-
     }
 
     void ResetSelection()
@@ -454,9 +523,27 @@ public class UI : MonoBehaviour
             int index = i;
             _actionButton[i].GetComponent<Button>().onClick.AddListener(() => SetActionMode(_actionCapacity[index].typeA, _actionCapacity[index].sound));
 
+
             // Verifie que l'objet a une icone et l'affiche
             if (_actionCapacity[i].icon != null)
+            {
                 _actionButton[i].GetComponent<Image>().sprite = _actionCapacity[i].icon;
+            }
+
+            if (_actionCapacity[index].typeA == ActionTypeMode.Reload)
+            {
+                WatchReloadButton(_actionButton[i]);
+            }
+
+            if (_actionCapacity[index].typeA == ActionTypeMode.Competence1)
+            {
+                AdaptIcone1(_actionButton[i]);
+            }
+
+            if (_actionCapacity[index].typeA == ActionTypeMode.Competence2)
+            {
+                AdaptIcone2(_actionButton[i]);
+            }
 
             // Verifie que l'objet a un nom et l'ecrit
             if (_actionCapacity[i].name != null)

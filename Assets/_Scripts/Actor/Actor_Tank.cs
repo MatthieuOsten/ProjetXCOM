@@ -87,7 +87,11 @@ public class Actor_Tank : Character
 
         }
 
-        cooldownAbility--;
+        if(cooldownAbility > 0)
+        {
+            cooldownAbility--;
+        }
+
         base.EndTurnActor();
     }
 
