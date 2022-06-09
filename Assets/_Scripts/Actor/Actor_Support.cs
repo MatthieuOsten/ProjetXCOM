@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class Actor_Support : Character 
 {
-    bool AbilityEnabled;
-
-
     Character AllieBuffed;
-
 
     /*
         Ici un belle exemple de l'interet de l'héritage
@@ -18,17 +14,16 @@ public class Actor_Support : Character
     */
     public override void DoDamage(int amount)
     {
-        if(AbilityEnabled)
-        {
-            amount = amount/2;
-        }
         base.DoDamage(amount);
     }
 
     public override void Attack(Actor target, Actor[] detectedTargets)
     {
+        target.DoDamage(Data.Weapon.Damage);
         foreach( Actor _target in detectedTargets)
         {
+            if(_target == target) continue;
+
             _target.DoDamage(Data.Weapon.Damage);
         }
         base.Attack(target,detectedTargets);

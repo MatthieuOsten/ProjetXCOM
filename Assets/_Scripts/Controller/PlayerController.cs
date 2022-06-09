@@ -84,10 +84,28 @@ public class PlayerController : Team
             _onVigilence = value;
         }
     }
+
     public bool CanPassTurn
     {
         get { return _cooldownBeforeStartTurnTimer >= _cooldownBeforeStartTurn; }
     }
+
+    
+    /// <summary> Indique si l'un des personnages de la squad est en train de bouger </summary> <value> bite </value>
+    public bool CharacterIsMoving
+    {
+        get{ 
+            bool cond = false;
+            foreach(Actor _char in Squad)   
+            {
+                Character _charr = (Character)_char;
+                if(_charr.IsMoving)
+                    cond = true;
+            } 
+            return  cond;
+        }
+    }
+
     public bool OnEnemy
     {
         get { return _onEnemy; }
@@ -316,6 +334,7 @@ public class PlayerController : Team
                             ExecAttack(); // Execute l'action sur la case selected
                             break;
                         case ActionTypeMode.Overwatch:
+                           
                             break;
                         case ActionTypeMode.Competence1:
                             ExecAbility(); // Execute la premiere compétence
@@ -445,11 +464,11 @@ public class PlayerController : Team
         if (SelectedCaseB.HaveActor )
         {
             //// On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
-            //if (EnemyDetected.Contains(SelectedCaseB._actor.gameObject))
-            //{
+            if (EnemyDetected.Contains(SelectedCaseB.Actor.gameObject))
+            {
                 Debug.Log("Exec EnableAbility");
                 _selectedActor.EnableAbility(SelectedCaseB.Actor);
-            //}
+            }
 
             SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
         }
@@ -493,11 +512,11 @@ public class PlayerController : Team
         if (SelectedCaseB.HaveActor)
         {
             //// On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
-            //if (EnemyDetected.Contains(SelectedCaseB._actor.gameObject))
-            //{
-            Debug.Log("Exec EnableAbilityAlt");
-            _selectedActor.EnableAbilityAlt(SelectedCaseB.Actor);
-            //}
+            if (EnemyDetected.Contains(SelectedCaseB.Actor.gameObject))
+            {
+                Debug.Log("Exec EnableAbilityAlt");
+                _selectedActor.EnableAbilityAlt(SelectedCaseB.Actor);
+            }
 
             SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
         }
@@ -509,6 +528,24 @@ public class PlayerController : Team
 
     void ExecOverWatch()
     {
+        
+            foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetMainWeaponInfo()))
+            {
+                if (aCase.HaveActor && aCase.Character.Owner != this)
+                {
+                    UIManager.CreateSubtitle("Mode Vigilance impossible car un ennemi est dans la porté du personnage", 2);
+                    ExitActionMode();
+                    return;
+                }
+                if(GetCurrentCharactedSelected.haveAttacked)
+                {
+                    UIManager.CreateSubtitle("Mode Vigilance impossible car le personnage a attaqué durant son tour", 2);
+                    ExitActionMode();
+                    return;
+                }
+
+
+            }
         _selectedActor.State = ActorState.Overwatch;
     }
 
@@ -569,10 +606,16 @@ public class PlayerController : Team
         else
             AimCase.ChangeMaterial(caseSelected);
 
-        // Si la case est valide on l'a met en surbrillance
+        
+        if(CharacterIsMoving)
+        {
+            UIManager.CreateSubtitle("Action impossible, un personnage est en mouvement" , 2);
+            return;
+        }
+
 
         // On vérifie si le joueur clique sur le clique de la souris
-        if (_inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
+        if ( _inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {
 
             // Si un chemin est suggéré, qu'un personnage est sélectionner, et que celui ne bouge pas, on lui implante une nouvelle destination 

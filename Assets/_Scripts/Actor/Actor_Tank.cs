@@ -58,7 +58,6 @@ public class Actor_Tank : Character
                 }
 
                 _victim = _char;
-                Debug.Log("Bite");
                 cooldownAbility = GetAbilityCooldown;
                  base.EnableAbility(target);
             }

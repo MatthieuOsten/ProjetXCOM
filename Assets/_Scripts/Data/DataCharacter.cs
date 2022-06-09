@@ -50,6 +50,7 @@ public class DataCharacter : Data
     [SerializeField] private List<DataCosmetic> _tabCosmetic;
     [SerializeField] private List<DataAccessory> _tabAccessory;
     [SerializeField] Color _color;
+    public Material MaterialCaseOverwatch;
 
     [Header("STATS")]
     [SerializeField] private int _health = 1; // Vie quand le personnage spawn
@@ -65,6 +66,8 @@ public class DataCharacter : Data
     [Range(1, 10)]
     [SerializeField] private int _actionPoints = 2;
     [SerializeField] private int _movementCasesAction = 4;
+
+
 
 
    [Header("MAIN ABILITY")]

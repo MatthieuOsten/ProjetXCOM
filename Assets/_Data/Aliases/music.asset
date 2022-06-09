@@ -109,16 +109,17 @@ MonoBehaviour:
     customDuration: 0
     isInit: 1
     isPlaholder: 1
-  - name: newAliase
+  - name: game_ambient
     description: 
     MixerGroup: {fileID: 0}
-    audio: []
+    audio:
+    - {fileID: 8300000, guid: 586fdb9bc784f234789db4b908cc6d82, type: 3}
     bypassEffects: 0
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.8
-    isLooping: 0
+    volume: 0.26
+    isLooping: 1
     minPitch: 1
     maxPitch: 1.01
     stereoPan: 0

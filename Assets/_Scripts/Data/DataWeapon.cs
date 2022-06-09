@@ -18,6 +18,7 @@ public class DataWeapon : Data
     [SerializeField] private GameObject _prefabWeapon;
     [SerializeField] private List<DataCosmetic> _tabCosmetic;
     [SerializeField] private List<DataAccessory> _tabAccessory;
+    
 
     [Header("STATISTIQUE")]
     [SerializeField] private typeWeapon _typeW;

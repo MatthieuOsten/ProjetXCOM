@@ -87,6 +87,7 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         AudioManager.PlaySoundAtPosition("game_start", Vector3.zero);
+        AudioManager.PlaySoundAtPosition("game_ambient", Vector3.zero);
         SpawnTeam();
     }
     /// <summary> Cette fonction spawn les teams en tant que Joueur ou Bot </summary>

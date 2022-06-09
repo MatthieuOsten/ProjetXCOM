@@ -33,5 +33,5 @@ public interface IActor
     /// <summary> Cette fonction active la seconde comp�tence de l'actor </summary>
     void EnableAbilityAlt(Actor target);
     /// <summary> Cette fonction donne la zone d'attack de l'actor </summary>
-    Case[] AttackRange(DataWeapon weapon);
+    Case[] AttackRange(DataWeapon weapon , Material specificMaterial = null);
 }

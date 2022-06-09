@@ -49,6 +49,8 @@ public class Character : Actor
 
     public int _rangeDebuffValue = 0;
 
+    public bool haveAttacked = false;
+
     // Getteur utile a prendre pour les autre script
 
     public int GetRightRange(int indexWeapon)
@@ -129,7 +131,7 @@ public class Character : Actor
     /// <summary>Indique si le personnage peut effectuer une action  </summary>
     public bool CanAction
     {
-        get { return _currentActionPoint > 0; }
+        get { return _currentActionPoint > 0 && !IsOverwatching; }
     }
     /// <summary> Retourne les informations de l'arme principal  </summary>
     public DataWeapon GetMainWeaponInfo()
@@ -249,6 +251,7 @@ public class Character : Actor
 
         LimitCaseMovement = Data.MovementCasesAction;
         _rangeDebuffValue = 0;
+        haveAttacked = false;
     }
    
    
@@ -274,13 +277,47 @@ public class Character : Actor
         {
             //_indexPath = 0;
         }
+        WatchOverwatch();    
+       
+        base.Update();
+    }
 
-        // Si en overwatch on dessine les cases ou il regarde
+    void WatchOverwatch()
+    {
+         // Si en overwatch on dessine les cases ou il regarde
         if (State == ActorState.Overwatch)
         {
-            AttackRange(Weapons[0]);
+            if(Owner is PlayerController pC)
+            {
+                if(pC.GetCurrentCharactedSelected != null) return;
+                
+            }
+            Case[] cases = AttackRange(Weapons[0] , Data.MaterialCaseOverwatch);
+
+
+            for(int i = 0 ; i < cases.Length; i++)
+            {
+                if(cases[i].HaveActor)
+                {
+                    Character _char = (Character)cases[i].Actor;
+                    if ( _char.Owner != Owner)
+                    {
+                        Debug.Log("ATTACK MODE VIGILANCE");
+                        State = ActorState.Alive;
+                        // On vérifie si l'arme a des munitions de base
+                        if(GetWeaponCapacityAmmo() > 0)
+                            Ammo[0]--;
+
+                        ActionAnimation(GetMainWeaponInfo(), _char);
+                        _char.DoDamage(GetMainWeaponInfo().Damage);
+
+                        break;
+                    }
+                    
+                }
+            }  
+
         }
-        base.Update();
     }
 
     void SetMaterialViewModel()
@@ -304,6 +341,7 @@ public class Character : Actor
 
         ActionAnimation(GetMainWeaponInfo(), target);
         CurrentActionPoint--;
+        haveAttacked = true;
         base.Attack(target, detectedTargets);
     }
     void OnMove()
@@ -362,7 +400,7 @@ public class Character : Actor
     /// </summary>
     /// <param name="weapon"></param>
     /// <returns></returns>
-    public override Case[] AttackRange(DataWeapon weapon)
+    public override Case[] AttackRange(DataWeapon weapon, Material caseMaterial = null)
     {
         // On récupère la portée d'attaque de l'arme donnée en parametre
         Range range = weapon._range;
@@ -467,8 +505,12 @@ public class Character : Actor
                 _range = GridManager.GetRadiusCases(CurrentCase, range.RightRange);
                 break;
         }
-        GridManager.SetCaseAttackPreview(_range, false , range.caseRange );
 
+        if(caseMaterial == null)
+            GridManager.SetCaseAttackPreview(_range, false , range.caseRange );
+        else
+            GridManager.SetCaseAttackPreview(_range, false , caseMaterial );
+            
         List<Case> _cases = new List<Case>();
         // Permet de verifier que l'on donne pas des cases inutiles
         foreach (Case _case in _range)

@@ -74,7 +74,7 @@ public abstract class Actor : MonoBehaviour, IActor
 
 
 
-    public virtual Case[] AttackRange(DataWeapon weapon)
+    public virtual Case[] AttackRange(DataWeapon weapon , Material specificMaterial = null)
     {
         return null;
     }

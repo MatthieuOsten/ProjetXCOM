@@ -12,6 +12,8 @@ public class WidgetActorInfo : HintstringProperty
     [Header("WIDGETS")]
     [SerializeField] Image _iconActor;
     [SerializeField] Image _background;
+    [SerializeField] Image _iconOverwatch;
+    [SerializeField] Image _arrowSelected;
     float _lowOpacity = 0.1f;
 
     protected override void Start() {
@@ -46,13 +48,15 @@ public class WidgetActorInfo : HintstringProperty
         }
         Image[] images = gameObject.GetComponentsInChildren<Image>();
 
-        
+        _iconOverwatch.gameObject.SetActive(_actor.IsOverwatching);
+       
         // Si le personnage du widget correspond � la team qui joue
         if (_selectedActor != null && _actor.Owner == currentTeam)
         {
             // Si le personnage s�lectionner n'est pas celui du widget, on diminue l'opacit�
             if (_selectedActor != _actor)
             {
+                _arrowSelected.gameObject.SetActive(false);
                 _background.gameObject.SetActive(false);
                 for (int i = 0; i < images.Length; i++)
                 {
@@ -65,6 +69,7 @@ public class WidgetActorInfo : HintstringProperty
             }
             else // Si on est la, c'est qu'on est sur le personnage s�lectionner par le widget
             {
+                _arrowSelected.gameObject.SetActive(true);
                 _background.gameObject.SetActive(true);
                 for (int i = 0; i < textComponent.Length; i++)
                 {
@@ -82,6 +87,7 @@ public class WidgetActorInfo : HintstringProperty
         }
         else
         {
+            _arrowSelected.gameObject.SetActive(false);
             _background.gameObject.SetActive(false);
             for (int i = 0; i < textComponent.Length; i++)
             {
