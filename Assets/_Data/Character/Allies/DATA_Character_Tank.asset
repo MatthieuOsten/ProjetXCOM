@@ -24,6 +24,8 @@ MonoBehaviour:
   _tabCosmetic: []
   _tabAccessory: []
   _color: {r: 0.7075472, g: 0.5726963, b: 0, a: 0}
+  MaterialCaseOverwatch: {fileID: 2100000, guid: 1a71e19f92ef06b498e0d9506dd46ca3,
+    type: 2}
   _health: 10
   _shield: 0
   _moveSpeed: 10
