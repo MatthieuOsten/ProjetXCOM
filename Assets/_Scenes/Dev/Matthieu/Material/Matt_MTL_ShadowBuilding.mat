@@ -23,7 +23,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MTL_ShadowBuilding
+  m_Name: Matt_MTL_ShadowBuilding
   m_Shader: {fileID: -6465566751694194690, guid: 6f6218312aac78f41ba9078429231b4e,
     type: 3}
   m_ValidKeywords:

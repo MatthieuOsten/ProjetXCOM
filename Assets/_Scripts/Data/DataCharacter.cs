@@ -113,6 +113,9 @@ public class DataCharacter : Data
     public float MoveSpeed { get { return _moveSpeed; } }
     public int MovementCasesAction { get { return _movementCasesAction; } }
 
+    /// <summary>
+    /// Regroupe chaque capaciter dans une List pour afficher la barre d'action, puis retourne cette derniere
+    /// </summary>
     public List<Capacity> ListCapacity { 
                 get {
             List<Capacity> listCapacity = new List<Capacity>();

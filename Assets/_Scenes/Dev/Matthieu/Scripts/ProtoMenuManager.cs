@@ -21,6 +21,11 @@ public class ProtoMenuManager : MonoBehaviour
         }
     }
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
     void EnableInputManager()
     {
 

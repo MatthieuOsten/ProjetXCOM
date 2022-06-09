@@ -87,6 +87,9 @@ public class HUD_Manager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Met a jour les informations des bouttons, image, texte, click event et Pointer trigger event
+    /// </summary>
     private void UpdateButtonInformation()
     {
         // ---- Initialise chaque bouttons en rapport avec les capacités actuel ---- //
@@ -151,7 +154,7 @@ public class HUD_Manager : MonoBehaviour
     }
 
     /// <summary>
-    /// Met a jour la barre d'action, ses boutton par rapport a l'actuel "Actor" selectionner
+    /// Met a jour la barre d'action, met a jour le nombre de boutton par rapport aux nombre de capaciter de l'actor atuelment selectionner
     /// </summary>
     private void UpdateActionBar()
     {
@@ -267,6 +270,9 @@ public class HUD_Manager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Si l'objet PopUp est assigné, le desactive si il est actif
+    /// </summary>
     private void HidePopUp()
     {
         // Si le popUp est initialiser, le cache

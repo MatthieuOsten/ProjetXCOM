@@ -609,9 +609,9 @@ public class UI : MonoBehaviour
             // Deplace le popUp a l'endroit indiquer
             _objectPopUp.transform.position = position;
             // Change le titre du PopUp
-            ModifyTextBox("Title", title);
+            ModifyTextBox(_objectPopUp, "Title", title);
             // Change la description du PopUp
-            ModifyTextBox("Description", description);
+            ModifyTextBox(_objectPopUp, "Description", description);
 
             if (_objectPopUp.activeSelf == false) { _objectPopUp.SetActive(true); }
         }
@@ -632,14 +632,14 @@ public class UI : MonoBehaviour
     /// </summary>
     /// <param name="nameChild">Enfant a chercher du GameObject</param>
     /// <param name="valueString">Chaine de charactere a inserer</param>
-    private void ModifyTextBox(string nameChild, string valueString)
+    private void ModifyTextBox(GameObject parent, string nameChild, string valueString)
     {
         TextMeshProUGUI textMesh;
         Text text;
         Transform textBox;
 
         // -- Initialise le texte de la boite de texte de "Description" -- //
-        textBox = _objectPopUp.transform.Find(nameChild);
+        textBox = parent.transform.Find(nameChild);
         // Si le composant text est present alors change le texte
         if (textBox.TryGetComponent<TextMeshProUGUI>(out textMesh))
         {
