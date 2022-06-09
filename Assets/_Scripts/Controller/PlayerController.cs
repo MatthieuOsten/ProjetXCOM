@@ -546,7 +546,7 @@ public class PlayerController : Team
 
 
             }
-        _selectedActor.State = ActorState.Overwatch;
+            GetCurrentCharactedSelected.EnableOverwatch();
     }
 
 

@@ -264,6 +264,17 @@ public class GridManager : MonoBehaviour
             SetCasePreview(cases[i]);
         }
     }
+    public static void SetCasePreview(Case[] cases, bool Reset = false)
+    {
+        if(cases == null || cases.Length == 0) return;
+        if(Reset)
+            ResetCasesPreview(cases[0].GridParent); 
+            
+        for(int i = 0 ; i < cases.Length ; i++)
+        {
+            SetCasePreview(cases[i]);
+        }
+    }
     /// <summary> Met une case en mode prévisualisation </summary>
     public static void SetCaseAttackPreview(Case aCase, bool Reset = false , Material specificMaterial = null)
     {
@@ -286,6 +297,18 @@ public class GridManager : MonoBehaviour
             ResetCasesPreview(cases[0].GridParent);
 
         for (int i = 0; i < cases.Count; i++)
+        {
+            SetCaseAttackPreview(cases[i] ,Reset, specificMaterial );
+        }
+    }
+     /// <summary> Met une list de case en mode prévisualisation </summary>
+    public static void SetCaseAttackPreview(Case[] cases, bool Reset = false, Material specificMaterial = null)
+    {
+        if (cases == null || cases.Length == 0) return;
+        if (Reset)
+            ResetCasesPreview(cases[0].GridParent);
+
+        for (int i = 0; i < cases.Length; i++)
         {
             SetCaseAttackPreview(cases[i] ,Reset, specificMaterial );
         }

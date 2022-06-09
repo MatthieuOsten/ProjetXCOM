@@ -50,6 +50,7 @@ public class Character : Actor
     public int _rangeDebuffValue = 0;
 
     public bool haveAttacked = false;
+    Case[] caseOverwatched;
 
     // Getteur utile a prendre pour les autre script
 
@@ -277,10 +278,12 @@ public class Character : Actor
         {
             //_indexPath = 0;
         }
-        WatchOverwatch();    
+      
+            WatchOverwatch();    
        
         base.Update();
     }
+    
 
     void WatchOverwatch()
     {
@@ -292,14 +295,19 @@ public class Character : Actor
                 if(pC.GetCurrentCharactedSelected != null) return;
                 
             }
-            Case[] cases = AttackRange(Weapons[0] , Data.MaterialCaseOverwatch);
-
-
-            for(int i = 0 ; i < cases.Length; i++)
+            if(Owner.ItsYourTurn)
+                caseOverwatched = AttackRange(Weapons[0] , Data.MaterialCaseOverwatch);
+            else
             {
-                if(cases[i].HaveActor)
+                GridManager.SetCaseAttackPreview(caseOverwatched, false, Data.MaterialCaseOverwatch );
+
+            }
+
+            for(int i = 0 ; i < caseOverwatched.Length; i++)
+            {
+                if(caseOverwatched[i].HaveActor)
                 {
-                    Character _char = (Character)cases[i].Actor;
+                    Character _char = (Character)caseOverwatched[i].Actor;
                     if ( _char.Owner != Owner)
                     {
                         Debug.Log("ATTACK MODE VIGILANCE");
@@ -545,6 +553,12 @@ public class Character : Actor
         ActionAnimation(GetWeaponAbilityAltInfo(), target);
          //on lui retire les pa indiqué par l'arme de la compétence utilisé  
         CurrentActionPoint -= GetWeaponAbilityAltInfo().CostPoint;
+    }
+
+    public void EnableOverwatch()
+    {
+        State = ActorState.Overwatch;
+        caseOverwatched = AttackRange(Weapons[0] , Data.MaterialCaseOverwatch);
     }
     void ActionAnimation(DataWeapon weapon, Actor target)
     {
