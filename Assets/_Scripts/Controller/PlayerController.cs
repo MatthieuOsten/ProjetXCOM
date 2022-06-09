@@ -528,6 +528,12 @@ public class PlayerController : Team
 
         Case[] pathSuggested = null;
         Character _char = GetCurrentCharactedSelected;
+          
+        if(MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>()))
+        {
+            //GridManager.ResetCasesPreview(GetCurrentCharactedSelected.CurrentCase.GridParent);
+            return;
+        }
         // On vérfie qu'un personnage est sélectionner et que la case visé n'est pas deja celle qu'on vise
         if (_selectedActor != null && AimCase != SelectedCaseA)
         {
@@ -554,6 +560,7 @@ public class PlayerController : Team
 
             }
         }
+      
         if (pathSuggested != null && pathSuggested.Length > 0 &&  pathSuggested[pathSuggested.Length-1] != AimCase)
         {
            
@@ -888,6 +895,22 @@ public class PlayerController : Team
             Debug.Log("PlayerController n'a pas d'éléments dans enemyDetected");
         }
         
+    }
+
+    public DataWeapon GetWeaponFromActionMode(ActionTypeMode actionTypeMode )
+    {
+        switch (actionTypeMode)
+        {
+            case ActionTypeMode.Attack:
+                return GetCurrentCharactedSelected.GetMainWeaponInfo();
+            case ActionTypeMode.Overwatch:
+                return GetCurrentCharactedSelected.GetMainWeaponInfo();
+            case ActionTypeMode.Competence1:
+                return GetCurrentCharactedSelected.GetWeaponAbilityInfo();
+            case ActionTypeMode.Competence2:
+                return GetCurrentCharactedSelected.GetWeaponAbilityAltInfo();
+        }
+        return GetCurrentCharactedSelected.GetMainWeaponInfo();
     }
 
 }

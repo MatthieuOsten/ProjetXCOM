@@ -441,9 +441,13 @@ public class UI : MonoBehaviour
                     onSelected.eventID = EventTriggerType.PointerEnter;
                     // Insert dans sa liste de reaction, l'affichage de la pop-up de description
                     int indexTrigger = i;
-                    onSelected.callback.AddListener((eventData) => { DisplayPopUp(_actionButton[indexTrigger].transform.position, _actionCapacity[indexTrigger].description, _actionCapacity[indexTrigger].name); });
+                    onSelected.callback.AddListener((eventData) => { DisplayPopUp(_actionCapacity[indexTrigger] , _actionButton[indexTrigger].transform.position, _actionCapacity[indexTrigger].description, _actionCapacity[indexTrigger].name); });
+                    
+                    
                     // Ajoute le composant et ces parametres dans le boutton
                     eventTrigger.triggers.Add(onSelected);
+
+                    
 
                     // Initialise un event "EventTrigger"
                     EventTrigger.Entry onDeselected = new EventTrigger.Entry();
@@ -547,9 +551,11 @@ public class UI : MonoBehaviour
     /// <summary>
     /// Affiche une pop-up sur la souris avec les information entrer
     /// </summary>
-    private void DisplayPopUp(Vector3 position, string description = " ", string title = "Information")
+    private void DisplayPopUp( DataCharacter.Capacity data  , Vector3 position, string description = " ", string title = "Information" )
     {
+        GridManager.ResetCasesPreview(_pC.GetCurrentCharactedSelected.CurrentCase.GridParent);
 
+        _pC.GetCurrentCharactedSelected.AttackRange(_pC.GetWeaponFromActionMode(data.typeA));
         if (_objectPopUp == null)
         {
             if (_prefabPopUp != null)
