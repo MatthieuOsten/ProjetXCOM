@@ -591,6 +591,9 @@ public class UI : MonoBehaviour
         if (_objectPopUp != null)
         {
             if (_objectPopUp.activeSelf == true) { _objectPopUp.SetActive(false); }
+                   
+            GridManager.ResetCasesPreview(_pC.GetCurrentCharactedSelected.CurrentCase.GridParent);
+
         }
     }
 
