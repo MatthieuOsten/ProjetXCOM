@@ -171,6 +171,7 @@ public class UI : MonoBehaviour
             //Si pas en mode action quasi invisible
             if (_cH == null)
             {
+                _icone.color = Color.clear;
                 _icone.sprite = null;
                 _layoutGroup.gameObject.SetActive(false); // desactive la barre d'action
                 _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0.1f);
@@ -184,6 +185,7 @@ public class UI : MonoBehaviour
             else
             {
                 _icone.sprite = _cH.GetCharacterIcon();
+                _icone.color = Color.white;
 
                 _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 1f);
                 foreach (Image image in children)
