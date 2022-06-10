@@ -126,7 +126,11 @@ public class UI : MonoBehaviour
         
         if(_pC != null)
         {
+             if(_cH != _pC.GetCurrentCharactedSelected)
+                HidePopUp();
+
             _cH = _pC.GetCurrentCharactedSelected;
+            
         }
         else
         {
@@ -138,14 +142,19 @@ public class UI : MonoBehaviour
     //recupere les mun max de munition dans l'arme
     private void MaximumAmmo()
     {
+        if(_cH == null)
+        {
+            _myAmmoMax = 0;
+            return;
+        }
          _myAmmoMax = _cH.GetWeaponCapacityAmmo(0);
     }
 
     //gere si la barre doit etre invisible ou non
     private void ShadeBar()
     {
-        DataCharacter data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
-        _icone.sprite = data.icon;
+       // DataCharacter data = _pC.GetCurrentCharactedSelected.Data;
+        
 
         if (_layoutGroup != null)
         {
@@ -157,21 +166,25 @@ public class UI : MonoBehaviour
             {
                 children.Add(button.GetComponent<Image>());
             }
+           
 
             //Si pas en mode action quasi invisible
-            if (_pC.GetCurrentActorSelected == null)
+            if (_cH == null)
             {
-
+                _icone.sprite = null;
                 _layoutGroup.gameObject.SetActive(false); // desactive la barre d'action
                 _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0.1f);
                 foreach (Image image in children)
                 {
                     image.color = new Color(image.color.r, image.color.g, image.color.b, 0.3f);
                 }
+                HidePopUp();
             }
             //si en mode action apparente
             else
             {
+                _icone.sprite = _cH.GetCharacterIcon();
+
                 _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 1f);
                 foreach (Image image in children)
                 {
@@ -277,6 +290,16 @@ public class UI : MonoBehaviour
 
     private void ActualActionPoint()
     {
+        // Si le personnage selectionner est null, on hide les actions bar
+        if(_cH == null)
+        {
+            for (int i = 0; i < _actionPoint.Count; i++)
+            {
+                Color _color = _actionPoint[i].GetComponent<Image>().color;
+                _actionPoint[i].GetComponent<Image>().color = new Color(_color.r, _color.g, _color.b, 0f);
+            }
+            return;
+        }
         _actionPointMax = _cH.MaxActionPoint;
         if (_actionPointMax < _cH.CurrentActionPoint)
         {
@@ -295,14 +318,15 @@ public class UI : MonoBehaviour
 
         for (int i = 0; i < _actionPoint.Count; i++)
         {
+            Color _color = _actionPoint[i].GetComponent<Image>().color;
             if (i >= _cH.CurrentActionPoint)
             {
-                _actionPoint[i].GetComponent<Image>().color = new Color(_actionPoint[i].GetComponent<Image>().color.r, _actionPoint[i].GetComponent<Image>().color.g, _actionPoint[i].GetComponent<Image>().color.b, 0f);
+                _actionPoint[i].GetComponent<Image>().color = new Color(_color.r, _color.g, _color.b, 0f);
             }
 
             else
             {
-                _actionPoint[i].GetComponent<Image>().color = new Color(_actionPoint[i].GetComponent<Image>().color.r, _actionPoint[i].GetComponent<Image>().color.g, _actionPoint[i].GetComponent<Image>().color.b, 1f);
+                _actionPoint[i].GetComponent<Image>().color = new Color(_color.r, _color.g, _color.b, 1f);
             }
         }
 
@@ -325,15 +349,24 @@ public class UI : MonoBehaviour
 
             for (int i = 0; i < _ammo.Count; i++)
             {
+                Color _color = _ammo[i].GetComponent<Image>().color;
                 if (i >= _cH.GetWeaponCurrentAmmo())
                 {
-                    _ammo[i].GetComponent<Image>().color = new Color(_ammo[i].GetComponent<Image>().color.r, _ammo[i].GetComponent<Image>().color.g, _ammo[i].GetComponent<Image>().color.b, 0f);
+                    _ammo[i].GetComponent<Image>().color = new Color(_color.r, _color.g, _color.b, 0f);
                 }
 
                 else
                 {
-                    _ammo[i].GetComponent<Image>().color = new Color(_ammo[i].GetComponent<Image>().color.r, _ammo[i].GetComponent<Image>().color.g, _ammo[i].GetComponent<Image>().color.b, 1f);
+                    _ammo[i].GetComponent<Image>().color = new Color(_color.r, _color.g, _color.b, 1f);
                 }
+            }
+        }
+        else
+        {   
+            for (int i = 0; i < _ammo.Count; i++)
+            {
+                Color _color = _ammo[i].GetComponent<Image>().color;
+                _ammo[i].GetComponent<Image>().color = new Color(_color.r, _color.g, _color.b, 0f);
             }
         }
     }
@@ -383,19 +416,30 @@ public class UI : MonoBehaviour
 
         for (int i = 0; i < _teamImage.Count; i++)
         {
-            if(i == _pC.CharacterIndex)
+            // Si un personnage est selectionner, on le met en surbrillance
+            if(_pC.GetCurrentCharactedSelected != null)
+            {
+                 if(i == _pC.CharacterIndex)
+                {
+                    Color colorIcone = _teamImage[i].GetComponent<Image>().color;
+                    colorIcone.a = 1f;
+                    _teamImage[i].GetComponent<Image>().color = colorIcone;
+                }
+
+                else
+                {
+                    Color colorIcone = _teamImage[i].GetComponent<Image>().color;
+                    colorIcone.a = 0.5f;
+                    _teamImage[i].GetComponent<Image>().color = colorIcone;
+                }
+            }
+            else // Aucun perso selectionner, on les met tous de la meme opacity
             {
                 Color colorIcone = _teamImage[i].GetComponent<Image>().color;
                 colorIcone.a = 1f;
                 _teamImage[i].GetComponent<Image>().color = colorIcone;
             }
-
-            else
-            {
-                Color colorIcone = _teamImage[i].GetComponent<Image>().color;
-                colorIcone.a = 0.5f;
-                _teamImage[i].GetComponent<Image>().color = colorIcone;
-            }
+           
         }
     }
 
@@ -465,8 +509,14 @@ public class UI : MonoBehaviour
         // ---- Initialise chaque bouttons en rapport avec les capacités actuel ---- //
         for (int i = 0; i < _actionButton.Count; i++)
         {
-            if (_actionCapacity.Count < i) { break; }
+          
+            // else
+            // {
+            //     _actionButton[i].SetActive(true);
+            // }
 
+            if (_actionCapacity.Count < i) { break; }
+            
             // Nettoie la liste d'action du boutton
             _actionButton[i].GetComponent<Button>().onClick.RemoveAllListeners();
 
@@ -586,13 +636,15 @@ public class UI : MonoBehaviour
             // Verifie si il contient assez de bouton comparer au nombre de capacité du personnage
             if (_actionButton.Count != _actionCapacity.Count)
             {
-
+                
                 //Debug.Log("Nombre de boutton : " + _actionButton.Count);
                 //Debug.Log("Nombre de capacités : " + _actionCapacity.Count);
 
                 // Si il y a moins de boutons que de capacités alors rajoute des boutons
                 if (_actionButton.Count < _actionCapacity.Count)
                 {
+                    Debug.Log("on rajoute Start "+_actionButton.Count+" End "+_actionCapacity.Count );
+
                     InstantiateButton(_actionButton.Count, _actionCapacity.Count, _prefabButton, _layoutGroup);
                 }
                 // Supprime les bouttons en trop
@@ -607,7 +659,7 @@ public class UI : MonoBehaviour
 
                     }
                     _actionButton.Clear();
-
+                    Debug.Log("upprime les bouttons en trop  Start "+_actionButton.Count+" End "+_actionCapacity.Count );
                     InstantiateButton(_actionButton.Count, _actionCapacity.Count, _prefabButton, _layoutGroup);
 
                 }
@@ -687,8 +739,9 @@ public class UI : MonoBehaviour
         if (_objectPopUp != null)
         {
             if (_objectPopUp.activeSelf == true) { _objectPopUp.SetActive(false); }
-                   
-            GridManager.ResetCasesPreview(_pC.GetCurrentCharactedSelected.CurrentCase.GridParent);
+            
+            if(_pC.GetCurrentCharactedSelected != null)
+                GridManager.ResetCasesPreview(_pC.GetCurrentCharactedSelected.CurrentCase.GridParent);
 
         }
     }
