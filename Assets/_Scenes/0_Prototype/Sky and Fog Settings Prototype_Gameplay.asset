@@ -61,7 +61,7 @@ MonoBehaviour:
   active: 1
   quality:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 2
   enabled:
     m_OverrideState: 1
     m_Value: 1
@@ -73,7 +73,7 @@ MonoBehaviour:
     m_Value: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   tint:
     m_OverrideState: 1
-    m_Value: {r: 0.15917587, g: 0.46226418, b: 0.45143956, a: 1}
+    m_Value: {r: 0.12210752, g: 0.44682515, b: 0.5283019, a: 1}
   maxFogDistance:
     m_OverrideState: 1
     m_Value: 317.6
@@ -94,7 +94,7 @@ MonoBehaviour:
     m_Value: 2364.3
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 126
+    m_Value: 82.8
   enableVolumetricFog:
     m_OverrideState: 1
     m_Value: 1
@@ -105,8 +105,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 1
   depthExtent:
-    m_OverrideState: 0
-    m_Value: 64
+    m_OverrideState: 1
+    m_Value: 73.6
   denoisingMode:
     m_OverrideState: 1
     m_Value: 2
@@ -127,7 +127,7 @@ MonoBehaviour:
     m_Value: 64
   m_VolumetricFogBudget:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 0.75
   m_ResolutionDepthRatio:
     m_OverrideState: 1
     m_Value: 0.5
@@ -231,6 +231,7 @@ MonoBehaviour:
   - {fileID: 1826372986311388284}
   - {fileID: 4881704280313863531}
   - {fileID: -2964695983231010703}
+  - {fileID: 8969950925778174532}
 --- !u!114 &601859318978453247
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -274,7 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d08ce26990eb1a4a9177b860541e702, type: 3}
   m_Name: Exposure
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   mode:
     m_OverrideState: 1
     m_Value: 1
@@ -295,7 +296,7 @@ MonoBehaviour:
     m_Value: -5
   limitMax:
     m_OverrideState: 1
-    m_Value: 12.54673
+    m_Value: 9.56065
   curveMap:
     m_OverrideState: 0
     m_Value:
@@ -471,3 +472,25 @@ MonoBehaviour:
   m_PhysicallyBased:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &8969950925778174532
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0775cbb206825d541bf6c0297ee524ca, type: 3}
+  m_Name: SplitToning
+  m_EditorClassIdentifier: 
+  active: 1
+  shadows:
+    m_OverrideState: 1
+    m_Value: {r: 0.53395337, g: 0.6070187, b: 0.6698113, a: 1}
+  highlights:
+    m_OverrideState: 1
+    m_Value: {r: 0.18648209, g: 0.23584908, b: 0.15686189, a: 1}
+  balance:
+    m_OverrideState: 1
+    m_Value: 10
