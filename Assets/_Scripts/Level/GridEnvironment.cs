@@ -4,16 +4,21 @@ using UnityEngine;
 
 public class GridEnvironment : MonoBehaviour
 {
-    List<GameObject> prefabEnvironment = new List<GameObject>();
+    [SerializeField] List<GameObject> prefabEnvironment = new List<GameObject>();
 
-    GameObject firstObject;
-    GameObject middleObject;
-    GameObject endObject;
+    [SerializeField] GameObject Template;
 
-    Transform camTarget;
-    Camera cam;
+    [SerializeField] GameObject firstObject;
+    [SerializeField] GameObject middleObject;
+    [SerializeField] GameObject endObject;
 
-    float speedMove;
+    [SerializeField] Transform camTarget;
+    [SerializeField] Camera cam;
+
+    [SerializeField] public Vector3 SizeOfObject;
+    [SerializeField] private float oofa;
+
+    [SerializeField] float speedMove;
 
     // Start is called before the first frame update
     void Start()
@@ -27,21 +32,16 @@ public class GridEnvironment : MonoBehaviour
 
             if (prefabEnvironment != null)
             {
+                Vector3 startPos = Vector3.zero;
+                float xPos = -Template.GetComponent<Terrain>().terrainData.size.x / 2;
+                Vector3 oof = new Vector3(xPos, (int)transform.position.y, (int)transform.position.z);
+                startPos = oof;
+                oofa = -Template.GetComponent<Terrain>().terrainData.size.z * 2;
 
-                if (prefabEnvironment.Count <= 3)
-                {
-                    int index = 0;
-
-                    middleObject = Instantiate(prefabEnvironment[index],camTarget.position,Quaternion.identity,transform);
-
-                    if (index < prefabEnvironment.Count) { index++; }
-
-                    firstObject = Instantiate(prefabEnvironment[index], camTarget.position * middleObject.transform.lossyScale.magnitude, Quaternion.identity, transform);
-
-                    if (index < prefabEnvironment.Count) { index++; }
-
-                    endObject  = Instantiate(prefabEnvironment[index], camTarget.position, Quaternion.identity, transform);
-                }
+                    firstObject = Instantiate(Template, new Vector3(xPos, camTarget.position.y, -Template.GetComponent<Terrain>().terrainData.size.z * -1), Quaternion.identity, transform);
+                    middleObject = Instantiate(Template, new Vector3(xPos, camTarget.position.y, 0), Quaternion.identity, transform);
+                    endObject = Instantiate(Template, new Vector3(xPos, camTarget.position.y, -Template.GetComponent<Terrain>().terrainData.size.z), Quaternion.identity, transform);
+                
 
             }
 
@@ -53,6 +53,21 @@ public class GridEnvironment : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ScrollUpdate();
+    }
 
+    private void ScrollUpdate()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            int count = transform.childCount;
+
+            if (transform.GetChild(i).transform.localPosition.z <= oofa)
+            {
+                transform.GetChild(i).position = new Vector3(camTarget.position.x, camTarget.position.y, oofa + (Template.GetComponent<Terrain>().terrainData.size.z * count));
+            }
+
+            transform.GetChild(i).Translate(Vector3.back * speedMove * Time.deltaTime, Space.Self);
+        }
     }
 }
