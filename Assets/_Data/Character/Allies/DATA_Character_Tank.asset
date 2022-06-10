@@ -30,10 +30,10 @@ MonoBehaviour:
   _shield: 0
   _moveSpeed: 10
   _weapon: {fileID: 11400000, guid: 61d8fc8d029515b4eab4b8a47d10ce02, type: 2}
-  _dataOverwatch: {fileID: 0}
+  _dataOverwatch: {fileID: 11400000, guid: 9dfe7a8c1337a8e4ca197b0302c12f57, type: 2}
   _dataReload: {fileID: 0}
   _actionPoints: 2
-  _movementCasesAction: 6
+  _movementCasesAction: 4
   AbilityAvailable: 1
   WeaponAbility: {fileID: 11400000, guid: 9d827f7448998e448af6c6b460cceb38, type: 2}
   casePreviewAbility: {fileID: 0}

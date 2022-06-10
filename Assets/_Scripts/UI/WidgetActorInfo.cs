@@ -34,6 +34,7 @@ public class WidgetActorInfo : HintstringProperty
 
     protected override void Update()
     {
+        base.Update();
         // if (LevelManager.GetCurrentController() == _actor.Owner)
         //     JaugeProgression.GetComponent<Image>().color = Color.green;
         // else
@@ -119,7 +120,7 @@ public class WidgetActorInfo : HintstringProperty
         }
 
 
-        base.Update();
+     
     }
 
     Color SetOpacity(Color colorToChange, float value)

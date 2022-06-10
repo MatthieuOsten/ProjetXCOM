@@ -32,7 +32,11 @@ public class Team : MonoBehaviour, ITeam
     [SerializeField] protected GridManager _selectedGrid;
     public Case startSpawnCase; // On indique le point de spawn 
 
-
+    /// <summary>
+    /// Couleur de la team
+    /// </summary>
+    /// <value></value>
+    public Color Color{ get {return Data.Color;}}
 
     public List<MonoBehaviour> Scripts;
 

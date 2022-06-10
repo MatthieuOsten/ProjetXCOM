@@ -49,9 +49,10 @@ public class Character : Actor
 
     public int _rangeDebuffValue = 0;
 
+    // Overwatch
     public bool haveAttacked = false;
     Case[] caseOverwatched;
-
+    Material MaterialCaseOverwatch;
     // Getteur utile a prendre pour les autre script
 
     public int GetRightRange(int indexWeapon)
@@ -195,16 +196,24 @@ public class Character : Actor
     // Effectue une action a lorsque le personnage prend des degats //
     public override void DoDamage(int amount)
     { 
-        Health -= amount;
+       
         ParticleManager.PlayFXAtPosition(transform.position, Data.fxDamaged);
         _damageCooldown = 2;
         AudioManager.PlaySoundAtPosition("character_damaged", transform.position);
+
+        base.DoDamage(amount);
     }
     public override void Start()
     {
         lr = gameObject.AddComponent<LineRenderer>();
         LimitCaseMovement = Data.MovementCasesAction; 
         Health = Data.Health; // init la vie
+
+        // On met la case d'overwatch de la meme couleur que la team
+         MaterialCaseOverwatch = new Material(Data.MaterialCaseOverwatch);
+        MaterialCaseOverwatch.SetColor("_EmissiveColor", Owner.Color * 20);
+
+
         // Get og material
         //GetOgMaterials();
         InitAmmo();
@@ -296,10 +305,10 @@ public class Character : Actor
                 
             }
             if(Owner.ItsYourTurn)
-                caseOverwatched = AttackRange(Weapons[0] , Data.MaterialCaseOverwatch);
+                caseOverwatched = AttackRange(Weapons[0] , MaterialCaseOverwatch);
             else
             {
-                GridManager.SetCaseAttackPreview(caseOverwatched, false, Data.MaterialCaseOverwatch );
+                GridManager.SetCaseAttackPreview(caseOverwatched, false, MaterialCaseOverwatch );
 
             }
 
@@ -415,11 +424,20 @@ public class Character : Actor
         range.DiagonalRange -= _rangeDebuffValue;
         range.RightRange -= _rangeDebuffValue;
 
+        // Si on est en overwatch le personnage a moins 1 de portée
+        if(IsOverwatching)
+        {
+            range.DiagonalRange--;
+            range.RightRange--;
+        }
+
         if(range.DiagonalRange <= 0 && range.RightRange <= 0)
         {
             range.RightRange = 1;
             range.DiagonalRange = 1;
         }
+        
+
 
         List<Case> _range = new List<Case>((8 * range.RightRange) + (8 * range.DiagonalRange));
         int actorX = CurrentCase.x;
@@ -558,7 +576,7 @@ public class Character : Actor
     public void EnableOverwatch()
     {
         State = ActorState.Overwatch;
-        caseOverwatched = AttackRange(Weapons[0] , Data.MaterialCaseOverwatch);
+        caseOverwatched = AttackRange(Weapons[0] , MaterialCaseOverwatch);
     }
     void ActionAnimation(DataWeapon weapon, Actor target)
     {

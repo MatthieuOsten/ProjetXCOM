@@ -60,9 +60,9 @@ public abstract class Actor : MonoBehaviour, IActor
 
     public virtual void Update()
     {
-
         if (State == ActorState.Dead || Health <= 0)
             Death();
+    
     }
     public virtual void FixedUpdate() { }
     public virtual void Start()
@@ -86,6 +86,10 @@ public abstract class Actor : MonoBehaviour, IActor
 
     public virtual void DoDamage(int amount)
     {
+        // Si un perso en overwatch se fait attaquer, on l'enleve l'overwatch
+        if(State == ActorState.Overwatch )
+            State = ActorState.Alive;
+
         Health -= amount;
        
     }
