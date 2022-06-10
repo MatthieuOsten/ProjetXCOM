@@ -239,6 +239,7 @@ public class GridManager : MonoBehaviour
     {
         _case.Checked = false;
         _case.Highlighted = false;
+        _case.Selected = false;
         _case.hCost = 0;
         _case.gCost = 0;
     }
@@ -250,6 +251,7 @@ public class GridManager : MonoBehaviour
          if(Reset) ResetCasesPreview(aCase.GridParent);
 
         aCase.Highlighted = true;
+        aCase.Selected = true;
         aCase.ChangeMaterial(aCase.GridParent.Data.caseHighlight);
 
     }
@@ -282,11 +284,15 @@ public class GridManager : MonoBehaviour
 
         if (Reset) ResetCasesPreview(aCase.GridParent);
 
+
         aCase.Highlighted = true;
-        if(specificMaterial != null) 
-            aCase.ChangeMaterial(specificMaterial);
-        else
-            aCase.ChangeMaterial(aCase.GridParent.Data.caseOverwatch);
+        if(!aCase.Selected)
+        {
+            if(specificMaterial != null ) 
+                aCase.ChangeMaterial(specificMaterial);
+            else
+                aCase.ChangeMaterial(aCase.GridParent.Data.caseOverwatch);
+        }   
 
     }
     /// <summary> Met une list de case en mode prévisualisation </summary>

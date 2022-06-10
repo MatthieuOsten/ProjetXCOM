@@ -29,7 +29,8 @@ public class Case : MonoBehaviour
     [SerializeField] CaseInfo _it;
     public CaseInfo CaseStatut { get { return _it; } }
 
-    public bool Highlighted { private get; set;}
+    public bool Highlighted { get; set;}
+     public bool Selected { get; set;}
     public bool Checked;
 
     // PathFinding part

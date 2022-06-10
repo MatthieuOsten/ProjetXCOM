@@ -304,8 +304,10 @@ public class Character : Actor
                 if(pC.GetCurrentCharactedSelected != null) return;
                 
             }
+
+
             if(Owner.ItsYourTurn)
-                caseOverwatched = AttackRange(Weapons[0] , MaterialCaseOverwatch);
+                PreviewOverwatch();     
             else
             {
                 GridManager.SetCaseAttackPreview(caseOverwatched, false, MaterialCaseOverwatch );
@@ -421,15 +423,18 @@ public class Character : Actor
     {
         // On récupère la portée d'attaque de l'arme donnée en parametre
         Range range = weapon._range;
+
+        return AttackRange( range , caseMaterial);
+
+    }
+    
+    
+    public Case[] AttackRange( Range range , Material caseMaterial = null)
+    {
         range.DiagonalRange -= _rangeDebuffValue;
         range.RightRange -= _rangeDebuffValue;
 
-        // Si on est en overwatch le personnage a moins 1 de portée
-        if(IsOverwatching)
-        {
-            range.DiagonalRange--;
-            range.RightRange--;
-        }
+       
 
         if(range.DiagonalRange <= 0 && range.RightRange <= 0)
         {
@@ -547,8 +552,8 @@ public class Character : Actor
 
 
         return _cases.ToArray();
-
     }
+    
     void ResetDestination()
     {
 
@@ -576,7 +581,17 @@ public class Character : Actor
     public void EnableOverwatch()
     {
         State = ActorState.Overwatch;
-        caseOverwatched = AttackRange(Weapons[0] , MaterialCaseOverwatch);
+
+        PreviewOverwatch();
+    }
+
+    public void PreviewOverwatch()
+    {
+        Range range = Weapons[0].Range;
+         // Si on est en overwatch le personnage a moins 1 de portée
+        range.DiagonalRange--;
+        range.RightRange--;
+        caseOverwatched = AttackRange(range, MaterialCaseOverwatch);
     }
     void ActionAnimation(DataWeapon weapon, Actor target)
     {

@@ -707,8 +707,6 @@ public class PlayerController : Team
                 _cooldownBeforeStartTurnTimer += Time.deltaTime;
                 return;
             }
-        
-            
             // C'est notre tour du coup on active l'inputManager
             EnableInputManager();
             // On regarde dans quelle selected mode nous sommes
@@ -721,10 +719,8 @@ public class PlayerController : Team
                     SelectionAction();
                     break;
             }
-
             // On regarde les inputs lié à la caméra
             InputCameraIsometric();
-
             // Si un actor est selectionner on met en surbrillance sa case
             if (_selectedActor != null)
             {
@@ -915,6 +911,7 @@ public class PlayerController : Team
             CharacterChange();
             return;
         }
+        ResetSelection();
         _selectedActor = componentChar;
         SelectionMode = SelectionMode.Selection;
     }

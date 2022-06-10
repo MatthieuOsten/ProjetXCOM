@@ -69,20 +69,7 @@ public class UIManager : MonoBehaviour
     // Set image, text from LevelData property in the LevelManager
     void InitPauseMenu()
     {
-        // if(LevelManager.Util != null && LevelManager.Util.LevelData != null)
-        // {
-        //     MapName.text = LevelManager.Util.LevelData.Name;
-        //     MapDescription.text = LevelManager.Util.LevelData.Description;
-        //     MapPreview.sprite = LevelManager.Util.LevelData.PreviewImage;
-        //     commandText.text = LevelManager.Util.LevelData.CommandText;
-        // }
-        // else
-        // {
-        //     Debug.LogError("LevelData in levelManager is not set, InitPauseMenu function fail");
-        // }
-
-
-        
+   
     }
     // Update is called once per frame
     void Update()
@@ -90,11 +77,7 @@ public class UIManager : MonoBehaviour
         if(subtitleCompo == null) subtitleCompo = subtitleComponent;
         UpdateHintstring();
         UpdateSubtitle();
-        
-        // if(LevelManager.Util.IsPaused)
-        //     MenuPause.SetActive(true);
-        // else
-        //     MenuPause.SetActive(false);
+
     }
 
     void UpdateHintstring()
@@ -120,9 +103,6 @@ public class UIManager : MonoBehaviour
             {
                 hintstring.transform.position = new Vector3(-1000,0,-10);
             }
-          
-
-            //ebug.Log("Vector 3 position :" +hintstring.transform.position );
         }
 
     }
@@ -161,25 +141,7 @@ public class UIManager : MonoBehaviour
     {
         subtitleCompo.text = message;
         _durationSubtitle = duration + 2 ;
-        // if(aGameObject == null)
-        // {
-        //     Debug.Log("Attempt to create a hintstring on a non existant object (message : "+message);
-        //     return null;
-        // }
-        // GameObject hintString = Instantiate(MessageBox, aGameObject.transform.position, Quaternion.identity, HintstringList.transform);
-        // HintstringProperty component = hintString.GetComponent<HintstringProperty>();
-        // component.relatedObject = aGameObject;
-        // component.MinDistance = minDistance;
-        // component.setting = SettingHintstring.AlwaysShow;
-        // component.textComponent.text = message;
-        // if(icon == null)
-        // {
-        //     component.icon.color = new Color(0,0,0,0);
-        // }
-        // else
-        //     component.icon.sprite = icon;
 
-        // return component;
     }
 
     /*
@@ -188,25 +150,6 @@ public class UIManager : MonoBehaviour
     public static void CreateYourTurnMessage(string message, Color teamColor) 
     {
         UIManager.Util.YourTurnPopup.SetWidget(message,teamColor);
-        // if(aGameObject == null)
-        // {
-        //     Debug.Log("Attempt to create a hintstring on a non existant object (message : "+message);
-        //     return null;
-        // }
-        // GameObject hintString = Instantiate(MessageBox, aGameObject.transform.position, Quaternion.identity, HintstringList.transform);
-        // HintstringProperty component = hintString.GetComponent<HintstringProperty>();
-        // component.relatedObject = aGameObject;
-        // component.MinDistance = minDistance;
-        // component.setting = SettingHintstring.AlwaysShow;
-        // component.textComponent.text = message;
-        // if(icon == null)
-        // {
-        //     component.icon.color = new Color(0,0,0,0);
-        // }
-        // else
-        //     component.icon.sprite = icon;
-
-        // return component;
     }
     
 

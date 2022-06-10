@@ -646,8 +646,12 @@ public class UI : MonoBehaviour
     private void DisplayPopUp( DataCharacter.Capacity data  , Vector3 position, string description = " ", string title = "Information" )
     {
         GridManager.ResetCasesPreview(_pC.GetCurrentCharactedSelected.CurrentCase.GridParent);
+        
+        if(data.typeA == ActionTypeMode.Overwatch)
+            _pC.GetCurrentCharactedSelected.PreviewOverwatch();
+        else
+            _pC.GetCurrentCharactedSelected.AttackRange(_pC.GetWeaponFromActionMode(data.typeA));
 
-        _pC.GetCurrentCharactedSelected.AttackRange(_pC.GetWeaponFromActionMode(data.typeA));
         if (_objectPopUp == null)
         {
             if (_prefabPopUp != null)
