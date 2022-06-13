@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: DATA_wpn_tank_comp_restreintMouv
   m_EditorClassIdentifier: 
   name: Debuff
-  description: "[ 1 PA ] [Cooldown 4 tours] Grande port\xE9e d\u2019action sur un
-    seul ennemi \xE0 la fois utiliser gr\xE2ce \xE0 son Pistolame r\xE9duisant sa
-    port\xE9 de d\xE9placement et de tir pendant 2 tours le Tank a ensuite un CD
-    de 4 tours."
+  description: "[ 1 PA ] [Cooldown 4 tours] Diminue la port\xE9e de d\xE9placement
+    et de tir \xE0 une cible pendant 2 tours"
   type: 
   tags:
   - action_competence1
@@ -24,7 +22,7 @@ MonoBehaviour:
   _prefabWeapon: {fileID: 0}
   _tabCosmetic: []
   _tabAccessory: []
-  _typeW: 0
+  _typeW: 1
   _damage: 0
   _costPoint: 1
   _range:
@@ -32,6 +30,7 @@ MonoBehaviour:
     diagonal: 0
     type: 0
     caseRange: {fileID: 2100000, guid: fdf463b8ae6ce5045acba0537e3dbfd8, type: 2}
+    casePreviewRange: {fileID: 0}
   _maxAmmo: 0
   Cooldown: 4
   _animIdle: {fileID: 0}

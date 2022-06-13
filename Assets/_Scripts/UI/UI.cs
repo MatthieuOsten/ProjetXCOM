@@ -706,7 +706,6 @@ public class UI : MonoBehaviour
         else
         {
             DataWeapon weapon = _pC.GetWeaponFromActionMode(data.typeA);
-            
             _pC.GetCurrentCharactedSelected.AttackRange(weapon, weapon.Range.casePreviewRange);
         }
 

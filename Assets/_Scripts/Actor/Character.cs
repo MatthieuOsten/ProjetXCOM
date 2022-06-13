@@ -29,7 +29,7 @@ public class Character : Actor
     }
 
     Case[] pathToFollow;
-    LineRenderer lr;
+    public LineRenderer lr;
     int _indexPath = 0;
 
     int _limitCaseMovement;
@@ -53,6 +53,7 @@ public class Character : Actor
     public bool haveAttacked = false;
     Case[] caseOverwatched;
     Material MaterialCaseOverwatch;
+    Material MaterialCasePreviewOverwatch;
 
     private Material CaseCharacterMaterial; 
     private Material CaseCharacterSelectedMaterial; 
@@ -214,8 +215,10 @@ public class Character : Actor
         Health = Data.Health; // init la vie
 
         // On met la case d'overwatch de la meme couleur que la team
-         MaterialCaseOverwatch = new Material(Data.MaterialCaseOverwatch);
+        MaterialCaseOverwatch = new Material(Data.MaterialCaseOverwatch);
         MaterialCaseOverwatch.SetColor("_EmissiveColor", Owner.Color * 20);
+        MaterialCasePreviewOverwatch = new Material(MaterialCaseOverwatch);
+        MaterialCasePreviewOverwatch.SetColor("_EmissiveColor", (Owner.Color * 20) * 0.25f);
 
         // On met les cases character avec la couleur de la team
         CaseCharacterMaterial = new Material(CurrentCase.GridParent.Data.caseCharacter);
@@ -280,14 +283,14 @@ public class Character : Actor
     {
         if(Owner is PlayerController pC)
         {
-            if(!CurrentCase.Highlighted && !CurrentCase.Checked && !CurrentCase.Selected)
+
+            
+            if(pC.GetCurrentCharactedSelected == this)
+                CurrentCase.ChangeMaterial(CaseCharacterSelectedMaterial);
+            else if(!CurrentCase.Highlighted && !CurrentCase.Checked && !CurrentCase.Selected)
             {
-                if(pC.GetCurrentCharactedSelected == this)
-                    CurrentCase.ChangeMaterial(CaseCharacterSelectedMaterial);
-                else
-                    CurrentCase.ChangeMaterial(CaseCharacterMaterial);
+                CurrentCase.ChangeMaterial(CaseCharacterMaterial);
             }
-          
 
         }
         // if(_damageCooldown > 0)
@@ -420,10 +423,10 @@ public class Character : Actor
             int newIndex = pathToFollow.Length - _indexPath;
             if (newIndex > 1) lr.positionCount = newIndex;
 
-            for (int i = 0; i < lr.positionCount; i++)
-            {
-                //lr.SetPosition(i, GridManager.GetCaseWorldPosition(pathToFollow[_indexPath+i]));
-            }
+            // for (int i = 0; i < lr.positionCount; i++)
+            // {
+            //     lr.SetPosition(i, GridManager.GetCaseWorldPosition(pathToFollow[_indexPath+i]));
+            // }
 
             if (CurrentCase == LastCase)
             {
@@ -613,7 +616,10 @@ public class Character : Actor
          // Si on est en overwatch le personnage a moins 1 de portée
         range.DiagonalRange--;
         range.RightRange--;
-        caseOverwatched = AttackRange(range, MaterialCaseOverwatch);
+        if(IsOverwatching)
+            caseOverwatched = AttackRange(range, MaterialCaseOverwatch);
+        else
+            caseOverwatched = AttackRange(range, MaterialCasePreviewOverwatch);
     }
     void ActionAnimation(DataWeapon weapon, Actor target)
     {

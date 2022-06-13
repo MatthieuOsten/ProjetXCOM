@@ -90,7 +90,7 @@ public class DataWeapon : Data
             {
                 _range.casePreviewRange = new Material(Range.caseRange);
                 Color _color = _range.caseRange.GetColor("_EmissiveColor");
-                _range.casePreviewRange.SetColor("_EmissiveColor", _color * 0.50f); 
+                _range.casePreviewRange.SetColor("_EmissiveColor", _color * 0.25f); 
             }
             
         // }

@@ -46,7 +46,7 @@ public class RaycastCamera : MonoBehaviour
 
         List<GameObject> enemyTarget = RaycastDetect(ListEnemi);
         if (enemyTarget.Count > 0)
-            gameObject.GetComponent<PlayerController>().EnemyDetected = enemyTarget;
+            gameObject.GetComponent<PlayerController>().TargetDetected = enemyTarget;
     }
 
     public List<GameObject> RaycastDetect(List<Character> enemy)

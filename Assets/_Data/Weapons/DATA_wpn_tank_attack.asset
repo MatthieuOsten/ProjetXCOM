@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: DATA_wpn_tank_attack
   m_EditorClassIdentifier: 
   name: Bouclier
-  description: "[1 PA]  Inflige 2 Points de d\xE9gats et retire 1 PA \xE0 la cible.
-    \\n Le \u201CBouclier\u201D tape au CaC d\u2019une case de distance autour de
-    lui."
+  description: "[1 PA] Inflige 2 Points de d\xE9gats et retire 1 PA \xE0 la cible. "
   type: 
   tags:
   - action_attack
@@ -31,6 +29,7 @@ MonoBehaviour:
     diagonal: 1
     type: 0
     caseRange: {fileID: 2100000, guid: fdf463b8ae6ce5045acba0537e3dbfd8, type: 2}
+    casePreviewRange: {fileID: 0}
   _maxAmmo: 0
   Cooldown: 0
   _animIdle: {fileID: 0}

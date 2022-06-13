@@ -110,7 +110,7 @@ public class PlayerController : Team
     {
         get { return _onEnemy; }
     }
-    public List<GameObject> EnemyDetected
+    public List<GameObject> TargetDetected
     {
         get
         {
@@ -126,7 +126,7 @@ public class PlayerController : Team
     {
         get{ 
             List<Actor> oof = new List<Actor>();
-            foreach(GameObject go in EnemyDetected)
+            foreach(GameObject go in TargetDetected)
             {
                 oof.Add(go.GetComponent<Actor>());
             }
@@ -167,14 +167,14 @@ public class PlayerController : Team
     public int EnemyDetectedIndex
     {
         get {
-            if (_enemyDetectedIndex >= EnemyDetected.Count)
+            if (_enemyDetectedIndex >= TargetDetected.Count)
             {
                 _enemyDetectedIndex = 0;
             }
             return _enemyDetectedIndex; }
         set
         {
-            if (value >= EnemyDetected.Count)
+            if (value >= TargetDetected.Count)
             {
                 _enemyDetectedIndex = 0;
             }
@@ -234,7 +234,7 @@ public class PlayerController : Team
         base.Start();
         // On récupère la caméra dans la scène, si elle n'existe pas, on cherche l'object
         if (cameraIsometric == null) cameraIsometric = GameObject.FindObjectsOfType<CameraIsometric>()[0];
-        EnemyDetected = new List<GameObject>(); // On initialise la list d'ennemy detected, c'est peut etre inutile
+        TargetDetected = new List<GameObject>(); // On initialise la list d'ennemy detected, c'est peut etre inutile
         caseSelected = new Material(_selectedGrid.Data.caseSelected);
     }
 
@@ -358,7 +358,7 @@ public class PlayerController : Team
                 else
                     ActionTypeMode = ActionTypeMode.None;
             }
-            EnemyDetected = new List<GameObject>();
+            TargetDetected = new List<GameObject>();
             foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetMainWeaponInfo()))
             {
                 if (aCase.HaveActor)
@@ -367,7 +367,7 @@ public class PlayerController : Team
                     if (aCase.HaveActor && actorToCheck.Owner != this)
                     {
                         // TODO : ajouter un raycast pour checker si il ya pas un model devant
-                        EnemyDetected.Add(actorToCheck.gameObject);
+                        TargetDetected.Add(actorToCheck.gameObject);
                     }
                 }
 
@@ -382,7 +382,7 @@ public class PlayerController : Team
         if(SelectedCaseB.HaveActor && SelectedCaseB.Actor.Owner != this) 
         {
             // On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
-            if(EnemyDetected.Contains(SelectedCaseB.Actor.gameObject))
+            if(TargetDetected.Contains(SelectedCaseB.Actor.gameObject))
             {   
                 _selectedActor.Attack(SelectedCaseB.Actor, ActorDetected.ToArray());   
                 AudioManager.PlaySoundAtPosition("ExecAttack", Vector3.zero);
@@ -394,48 +394,41 @@ public class PlayerController : Team
             SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
         }
     }
-    // TODO : Hum le nom de EnemyDetected est à renommer en ActorDetected ou CharacterDetected
+    // TODO : Hum le nom de TargetDetected est à renommer en ActorDetected ou CharacterDetected
     /// <summary> Ici on check les personnage présent dans la porté du personnage selectionner </summary>
     void WatchAbility()
     {
         // Il faudra surement crée des overrides par les actors
         if (_selectedActor != null)
         {
-            EnemyDetected = new List<GameObject>();
+            TargetDetected = new List<GameObject>();
             foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetWeaponAbilityInfo()))
             {
                 if (aCase.HaveActor)
                 {
                     Actor actorToCheck = aCase.Actor;
-                    if (actorToCheck.Owner == this)
-                    {
-                        // TODO : ajouter un raycast pour checker si il ya pas un model devant
-                        EnemyDetected.Add(actorToCheck.gameObject);
-                    }
+                    // TODO : ajouter un raycast pour checker si il ya pas un model devant
+                    TargetDetected.Add(actorToCheck.gameObject);
                 }
 
             }
         }
     }
 
-    // TODO : Hum le nom de EnemyDetected est à renommer en ActorDetected ou CharacterDetected
     /// <summary> Ici on check les personnage présent dans la porté du personnage selectionner </summary>
     void WatchAbilityAlt()
     {
         // Il faudra surement crée des overrides par les actors
         if (_selectedActor != null)
         {
-            EnemyDetected = new List<GameObject>();
+            TargetDetected = new List<GameObject>();
             foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetWeaponAbilityAltInfo()))
             {
                 if (aCase.HaveActor)
                 {
                     Actor actorToCheck = aCase.Actor;
-                    if ( actorToCheck.Owner == this)
-                    {
-                        // TODO : ajouter un raycast pour checker si il ya pas un model devant
-                        EnemyDetected.Add(actorToCheck.gameObject);
-                    }
+                    // TODO : ajouter un raycast pour checker si il ya pas un model devant
+                    TargetDetected.Add(actorToCheck.gameObject);
                 }
 
             }
@@ -448,7 +441,7 @@ public class PlayerController : Team
         if (SelectedCaseB.HaveActor )
         {
             //// On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
-            if (EnemyDetected.Contains(SelectedCaseB.Actor.gameObject))
+            if (TargetDetected.Contains(SelectedCaseB.Actor.gameObject))
             {
                 Debug.Log("Exec EnableAbility");
                 _selectedActor.EnableAbility(SelectedCaseB.Actor);
@@ -492,7 +485,7 @@ public class PlayerController : Team
         if (SelectedCaseB.HaveActor)
         {
             //// On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
-            if (EnemyDetected.Contains(SelectedCaseB.Actor.gameObject))
+            if (TargetDetected.Contains(SelectedCaseB.Actor.gameObject))
             {
                 Debug.Log("Exec EnableAbilityAlt");
                 _selectedActor.EnableAbilityAlt(SelectedCaseB.Actor);
@@ -559,6 +552,12 @@ public class PlayerController : Team
                 {
                     UIManager.CreateSubtitle("", 1);
                     pathSuggested = PathFinding.FindPath(_selectedActor.CurrentCase, AimCase, _char.LimitCaseMovement);
+                    // _char.lr.positionCount = pathSuggested.Length;
+                    // for (int i = pathSuggested.Length; i > 0; i--)
+                    // {
+                    //     //if(i < _char.lr.positionCount-1 ) 
+                    //     _char.lr.SetPosition(i, GridManager.GetCaseWorldPosition(pathSuggested[i-1]));
+                    // }
                     _char.transform.LookAt(AimCase.transform);
                 }
                 else
@@ -759,7 +758,7 @@ public class PlayerController : Team
             _inputManager.ControlCamera.RigthHandShoulder.performed += context => SwitchShoulderCam();
             _inputManager.ControlCamera.LeaveShoulder.performed += context => LeaveShoulderCam();
 
-            if (!_leftHand && SelectionMode == SelectionMode.Action && _actionTypeMode == ActionTypeMode.Attack && EnemyDetected.Count > 0 )
+            if (!_leftHand && SelectionMode == SelectionMode.Action && _actionTypeMode == ActionTypeMode.Attack && TargetDetected.Count > 0 )
             {
                 _inputManager.ControlCamera.SelectedEnemy.performed += context => SelectedEnemy();
             }
@@ -873,10 +872,10 @@ public class PlayerController : Team
     {
         EnemyDetectedIndex++;
         
-        if(EnemyDetected.Count > 0)
+        if(TargetDetected.Count > 0)
         {
-            if(EnemyDetected[EnemyDetectedIndex] != null)
-            SelectedCaseB = EnemyDetected[EnemyDetectedIndex].GetComponent<Character>().CurrentCase;
+            if(TargetDetected[EnemyDetectedIndex] != null)
+            SelectedCaseB = TargetDetected[EnemyDetectedIndex].GetComponent<Character>().CurrentCase;
             else
             {
                 Debug.Log("SelectedEnemy dans PlayerController a voulu attribuer un enemi mort");
@@ -884,7 +883,7 @@ public class PlayerController : Team
         }
         else
         {
-            Debug.Log("PlayerController n'a pas d'éléments dans enemyDetected");
+            Debug.Log("PlayerController n'a pas d'éléments dans TargetDetected");
         }
         
     }

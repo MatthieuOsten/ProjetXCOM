@@ -28,15 +28,15 @@ public class UIPopupYourTurn : MonoBehaviour
     {
         if(_yourTurnText == null || _glowBackground == null || _teamName == null) Debug.Log("UIPopupYourTurn mal setup");
         
-        _yourTurnTextPosition = _yourTurnText.transform.position;
-        _teamNamePosition = _teamName.transform.position;
+        // _yourTurnTextPosition = _yourTurnText.transform.position;
+        // _teamNamePosition = _teamName.transform.position;
 
         SetWidget("test", Color.blue);
 
        
-        _teamName.color = Color.white;
-        _glowBackground.color = Color.white;
-        _yourTurnText.color = Color.white;
+        // _teamName.color = Color.white;
+        // _glowBackground.color = Color.white;
+        // _yourTurnText.color = Color.white;
      
     }
     public void SetWidget(string teamName, Color teamColor)
@@ -44,23 +44,26 @@ public class UIPopupYourTurn : MonoBehaviour
         _currentDuration = _duration;
         _currentDurationFadeout = _durationFadeout;
 
-           _teamName.color = Color.white;
-        _glowBackground.color = Color.white;
-        _yourTurnText.color = Color.white;
+        //    _teamName.color = Color.white;
+        // _glowBackground.color = Color.white;
+        // _yourTurnText.color = Color.white;
 
-          _yourTurnText.transform.position = _yourTurnTextPosition ;
-         _teamName.transform.position = _teamNamePosition ;
+        //   _yourTurnText.transform.position = _yourTurnTextPosition ;
+        //  _teamName.transform.position = _teamNamePosition ;
 
 
-         _teamName.transform.localScale = new Vector3(1,1,1);
-        _glowBackground.transform.localScale = new Vector3(1,1,1);
-        _yourTurnText.transform.localScale = new Vector3(1,1,1);
+        //  _teamName.transform.localScale = new Vector3(1,1,1);
+        // _glowBackground.transform.localScale = new Vector3(1,1,1);
+        // _yourTurnText.transform.localScale = new Vector3(1,1,1);
 
         _teamName.text = teamName;
+        
+        
+        // _yourTurnText.transform.position += Vector3.up * 50;
+        // _teamName.transform.position += Vector3.up * 50 ;
+        gameObject.GetComponent<Animator>().Play("WidgetYourTurn_Grow");
         _glowBackground.color = teamColor;
         
-        _yourTurnText.transform.position += Vector3.up * 50;
-        _teamName.transform.position += Vector3.up * 50 ;
 
     }
   
@@ -68,29 +71,31 @@ public class UIPopupYourTurn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_currentDuration > 0)
-        {
-            _yourTurnText.transform.position = Vector3.MoveTowards(_yourTurnText.transform.position, _yourTurnTextPosition, _moveSpeed*3*Time.deltaTime);
-            _teamName.transform.position = Vector3.MoveTowards(_teamName.transform.position, _teamNamePosition,   _moveSpeed *Time.deltaTime);
-            _currentDuration -= Time.deltaTime;
-        }
-        else
-        {
-            if(_currentDurationFadeout > 0)
-            {
-                ScalatorText(_teamName);
-                ScalatorText(_yourTurnText);
+
+
+        // if(_currentDuration > 0)
+        // {
+        //     // _yourTurnText.transform.position = Vector3.MoveTowards(_yourTurnText.transform.position, _yourTurnTextPosition, _moveSpeed*3*Time.deltaTime);
+        //     // _teamName.transform.position = Vector3.MoveTowards(_teamName.transform.position, _teamNamePosition,   _moveSpeed *Time.deltaTime);
+        //     // _currentDuration -= Time.deltaTime;
+        // }
+        // else
+        // {
+        //     if(_currentDurationFadeout > 0)
+        //     {
+        //         // ScalatorText(_teamName);
+        //         // ScalatorText(_yourTurnText);
                 
-                Color color = _glowBackground.color;
-                color.a -= Time.deltaTime;
-                _glowBackground.color = color;
+        //         // Color color = _glowBackground.color;
+        //         // color.a -= Time.deltaTime;
+        //         // _glowBackground.color = color;
 
 
-                _currentDurationFadeout -= Time.deltaTime;
+        //         _currentDurationFadeout -= Time.deltaTime;
 
 
-            }
-        }
+        //     }
+        // }
     }
 
     void ScalatorText(TMP_Text _text)
@@ -105,5 +110,8 @@ public class UIPopupYourTurn : MonoBehaviour
 
 
 
+    }
+    private void OnDisable() {
+       
     }
 }
