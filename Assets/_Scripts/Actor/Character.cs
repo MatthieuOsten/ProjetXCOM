@@ -254,9 +254,6 @@ public class Character : Actor
             //_mtls_og[ii] = _meshRenderers[]
         }
 
-
-
-
         _mtls_og[0] = gameObject.GetComponentInChildren<MeshRenderer>().material;
     }
 
