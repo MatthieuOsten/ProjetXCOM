@@ -14,11 +14,14 @@ public class ProtoMenuManager : MonoBehaviour
 
     private void Update()
     {
-        
-            if (_inputManager.System.Exit.WasPressedThisFrame())
+        if (_inputManager != null)
         {
-            if (_panelTutorial.activeSelf) { SwitchTutorial(); } else { Application.Quit(); }
+                if (_inputManager.System.Exit.WasPressedThisFrame())
+            {
+                if (_panelTutorial.activeSelf) { SwitchTutorial(); } else { Application.Quit(); }
+            }
         }
+
     }
 
     public void QuitGame()
