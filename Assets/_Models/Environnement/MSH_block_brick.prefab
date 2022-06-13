@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7542228936414963044}
   - component: {fileID: 4060562045925449749}
   - component: {fileID: 919648875678220222}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MSH_block_brick
   m_TagString: Untagged
   m_Icon: {fileID: 0}

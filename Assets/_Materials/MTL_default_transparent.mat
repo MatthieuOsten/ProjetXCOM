@@ -27,7 +27,6 @@ Material:
   m_Shader: {fileID: 4800000, guid: 29c4adff654862b40a2e9fb2015a42c3, type: 3}
   m_ValidKeywords:
   - _DISABLE_SSR_TRANSPARENT
-  - _ENABLE_FOG_ON_TRANSPARENT
   - _SURFACE_TYPE_TRANSPARENT
   m_InvalidKeywords:
   - _MATERIAL_AFFECTS_ALBEDO
@@ -229,11 +228,11 @@ Material:
     - _EmissiveExposureWeight: 1
     - _EmissiveIntensity: 1
     - _EmissiveIntensityUnit: 0
-    - _EnableBlendModePreserveSpecularLighting: 1
-    - _EnableFogOnTransparent: 1
+    - _EnableBlendModePreserveSpecularLighting: 0
+    - _EnableFogOnTransparent: 0
     - _EnableGeometricSpecularAA: 0
     - _EnergyConservingSpecularColor: 1
-    - _Glossiness: 2.89
+    - _Glossiness: 0
     - _HeightAmplitude: 0.02
     - _HeightCenter: 0.5
     - _HeightMapParametrization: 0
@@ -251,13 +250,13 @@ Material:
     - _LinkDetailsWithBase: 1
     - _MaskBlendSrc: 1
     - _MaterialID: 1
-    - _Metallic: 1.93
+    - _Metallic: 0
     - _MetallicRemapMax: 1
     - _MetallicRemapMin: 0
     - _NormalBlendSrc: 0
     - _NormalMapSpace: 0
     - _NormalScale: 1
-    - _OpacityThreshold: -0.27
+    - _OpacityThreshold: 1
     - _OpaqueCullMode: 2
     - _PPDLodThreshold: 5
     - _PPDMaxSamples: 15
@@ -325,14 +324,14 @@ Material:
     - _UseRoughnessMap: 1
     - _UseShadowThreshold: 0
     - _UseUIAlphaClip: 0
-    - _ZTestDepthEqualForOpaque: 4
+    - _ZTestDepthEqualForOpaque: 3
     - _ZTestGBuffer: 4
-    - _ZTestTransparent: 4
+    - _ZTestTransparent: 3
     - _ZWrite: 0
     m_Colors:
     - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.8396226, g: 0.63799804, b: 0.621796, a: 0.9882353}
+    - _Color: {r: 1, g: 0.45325902, b: 0.41037738, a: 0.9882353}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
