@@ -45,7 +45,7 @@ public class Character : Actor
     Material[] _mtls_og;
 
 
-     float _damageCooldown;
+    float _damageCooldown;
 
     public int _rangeDebuffValue = 0;
 
@@ -53,6 +53,10 @@ public class Character : Actor
     public bool haveAttacked = false;
     Case[] caseOverwatched;
     Material MaterialCaseOverwatch;
+
+    private Material CaseCharacterMaterial; 
+    private Material CaseCharacterSelectedMaterial; 
+
     // Getteur utile a prendre pour les autre script
 
     public int GetRightRange(int indexWeapon)
@@ -213,6 +217,13 @@ public class Character : Actor
          MaterialCaseOverwatch = new Material(Data.MaterialCaseOverwatch);
         MaterialCaseOverwatch.SetColor("_EmissiveColor", Owner.Color * 20);
 
+        // On met les cases character avec la couleur de la team
+        CaseCharacterMaterial = new Material(CurrentCase.GridParent.Data.caseCharacter);
+        CaseCharacterSelectedMaterial = new Material(CurrentCase.GridParent.Data.caseCharacterSelected);
+        CaseCharacterMaterial.SetColor("_EmissiveColor", Owner.Color * 20);
+        CaseCharacterSelectedMaterial.SetColor("_EmissiveColor", Owner.Color * 20);
+
+       
 
         // Get og material
         //GetOgMaterials();
@@ -267,7 +278,18 @@ public class Character : Actor
    
     public override void Update()
     {
-        
+        if(Owner is PlayerController pC)
+        {
+            if(!CurrentCase.Highlighted && !CurrentCase.Checked && !CurrentCase.Selected)
+            {
+                if(pC.GetCurrentCharactedSelected == this)
+                    CurrentCase.ChangeMaterial(CaseCharacterSelectedMaterial);
+                else
+                    CurrentCase.ChangeMaterial(CaseCharacterMaterial);
+            }
+          
+
+        }
         // if(_damageCooldown > 0)
         // {
         //     _damageCooldown -= Time.deltaTime;
@@ -306,7 +328,7 @@ public class Character : Actor
             }
 
 
-            if(Owner.ItsYourTurn)
+            if(Owner.CanPlay)
                 PreviewOverwatch();     
             else
             {

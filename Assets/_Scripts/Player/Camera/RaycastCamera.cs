@@ -53,7 +53,7 @@ public class RaycastCamera : MonoBehaviour
     {
         if (enemy == null || enemy.Count == 0) return null;
 
-        if (playerController.OnVigilence)
+        if (_character.IsOverwatching)
         {
             RaycastHit hit;
             Vector3 direction = transform.TransformDirection(Vector3.forward);

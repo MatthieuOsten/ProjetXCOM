@@ -26,7 +26,7 @@ public class GridManager : MonoBehaviour
 
     public bool ShowScorePathFinding { get { return _showScorePathFinding; } }
 
-    public int SizeX
+    [field : SerializeField] public int SizeX
     {
         get { return Data.gridSizeX; }
         set
@@ -41,7 +41,7 @@ public class GridManager : MonoBehaviour
             }
         }
     }
-    public int SizeY
+    [field : SerializeField] public int SizeY
     {
         get { return Data.gridSizeY; }
         set
@@ -56,7 +56,7 @@ public class GridManager : MonoBehaviour
             }
         }
     }
-    public int CellSize
+    [field : SerializeField] public int CellSize
     {
         get { return Data.cellSize; }
         set
@@ -148,7 +148,8 @@ public class GridManager : MonoBehaviour
 
     public static Vector3 GetCaseWorldPosition(Case caseToCheck)
     {
-        return new Vector3(caseToCheck.CaseStatut.x, 0, caseToCheck.CaseStatut.y) * caseToCheck.GridParent.CellSize;
+        CaseInfo info = caseToCheck.CaseStatut;
+        return new Vector3(info.x, 0, info.y) * caseToCheck.GridParent.CellSize;
     }
     /// <summary> Récupére une case dans la grille</summary>
     public Case GetCase(int x, int y)

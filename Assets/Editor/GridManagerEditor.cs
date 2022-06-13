@@ -11,7 +11,7 @@ public class GridManagerEditor : Editor {
 
            System.Reflection.Assembly assembly = typeof(UnityEditor.EditorWindow).Assembly;
             HandleUtility.Repaint();
-            Debug.Log("FUCK YOU UNITY");
+          //  Debug.Log("FUCK YOU UNITY");
      }
 }
 

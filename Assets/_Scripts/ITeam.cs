@@ -7,10 +7,10 @@ public interface ITeam
     string Name{get; set;}
     Actor[] Squad{get; set;}
     /// <summary> Indique si la team peut jouer ou non </summary>
-    bool ItsYourTurn{get; set;}
+    bool CanPlay{get; set;}
     /// <summary> Spawn l'escouade de la team sur la grille </summary>
     void SpawnSquad();
-    /// <summary> Spawn le personnage à partir des DataCharacter </summary>
+    /// <summary> Spawn le personnage ï¿½ partir des DataCharacter </summary>
     Character SpawnActor(DataCharacter actor, Case spawnCase);
 
     /// <summary> Cette fonction se lance quand c'est le tour de la team </summary>

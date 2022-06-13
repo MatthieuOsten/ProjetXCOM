@@ -277,6 +277,7 @@ GameObject:
   - component: {fileID: 3651616192082820257}
   - component: {fileID: 2819618700078683166}
   - component: {fileID: 1722355865417409505}
+  - component: {fileID: 5953879780359489271}
   m_Layer: 2
   m_Name: ArrowSelected
   m_TagString: Untagged
@@ -301,8 +302,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000042915, y: 73.583}
-  m_SizeDelta: {x: 57.9426, y: 44.7265}
+  m_AnchoredPosition: {x: -3.8307, y: 67.50176}
+  m_SizeDelta: {x: 39.333, y: 32.5641}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2819618700078683166
 CanvasRenderer:
@@ -342,6 +343,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 2.94
+--- !u!95 &5953879780359489271
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3448950763528328069}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 6014f4fd1197345408bc4085064ec925, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3708069219422051151
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,6 +660,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8123865611639504048}
   - component: {fileID: 8498778995146570417}
+  - component: {fileID: 8580742891405477900}
   m_Layer: 2
   m_Name: WidgetActorInfo
   m_TagString: Untagged
@@ -706,6 +728,27 @@ MonoBehaviour:
   _background: {fileID: 7936455468875016240}
   _iconOverwatch: {fileID: 6659592848586609537}
   _arrowSelected: {fileID: 1722355865417409505}
+--- !u!223 &8580742891405477900
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8123865611639504055}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 25
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &8123865612418306450
 GameObject:
   m_ObjectHideFlags: 0

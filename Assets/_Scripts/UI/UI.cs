@@ -704,7 +704,11 @@ public class UI : MonoBehaviour
         if(data.typeA == ActionTypeMode.Overwatch)
             _pC.GetCurrentCharactedSelected.PreviewOverwatch();
         else
-            _pC.GetCurrentCharactedSelected.AttackRange(_pC.GetWeaponFromActionMode(data.typeA));
+        {
+            DataWeapon weapon = _pC.GetWeaponFromActionMode(data.typeA);
+            
+            _pC.GetCurrentCharactedSelected.AttackRange(weapon, weapon.Range.casePreviewRange);
+        }
 
         if (_objectPopUp == null)
         {

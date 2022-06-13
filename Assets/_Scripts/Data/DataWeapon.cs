@@ -3,6 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
+
+public enum RangeType
+{
+    Simple,
+    Radius
+}
+
+
+[System.Serializable]
+public struct Range
+{
+    [Range(0, 10)]
+    [SerializeField] int right, diagonal;
+    public int RightRange { get { return right; } set { right = value; } }
+    public int DiagonalRange { get { return diagonal; } set { diagonal = value; } }
+    public RangeType type;
+    public Material caseRange;
+    public Material casePreviewRange;
+
+}
+
+
 [CreateAssetMenu(fileName = "DATA_Weapon_", menuName = "Data/Weapon", order = 3)]
 [System.Serializable]
 public class DataWeapon : Data
@@ -59,4 +81,18 @@ public class DataWeapon : Data
     public GameObject fxProjectileTrail;
     public VisualEffectAsset fxMuzzle; 
 
+    private void OnEnable() 
+    {
+      // On init les case preview des action avec moins d'opacité
+        // foreach(DataWeapon weapon in Weapons)
+        // {
+            if(Range.caseRange != null)
+            {
+                _range.casePreviewRange = new Material(Range.caseRange);
+                Color _color = _range.caseRange.GetColor("_EmissiveColor");
+                _range.casePreviewRange.SetColor("_EmissiveColor", _color * 0.50f); 
+            }
+            
+        // }
+    }
 }

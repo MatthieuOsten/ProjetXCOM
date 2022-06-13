@@ -18,7 +18,7 @@ public class WidgetActorInfo : HintstringProperty
 
     protected override void Start() {
         _actor = relatedObject.GetComponent<Character>();
-        offset = new Vector3(0, 23, 0);
+        offset = new Vector3(0, 45, 0);
 
         _iconActor.sprite = _actor.GetCharacterIcon();
         Color _color = _actor.GetTeamColor();
@@ -58,13 +58,14 @@ public class WidgetActorInfo : HintstringProperty
         textComponent[2].text = _actor.CurrentActionPoint + "/" + _actor.MaxActionPoint + " PA ";
         progression = (float)_actor.Health/(float)_actor.Data.Health;
 
-        // Si le personnage du widget correspond � la team qui joue
+        // Si le personnage du widget correspond a la team qui joue
         if (_selectedActor != null && _actor.Owner == currentTeam)
         {
             // Si le personnage s�lectionner n'est pas celui du widget, on diminue l'opacit�
             if (_selectedActor != _actor)
             {
                 _arrowSelected.gameObject.SetActive(false);
+
                 _background.gameObject.SetActive(false);
                 for (int i = 0; i < images.Length; i++)
                 {
@@ -78,6 +79,7 @@ public class WidgetActorInfo : HintstringProperty
             else // Si on est la, c'est qu'on est sur le personnage s�lectionner par le widget
             {
                 _arrowSelected.gameObject.SetActive(true);
+                _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", false);
                 _background.gameObject.SetActive(true);
                 for (int i = 0; i < textComponent.Length; i++)
                 {
@@ -93,9 +95,19 @@ public class WidgetActorInfo : HintstringProperty
             }
 
         }
-        else
+        else // Si aucun personnage est selectionner
         {
-            _arrowSelected.gameObject.SetActive(false);
+            if(_actor.Owner.CanPlay && _actor.CanAction)
+            {
+                _arrowSelected.gameObject.SetActive(true);
+                _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", true);
+            }
+            else
+            {
+                _arrowSelected.gameObject.SetActive(false);
+                _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", true);
+            }
+           
             _background.gameObject.SetActive(false);
             for (int i = 0; i < textComponent.Length; i++)
             {
@@ -112,6 +124,8 @@ public class WidgetActorInfo : HintstringProperty
 
         if(!_actor.CanAction)
         {
+            _arrowSelected.gameObject.SetActive(false);
+            _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", true);
             for (int i = 0; i < images.Length; i++)
             {
                 images[i].color = SetOpacity(images[i].color, _lowOpacity);

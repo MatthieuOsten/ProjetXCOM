@@ -11,43 +11,33 @@ public class Team : MonoBehaviour, ITeam
     [SerializeField] DataTeam _data;
     [SerializeField] public DataTeam Data { get { return _data; } set { _data = value; } }
 
-    [SerializeField] bool _itsYourTurn;
-    public bool ItsYourTurn { get { return _itsYourTurn; }
+    [SerializeField] bool _CanPlay;
+    public bool CanPlay { get { return _CanPlay; }
         set {
 
-            _itsYourTurn = value;
+            _CanPlay = value;
         }
     }
 
     public static Team[] AllTeams;
     public Team[] hisEnnemies;
 
-    // [SerializeField] Actor[] _squad;
-    // public Actor[] Squad { get { return _squad; } set { _squad = value; } }
-
     [field : SerializeField] public Actor[] Squad { get; set;}
-
 
     [Tooltip("Retourne la grille selectionner par la team")]
     [SerializeField] protected GridManager _selectedGrid;
     public Case startSpawnCase; // On indique le point de spawn 
 
-    /// <summary>
-    /// Couleur de la team
-    /// </summary>
-    /// <value></value>
+    /// <summary> Couleur de la team </summary>
     public Color Color{ get {return Data.Color;}}
+
+
 
     public List<MonoBehaviour> Scripts;
 
-    public void SampleMethod() {
-
-    }
-
     public virtual void Awake() {
-        GameObject goGrid = GameObject.FindGameObjectWithTag("GridManager");
-        if (goGrid != null) _selectedGrid = goGrid.GetComponent<GridManager>();
-
+        _selectedGrid = GameObject.FindObjectOfType<GridManager>();
+        if (_selectedGrid == null) Debug.LogError("Aucune grille trouvé dans la scène");
     }
     // Start is called before the first frame update
     public virtual void Start()
@@ -59,7 +49,6 @@ public class Team : MonoBehaviour, ITeam
     public virtual void StartTurn()
     {
         GridManager.ResetCasesPreview(_selectedGrid);
-        //UIManager.CreateSubtitle($"Equipe {Data.name} it's your turn !", 2);
         UIManager.CreateYourTurnMessage(Data.name, Data.Color);
 
         foreach (Character _actor in Squad)
@@ -68,7 +57,6 @@ public class Team : MonoBehaviour, ITeam
             // Mais est vraiment n�cessaire ? on verra 
             if (_actor.State == ActorState.Overwatch)
                 _actor.State = ActorState.Alive;
-
             // _actor.StartTurnActor(); et non on doit le faire quand il passe le tour car si d�buff ca sera pas appliqu�
 
         }
@@ -177,12 +165,9 @@ public class Team : MonoBehaviour, ITeam
     // Update is called once per frame
     public virtual void Update()
     {
-        if(ItsYourTurn)
+
+        if(CanPlay)
         {
-           
-           
-
-
             WatchIfAllPAused();
         }
         WatchIfEveryoneIsDead();
@@ -199,7 +184,7 @@ public class Team : MonoBehaviour, ITeam
                 AllPAUsed = true;
 
         }
-        ItsYourTurn = AllPAUsed;
+        CanPlay = AllPAUsed;
     }
 
     void WatchIfEveryoneIsDead()

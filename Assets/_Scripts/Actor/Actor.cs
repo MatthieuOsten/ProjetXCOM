@@ -1,22 +1,6 @@
 using UnityEngine;
 
-public enum RangeType
-{
-    Simple,
-    Radius
-}
 
-[System.Serializable]
-public struct Range
-{
-    [Range(0, 10)]
-    [SerializeField] int right, diagonal;
-    public int RightRange { get { return right; } set { right = value; } }
-    public int DiagonalRange { get { return diagonal; } set { diagonal = value; } }
-    public RangeType type;
-    public Material caseRange;
-
-}
 public abstract class Actor : MonoBehaviour, IActor
 {
     [Header("Actor Info")]

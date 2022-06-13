@@ -80,11 +80,14 @@ public class Case : MonoBehaviour
             GridParent.SpawnerCase.Add(this);
 
     }
+    private void OnDestroy() {
+        if (State == CaseState.Spawner && GridParent.SpawnerCase.Contains(this) ) 
+        {
+            GridParent.SpawnerCase.Remove(this);
+        }
+    }
     public void Update()
-    {
-        
-
-      
+    {  
         if (Highlighted || Checked)
             return;
         WatchCaseState();

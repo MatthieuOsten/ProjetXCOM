@@ -31,7 +31,7 @@ public class PlayerController : Team
     [SerializeField] private bool _leftHand = false;
     [SerializeField] private bool _onEnemy = false;
     [SerializeField] private static bool _canMoveCam;
-    [SerializeField] private bool _onVigilence = false;
+    //[SerializeField] private bool _onVigilence = false;
 
     [Header("LIST")]
     [SerializeField] private int _characterIndex = 0;
@@ -76,14 +76,14 @@ public class PlayerController : Team
             _canMoveCam = value;
         }
     }
-    public bool OnVigilence
-    {
-        get { return _onVigilence; }
-        set
-        {
-            _onVigilence = value;
-        }
-    }
+    // public bool OnVigilence
+    // {
+    //     // get { return _onVigilence; }
+    //     // set
+    //     // {
+    //     //     _onVigilence = value;
+    //     // }
+    // }
 
     public bool CanPassTurn
     {
@@ -235,10 +235,7 @@ public class PlayerController : Team
         // On récupère la caméra dans la scène, si elle n'existe pas, on cherche l'object
         if (cameraIsometric == null) cameraIsometric = GameObject.FindObjectsOfType<CameraIsometric>()[0];
         EnemyDetected = new List<GameObject>(); // On initialise la list d'ennemy detected, c'est peut etre inutile
-
         caseSelected = new Material(_selectedGrid.Data.caseSelected);
-        //caseSelected.SetColor("_EmissiveColor", Data.Color * 20);
-        
     }
 
     void EnableInputManager()
@@ -284,7 +281,6 @@ public class PlayerController : Team
         // Avec les coordonnées généré, on peut essayer d'obtenir la case 
         Case AimCase = GridManager.GetValidCase(GridManager.GetCase(_selectedGrid, x, y));
         // VUE QUE MATTHIEU A CREE UNE GRAND MERE CE BATARD JE DOIS CAST
-        //Character guy = GetCurrentCharactedSelected;
         if (!GetCurrentCharactedSelected.CanAction)
         {
             Debug.Log($"Le personnage {GetCurrentCharactedSelected.name} n'a plus de point d'action");
@@ -321,37 +317,29 @@ public class PlayerController : Team
         {
             // Si une seconde case est deja selectionner mais que ce n'est pas celle qu'on vise, on reset les prévisualisation
             if (SelectedCaseB != null && SelectedCaseB != AimCase) GridManager.ResetCasePreview(SelectedCaseB);
-            
-            SelectedCaseB = AimCase;
+            SelectedCaseB = AimCase; // On attribue la case visé comme selection B
             // Si la seconde case est bien selectionner alors on active la prévisualisation
             if (SelectedCaseB != null)
             {
                 GridManager.SetCasePreview(SelectedCaseB, false); 
                 // Une fois la case selectionner, on peut executer l'action voulu
-                    switch (_actionTypeMode)
-                    {
-                        case ActionTypeMode.Attack:
-                            ExecAttack(); // Execute l'action sur la case selected
-                            break;
-                        case ActionTypeMode.Overwatch:
-                           
-                            break;
-                        case ActionTypeMode.Competence1:
-                            ExecAbility(); // Execute la premiere compétence
-                            break;
-                        case ActionTypeMode.Competence2:
-                            ExecAbilityAlt(); // Execute la seconde compétence
-                            break;
-                    }
-                    
+                switch (_actionTypeMode)
+                {
+                    case ActionTypeMode.Attack:
+                        ExecAttack(); // Execute l'action sur la case selected
+                        break;
+                    case ActionTypeMode.Competence1:
+                        ExecAbility(); // Execute la premiere compétence
+                        break;
+                    case ActionTypeMode.Competence2:
+                        ExecAbilityAlt(); // Execute la seconde compétence
+                        break;
+                }    
             }
         }
         // quand le joueur press Echap en mode action, il retourn en mode Selection,
         // les précedentes cases sélectionner sont clean
-        if (_inputManager.TestGrid.Echap.IsPressed())
-        {
-             ExitActionMode();
-        }
+        if (_inputManager.TestGrid.Echap.IsPressed()) ExitActionMode();
     }
 
     // TODO : Les watchers et exec des types d'action seront peut etre dépendant de chaque perso 
@@ -376,7 +364,7 @@ public class PlayerController : Team
                 if (aCase.HaveActor)
                 {
                     Actor actorToCheck = aCase.Actor;
-                    if (actorToCheck != null && actorToCheck.Owner != this)
+                    if (aCase.HaveActor && actorToCheck.Owner != this)
                     {
                         // TODO : ajouter un raycast pour checker si il ya pas un model devant
                         EnemyDetected.Add(actorToCheck.gameObject);
@@ -395,18 +383,14 @@ public class PlayerController : Team
         {
             // On verifie si la liste des ennemies qui sont dans la porté contient ce que cible le joueur
             if(EnemyDetected.Contains(SelectedCaseB.Actor.gameObject))
-            {
-                
-                _selectedActor.Attack(SelectedCaseB.Actor, ActorDetected.ToArray());
-                
+            {   
+                _selectedActor.Attack(SelectedCaseB.Actor, ActorDetected.ToArray());   
                 AudioManager.PlaySoundAtPosition("ExecAttack", Vector3.zero);
             }
             else // N'est pas dans la portée
             {
                 AudioManager.PlaySoundAtPosition("case_refus", Vector3.zero);
             }
-                
-
             SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
         }
     }
@@ -469,7 +453,6 @@ public class PlayerController : Team
                 Debug.Log("Exec EnableAbility");
                 _selectedActor.EnableAbility(SelectedCaseB.Actor);
             }
-
             SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
         }
         else
@@ -492,11 +475,8 @@ public class PlayerController : Team
                 ExitActionMode();
                 return;
             }    
-            
-            
             character.CurrentActionPoint -= character.Data.CostReload;
             AudioManager.PlaySoundAtPosition(character.GetMainWeaponInfo().SoundReload, transform.position);
-
             character.Ammo[0] = character.GetWeaponCapacityAmmo();
             ExitActionMode();
         }
@@ -517,7 +497,6 @@ public class PlayerController : Team
                 Debug.Log("Exec EnableAbilityAlt");
                 _selectedActor.EnableAbilityAlt(SelectedCaseB.Actor);
             }
-
             SelectedCaseB = null; // Une fois l'attaque fini on déselectionne la case
         }
         else
@@ -528,25 +507,22 @@ public class PlayerController : Team
 
     void ExecOverWatch()
     {
-        
-            foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetMainWeaponInfo()))
+        foreach (Case aCase in _selectedActor.AttackRange(GetCurrentCharactedSelected.GetMainWeaponInfo()))
+        {
+            if (aCase.HaveActor && aCase.Character.Owner != this)
             {
-                if (aCase.HaveActor && aCase.Character.Owner != this)
-                {
-                    UIManager.CreateSubtitle("Mode Vigilance impossible car un ennemi est dans la porté du personnage", 2);
-                    ExitActionMode();
-                    return;
-                }
-                if(GetCurrentCharactedSelected.haveAttacked)
-                {
-                    UIManager.CreateSubtitle("Mode Vigilance impossible car le personnage a attaqué durant son tour", 2);
-                    ExitActionMode();
-                    return;
-                }
-
-
+                UIManager.CreateSubtitle("Mode Vigilance impossible car un ennemi est dans la porté du personnage", 2);
+                ExitActionMode();
+                return;
             }
-            GetCurrentCharactedSelected.EnableOverwatch();
+            if(GetCurrentCharactedSelected.haveAttacked)
+            {
+                UIManager.CreateSubtitle("Mode Vigilance impossible car le personnage a attaqué durant son tour", 2);
+                ExitActionMode();
+                return;
+            }
+        }
+        GetCurrentCharactedSelected.EnableOverwatch();
     }
 
 
@@ -561,8 +537,6 @@ public class PlayerController : Team
         // Verifie si la case visé n'est pas vide
         if (AimCase == null) return;
         
-
-
         Case[] pathSuggested = null;
         Character _char = GetCurrentCharactedSelected;
           
@@ -597,27 +571,23 @@ public class PlayerController : Team
 
             }
         }
-      
+        // On attribue un material de selection à la derniere case du chemin proposer
         if (pathSuggested != null && pathSuggested.Length > 0 &&  pathSuggested[pathSuggested.Length-1] != AimCase)
-        {
-           
+        {      
             pathSuggested[pathSuggested.Length - 1].ChangeMaterial(caseSelected);
         }
-        else
+        else // Sinon on affiche la case visé avec un material de selection
             AimCase.ChangeMaterial(caseSelected);
 
-        
+        // Si un personnage est en mouvement, on empeche d'effectuer une action car ca peut crée des bugs avec les cases
         if(CharacterIsMoving)
         {
             UIManager.CreateSubtitle("Action impossible, un personnage est en mouvement" , 2);
             return;
         }
-
-
         // On vérifie si le joueur clique sur le clique de la souris
         if ( _inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {
-
             // Si un chemin est suggéré, qu'un personnage est sélectionner, et que celui ne bouge pas, on lui implante une nouvelle destination 
             if (pathSuggested != null && _char != null && pathSuggested.Length > 0 && !_char.IsMoving)
             {
@@ -700,7 +670,7 @@ public class PlayerController : Team
             FindObjectOfType<LevelManager>().goToSceneReturn();
         }
 
-        if (ItsYourTurn)
+        if (CanPlay)
         {
             if (_cooldownBeforeStartTurnTimer < _cooldownBeforeStartTurn)
             {
@@ -739,7 +709,7 @@ public class PlayerController : Team
     }
     private void FixedUpdate()
     {
-        if (ItsYourTurn)
+        if (CanPlay)
         {
             CameraIsometricUpdate();
         }
@@ -796,10 +766,10 @@ public class PlayerController : Team
 
             if (_onEnemy)
             {
-                _inputManager.ActionBar.AttackRight.performed += context => Shoot();
-                _inputManager.ActionBar.VigilenceDroite.performed += context => Vigilence();
-                _inputManager.ActionBar.Competence1Droite.performed += context => Competence1();
-                _inputManager.ActionBar.Competence2Droite.performed += context => Competence2();
+                _inputManager.ActionBar.AttackRight.performed += context => ExecAttack();
+                _inputManager.ActionBar.VigilenceDroite.performed += context => ExecOverWatch();
+                _inputManager.ActionBar.Competence1Droite.performed += context => ExecAbility();
+                _inputManager.ActionBar.Competence2Droite.performed += context => ExecAbilityAlt();
             }
 
             _inputManager.ControlCamera.RightHand.performed += context =>
@@ -847,24 +817,6 @@ public class PlayerController : Team
         //{
         //    character.Ammo -= 1;
         //}
-    }
-
-    private void Vigilence()
-    {
-        if (_onVigilence == false)
-        {
-            _onVigilence = true;
-        }
-    }
-
-    private void Competence1()
-    {
-
-    }
-
-    private void Competence2()
-    {
-
     }
     //Passe de la camera vue du dessus a celle de l'epaule
     public void SwitchShoulderCam()

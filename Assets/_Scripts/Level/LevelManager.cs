@@ -132,7 +132,7 @@ public class LevelManager : MonoBehaviour
     void EndTurn()
     {
         Team CurrentTeam = listTeam[_currentTeamIndex];
-        CurrentTeam.ItsYourTurn = false;
+        CurrentTeam.CanPlay = false;
         CurrentTeam.EndTurn();
         _currentTurn++;
         _currentTeamIndex++;
@@ -140,7 +140,7 @@ public class LevelManager : MonoBehaviour
             _currentTeamIndex = 0;
         
         Team NewTeam = listTeam[_currentTeamIndex];
-        NewTeam.ItsYourTurn = true;
+        NewTeam.CanPlay = true;
         NewTeam.StartTurn();
     }
 
@@ -188,7 +188,7 @@ public class LevelManager : MonoBehaviour
     /// <summary> Cette function regarde si la team qui joue a terminé son tour</summary>
     void WatchController()
     {
-        if(listTeam.Count > 0 && listTeam[_currentTeamIndex].ItsYourTurn == false)
+        if(listTeam.Count > 0 && listTeam[_currentTeamIndex].CanPlay == false)
         {
             EndTurn();
         }
