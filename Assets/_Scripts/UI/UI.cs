@@ -11,12 +11,11 @@ public class UI : MonoBehaviour
     [SerializeField] private Character _cH;
 
     [SerializeField] private Image _barreAction;
-
+    [SerializeField] private TMP_Text textCooldown;
     [SerializeField] private Image _icone;
     [SerializeField] private Image _iconeTeam;
     /// <summary> Correspond à la couleur qui sera afficher derrière la liste des personnages </summary>
     [SerializeField] private Image _glowTeam;
-
 
     [SerializeField] private GameObject imageAmmo;
     [SerializeField] private GameObject parentAmmo;
@@ -33,7 +32,6 @@ public class UI : MonoBehaviour
     [SerializeField] private int _actionPointMax;
     [SerializeField] private int _ammoImageIndex;
 
-    TextMeshProUGUI myText;
     [SerializeField] private GameObject _textCompetence2;
     [SerializeField] private TextMeshProUGUI _textDebug;
 
@@ -128,11 +126,11 @@ public class UI : MonoBehaviour
         {
             _cH = _pC.GetCurrentCharactedSelected;
         }
+
         else
         {
             Debug.LogWarning("UI : Attention l'UI n'arrive pas à récupérer le PlayerController depuis le Level Manager");
-        }
-        
+        }        
     }
 
     //recupere les mun max de munition dans l'arme
@@ -207,12 +205,16 @@ public class UI : MonoBehaviour
     //            _competence2.gameObject.SetActive(false);
 
     //}
+
+    /// <summary>
+    /// Chech si je dois recharger
+    /// </summary>
+    /// <param name="_reload"></param>
     void WatchReloadButton(GameObject _reload)
     {
-            //if (_cH.GetWeaponCapacityAmmo() > 0)
-           //     {
                     Color colorReload = _reload.GetComponent<Image>().color;
-
+                    
+               //si doit recharger
                     if (_cH.GetWeaponCurrentAmmo() < _myAmmoMax)
                     {
                         colorReload.a = 1f;
@@ -221,10 +223,7 @@ public class UI : MonoBehaviour
                        // Debug.Log("marche");
                     }
 
-                    
-
-                     //_actionCapacity[4].SetName("null");
-           // }
+                   
             else
             {
                colorReload.a = 0.3f;
@@ -234,57 +233,46 @@ public class UI : MonoBehaviour
 
     }
 
-    private void AdaptIcone1(GameObject _competence1)
+    /// <summary>
+    /// Met le bouton requis pour la competence
+    /// </summary>
+    /// <param name="_competence1"></param>
+    private void AdaptIcone(GameObject _competence1, int CurrentCooldown)
     {
         Color colorCompetence1 = _competence1.GetComponent<Image>().color;
 
-        if (_cH.GetCurrentAbilityCooldown == 0)
-        {          
-            //_competence1.gameObject.SetActive(true);
+        if (CurrentCooldown == 0)
+        {
             colorCompetence1.a = 1f;
             _competence1.GetComponent<Button>().interactable = true;
             _competence1.GetComponent<Image>().color = colorCompetence1;
+            _competence1.GetComponentInChildren<ButtonAction>().Cooldown.text = string.Empty;
         }
 
         else
         {
-            //_competence1.gameObject.SetActive(false);
             colorCompetence1.a = 0.3f;
             _competence1.GetComponent<Image>().color = colorCompetence1;
-            _competence1.GetComponent<Button>().interactable = false;           
+            _competence1.GetComponent<Button>().interactable = false;
+            _competence1.GetComponentInChildren<ButtonAction>().Cooldown.text = Mathf.RoundToInt(CurrentCooldown).ToString();
         }
     }
 
-    private void AdaptIcone2(GameObject _competence2)
-    {
-        Color colorCompetence2 = _competence2.GetComponent<Image>().color;
-
-        if (_cH.GetCurrentAbilityAltCooldown == 0)
-        {
-            colorCompetence2.a = 1f;
-            _competence2.GetComponent<Button>().interactable = true;
-            _competence2.GetComponent<Image>().color = colorCompetence2;
-        }
-
-        else
-        {
-            colorCompetence2.a = 0.3f;
-            _competence2.GetComponent<Image>().color = colorCompetence2;
-            _competence2.GetComponent<Button>().interactable = false;           
-        }
-        
-    }
-
+    /// <summary>
+    /// Verifie le nombre de point d'action et adapte l'ui
+    /// </summary>
     private void ActualActionPoint()
     {
         _actionPointMax = _cH.MaxActionPoint;
+
         if (_actionPointMax < _cH.CurrentActionPoint)
         {
             _actionPointMax = _cH.CurrentActionPoint;
         }
+
         if (_actionPoint.Count < _actionPointMax)
         {
-
+            //Instantie le nombre de d'image, ajoute au bon gameobject et à une liste
             for (int i = _actionPoint.Count; i < _actionPointMax; i++)
             {
                 GameObject addImageAction = Instantiate(imageActionPoint, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
@@ -293,6 +281,7 @@ public class UI : MonoBehaviour
             }
         }
 
+        //Montre ou rend invisible le point d'action si utiliser
         for (int i = 0; i < _actionPoint.Count; i++)
         {
             if (i >= _cH.CurrentActionPoint)
@@ -315,6 +304,7 @@ public class UI : MonoBehaviour
         {
             if (_ammo.Count < _myAmmoMax)
             {
+                //Instantie le nombre de d'image, ajoute au bon gameobject et à une liste
                 for (int i = 0; i < _actionPointMax; i++)
                 {
                     GameObject addImageAmmo = Instantiate(imageAmmo, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
@@ -323,6 +313,7 @@ public class UI : MonoBehaviour
                 }
             }
 
+            // Montre ou rend invisible le point d'action si utiliser
             for (int i = 0; i < _ammo.Count; i++)
             {
                 if (i >= _cH.GetWeaponCurrentAmmo())
@@ -338,6 +329,10 @@ public class UI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Adapt les icones pour chaque membre de la team
+    /// </summary>
+    /// <param name="addIconeTeam"></param>
     private void ListTeam(GameObject addIconeTeam)
     {
         iconeTeam = addIconeTeam;
@@ -345,7 +340,7 @@ public class UI : MonoBehaviour
      
         foreach (Character character in _pC.Squad)
         {
-
+            // Instantie le nombre de d'image, ajoute au bon gameobject et à une liste
             if (_teamImage.Count < _pC.Squad.Length)
             {
                 addIconeTeam = Instantiate(imageIconeTeam, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
@@ -353,6 +348,7 @@ public class UI : MonoBehaviour
                 _teamImage.Add(addIconeTeam);
                 addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
 
+                // gere l'affichage de leur etat si blesser
                if (character == null)
                {
                     Color colorIcone = addIconeTeam.GetComponent<Image>().color;
@@ -364,23 +360,9 @@ public class UI : MonoBehaviour
                }
             }
 
-           /* if (character == _pC.GetCurrentCharactedSelected)
-            {
-                //addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
-                Color colorIcone = addIconeTeam.GetComponent<Image>().color;
-                colorIcone.a = 1f;
-                addIconeTeam.GetComponent<Image>().color = colorIcone;
-            }
-
-            if(character != _pC.GetCurrentCharactedSelected)
-            {
-               // addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
-                Color colorIcone = addIconeTeam.GetComponent<Image>().color;
-                colorIcone.a = 0.5f;
-                addIconeTeam.GetComponent<Image>().color = colorIcone;
-            }*/
         }
 
+        // gere l'affichage de leur etat
         for (int i = 0; i < _teamImage.Count; i++)
         {
             if(i == _pC.CharacterIndex)
@@ -465,6 +447,8 @@ public class UI : MonoBehaviour
         // ---- Initialise chaque bouttons en rapport avec les capacités actuel ---- //
         for (int i = 0; i < _actionButton.Count; i++)
         {
+            _actionButton[i].GetComponent<ButtonAction>().Input.text = (i + 1).ToString();
+
             if (_actionCapacity.Count < i) { break; }
 
             // Nettoie la liste d'action du boutton
@@ -490,12 +474,12 @@ public class UI : MonoBehaviour
 
             if (_actionCapacity[index].typeA == ActionTypeMode.Competence1)
             {
-                AdaptIcone1(_actionButton[i]);
+                AdaptIcone(_actionButton[i], _cH.GetCurrentAbilityCooldown);
             }
 
             if (_actionCapacity[index].typeA == ActionTypeMode.Competence2)
             {
-                AdaptIcone2(_actionButton[i]);
+                AdaptIcone(_actionButton[i], _cH.GetCurrentAbilityAltCooldown);
             }
                 
                 
@@ -507,9 +491,8 @@ public class UI : MonoBehaviour
                     }
                 }
                 
-             
 
-            
+                        
                 
             // Verifie que l'objet a un nom et l'ecrit
             if (_actionCapacity[i].name != null)
