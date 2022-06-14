@@ -175,7 +175,7 @@ MonoBehaviour:
   cam: {fileID: 2130492440}
   SizeOfObject: {x: 0, y: 0, z: 0}
   oofa: 0
-  lengthScroll: 80
+  lengthScroll: 3
   lengthColumn: 3
   lengthLine: 1
   speedMove: 10
