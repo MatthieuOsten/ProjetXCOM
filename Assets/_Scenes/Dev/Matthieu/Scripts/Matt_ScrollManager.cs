@@ -4,75 +4,75 @@ using UnityEngine;
 
 public class Matt_ScrollManager : MonoBehaviour
 {
-    [SerializeField] List<GameObject> prefabEnvironment = new List<GameObject>();
+    [Header("LIST OBJECT")]
+    [HideInInspector] private List<GameObject> _prefabEnvironments = new List<GameObject>();
+    [SerializeField] private List<Transform> _objectEnvironments = new List<Transform>();
 
-    [SerializeField] GameObject Template;
+    [Header("PREFAB")]
+    [SerializeField] private GameObject _template;
 
-    [SerializeField] string camTargetName = "CameraTarget";
-    [SerializeField] Transform camTarget;
-    [SerializeField] GameObject cam;
+    [Header("CAMERA")]
+    [SerializeField] private string _camTargetName = "CameraTarget";
+    [SerializeField] private Transform _camTarget;
+    [SerializeField] private GameObject _cam;
 
-    [SerializeField] public Vector3 SizeOfObject;
-    [SerializeField] private float oofa;
+    [Header("OBJECT")]
+    [SerializeField] private Vector3 _sizeOfObject;
+    [SerializeField] private float _respawnDistance;
 
-    [SerializeField] private int lengthScroll = 3;
-    [SerializeField] private int lengthColumn = 3;
-    [SerializeField] private int lengthLine = 1;
-
-    [SerializeField] float speedMove;
+    [Header("SETTINGS")]
+    [SerializeField] [Range(0, 5)] private byte _lengthScroll = 3;
+    [SerializeField] [Range(0, 5)] private float _speedMove;
+    [SerializeField] private bool _pause;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Si la camera n'est pas referencer, recupere l'actuel camera
-        if (cam == null)
+        // Si la _camera n'est pas referencer, recupere l'actuel _camera
+        if (_cam == null)
         {
-            cam = Camera.current.gameObject;
+            _cam = Camera.current.gameObject;
         }
 
-        // Si la camera est referencer, mais que la cible de la camera n'est pas referencer alors recupere la cible de la camera en enfant de cette derniere
-        if (cam != null && camTarget == null)
+        // Si la _camera est referencer, mais que la cible de la _camera n'est pas referencer alors recupere la cible de la _camera en enfant de cette derniere
+        if (_cam != null && _camTarget == null)
         {
-            camTarget = cam.transform.Find(camTargetName);
+            _camTarget = _cam.transform.Find(_camTargetName);
         }
 
         // Si la cible est referencer alors effectue l
-        if (camTarget != null)
+        if (_camTarget != null)
         {
-            // Repositionne l'objet sur la cible de la camera
-            transform.position = camTarget.position;
-            transform.rotation = camTarget.rotation;
+            // Repositionne l'objet sur la cible de la _camera
+            transform.position = _camTarget.position;
+            transform.rotation = _camTarget.rotation;
 
             // Si l'environment est referencer alors instancie les morceaux de carte 
-            if (Template != null)
+            if (_template != null)
             {
-                SizeOfObject = Template.transform.Find("Ground").transform.localScale;
+                _sizeOfObject = _template.transform.Find("Ground").transform.localScale;
                 Vector3 startPos = Vector3.zero;
 
-                float xPos = -SizeOfObject.x / 2;
+                float xPos = -_sizeOfObject.x / 2;
                 startPos = new Vector3(xPos, (int)transform.position.y, (int)transform.position.z);
-                oofa = -SizeOfObject.z * 2;
+                _respawnDistance = -_sizeOfObject.z * 2;
 
-                byte lenghtFor = (byte)(lengthScroll % 2);
+                GameObject plateau;
 
-                if (lenghtFor == 0)
+                for (byte i = _lengthScroll; i > 0; i--)
                 {
-                    lenghtFor = (byte)(lengthScroll / 2);
-                } 
-                else if (lenghtFor == 1)
-                {
-                    lenghtFor = (byte)((lengthScroll - 1) / 2);
+                    plateau = GeneratePlateau(_template, _camTarget.position, _sizeOfObject, i);
+                    int rotation = Random.Range(0, 2);
+                    switch (rotation)
+                    {
+                        case 1:
+                            plateau.transform.GetChild(0).localRotation = Quaternion.AngleAxis(90, Vector3.up);
+                            break;
+                        default:
+                            break;
+                    }
+                    _objectEnvironments.Add(plateau.transform);
                 }
-
-                
-                for (byte i = 1; i < lenghtFor + 1; i++)
-                {
-                    Instantiate(Template, new Vector3(camTarget.position.x, camTarget.position.y, SizeOfObject.z * -i), Quaternion.identity, transform);
-                    Instantiate(Template, new Vector3(camTarget.position.x, camTarget.position.y, SizeOfObject.z * i), Quaternion.identity, transform);
-                }
-
-                Instantiate(Template, new Vector3(camTarget.position.x, camTarget.position.y, 0), Quaternion.identity, transform);
-
 
             }
         }
@@ -82,7 +82,55 @@ public class Matt_ScrollManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ScrollUpdate();
+        if (!_pause)
+        {
+            ScrollUpdate();
+        }
+
+    }
+
+    private GameObject GeneratePlateau(GameObject prefab, Vector3 target, Vector3 size, byte nbr = 0)
+    {
+
+        Debug.Log("Element numero " + nbr + " en cours de generation...");
+
+        switch (nbr)
+            {
+                case 0:
+                    Debug.Log("Aucun element a generer");
+                    return null;
+                case 1:
+                    return Instantiate(prefab, new Vector3(target.x, target.y, 0), Quaternion.identity, transform);
+                case 2:
+                    return Instantiate(prefab, new Vector3(target.x, target.y, size.z * -1), Quaternion.identity, transform);
+                default:
+                    return Instantiate(prefab, new Vector3(target.x, target.y, size.z * (nbr - 2)), Quaternion.identity, transform);
+            }
+
+    }
+
+    private bool TryGeneratePlateau(out GameObject obj, GameObject prefab, Vector3 target, Vector3 size, byte nbr = 0)
+    {
+
+        Debug.Log("Element numero " + nbr + " en cours de generation...");
+
+        switch (nbr)
+        {
+            case 0:
+                Debug.Log("Aucun element a generer");
+                obj = null;
+            return false;
+            case 1:
+                obj = Instantiate(prefab, new Vector3(target.x, target.y, 0), Quaternion.identity, transform);
+            return true;
+            case 2:
+                obj = Instantiate(prefab, new Vector3(target.x, target.y, size.z * -1), Quaternion.identity, transform);
+            return true;
+            default:
+                obj = Instantiate(prefab, new Vector3(target.x, target.y, size.z * (nbr - 2)), Quaternion.identity, transform);
+            return true;
+        }
+
     }
 
     private void ScrollUpdate()
@@ -92,14 +140,14 @@ public class Matt_ScrollManager : MonoBehaviour
         for (int i = 0; i < count; i++)
         {
             Transform actualChild = transform.GetChild(i);
-            SizeOfObject = actualChild.Find("Ground").transform.localScale;
+            _sizeOfObject = actualChild.Find("Ground").transform.localScale;
 
-            if (actualChild.localPosition.z <= oofa)
+            if (actualChild.localPosition.z <= _respawnDistance)
             {
-                actualChild.position = new Vector3(camTarget.position.x, camTarget.position.y, oofa + (SizeOfObject.z * count));
+                actualChild.position = new Vector3(_camTarget.position.x, _camTarget.position.y, _respawnDistance + (_sizeOfObject.z * count));
             }
 
-            actualChild.Translate(Vector3.back * speedMove * Time.deltaTime, Space.Self);
+            actualChild.Translate(Vector3.back * _speedMove * Time.deltaTime, Space.Self);
         }
     }
 }

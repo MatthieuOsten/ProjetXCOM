@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 229586370}
-  - component: {fileID: 229586371}
+  - component: {fileID: 229586372}
   m_Layer: 0
   m_Name: ScrollManager
   m_TagString: Untagged
@@ -155,7 +155,7 @@ Transform:
   m_Father: {fileID: 612109684}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &229586371
+--- !u!114 &229586372
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -164,21 +164,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 229586369}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a66504ef8aad7940a27223650cfd014, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e6481d0b096d094fa189fab23bf5020, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabEnvironment: []
-  Template: {fileID: 8242774693201309034, guid: 5c0704557adac5b48a076c402d7440bf,
+  _objectEnvironments: []
+  _template: {fileID: 8242774693201309034, guid: bcd0db2b5f5bf2442910c39bce990fb8,
     type: 3}
-  camTargetName: Center
-  camTarget: {fileID: 0}
-  cam: {fileID: 2130492440}
-  SizeOfObject: {x: 0, y: 0, z: 0}
-  oofa: 0
-  lengthScroll: 80
-  lengthColumn: 3
-  lengthLine: 1
-  speedMove: 10
+  _camTargetName: Center
+  _camTarget: {fileID: 1259887257}
+  _cam: {fileID: 2130492440}
+  _sizeOfObject: {x: 42, y: 0.5, z: 42}
+  _respawnDistance: -42
+  _respawnMultiply: 1
+  _offsetPosition: {x: 10, y: 2, z: 0}
+  directionX: 0
+  directionY: 0
+  directionZ: -1
+  _lengthScroll: 3
+  _speedMove: 5
+  _pause: 0
+  _directionScroll: {x: 0, y: 0, z: -1}
+  _positionScroll: {x: 10, y: 2, z: 0}
 --- !u!1 &600992220
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,6 +830,12 @@ PrefabInstance:
 --- !u!4 &1259887256 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5466843028483237939, guid: 7d975ba756eae8240b195688b6a38bc3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1259887255}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1259887257 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1679467460635550934, guid: 7d975ba756eae8240b195688b6a38bc3,
     type: 3}
   m_PrefabInstance: {fileID: 1259887255}
   m_PrefabAsset: {fileID: 0}
