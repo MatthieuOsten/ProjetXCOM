@@ -662,6 +662,7 @@ public class PlayerController : Team
     // Update() qui override Update() de Team 
     public override void Update()
     {
+        SelectedFirst();
         if (_inputManager == null) EnableInputManager();
 
         if (_inputManager.System.Exit.WasPressedThisFrame())
@@ -856,6 +857,7 @@ public class PlayerController : Team
             
         }
         Character componentChar = CharacterPlayer[CharacterIndex].GetComponent<Character>();
+
         // On vérifie que le character n'est pas null 
         if (CharacterPlayer[CharacterIndex] == null || !componentChar.CanAction) 
         {
@@ -904,4 +906,11 @@ public class PlayerController : Team
         return GetCurrentCharactedSelected.GetMainWeaponInfo();
     }
 
+    public void SelectedFirst()
+    {
+        if(GetCurrentCharactedSelected == null)
+        {
+            CharacterChange();
+        }
+    }
 }

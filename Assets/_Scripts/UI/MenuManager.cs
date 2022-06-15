@@ -5,11 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
-    [SerializeField] private Controller _inputManager;
     [SerializeField] private GameObject _panelTutorial;
+    [SerializeField] private Controller _inputManager;
+    [SerializeField] private Canvas _canvasMenu;
+    [SerializeField] private string _stringLoadBackground;
+
     private void Start()
     {
         EnableInputManager();
+
+        SceneManager.LoadScene(_stringLoadBackground, LoadSceneMode.Additive);
+
+        _canvasMenu.renderMode = RenderMode.ScreenSpaceCamera;
+        _canvasMenu.worldCamera = Camera.current;
     }
 
     private void Update()
