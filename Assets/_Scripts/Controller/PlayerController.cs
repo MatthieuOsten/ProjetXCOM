@@ -277,7 +277,7 @@ public class PlayerController : Team
         // quand le joueur press Echap en mode action, il retourn en mode Selection,
         // les précedentes cases sélectionner sont clean
         if (_inputManager.TestGrid.Echap.IsPressed()) ExitActionMode();
-        
+
         Vector3 mousePos = MouseToWorldPosition();
         // Les coordonnées sont calculés comme ça 
         int x = (int)Mathf.Round(mousePos.x / _selectedGrid.CellSize);
@@ -628,9 +628,10 @@ public class PlayerController : Team
 
     public override void StartTurn()
     {
-        SelectedFirst();
+        
         _cooldownBeforeStartTurnTimer = 0; // Permet d'init un cooldown avant de démarrer le tour 
-        base.StartTurn();
+        base.StartTurn(); // Important car reset tout les perso 
+        SelectedFirst();
     }
 
     public override void EndTurn()
