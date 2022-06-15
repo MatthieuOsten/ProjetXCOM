@@ -93,7 +93,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 8a01d1f6e7803f041a248a3b3ab5b7e8, type: 3}
+        m_Texture: {fileID: 2800000, guid: b678475a14eb45c479b366c642d2432e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMapOS:

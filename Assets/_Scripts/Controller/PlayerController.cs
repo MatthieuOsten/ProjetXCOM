@@ -588,7 +588,8 @@ public class PlayerController : Team
         if ( _inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {
             // Si un chemin est suggéré, qu'un personnage est sélectionner, et que celui ne bouge pas, on lui implante une nouvelle destination 
-            if (pathSuggested != null && _char != null && pathSuggested.Length > 0 && !_char.IsMoving)
+            if (pathSuggested != null && _char != null && pathSuggested.Length > 0 && !_char.IsMoving
+            && AimCase == pathSuggested[pathSuggested.Length-1])
             {
                 _char.SetDestination(pathSuggested);
                 _char.transform.LookAt(AimCase.transform);

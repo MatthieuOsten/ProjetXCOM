@@ -55,6 +55,7 @@ public class Character : Actor
     Material MaterialCaseOverwatch;
     Material MaterialCasePreviewOverwatch;
 
+    private Material CaseCharacterNotAvailableMaterial; 
     private Material CaseCharacterMaterial; 
     private Material CaseCharacterSelectedMaterial; 
 
@@ -226,6 +227,8 @@ public class Character : Actor
         CaseCharacterMaterial.SetColor("_EmissiveColor", Owner.Color * 20);
         CaseCharacterSelectedMaterial.SetColor("_EmissiveColor", Owner.Color * 20);
 
+        CaseCharacterNotAvailableMaterial = new Material(CurrentCase.GridParent.Data.caseCharacter);
+        CaseCharacterNotAvailableMaterial.SetColor("_EmissiveColor", (Owner.Color * 20) * 0.25f);
        
 
         // Get og material
@@ -280,14 +283,23 @@ public class Character : Actor
     {
         if(Owner is PlayerController pC)
         {
-
-            
-            if(pC.GetCurrentCharactedSelected == this)
-                CurrentCase.ChangeMaterial(CaseCharacterSelectedMaterial);
+            if(Owner.CanPlay && CanAction && !IsMoving)
+            {
+                if(pC.GetCurrentCharactedSelected == this)
+                    CurrentCase.ChangeMaterial(CaseCharacterSelectedMaterial);
+                else if(!CurrentCase.Highlighted && !CurrentCase.Checked && !CurrentCase.Selected)
+                {
+                    CurrentCase.ChangeMaterial(CaseCharacterMaterial);
+                }
+            }
             else if(!CurrentCase.Highlighted && !CurrentCase.Checked && !CurrentCase.Selected)
             {
-                CurrentCase.ChangeMaterial(CaseCharacterMaterial);
+                CurrentCase.ChangeMaterial(CaseCharacterNotAvailableMaterial);
             }
+
+            
+
+            
 
         }
         // if(_damageCooldown > 0)
