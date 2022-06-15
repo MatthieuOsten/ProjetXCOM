@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DATA_Reload
   m_EditorClassIdentifier: 
   name: Reload
-  description: Permet de recharger
+  description: '[1 PA] Permet de recharger.'
   type: 
   tags:
   - action_reload
