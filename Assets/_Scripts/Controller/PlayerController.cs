@@ -676,7 +676,7 @@ public class PlayerController : Team
             FindObjectOfType<LevelManager>().goToSceneReturn();
         }
 
-        if (CanPlay)
+        if (CanPlay  )
         {
             if (_cooldownBeforeStartTurnTimer < _cooldownBeforeStartTurn)
             {
@@ -695,10 +695,10 @@ public class PlayerController : Team
                     SelectionAction();
                     break;
             }
-            // On regarde les inputs lié à la caméra
+         // On regarde les inputs lié à la caméra
             InputCameraIsometric();
             // Si un actor est selectionner on met en surbrillance sa case
-            if (_selectedActor != null)
+            if (_selectedActor != null && !CharacterIsMoving)
             {
                 _selectedActor.CurrentCase.Highlighted = true;
                 _selectedActor.CurrentCase.ChangeMaterial(caseSelected);
@@ -757,6 +757,7 @@ public class PlayerController : Team
     //Input de la camera vue du dessus
     private void InputCameraIsometric()
     {
+        
         if (!_leftHand)
         {
             /*_inputManager.ControlCamera.RightHandTurnRight.performed += context => cameraIsometric.TurnAroundRight(_onShoulder);
@@ -841,6 +842,7 @@ public class PlayerController : Team
     //Permet de changer de character
     public void CharacterChange()
     {
+        if(CharacterIsMoving) return;
         //Si tout les persos sont morts, on entre dans ce if.       
         if (CharacterPlayer.Any(y => y == null))
         {
