@@ -2230,7 +2230,7 @@ GameObject:
   - component: {fileID: 7858736611566737355}
   - component: {fileID: 1024684160588917098}
   m_Layer: 0
-  m_Name: Matt_Prefab_Environment_1
+  m_Name: Matt_Prefab_TestEnvironment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
