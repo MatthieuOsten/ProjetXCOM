@@ -274,6 +274,10 @@ public class PlayerController : Team
 
     void SelectionAction()
     {
+        // quand le joueur press Echap en mode action, il retourn en mode Selection,
+        // les précedentes cases sélectionner sont clean
+        if (_inputManager.TestGrid.Echap.IsPressed()) ExitActionMode();
+        
         Vector3 mousePos = MouseToWorldPosition();
         // Les coordonnées sont calculés comme ça 
         int x = (int)Mathf.Round(mousePos.x / _selectedGrid.CellSize);
@@ -337,9 +341,7 @@ public class PlayerController : Team
                 }    
             }
         }
-        // quand le joueur press Echap en mode action, il retourn en mode Selection,
-        // les précedentes cases sélectionner sont clean
-        if (_inputManager.TestGrid.Echap.IsPressed()) ExitActionMode();
+        
     }
 
     // TODO : Les watchers et exec des types d'action seront peut etre dépendant de chaque perso 
@@ -522,6 +524,11 @@ public class PlayerController : Team
     /// <summary> Fonction qui est exécuté quand le joueur n'est pas en mode action </summary>
     void SelectionWatcher()
     {
+        // Si le joueur appuie sur Echap, on déselectionne tout
+        if (_inputManager.TestGrid.Echap.WasPerformedThisFrame())
+        {
+            ResetSelection();
+        }
         // Gestion de la visée de case
         Vector3 mousePos = MouseToWorldPosition();
         int x = (int)Mathf.Round(mousePos.x / _selectedGrid.CellSize);
@@ -616,15 +623,12 @@ public class PlayerController : Team
             pathSuggested = null;
 
         }
-        // Si le joueur appuie sur Echap, on déselectionne tout
-        if (_inputManager.TestGrid.Echap.WasPerformedThisFrame())
-        {
-            ResetSelection();
-        }
+        
     }
 
     public override void StartTurn()
     {
+        SelectedFirst();
         _cooldownBeforeStartTurnTimer = 0; // Permet d'init un cooldown avant de démarrer le tour 
         base.StartTurn();
     }
@@ -663,7 +667,7 @@ public class PlayerController : Team
     // Update() qui override Update() de Team 
     public override void Update()
     {
-        SelectedFirst();
+        
         if (_inputManager == null) EnableInputManager();
 
         if (_inputManager.System.Exit.WasPressedThisFrame())
