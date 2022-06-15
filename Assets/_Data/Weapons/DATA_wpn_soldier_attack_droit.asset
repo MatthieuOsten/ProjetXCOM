@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: DATA_wpn_soldier_attack_droit
   m_EditorClassIdentifier: 
   name: Carabine
-  description: "[ 1 PA ] [ 4 Munitions rechargeable ] Inflige 3 Points de d\xE9gats"
+  description: "[ 1 PA ] [ 4 Munitions rechargeable ] [Port\xE9e 6] Inflige 3 Points
+    de d\xE9gats"
   type: 
   tags:
   - action_attack
@@ -29,6 +30,7 @@ MonoBehaviour:
     diagonal: 0
     type: 0
     caseRange: {fileID: 2100000, guid: fdf463b8ae6ce5045acba0537e3dbfd8, type: 2}
+    casePreviewRange: {fileID: 0}
   _maxAmmo: 4
   Cooldown: 0
   _animIdle: {fileID: 0}
