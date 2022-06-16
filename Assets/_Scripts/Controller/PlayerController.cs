@@ -274,6 +274,10 @@ public class PlayerController : Team
 
     void SelectionAction()
     {
+        // quand le joueur press Echap en mode action, il retourn en mode Selection,
+        // les précedentes cases sélectionner sont clean
+        if (_inputManager.TestGrid.Echap.IsPressed()) ExitActionMode();
+
         Vector3 mousePos = MouseToWorldPosition();
         // Les coordonnées sont calculés comme ça 
         int x = (int)Mathf.Round(mousePos.x / _selectedGrid.CellSize);
@@ -337,9 +341,7 @@ public class PlayerController : Team
                 }    
             }
         }
-        // quand le joueur press Echap en mode action, il retourn en mode Selection,
-        // les précedentes cases sélectionner sont clean
-        if (_inputManager.TestGrid.Echap.IsPressed()) ExitActionMode();
+        
     }
 
     // TODO : Les watchers et exec des types d'action seront peut etre dépendant de chaque perso 
@@ -522,6 +524,11 @@ public class PlayerController : Team
     /// <summary> Fonction qui est exécuté quand le joueur n'est pas en mode action </summary>
     void SelectionWatcher()
     {
+        // Si le joueur appuie sur Echap, on déselectionne tout
+        if (_inputManager.TestGrid.Echap.WasPerformedThisFrame())
+        {
+            ResetSelection();
+        }
         // Gestion de la visée de case
         Vector3 mousePos = MouseToWorldPosition();
         int x = (int)Mathf.Round(mousePos.x / _selectedGrid.CellSize);
@@ -588,7 +595,8 @@ public class PlayerController : Team
         if ( _inputManager.TestGrid.Action.WasPerformedThisFrame() && !MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>())) // TODO : Input a changer
         {
             // Si un chemin est suggéré, qu'un personnage est sélectionner, et que celui ne bouge pas, on lui implante une nouvelle destination 
-            if (pathSuggested != null && _char != null && pathSuggested.Length > 0 && !_char.IsMoving)
+            if (pathSuggested != null && _char != null && pathSuggested.Length > 0 && !_char.IsMoving
+            && AimCase == pathSuggested[pathSuggested.Length-1])
             {
                 _char.SetDestination(pathSuggested);
                 _char.transform.LookAt(AimCase.transform);
@@ -615,17 +623,15 @@ public class PlayerController : Team
             pathSuggested = null;
 
         }
-        // Si le joueur appuie sur Echap, on déselectionne tout
-        if (_inputManager.TestGrid.Echap.WasPerformedThisFrame())
-        {
-            ResetSelection();
-        }
+        
     }
 
     public override void StartTurn()
     {
+        
         _cooldownBeforeStartTurnTimer = 0; // Permet d'init un cooldown avant de démarrer le tour 
-        base.StartTurn();
+        base.StartTurn(); // Important car reset tout les perso 
+        SelectedFirst();
     }
 
     public override void EndTurn()
@@ -662,7 +668,7 @@ public class PlayerController : Team
     // Update() qui override Update() de Team 
     public override void Update()
     {
-        SelectedFirst();
+        
         if (_inputManager == null) EnableInputManager();
 
         if (_inputManager.System.Exit.WasPressedThisFrame())
@@ -670,7 +676,7 @@ public class PlayerController : Team
             FindObjectOfType<LevelManager>().goToSceneReturn();
         }
 
-        if (CanPlay)
+        if (CanPlay  )
         {
             if (_cooldownBeforeStartTurnTimer < _cooldownBeforeStartTurn)
             {
@@ -689,10 +695,10 @@ public class PlayerController : Team
                     SelectionAction();
                     break;
             }
-            // On regarde les inputs lié à la caméra
+         // On regarde les inputs lié à la caméra
             InputCameraIsometric();
             // Si un actor est selectionner on met en surbrillance sa case
-            if (_selectedActor != null)
+            if (_selectedActor != null && !CharacterIsMoving)
             {
                 _selectedActor.CurrentCase.Highlighted = true;
                 _selectedActor.CurrentCase.ChangeMaterial(caseSelected);
@@ -751,6 +757,7 @@ public class PlayerController : Team
     //Input de la camera vue du dessus
     private void InputCameraIsometric()
     {
+        
         if (!_leftHand)
         {
             /*_inputManager.ControlCamera.RightHandTurnRight.performed += context => cameraIsometric.TurnAroundRight(_onShoulder);
@@ -835,6 +842,7 @@ public class PlayerController : Team
     //Permet de changer de character
     public void CharacterChange()
     {
+        if(CharacterIsMoving) return;
         //Si tout les persos sont morts, on entre dans ce if.       
         if (CharacterPlayer.Any(y => y == null))
         {
