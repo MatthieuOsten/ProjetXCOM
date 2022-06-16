@@ -277,7 +277,7 @@ public class UIManager : MonoBehaviour
         }
             
         if(pa != 0)
-            component.textComponent[1].text = IsPositiveOrNegatif(pa) + "PA";
+            component.textComponent[1].text = IsPositiveOrNegatif(pa);
 
         if (component.icon != null)
         {
