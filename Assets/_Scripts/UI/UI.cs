@@ -91,13 +91,54 @@ public class UI : MonoBehaviour
         MaximumAmmo();
         ShadeBar();
         UpdateButtonInformation();
-        ListTeam(iconeTeam);        
+        WatchListTeam();
+             
     }
 
     private void FixedUpdate()
     {
         UpdateActionBar();
         ActualAmmo();
+    }
+
+    void WatchListTeam()
+    {
+         // gere l'affichage de leur etat
+        for (int i = 0; i < _teamImage.Count; i++)
+        {
+            if(_teamImage[i] == null) return;
+            RectTransform rectTrans = _teamImage[i].GetComponent<RectTransform>();
+             rectTrans.pivot = new Vector2(0,1);
+             
+            // Si un personnage est selectionner, on le met en surbrillance
+            if(_pC.GetCurrentCharactedSelected != null)
+            {
+                 if(i == _pC.CharacterIndex)
+                {
+                    //Color colorIcone = _teamImage[i].GetComponent<Image>().color;
+                    //colorIcone.a = 1f;
+                    //_teamImage[i].GetComponent<Image>().color = colorIcone;
+                    
+                    rectTrans.localScale = new Vector3(1.5f,1.5f,1.5f);
+                }
+
+                else
+                {
+                   //Color colorIcone = _teamImage[i].GetComponent<Image>().color;
+                   //colorIcone.a = 0.5f;
+                    //_teamImage[i].GetComponent<Image>().color = colorIcone;
+                     rectTrans.localScale = new Vector3(1f,1f,1f);
+                }
+            }
+            else // Aucun perso selectionner, on les met tous de la meme opacity
+            {
+                //Color colorIcone = _teamImage[i].GetComponent<Image>().color;
+                //colorIcone.a = 1f;
+                //_teamImage[i].GetComponent<Image>().color = colorIcone;
+                 rectTrans.localScale = new Vector3(1f,1f,1f);
+            }
+           
+        }
     }
     private void FindScripts()
     {
@@ -109,18 +150,18 @@ public class UI : MonoBehaviour
     {
         if(_pC != LevelManager.GetCurrentController())
         {
-            if(_teamImage.Count > 0)
+            foreach(GameObject image in _teamImage)
             {
-                foreach(GameObject image in _teamImage)
-                {
-                    Destroy(image);
-                }
-
-                _teamImage = new List<GameObject>();
+                Destroy(image);
             }
+            _teamImage = new List<GameObject>();
+            _pC = (PlayerController)LevelManager.GetCurrentController();
+
+            ListTeam(iconeTeam);   
+            
         }
 
-        _pC = (PlayerController)LevelManager.GetCurrentController();
+        
         
         if(_pC != null)
         {
@@ -372,59 +413,27 @@ public class UI : MonoBehaviour
     {
         iconeTeam = addIconeTeam;
         _glowTeam.color = _pC.Data.Color;
-     
-        foreach (Character character in _pC.Squad)
+
+        foreach (GameObject goCharacter in _pC.CharacterPlayer)
         {
+            Character character = goCharacter.GetComponent<Character>();
             // Instantie le nombre de d'image, ajoute au bon gameobject et à une liste
-            if (_teamImage.Count < _pC.Squad.Length)
-            {
+          
+                if(character == null)  continue;
                 addIconeTeam = Instantiate(imageIconeTeam, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
+                addIconeTeam.GetComponent<WidgetActorInfo>().relatedObject = character.gameObject;
+                 addIconeTeam.GetComponent<WidgetActorInfo>().IsFixed = true;
                 addIconeTeam.transform.SetParent(parentIconeTeam.transform, false);
                 _teamImage.Add(addIconeTeam);
-                addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
+                //addIconeTeam.GetComponent<Image>().sprite = character.GetCharacterIcon();
 
-                // gere l'affichage de leur etat si blesser
-               if (character == null)
-               {
-                    Color colorIcone = addIconeTeam.GetComponent<Image>().color;
-                    colorIcone.r = 0.8f;
-                    colorIcone.g = 0f;
-                    colorIcone.b = 0f;
-                    colorIcone.a = 0.6f;
-                    addIconeTeam.GetComponent<Image>().color = colorIcone;
-               }
-            }
+         
+            
 
         }
 
-        // gere l'affichage de leur etat
-        for (int i = 0; i < _teamImage.Count; i++)
-        {
-            // Si un personnage est selectionner, on le met en surbrillance
-            if(_pC.GetCurrentCharactedSelected != null)
-            {
-                 if(i == _pC.CharacterIndex)
-                {
-                    Color colorIcone = _teamImage[i].GetComponent<Image>().color;
-                    colorIcone.a = 1f;
-                    _teamImage[i].GetComponent<Image>().color = colorIcone;
-                }
-
-                else
-                {
-                    Color colorIcone = _teamImage[i].GetComponent<Image>().color;
-                    colorIcone.a = 0.5f;
-                    _teamImage[i].GetComponent<Image>().color = colorIcone;
-                }
-            }
-            else // Aucun perso selectionner, on les met tous de la meme opacity
-            {
-                Color colorIcone = _teamImage[i].GetComponent<Image>().color;
-                colorIcone.a = 1f;
-                _teamImage[i].GetComponent<Image>().color = colorIcone;
-            }
-           
-        }
+       
+        
     }
 
     void ResetSelection()
