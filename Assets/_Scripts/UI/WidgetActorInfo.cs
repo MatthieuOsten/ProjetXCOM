@@ -9,15 +9,21 @@ using UnityEngine.UI;
 public class WidgetActorInfo : HintstringProperty
 {
     Character _actor;
-    [Header("WIDGETS")]
+    [Header("WIDGET SPECIFICITY")]
     [SerializeField] Image _iconActor;
     [SerializeField] Image _background;
     [SerializeField] Image _iconOverwatch;
     [SerializeField] Image _arrowSelected;
+    [SerializeField] GameObject HealthPartPrefab;
+    [SerializeField] GameObject PanelHealth;
+
     float _lowOpacity = 0.1f;
 
     protected override void Start() {
         _actor = relatedObject.GetComponent<Character>();
+
+
+
         offset = new Vector3(0, 45, 0);
 
         _iconActor.sprite = _actor.GetCharacterIcon();
@@ -29,9 +35,21 @@ public class WidgetActorInfo : HintstringProperty
         _background.color = _color;
         _background.gameObject.SetActive(false);
         JaugeProgression.GetComponent<Image>().color = _actor.GetTeamColor();
-
+        AddHealthPart();
     }
-
+    void AddHealthPart()
+    {
+         int childs = PanelHealth.transform.childCount;
+        for (int i = childs - 1; i >= 0; i--)
+        {
+            Destroy(PanelHealth.transform.GetChild(i).gameObject);
+        }
+        for(int i = 0 ; i < _actor.Health; i++)
+        {
+            GameObject healthPart = Instantiate(HealthPartPrefab,Vector3.zero,Quaternion.identity, PanelHealth.transform);
+            //healthPart.GetComponent<Image>().color = _actor.GetTeamColor();
+        }
+    }
     protected override void Update()
     {
         base.Update();
@@ -54,10 +72,20 @@ public class WidgetActorInfo : HintstringProperty
 
             //textComponent[0].text = _actor.Data.name; 
         textComponent[0].text = "";
-        textComponent[1].text = _actor.Health+"/"+_actor.Data.Health;
+        textComponent[1].text = _actor.Health.ToString();
         textComponent[2].text = _actor.CurrentActionPoint + "/" + _actor.MaxActionPoint + " PA ";
         progression = (float)_actor.Health/(float)_actor.Data.Health;
 
+        for (int i = 0; i < PanelHealth.transform.childCount; i++)
+        {
+            // Image _image = PanelHealth.transform.GetChild(i).GetComponent<Image>();
+            // if(i < _actor.Health)
+            // {
+            //     _image.color = _actor.GetTeamColor();
+            // }
+            // else _image.color = Color.clear;
+
+        }
         // Si le personnage du widget correspond a la team qui joue
         if (_selectedActor != null && _actor.Owner == currentTeam)
         {
