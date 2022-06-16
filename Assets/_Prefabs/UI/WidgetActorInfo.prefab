@@ -507,7 +507,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 99cb02a64a7b0d545928c64f5265dc28, type: 3}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -515,7 +515,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4.67
 --- !u!1 &3708069219422051151
 GameObject:
   m_ObjectHideFlags: 0
@@ -792,7 +792,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8123865611639504048}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -903,7 +903,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: da098e9c51c4f7d42bd00970713bfc95, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d584f474670494842b6adc1177b74cf7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -949,8 +949,8 @@ RectTransform:
   - {fileID: 526526337069181670}
   - {fileID: 830719802162639386}
   - {fileID: 9101358591634812155}
-  - {fileID: 6582784726102430096}
   - {fileID: 5488069189316653999}
+  - {fileID: 6582784726102430096}
   - {fileID: 3651616192082820257}
   - {fileID: 3783176134267124526}
   - {fileID: 4288844561917822521}
@@ -1180,7 +1180,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8424523580977030846}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1190,7 +1190,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9, y: 42.55}
+  m_AnchoredPosition: {x: 9.000008, y: 42.55}
   m_SizeDelta: {x: 44.3, y: 14.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4060428948717102974
@@ -1335,7 +1335,7 @@ PrefabInstance:
     - target: {fileID: 5616643783113545071, guid: eca35abe6cce964439fa6597f37ad70a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5616643783113545071, guid: eca35abe6cce964439fa6597f37ad70a,
         type: 3}

@@ -504,6 +504,7 @@ public class UI : MonoBehaviour
 
     private void UpdateButtonInformation()
     {
+        if(_cH == null) return;
         // ---- Initialise chaque bouttons en rapport avec les capacités actuel ---- //
         for (int i = 0; i < _actionButton.Count; i++)
         {

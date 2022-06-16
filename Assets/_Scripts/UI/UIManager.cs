@@ -275,9 +275,21 @@ public class UIManager : MonoBehaviour
         {
             component.textComponent[0].text = IsPositiveOrNegatif(health)+ "PV";
         }
+        else
+        {
+            component.textComponent[0].text = System.String.Empty;
+        }
             
         if(pa != 0)
+        {
             component.textComponent[1].text = IsPositiveOrNegatif(pa);
+            component.textComponent[1].GetComponentInChildren<Image>().enabled = true;
+        }
+        else
+        {
+            component.textComponent[1].GetComponentInChildren<Image>().enabled = false;
+            component.textComponent[1].text = System.String.Empty;
+        }
 
         if (component.icon != null)
         {
