@@ -15,6 +15,7 @@ public class WidgetActorInfo : HintstringProperty
     [SerializeField] Image _background;
     [SerializeField] Image _iconOverwatch;
     [SerializeField] Image _arrowSelected;
+    [SerializeField] Image _back;
     [SerializeField] GameObject HealthPartPrefab;
     [SerializeField] GameObject PanelHealth;
     public bool IsFixed;
@@ -98,7 +99,7 @@ public class WidgetActorInfo : HintstringProperty
             if (_selectedActor != _actor)
             {
                 //_arrowSelected.gameObject.SetActive(false);
-
+                _back.gameObject.SetActive(false);
                 _background.gameObject.SetActive(false);
                 for (int i = 0; i < images.Length; i++)
                 {
@@ -111,8 +112,9 @@ public class WidgetActorInfo : HintstringProperty
             }
             else // Si on est la, c'est qu'on est sur le personnage s�lectionner par le widget
             {
-               // _arrowSelected.gameObject.SetActive(true);
-               // _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", false);
+                // _arrowSelected.gameObject.SetActive(true);
+                // _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", false);
+                _back.gameObject.SetActive(true);
                 _background.gameObject.SetActive(true);
                 for (int i = 0; i < textComponent.Length; i++)
                 {
@@ -170,7 +172,10 @@ public class WidgetActorInfo : HintstringProperty
             return;
         }
 
-
+        if(!IsFixed)
+        {
+            _back.gameObject.SetActive(false);
+        }
      
     }
 
