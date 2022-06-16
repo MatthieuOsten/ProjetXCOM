@@ -174,8 +174,6 @@ public class ScrollManager : MonoBehaviour
 
     }
 
-#if UNITY_EDITOR
-
     /// <summary>
     /// Met a jour les parametres du ScrollManager lorsqu'il est dans l'editeur
     /// </summary>
@@ -207,7 +205,5 @@ public class ScrollManager : MonoBehaviour
         _positionScroll = _camTarget.position + _offsetPosition;
 
     }
-
-#endif
 
 }
