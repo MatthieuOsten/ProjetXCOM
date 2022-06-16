@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ffebdf3ef8750c49bc8bad5d6ff831c, type: 3}
   m_Name: DATA_wpn_tank_attack
   m_EditorClassIdentifier: 
-  name: Bouclier
+  name: Attaque
   description: "[1 PA] [CaC]  Inflige 2 Points de d\xE9gats et retire 1 PA \xE0 la
     cible. "
   type: 
   tags:
   - action_attack
-  icon: {fileID: 21300000, guid: 2e9f008b4bdd62d429471f1db4064e9d, type: 3}
+  icon: {fileID: 21300000, guid: be591fb57003c45468388d2a40cca380, type: 3}
   _prefabWeapon: {fileID: 0}
   _tabCosmetic: []
   _tabAccessory: []

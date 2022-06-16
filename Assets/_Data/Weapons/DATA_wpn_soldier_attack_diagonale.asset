@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ffebdf3ef8750c49bc8bad5d6ff831c, type: 3}
   m_Name: DATA_wpn_soldier_attack_diagonale
   m_EditorClassIdentifier: 
-  name: Carabine
-  description: "[ 1 PA ] [ 4 Munitions rechargeable ] [Port\xE9e 6] Inflige 3 Points
+  name: Attaque
+  description: "[ 1 PA ] [ 4 Munitions rechargeable ] [Port\xE9e 5] Inflige 3 Points
     de d\xE9gats"
   type: 
   tags:
   - action_attack
-  icon: {fileID: 21300000, guid: 8f41bba4a3fec0345b16ed913c075ac7, type: 3}
+  icon: {fileID: 21300000, guid: 7fe01bef61e2c904da753c3820de8678, type: 3}
   _prefabWeapon: {fileID: 0}
   _tabCosmetic: []
   _tabAccessory: []

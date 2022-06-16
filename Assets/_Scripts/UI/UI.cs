@@ -119,7 +119,7 @@ public class UI : MonoBehaviour
                     //colorIcone.a = 1f;
                     //_teamImage[i].GetComponent<Image>().color = colorIcone;
                     
-                    rectTrans.localScale = new Vector3(1.5f,1.5f,1.5f);
+                    rectTrans.localScale = new Vector3(1.3f,1.3f,1.5f);
                 }
 
                 else
@@ -127,7 +127,7 @@ public class UI : MonoBehaviour
                    //Color colorIcone = _teamImage[i].GetComponent<Image>().color;
                    //colorIcone.a = 0.5f;
                     //_teamImage[i].GetComponent<Image>().color = colorIcone;
-                     rectTrans.localScale = new Vector3(1f,1f,1f);
+                     rectTrans.localScale = new Vector3(0.8f,0.8f,1f);
                 }
             }
             else // Aucun perso selectionner, on les met tous de la meme opacity
@@ -226,7 +226,7 @@ public class UI : MonoBehaviour
                 _icone.sprite = _cH.GetCharacterIcon();
                 _icone.color = Color.white;
 
-                _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 1f);
+                _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0.7f);
                 foreach (Image image in children)
                 {
                     image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
@@ -276,15 +276,17 @@ public class UI : MonoBehaviour
                         colorReload.a = 1f;
                         _reload.GetComponent<Image>().color = colorReload;
                         _reload.GetComponent<Button>().interactable = true;
-                       // Debug.Log("marche");
+                        _reload.GetComponentInChildren<ButtonAction>().ICONE.color = colorReload;
+                        // Debug.Log("marche");
                     }
 
                    
             else
             {
-               colorReload.a = 0.3f;
+               colorReload.a = 0.5f;
                _reload.GetComponent<Image>().color = colorReload;
                _reload.GetComponent<Button>().interactable = false;
+               _reload.GetComponentInChildren<ButtonAction>().ICONE.color = colorReload;
             } 
 
     }
@@ -303,14 +305,16 @@ public class UI : MonoBehaviour
             _competence1.GetComponent<Button>().interactable = true;
             _competence1.GetComponent<Image>().color = colorCompetence1;
             _competence1.GetComponentInChildren<ButtonAction>().Cooldown.text = string.Empty;
+            _competence1.GetComponentInChildren<ButtonAction>().ICONE.color = colorCompetence1;
         }
 
         else
         {
-            colorCompetence1.a = 0.3f;
+            colorCompetence1.a = 0.5f;
             _competence1.GetComponent<Image>().color = colorCompetence1;
             _competence1.GetComponent<Button>().interactable = false;
             _competence1.GetComponentInChildren<ButtonAction>().Cooldown.text = Mathf.RoundToInt(CurrentCooldown).ToString();
+            _competence1.GetComponentInChildren<ButtonAction>().ICONE.color = colorCompetence1;
         }
     }
 
@@ -353,12 +357,13 @@ public class UI : MonoBehaviour
             Color _color = _actionPoint[i].GetComponent<Image>().color;
             if (i >= _cH.CurrentActionPoint)
             {
-                _actionPoint[i].GetComponent<Image>().color = new Color(_color.r, _color.g, _color.b, 0f);
+                _actionPoint[i].GetComponent<Image>().color = new Color(_color.r, _color.g, _color.b, 0.2f);
             }
 
             else
             {
                 _actionPoint[i].GetComponent<Image>().color = new Color(_color.r, _color.g, _color.b, 1f);
+                
             }
         }
 
@@ -503,6 +508,7 @@ public class UI : MonoBehaviour
         // ---- Initialise chaque bouttons en rapport avec les capacités actuel ---- //
         for (int i = 0; i < _actionButton.Count; i++)
         {
+            if (_cH == null) return;
 
             _actionButton[i].GetComponent<ButtonAction>().Input.text = (i + 1).ToString();
 

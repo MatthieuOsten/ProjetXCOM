@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class ButtonAction : MonoBehaviour
@@ -8,6 +9,7 @@ public class ButtonAction : MonoBehaviour
     //Variables permattant de changer les textes des boutons
     [SerializeField] TextMeshProUGUI input;
     [SerializeField] TextMeshProUGUI cooldown;
+    [SerializeField] Image icone;
 
     public TextMeshProUGUI Input
     {
@@ -27,4 +29,12 @@ public class ButtonAction : MonoBehaviour
         }
     }
 
+    public Image ICONE
+    {
+        get { return icone; }
+        set
+        {
+            icone = value;
+        }
+    }
 }

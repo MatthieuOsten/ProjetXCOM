@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6ebc3aca1061d34eb27f38da2947ea2, type: 3}
   m_Name: DATA_Overwatch
   m_EditorClassIdentifier: 
-  name: Overwatch
+  name: Interception
   description: "[PA restants][-1 Port\xE9e] Tir sur l'ennemi qui passe dans sa port\xE9e,
     s'interrompt si re\xE7oit des d\xE9gats. "
   type: 
   tags: []
-  icon: {fileID: 21300000, guid: 7b25fbafa09b7ed4c853b32bed5e90f4, type: 3}
+  icon: {fileID: 21300000, guid: d584f474670494842b6adc1177b74cf7, type: 3}

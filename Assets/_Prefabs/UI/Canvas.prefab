@@ -31,11 +31,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6487854804371774270}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -475.7788, y: 125.00002}
+  m_AnchoredPosition: {x: -501, y: -66}
   m_SizeDelta: {x: 114.8823, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2357847272030215480
@@ -103,7 +103,7 @@ RectTransform:
   m_GameObject: {fileID: 331785971068784830}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8536448354429887577}
@@ -115,7 +115,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 54, y: 70}
+  m_AnchoredPosition: {x: 71, y: -19}
   m_SizeDelta: {x: 0, y: -500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7091634293006045999
@@ -870,7 +870,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4875419812700625458
 RectTransform:
   m_ObjectHideFlags: 0
@@ -949,7 +949,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5777125450821552688
 RectTransform:
   m_ObjectHideFlags: 0
@@ -964,7 +964,7 @@ RectTransform:
   m_Children:
   - {fileID: 8073931707239975543}
   m_Father: {fileID: 6487854804371774270}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1078,7 +1078,7 @@ RectTransform:
   m_GameObject: {fileID: 4980103919222708288}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6487854804371774270}
@@ -1107,7 +1107,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 10
+  m_Spacing: -60
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1460,7 +1460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2830189, g: 0.21760415, b: 0.21760415, a: 1}
+  m_Color: {r: 0.2830189, g: 0.21760415, b: 0.21760415, a: 0.7921569}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1556,8 +1556,8 @@ RectTransform:
   - {fileID: 7546996654430440722}
   - {fileID: 8297811210032708450}
   - {fileID: 3133970709160443020}
-  - {fileID: 7375340350058585706}
   - {fileID: 5777125450821552688}
+  - {fileID: 7375340350058585706}
   - {fileID: 5274025648340346999}
   - {fileID: 6365586624461616646}
   - {fileID: 8580192797788701143}
@@ -1647,11 +1647,12 @@ MonoBehaviour:
   _pC: {fileID: 0}
   _cH: {fileID: 0}
   _barreAction: {fileID: 0}
-  textCooldown: {fileID: 0}
+  textCooldown: {fileID: 4067572369740706874, guid: a4999159a68da6b44af075de5c11eb48,
+    type: 3}
   _icone: {fileID: 9055037691260152018}
   _iconeTeam: {fileID: 0}
   _glowTeam: {fileID: 5680207942497307449}
-  imageAmmo: {fileID: 4016150042099831059, guid: 28d4bd7848826d44d9036dac73ef1c68,
+  imageAmmo: {fileID: 1817914055381407321, guid: 371bd0fdee90eda4d91e09dbee51942a,
     type: 3}
   parentAmmo: {fileID: 4980103919222708288}
   imageActionPoint: {fileID: 5910762917480837976, guid: 466fc52dc3076344e8cf4b1b12b0b818,
@@ -1672,7 +1673,12 @@ MonoBehaviour:
   _vigilance: {fileID: 0}
   _competence1: {fileID: 0}
   _competence2: {fileID: 0}
-  _actionButton: []
+  _actionButton:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   _actionCapacity: []
   _layoutGroup: {fileID: 6154651053264053481}
   _prefabButton: {fileID: 7880833857379577222, guid: dda10d5189e5fa14eac92dad8d349bf7,
@@ -2094,7 +2100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3457846457457597839
 RectTransform:
   m_ObjectHideFlags: 0
