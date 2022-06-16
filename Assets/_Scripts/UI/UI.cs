@@ -307,7 +307,7 @@ public class UI : MonoBehaviour
 
         else
         {
-            colorCompetence1.a = 0.3f;
+            colorCompetence1.a = 0.7f;
             _competence1.GetComponent<Image>().color = colorCompetence1;
             _competence1.GetComponent<Button>().interactable = false;
             _competence1.GetComponentInChildren<ButtonAction>().Cooldown.text = Mathf.RoundToInt(CurrentCooldown).ToString();
