@@ -9,15 +9,25 @@ using UnityEngine.UI;
 public class WidgetActorInfo : HintstringProperty
 {
     Character _actor;
-    [Header("WIDGETS")]
+
+    [Header("WIDGET SPECIFICITY")]
     [SerializeField] Image _iconActor;
     [SerializeField] Image _background;
     [SerializeField] Image _iconOverwatch;
     [SerializeField] Image _arrowSelected;
+    [SerializeField] GameObject HealthPartPrefab;
+    [SerializeField] GameObject PanelHealth;
+    public bool IsFixed;
+
     float _lowOpacity = 0.1f;
 
     protected override void Start() {
+        if(relatedObject == null) return;
+
         _actor = relatedObject.GetComponent<Character>();
+
+
+
         offset = new Vector3(0, 45, 0);
 
         _iconActor.sprite = _actor.GetCharacterIcon();
@@ -29,9 +39,21 @@ public class WidgetActorInfo : HintstringProperty
         _background.color = _color;
         _background.gameObject.SetActive(false);
         JaugeProgression.GetComponent<Image>().color = _actor.GetTeamColor();
-
+        AddHealthPart();
     }
-
+    void AddHealthPart()
+    {
+         int childs = PanelHealth.transform.childCount;
+        for (int i = childs - 1; i >= 0; i--)
+        {
+            Destroy(PanelHealth.transform.GetChild(i).gameObject);
+        }
+        for(int i = 0 ; i < _actor.MaxHealth; i++)
+        {
+            GameObject healthPart = Instantiate(HealthPartPrefab,Vector3.zero,Quaternion.identity, PanelHealth.transform);
+            //healthPart.GetComponent<Image>().color = _actor.GetTeamColor();
+        }
+    }
     protected override void Update()
     {
         base.Update();
@@ -48,23 +70,34 @@ public class WidgetActorInfo : HintstringProperty
             _selectedActor = player.GetCurrentActorSelected;
         }
         Image[] images = gameObject.GetComponentsInChildren<Image>();
+        if(_actor == null) return; 
 
         _iconOverwatch.gameObject.SetActive(_actor.IsOverwatching);
        
 
             //textComponent[0].text = _actor.Data.name; 
         textComponent[0].text = "";
-        textComponent[1].text = _actor.Health+"/"+_actor.Data.Health;
-        textComponent[2].text = _actor.CurrentActionPoint + "/" + _actor.MaxActionPoint + " PA ";
+        textComponent[1].text = _actor.Health.ToString();
+        textComponent[2].text = "x"+_actor.CurrentActionPoint ;
         progression = (float)_actor.Health/(float)_actor.Data.Health;
 
+        for (int i = 0; i < PanelHealth.transform.childCount; i++)
+        {
+            // Image _image = PanelHealth.transform.GetChild(i).GetComponent<Image>();
+            // if(i < _actor.Health)
+            // {
+            //     _image.color = _actor.GetTeamColor();
+            // }
+            // else _image.color = Color.clear;
+
+        }
         // Si le personnage du widget correspond a la team qui joue
         if (_selectedActor != null && _actor.Owner == currentTeam)
         {
             // Si le personnage s�lectionner n'est pas celui du widget, on diminue l'opacit�
             if (_selectedActor != _actor)
             {
-                _arrowSelected.gameObject.SetActive(false);
+                //_arrowSelected.gameObject.SetActive(false);
 
                 _background.gameObject.SetActive(false);
                 for (int i = 0; i < images.Length; i++)
@@ -78,8 +111,8 @@ public class WidgetActorInfo : HintstringProperty
             }
             else // Si on est la, c'est qu'on est sur le personnage s�lectionner par le widget
             {
-                _arrowSelected.gameObject.SetActive(true);
-                _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", false);
+               // _arrowSelected.gameObject.SetActive(true);
+               // _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", false);
                 _background.gameObject.SetActive(true);
                 for (int i = 0; i < textComponent.Length; i++)
                 {
@@ -97,16 +130,16 @@ public class WidgetActorInfo : HintstringProperty
         }
         else // Si aucun personnage est selectionner
         {
-            if(_actor.Owner.CanPlay && _actor.CanAction)
-            {
-                _arrowSelected.gameObject.SetActive(true);
-                _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", true);
-            }
-            else
-            {
-                _arrowSelected.gameObject.SetActive(false);
-                _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", true);
-            }
+            // if(_actor.Owner.CanPlay && _actor.CanAction)
+            // {
+            //     _arrowSelected.gameObject.SetActive(true);
+            //     _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", true);
+            // }
+            // else
+            // {
+            //     _arrowSelected.gameObject.SetActive(false);
+            //     _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", true);
+            // }
            
             _background.gameObject.SetActive(false);
             for (int i = 0; i < textComponent.Length; i++)
@@ -124,8 +157,8 @@ public class WidgetActorInfo : HintstringProperty
 
         if(!_actor.CanAction)
         {
-            _arrowSelected.gameObject.SetActive(false);
-            _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", true);
+            // _arrowSelected.gameObject.SetActive(false);
+            // _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", true);
             for (int i = 0; i < images.Length; i++)
             {
                 images[i].color = SetOpacity(images[i].color, _lowOpacity);
@@ -143,6 +176,7 @@ public class WidgetActorInfo : HintstringProperty
 
     Color SetOpacity(Color colorToChange, float value)
     {
+        if(IsFixed) value = 1;
         colorToChange.a = value;
         return colorToChange;
     }
