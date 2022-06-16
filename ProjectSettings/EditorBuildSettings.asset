@@ -9,12 +9,12 @@ EditorBuildSettings:
     path: Assets/_Scenes/1_Alpha/MenuUI_Alpha.unity
     guid: 9eaca4fba0e1a604f8776a4fd9a29e8d
   - enabled: 1
-    path: Assets/_Scenes/Dev/Aymeric/Prototype_Gameplay_Parc.unity
-    guid: aa6442027bedb574498398801fa73aa3
-  - enabled: 1
     path: Assets/_Scenes/1_Alpha/MenuBackground_Alpha.unity
     guid: e5ebecd6c7d700347a65840e5f1ada90
   - enabled: 1
-    path: Assets/_Scenes/1_Alpha/Map_secondMap.unity
-    guid: 42d46c382d179c84894486418776395b
+    path: Assets/_Scenes/1_Alpha/Alpha_Gameplay_Parc.unity
+    guid: a80d92cb6cfe2d448b4ee2ed3cf3b452
+  - enabled: 1
+    path: Assets/_Scenes/1_Alpha/Alpha_Gameplay_CenterCity.unity
+    guid: 8b616914d599599449386af05f424fcf
   m_configObjects: {}
