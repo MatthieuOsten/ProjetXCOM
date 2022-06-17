@@ -1,29 +1,26 @@
 fileFormatVersion: 2
-guid: 74a491f194d275443a59012cf610b12d
+guid: 5f6b597cff9a7d44c9444be52694b81e
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable:
   - first:
       74: 1827226128182048838
-    second: run_BS
+    second: run_S
   - first:
-      74: -7319330166523434250
-    second: idle_BS
+      74: 8865099893122370001
+    second: idle_S
   - first:
-      74: -6746634176305624732
-    second: overview(idle)_BS
+      74: -1698331258235019182
+    second: hit_S
   - first:
-      74: -1841769225762364984
-    second: shoot_BS
+      74: -1635473847687337474
+    second: idle to overview_S
   - first:
-      74: 2459078804267041145
-    second: hit_BS
+      74: -3830625576439966860
+    second: overview(idle)_S
   - first:
-      74: 6078677140601109966
-    second: idle to overview_BS
-  - first:
-      74: -2654122769351209683
-    second: overview to idle_BS
+      74: -8913211878856419496
+    second: attack_S
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -54,11 +51,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: run_BS
+      name: run_S
       takeName: Take 001
       internalID: 0
-      firstFrame: 10
-      lastFrame: 34
+      firstFrame: 310
+      lastFrame: 334
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -83,11 +80,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: idle_BS
+      name: idle_S
       takeName: Take 001
       internalID: 0
-      firstFrame: 210
-      lastFrame: 290
+      firstFrame: 350
+      lastFrame: 420
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -112,11 +109,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: overview(idle)_BS
+      name: hit_S
       takeName: Take 001
       internalID: 0
-      firstFrame: 65
-      lastFrame: 115
+      firstFrame: 440
+      lastFrame: 462
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -141,11 +138,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: shoot_BS
+      name: idle to overview_S
       takeName: Take 001
       internalID: 0
-      firstFrame: 116
-      lastFrame: 138
+      firstFrame: 470
+      lastFrame: 480
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -170,11 +167,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: hit_BS
+      name: overview(idle)_S
       takeName: Take 001
       internalID: 0
-      firstFrame: 160
-      lastFrame: 182
+      firstFrame: 480
+      lastFrame: 530
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -199,11 +196,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: idle to overview_BS
+      name: attack_S
       takeName: Take 001
       internalID: 0
-      firstFrame: 50
-      lastFrame: 64
+      firstFrame: 531
+      lastFrame: 600
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -211,35 +208,6 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: overview to idle_BS
-      takeName: Take 001
-      internalID: 0
-      firstFrame: 138
-      lastFrame: 144
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
