@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa4127449b082740a9cab6759408995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mtlTransparent: {fileID: 2100000, guid: 9970256e35f3dfd4d97d984f9e25033c, type: 2}
+  mtlTransparent: {fileID: 2100000, guid: 01e23af6a60a1754cb73781f0fb6ac17, type: 2}
 --- !u!1 &223892296690521961
 GameObject:
   m_ObjectHideFlags: 0

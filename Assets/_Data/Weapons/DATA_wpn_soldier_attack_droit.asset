@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ffebdf3ef8750c49bc8bad5d6ff831c, type: 3}
   m_Name: DATA_wpn_soldier_attack_droit
   m_EditorClassIdentifier: 
-  name: Carabine
-  description: "[ 1 PA ] [ 4 Munitions rechargeable ] [Port\xE9e 6] Inflige 3 Points
+  name: Attaque
+  description: "[ 1 PA ] [ 4 Munitions rechargeable ] [Port\xE9e 5] Inflige 3 Points
     de d\xE9gats"
   type: 
   tags:

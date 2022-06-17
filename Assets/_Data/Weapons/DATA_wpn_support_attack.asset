@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ffebdf3ef8750c49bc8bad5d6ff831c, type: 3}
   m_Name: DATA_wpn_support_attack
   m_EditorClassIdentifier: 
-  name: Sceptre
+  name: Attaque
   description: "[ 1 PA ] [ 4 Port\xE9e ] Inflige 2 de d\xE9gats sur toutes les cibles
     pr\xE9sent sur sa port\xE9e."
   type: 
   tags:
   - action_attack
-  icon: {fileID: 21300000, guid: 038b75418b3476248ae4990510a46418, type: 3}
+  icon: {fileID: 21300000, guid: d7bfe23e342f2dc4db4c06f365e8035c, type: 3}
   _prefabWeapon: {fileID: 0}
   _tabCosmetic: []
   _tabAccessory: []

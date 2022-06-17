@@ -15,6 +15,7 @@ public class WidgetActorInfo : HintstringProperty
     [SerializeField] Image _background;
     [SerializeField] Image _iconOverwatch;
     [SerializeField] Image _arrowSelected;
+    [SerializeField] Image _back;
     [SerializeField] GameObject HealthPartPrefab;
     [SerializeField] GameObject PanelHealth;
     public bool IsFixed;
@@ -57,6 +58,10 @@ public class WidgetActorInfo : HintstringProperty
     protected override void Update()
     {
         base.Update();
+        if(!IsFixed)
+        {
+            _back.gameObject.SetActive(false);
+        }
         // if (LevelManager.GetCurrentController() == _actor.Owner)
         //     JaugeProgression.GetComponent<Image>().color = Color.green;
         // else
@@ -81,24 +86,13 @@ public class WidgetActorInfo : HintstringProperty
         textComponent[2].text = "x"+_actor.CurrentActionPoint ;
         progression = (float)_actor.Health/(float)_actor.Data.Health;
 
-        for (int i = 0; i < PanelHealth.transform.childCount; i++)
-        {
-            // Image _image = PanelHealth.transform.GetChild(i).GetComponent<Image>();
-            // if(i < _actor.Health)
-            // {
-            //     _image.color = _actor.GetTeamColor();
-            // }
-            // else _image.color = Color.clear;
-
-        }
         // Si le personnage du widget correspond a la team qui joue
         if (_selectedActor != null && _actor.Owner == currentTeam)
         {
             // Si le personnage s�lectionner n'est pas celui du widget, on diminue l'opacit�
             if (_selectedActor != _actor)
             {
-                //_arrowSelected.gameObject.SetActive(false);
-
+                _back.gameObject.SetActive(false);
                 _background.gameObject.SetActive(false);
                 for (int i = 0; i < images.Length; i++)
                 {
@@ -111,8 +105,8 @@ public class WidgetActorInfo : HintstringProperty
             }
             else // Si on est la, c'est qu'on est sur le personnage s�lectionner par le widget
             {
-               // _arrowSelected.gameObject.SetActive(true);
-               // _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", false);
+                if(IsFixed) _back.gameObject.SetActive(true);
+                
                 _background.gameObject.SetActive(true);
                 for (int i = 0; i < textComponent.Length; i++)
                 {
@@ -129,18 +123,7 @@ public class WidgetActorInfo : HintstringProperty
 
         }
         else // Si aucun personnage est selectionner
-        {
-            // if(_actor.Owner.CanPlay && _actor.CanAction)
-            // {
-            //     _arrowSelected.gameObject.SetActive(true);
-            //     _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", true);
-            // }
-            // else
-            // {
-            //     _arrowSelected.gameObject.SetActive(false);
-            //     _arrowSelected.GetComponent<Animator>().SetBool("ScaleLoop", true);
-            // }
-           
+        {              
             _background.gameObject.SetActive(false);
             for (int i = 0; i < textComponent.Length; i++)
             {
@@ -170,7 +153,10 @@ public class WidgetActorInfo : HintstringProperty
             return;
         }
 
-
+        if(!IsFixed)
+        {
+            _back.gameObject.SetActive(false);
+        }
      
     }
 
