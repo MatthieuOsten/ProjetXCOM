@@ -18,7 +18,7 @@ MonoBehaviour:
   type: 
   tags:
   - action_attack
-  icon: {fileID: 21300000, guid: 95d301d9ce0831447913d36591e2366e, type: 3}
+  icon: {fileID: 21300000, guid: d9497bc9259fbaf4ebadf8e56acc0ead, type: 3}
   _prefabWeapon: {fileID: 0}
   _tabCosmetic: []
   _tabAccessory: []
