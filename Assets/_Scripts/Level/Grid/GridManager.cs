@@ -329,8 +329,31 @@ public class GridManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RegenerateCaseTable(); // Existe car entre le edit et runtime la table a double entrer foire // TODO : trouver une autre maniere
+        if (Application.isPlaying)
+        { 
+            for (int x = 0; x < SizeX; x++)
+            {
+                for (int y = 0; y < SizeY; y++)
+                {
+                    Case aCase = _grid[x,y];
 
+                    if ( aCase.Highlighted || aCase.Checked)
+                        aCase.enabled = true; 
+                    else
+                    {   
+                        if(!aCase.enabled) continue;
+                        aCase.WatchCaseState();
+                        aCase.enabled = false;
+                    }
+                        
+                }
+            }
+            
+        }  
+
+        #if UNITY_EDITOR
+            RegenerateCaseTable(); // Existe car entre le edit et runtime la table a double entrer foire // TODO : trouver une autre maniere
+       
 
         if (GenerateAGrid)
         {
@@ -342,8 +365,9 @@ public class GridManager : MonoBehaviour
             ClearGrid();
             ResetGrid = false;
         }
+        // #endif
+        // #if UNITY_EDITOR
 
-        
         // On check si la taille de la grid a changé
         if(_grid.GetLength(0) != SizeX || _grid.GetLength(1) != SizeY)
         {
@@ -384,10 +408,11 @@ public class GridManager : MonoBehaviour
             _grid = tempGrid;
             
         }
+             //Code here for Editor only.
+        #endif
         
     }
 
-    // Deplacer dans GridEditorTool.cs
     public void EditCase(Vector3 pos, CaseState caseState)
     {
         int x = (int)pos.x / CellSize;

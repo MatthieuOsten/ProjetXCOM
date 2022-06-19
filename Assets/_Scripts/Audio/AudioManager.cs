@@ -71,7 +71,7 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Util;
 
     [SerializeField] static Aliases[] aliasesArray = new Aliases[0];
-    [SerializeField] List<GameObject> audioSource;
+    [SerializeField] private List<AudioSource> _audioSource;
 
     [SerializeField] int audioSourcePoolSize = 32; // 32 is a good start
     [Header("Debug")] 
@@ -124,14 +124,14 @@ public class AudioManager : MonoBehaviour
 
     void InitAudioSources()
     {
-        audioSource = new List<GameObject>();
+        _audioSource = new List<AudioSource>();
 
          for(int i = 0 ; i < audioSourcePoolSize; i++)
         {
             GameObject newAudioSource = new GameObject("Audio Source "+i);
             newAudioSource.transform.SetParent(transform);
             AudioSource audioS = newAudioSource.AddComponent<AudioSource>();
-            Util.audioSource.Add(newAudioSource);
+            Util._audioSource.Add(audioS);
             newAudioSource.SetActive(false);
         }
     }
@@ -148,13 +148,13 @@ public class AudioManager : MonoBehaviour
         if(Util != this)
             Util = this;   
 
-        TableAliasesLoaded = aliasesArray;    
+        if(TableAliasesLoaded != aliasesArray)
+            TableAliasesLoaded = aliasesArray;    
 
         if(_isPaused)
         {
             PauseAllAudio();
         }
-        
         else
         {
             UnPauseAllAudio();
@@ -165,11 +165,11 @@ public class AudioManager : MonoBehaviour
 
     void DisableInusedAudioSource()
     {
-        foreach(GameObject aS in audioSource)
+        foreach(AudioSource aS in _audioSource)
         {
-            if(!aS.GetComponent<AudioSource>().isPlaying)
+            if(!aS.isPlaying)
             {
-                aS.SetActive(false);
+                aS.gameObject.SetActive(false);
             }     
         }
     }
@@ -189,12 +189,11 @@ public class AudioManager : MonoBehaviour
 
     static AudioSource GetAudioSource()
     {
-        foreach(GameObject aS in Util.audioSource)
+        foreach(AudioSource aS in Util._audioSource)
         {  
-            AudioSource audio = aS.GetComponent<AudioSource>();
-            if(!audio.isPlaying)
+            if(!aS.isPlaying)
             {
-                return audio;
+                return aS;
             }  
         }
         return null;
@@ -206,29 +205,27 @@ public class AudioManager : MonoBehaviour
 
     public static void PauseAllAudio()
     {
-        foreach(GameObject aS in Util.audioSource )
+        foreach(AudioSource aS in Util._audioSource )
         {
-            AudioSource audio = aS.GetComponent<AudioSource>();
-            if(audio.isPlaying)
+            if(aS.isPlaying)
             {
-                audio.Pause();
+                aS.Pause();
             }  
         }
     }
     public static void UnPauseAllAudio()
     {
-        foreach(GameObject aS in Util.audioSource )
+        foreach(AudioSource aS in Util._audioSource )
         {
-            AudioSource audio = aS.GetComponent<AudioSource>();
             //if(audio.UnPause)
             {
-                audio.UnPause();
+                aS.UnPause();
             }  
         }
     }
     public static Aliase PlaySoundAtPosition(string aliaseName, Vector3 position)
     {
-        if( aliaseName == "" || aliaseName == null)
+        if( aliaseName == System.String.Empty || aliaseName == null)
         {
             Debug.LogError("AudioManager : Un son a voulu être jouer sans d'aliaseName, il faut en assigné un dans le script qui a exécuté la function");
             return null;
@@ -240,15 +237,11 @@ public class AudioManager : MonoBehaviour
             Debug.LogError("AudioManager : Aliase: "+aliaseName+" contains no sounds.");
             return null;
         }
-        if(clip.isPlaholder)
-        {
-            Debug.LogWarning("Un son placeholder a été jouer, il faut le changer , nom de l'aliase "+aliaseName );
-        }
 
         AudioSource audioS = GetAudioSource();
         if(audioS == null)
         {
-            Debug.LogWarning($"AudioManager : Limits exceded for audioSource, maybe you need to increase your audioSourcePoolSize (Size = {Util.audioSourcePoolSize})");
+            Debug.LogWarning($"AudioManager : Limits exceded for _audioSource, maybe you need to increase your audioSourcePoolSize (Size = {Util.audioSourcePoolSize})");
             return null;
         }
         audioS.volume = clip.volume;
@@ -283,11 +276,13 @@ public class AudioManager : MonoBehaviour
         else
         {
             audioS.PlayOneShot(clip.audio[index], clip.volume);
-             //audioS.clip = clip.audio[0];
-             //audioS.Play();
-            //UIManager.CreateSubtitle(clip.Text, clip.audio[index].length);
-            
         }
+
+        if(clip.isPlaholder)
+        {
+            Debug.LogWarning("Un son placeholder a été jouer, il faut le changer , nom de l'aliase "+aliaseName );
+        }
+
         return clip;
         
 

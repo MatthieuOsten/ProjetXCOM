@@ -52,7 +52,7 @@ public class HUD_Manager : MonoBehaviour
         // Recupere le "PlayerController" qui est actuellement entrain de jouer
         _pC = (PlayerController)LevelManager.GetCurrentController();
 
-        // Si le "PlayerController" n'est pas null alors recupere les données du personnage actuel
+        // Si le "PlayerController" n'est pas null alors recupere les donnï¿½es du personnage actuel
         if (_pC != null)
         {
             _dataCH = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
@@ -61,7 +61,7 @@ public class HUD_Manager : MonoBehaviour
     }
 
     /// <summary>
-    /// Recupere les données d'un personnage "DataCharacter" 
+    /// Recupere les donnï¿½es d'un personnage "DataCharacter" 
     /// </summary>
     private DataCharacter GetData()
     {
@@ -69,7 +69,7 @@ public class HUD_Manager : MonoBehaviour
 
         if (_pC != null)
         {
-            // Recupere la base de donnée du personnage selectionner
+            // Recupere la base de donnï¿½e du personnage selectionner
             data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
             return data;
         }
@@ -92,19 +92,21 @@ public class HUD_Manager : MonoBehaviour
     /// </summary>
     private void UpdateButtonInformation()
     {
-        // ---- Initialise chaque bouttons en rapport avec les capacités actuel ---- //
+        // ---- Initialise chaque bouttons en rapport avec les capacitï¿½s actuel ---- //
         for (int i = 0; i < _actionButton.Count; i++)
         {
             if (_actionCapacity.Count < i) { break; }
 
-            // Nettoie la liste d'action du boutton
-            _actionButton[i].GetComponent<Button>().onClick.RemoveAllListeners();
 
-            // -- Initialise les données du boutton initialiser -- //
+            Button button = _actionButton[i].GetComponent<Button>();
+            // Nettoie la liste d'action du boutton
+            button.onClick.RemoveAllListeners();
+
+            // -- Initialise les donnï¿½es du boutton initialiser -- //
 
             // Insert l'action effectuer si le boutton est appuyer
             int index = i;
-            _actionButton[i].GetComponent<Button>().onClick.AddListener(() => SetActionMode(_actionCapacity[index].typeA));
+            button.onClick.AddListener(() => SetActionMode(_actionCapacity[index].typeA));
 
             // Verifie que l'objet a une icone et l'affiche
             if (_actionCapacity[i].icon != null)
@@ -160,10 +162,10 @@ public class HUD_Manager : MonoBehaviour
     {
         if (_dataCH != null)
         {
-            // Recupere les données du personnage actuellement selectionner
+            // Recupere les donnï¿½es du personnage actuellement selectionner
             DataCharacter data = GetData();
 
-            // Initialise "_actionCapacity" en y rentrant toute les capacité du personnage
+            // Initialise "_actionCapacity" en y rentrant toute les capacitï¿½ du personnage
             //_actionCapacity.Clear();
             //_actionCapacity.Add(data.Weapon);
             //_actionCapacity.Add(data.WeaponAbility);
@@ -178,14 +180,14 @@ public class HUD_Manager : MonoBehaviour
                 _actionCapacity.RemoveAll(item => item.name == null);
             }
 
-                // Verifie si il contient assez de bouton comparer au nombre de capacité du personnage
+                // Verifie si il contient assez de bouton comparer au nombre de capacitï¿½ du personnage
                 if (_actionButton.Count != _actionCapacity.Count)
                 {
 
                     //Debug.Log("Nombre de boutton : " + _actionButton.Count);
-                    //Debug.Log("Nombre de capacités : " + _actionCapacity.Count);
+                    //Debug.Log("Nombre de capacitï¿½s : " + _actionCapacity.Count);
 
-                    // Si il y a moins de boutons que de capacités alors rajoute des boutons
+                    // Si il y a moins de boutons que de capacitï¿½s alors rajoute des boutons
                     if (_actionButton.Count < _actionCapacity.Count)
                         {
                             InstantiateButton(_actionButton.Count,_actionCapacity.Count, _prefabButton, _layoutGroup);
@@ -207,7 +209,7 @@ public class HUD_Manager : MonoBehaviour
 
                         }
 
-                // Verifie que les donnée soit bien initialiser avant de procedé
+                // Verifie que les donnï¿½e soit bien initialiser avant de procedï¿½
                 if (data != null && _actionCapacity.Count > 0 && _actionButton.Count > 0)
                 {
                     UpdateButtonInformation();
@@ -271,7 +273,7 @@ public class HUD_Manager : MonoBehaviour
     }
 
     /// <summary>
-    /// Si l'objet PopUp est assigné, le desactive si il est actif
+    /// Si l'objet PopUp est assignï¿½, le desactive si il est actif
     /// </summary>
     private void HidePopUp()
     {

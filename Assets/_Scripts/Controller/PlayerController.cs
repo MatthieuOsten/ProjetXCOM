@@ -76,21 +76,12 @@ public class PlayerController : Team
             _canMoveCam = value;
         }
     }
-    // public bool OnVigilence
-    // {
-    //     // get { return _onVigilence; }
-    //     // set
-    //     // {
-    //     //     _onVigilence = value;
-    //     // }
-    // }
 
     public bool CanPassTurn
     {
         get { return _cooldownBeforeStartTurnTimer >= _cooldownBeforeStartTurn; }
     }
 
-    
     /// <summary> Indique si l'un des personnages de la squad est en train de bouger </summary> <value> bite </value>
     public bool CharacterIsMoving
     {
@@ -265,8 +256,10 @@ public class PlayerController : Team
         if (Physics.Raycast(ray, out RayHit))
         {
             Hitpoint = new Vector3(RayHit.point.x, RayHit.point.y, RayHit.point.z);
+            #if UNITY_EDITOR
             if (Hitpoint != null)
                 Debug.DrawLine(Camera.main.transform.position, Hitpoint, Color.blue, 0.5f);
+            #endif
         }
 
         return Hitpoint;
@@ -284,10 +277,9 @@ public class PlayerController : Team
         int y = (int)Mathf.Round(mousePos.z / _selectedGrid.CellSize);
         // Avec les coordonnées généré, on peut essayer d'obtenir la case 
         Case AimCase = GridManager.GetValidCase(GridManager.GetCase(_selectedGrid, x, y));
-        // VUE QUE MATTHIEU A CREE UNE GRAND MERE CE BATARD JE DOIS CAST
         if (!GetCurrentCharactedSelected.CanAction)
         {
-            Debug.Log($"Le personnage {GetCurrentCharactedSelected.name} n'a plus de point d'action");
+            Debug.Log($"Le personnage {GetCurrentCharactedSelected.name} n'a plus de point d'action" , GetCurrentCharactedSelected.gameObject);
             // On force la mode selection
             ResetSelection();
             return;
@@ -452,7 +444,7 @@ public class PlayerController : Team
         }
         else
         {
-            Debug.Log("L'abilité ne peut pas être éxecuter sur l'actor sélectionner");
+            Debug.Log("L'abilité ne peut pas être éxecuter sur l'actor sélectionner" , SelectedCaseB.Actor.gameObject);
         }
     }
 
@@ -542,7 +534,6 @@ public class PlayerController : Team
           
         if(MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>()))
         {
-            //GridManager.ResetCasesPreview(GetCurrentCharactedSelected.CurrentCase.GridParent);
             return;
         }
         // On vérfie qu'un personnage est sélectionner et que la case visé n'est pas deja celle qu'on vise
@@ -551,7 +542,6 @@ public class PlayerController : Team
             // Est ce que l'actor qu'on vise est un personnage 
             if (_char != null)
             {
-                //_char = (Character)_selectedActor;
                 if (_char.IsMoving)
                     return;
                 // On vérifie si le personnage peut passer en mode action
@@ -574,16 +564,22 @@ public class PlayerController : Team
                     ResetSelection();
                     return;
                 }
-
             }
         }
-        // On attribue un material de selection à la derniere case du chemin proposer
-        if (pathSuggested != null && pathSuggested.Length > 0 &&  pathSuggested[pathSuggested.Length-1] != AimCase)
-        {      
-            pathSuggested[pathSuggested.Length - 1].ChangeMaterial(caseSelected);
+        // On met en avant les chemin proposé
+        if(pathSuggested != null) 
+        {
+            // On attribue un material de selection à la derniere case du chemin proposer
+            if (pathSuggested != null && pathSuggested.Length > 0 )
+            {      
+                pathSuggested[pathSuggested.Length - 1].ChangeMaterial(caseSelected);
+            }
         }
-        else // Sinon on affiche la case visé avec un material de selection
-            AimCase.ChangeMaterial(caseSelected);
+        else// Sinon on affiche la case visé avec un material de selection      
+        {
+             AimCase.ChangeMaterial(caseSelected);
+        }
+      
 
         // Si un personnage est en mouvement, on empeche d'effectuer une action car ca peut crée des bugs avec les cases
         if(CharacterIsMoving)

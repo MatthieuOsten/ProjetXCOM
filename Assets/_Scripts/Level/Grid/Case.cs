@@ -12,6 +12,13 @@ public enum CaseState
     HalfOccupied,
     Spawner // alors il sera forcemet empty apres car c'est un spawner pour les team
 }
+[System.Flags]
+public enum CaseFlags
+{
+    Highlighted = 1,
+    Selected = 2,
+    Checked = 4
+}
 
 [System.Serializable]
 [ExecuteAlways] // Cette class fonctionne en edit et en play 
@@ -23,6 +30,7 @@ public class CaseInfo
 }
 
 [ExecuteAlways]
+[SelectionBase]
 public class Case : MonoBehaviour
 {
     public GridManager GridParent; // la grille propriétaire de la case
@@ -30,9 +38,12 @@ public class Case : MonoBehaviour
     public CaseInfo CaseStatut { get { return _it; } }
 
     public bool Highlighted { get; set;}
-     public bool Selected { get; set;}
+    public bool Selected { get; set;}
     public bool Checked;
 
+    public CaseFlags Flags;
+
+    [Header("PathFinding")]
     // PathFinding part
     public int gCost;
     public int hCost;
@@ -43,8 +54,7 @@ public class Case : MonoBehaviour
 
 
     [Header("Reference")]
-    Actor _actor; // Une reference de l'actor qui est dessus
-
+    private Actor _actor; // Une reference de l'actor qui est dessus
     public Actor Actor{get{ return _actor;} set{ _actor = value;} }
 
     public Character Character{
@@ -57,16 +67,14 @@ public class Case : MonoBehaviour
     }
 
     public bool HaveActor{ get {return _actor != null;}}
-    /* Next properties to include
-    Interact _interact // A ref to a interact like a echelle 
-    */
     public int x { get { return CaseStatut.x; } set { CaseStatut.x = value; } }
     public int y { get { return CaseStatut.y; } set { CaseStatut.y = value; } }
     public CaseState State { get { return CaseStatut._state; } set { CaseStatut._state = value; } }
     public int index { get { return CaseStatut.index; } set { CaseStatut.index = value; } }
 
-    [Header("DEBUG")]
+    
     SpriteRenderer _sr;
+    [Header("DEBUG")]
     [SerializeField] TextMeshPro total;
     [SerializeField] TextMeshPro h;
     [SerializeField] TextMeshPro g;
@@ -91,11 +99,12 @@ public class Case : MonoBehaviour
         if (Highlighted || Checked)
             return;
         WatchCaseState();
-          Debuga();
-        return;
+        #if UNITY_EDITOR 
+            DebugCase();
+        #endif
     }
 
-    void Debuga()
+    private void DebugCase()
     {
         if (GridParent.ShowScorePathFinding)
         {
@@ -117,7 +126,7 @@ public class Case : MonoBehaviour
         }
     } 
 
-    void WatchCaseState()
+    public void WatchCaseState()
     {
         switch (CaseStatut._state)
         {
@@ -143,6 +152,10 @@ public class Case : MonoBehaviour
         }
     }
 
+    private void LateUpdate() {
+         
+    }
+
     /* Change la couleur de la cellule 
         Cava etre jarter car ca cree une nouvelle instance de material, vaut mieux changer directement le material
     */
@@ -154,8 +167,33 @@ public class Case : MonoBehaviour
     /// <summary> Change le material de la cellule </summary>
     public void ChangeMaterial(Material newMtl)
     {
-        //Debug.Log(newMtl.name);
         if(_sr.sharedMaterial != newMtl) // On vérifie si le matérial n'est pas déjà assignés
             _sr.sharedMaterial = newMtl; // On utilise sharedMaterial pour eviter de crée une nouvelle instance
+
+        this.enabled = true;
+    }
+
+    public static CaseFlags SetFlag (CaseFlags a, CaseFlags b)
+    {
+        return a | b;
+    }
+    public static CaseFlags UnsetFlag (CaseFlags a, CaseFlags b)
+    {
+        return a & (~b);
+    }
+    public static bool HasFlag (CaseFlags a, CaseFlags b)
+    {
+        return (a & b) == b;
+    }
+    public static CaseFlags ToogleFlag (CaseFlags a, CaseFlags b)
+    {
+        return a ^ b;
     }
 }
+
+
+/*
+
+// Works with "None" as well
+
+*/

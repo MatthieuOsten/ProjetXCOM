@@ -10,14 +10,14 @@ public class WidgetHitInfo : HintstringProperty
     Color _prevColorHealthText;
     Color _prevColorPaText;
     float _timeAnim = 0.5f;
+        
+    
+    
     [Header("DEBUG")]
     [SerializeField]  bool Generate;
 
     protected override void Start() {
-        //_actor = relatedObject.GetComponent<Character>();
         IgnoreRelatedObject = true;
-        //textComponent[0].text = "";
-        //textComponent[0].text = "";
         _prevColorHealthText = textComponent[0].color;
         _prevColorPaText = textComponent[1].color;
         textComponent[0].color = RemoveOpacity(textComponent[0].color);
@@ -55,15 +55,8 @@ public class WidgetHitInfo : HintstringProperty
             Generate = false;
         }
 
-        
-
         IncreaseOpacity(textComponent[0]);
-        IncreaseOpacity(textComponent[1]);
-        //base.Update();
-      
-        //textComponent[0].text = _actor.Data.name; Health hit
-        //textComponent[1].text = _actor.Health+"/"+_actor.Data.Health; PA hit
-       
+        IncreaseOpacity(textComponent[1]);       
     }
 
     void IncreaseOpacity(TMP_Text text)

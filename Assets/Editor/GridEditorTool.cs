@@ -125,7 +125,7 @@ public class GridEditorTool : EditorTool
         //Si on est pas dans cette outil, on stop
         if (!ToolManager.IsActiveTool(this)) return;
 
-        if(Selection.transforms[0].tag != "GridManager") return;
+        if(!Selection.transforms[0].CompareTag("GridManager")) return;
         //Affiche un cercle sur la scene pour voir ce que l'on vise
         Handles.DrawWireDisc(GetCurrentMousePositionInScene(), Vector3.up, 1f  );
         //Si l'user reste appuyer cela va editer la case cible
