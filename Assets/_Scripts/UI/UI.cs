@@ -16,6 +16,7 @@ public class UI : MonoBehaviour
     [SerializeField] private Image _iconeTeam;
     /// <summary> Correspond à la couleur qui sera afficher derrière la liste des personnages </summary>
     [SerializeField] private Image _glowTeam;
+    [SerializeField] private Image weaponImage;
 
     [Header("Ammo")]
     [SerializeField] private GameObject imageAmmo;
@@ -266,7 +267,7 @@ public class UI : MonoBehaviour
     {
                     Color colorReload = _reload.GetComponent<Image>().color;
                     
-               //si doit recharger
+                    //si doit recharger
                     if (_cH.GetWeaponCurrentAmmo() < _myAmmoMax)
                     {
                         colorReload.a = 1f;
@@ -376,6 +377,13 @@ public class UI : MonoBehaviour
     {
         if (_cH != null && _cH.Ammo != null)
         {
+            
+            if(_myAmmoMax == 0 || _myAmmoMax > 0)
+            {
+                weaponImage.gameObject.SetActive(false);
+                parentAmmo.SetActive(false);
+            }
+
             if (_ammo.Count < _myAmmoMax)
             {
                 //Instantie le nombre de d'image, ajoute au bon gameobject et à une liste
@@ -385,6 +393,12 @@ public class UI : MonoBehaviour
                     addImageAmmo.transform.SetParent(parentAmmo.transform, false);
                     _ammo.Add(addImageAmmo);
                 }
+            }
+
+            if(_myAmmoMax != 0 || _myAmmoMax !> 0)
+            {
+                weaponImage.gameObject.SetActive(true);
+                parentAmmo.SetActive(true);
             }
 
             // Montre ou rend invisible le point d'action si utiliser
@@ -402,9 +416,12 @@ public class UI : MonoBehaviour
                     ammoImage.color = new Color(_color.r, _color.g, _color.b, 1f);
                 }
             }
+
+          
         }
         else
-        {   
+        {
+           // 
             for (int i = 0; i < _ammo.Count; i++)
             {
                 Image ammoImage = _ammo[i].GetComponent<Image>();
