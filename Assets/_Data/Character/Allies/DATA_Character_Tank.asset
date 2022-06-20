@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: DATA_Character_Tank
   m_EditorClassIdentifier: 
   name: Tank
-  description: "Sa pr\xE9sence permet de menacer l\u2019ennemi tout en lui infligeant
+  description: "Soldat d'elite de l'ordre, munie d'un bouclier et d'une grande capacit\xE9
+    de defense, n'attaque que au corps a corps."
+  debugDescription: "Sa pr\xE9sence permet de menacer l\u2019ennemi tout en lui infligeant
     des debuff lui permettant de se rapprocher malgr\xE9 son manque de mobilit\xE9
     et sa port\xE9 d\u2019attaque faible/au CAC"
   type: 

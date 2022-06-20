@@ -299,7 +299,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8123865611639504048}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -792,11 +792,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8123865611639504048}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -35.388, y: 38.72}
+  m_AnchoredPosition: {x: -35.388, y: 38.29}
   m_SizeDelta: {x: 25, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8254788511386792846
@@ -872,7 +872,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 37.657, y: 42.9}
+  m_AnchoredPosition: {x: 39.5, y: 45.4}
   m_SizeDelta: {x: 24.6854, y: 21.422}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6687978616074982116
@@ -903,7 +903,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: d584f474670494842b6adc1177b74cf7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9857b9e3b22b58143b702661f596fd0e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -949,9 +949,9 @@ RectTransform:
   - {fileID: 526526337069181670}
   - {fileID: 830719802162639386}
   - {fileID: 9101358591634812155}
-  - {fileID: 6582784726102430096}
   - {fileID: 5488069189316653999}
   - {fileID: 3651616192082820257}
+  - {fileID: 6582784726102430096}
   - {fileID: 3783176134267124526}
   - {fileID: 4288844561917822521}
   m_Father: {fileID: 0}
@@ -1335,7 +1335,7 @@ PrefabInstance:
     - target: {fileID: 5616643783113545071, guid: eca35abe6cce964439fa6597f37ad70a,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5616643783113545071, guid: eca35abe6cce964439fa6597f37ad70a,
         type: 3}

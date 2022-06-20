@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: DATA_wpn_support_attack
   m_EditorClassIdentifier: 
   name: Attaque
-  description: "[ 1 PA ] [ 4 Port\xE9e ] Inflige 2 de d\xE9gats sur toutes les cibles
-    pr\xE9sent sur sa port\xE9e."
+  description: "Inflige 2 de d\xE9gats sur toutes les cibles pr\xE9sent sur sa port\xE9e."
+  debugDescription: "[ 1 PA ] [ 4 Port\xE9e ] Inflige 2 de d\xE9gats sur toutes les
+    cibles pr\xE9sent sur sa port\xE9e."
   type: 
   tags:
   - action_attack
