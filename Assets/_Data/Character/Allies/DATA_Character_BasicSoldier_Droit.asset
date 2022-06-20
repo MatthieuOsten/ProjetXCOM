@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: DATA_Character_BasicSoldier_Droit
   m_EditorClassIdentifier: 
   name: Basic Soldier
-  description: "elle est la classe la plus commune de l\u2019\xE9quipe puisque que
-    celle-ci s\u2019en compose de deux.  Quelle est leur utilit\xE9? Les BS sont
+  description: Soldat d'elite, munie d'une carabine et qui n'attaque que en croix.
+  debugDescription: "elle est la classe la plus commune de l\u2019\xE9quipe puisque
+    que celle-ci s\u2019en compose de deux.  Quelle est leur utilit\xE9? Les BS sont
     les principaux dealer de damage de la team, ils poss\xE8dent une bonne port\xE9e
     avec des d\xE9g\xE2ts corrects en m\xEAlant tout \xE7a avec une mobilit\xE9 moyenne
     il peut \xEAtre utilis\xE9 pour des contournements."
   type: 
   tags:
   - 
-  icon: {fileID: 21300000, guid: e943db4e02b339447a6b461d4f26c15f, type: 3}
+  icon: {fileID: 21300000, guid: 41c59afcd2678894d965d860ce3d5bcc, type: 3}
   _prefabBody: {fileID: 4518816553629253755, guid: 118ddfd221c7e934f8cae637737d81b6,
     type: 3}
   _tabCosmetic: []

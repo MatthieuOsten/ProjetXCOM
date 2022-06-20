@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: DATA_Character_Support
   m_EditorClassIdentifier: 
   name: Support
-  description: 
+  description: Soldat d'elite de l'ordre, munie d'un sceptre il soigne et aide ces
+    allier.
+  debugDescription: 
   type: 
   tags: []
   icon: {fileID: 21300000, guid: 46f14a4bc40144244863a461d999c79d, type: 3}

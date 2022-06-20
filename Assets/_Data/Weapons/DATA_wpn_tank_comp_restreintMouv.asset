@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: DATA_wpn_tank_comp_restreintMouv
   m_EditorClassIdentifier: 
   name: Affaiblissement
-  description: "[ 1 PA ] [Cooldown 3 tours] [Port\xE9e 6] Diminue de 2 la port\xE9e
+  description: "Diminue de 2 la port\xE9e de d\xE9placement et de tir d'une cible
+    pendant 2 tours"
+  debugDescription: "[ 1 PA ] [Cooldown 3 tours] [Port\xE9e 6] Diminue de 2 la port\xE9e
     de d\xE9placement et de tir d'une cible pendant 2 tours"
   type: 
   tags:

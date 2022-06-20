@@ -12,8 +12,6 @@ public class LevelManager : MonoBehaviour
     /// <summary> Correspond à l'instance du level manager</summary>
     [SerializeField] private string sceneReturn;
 
-    
-
     public static LevelManager Instance
     {
         get
@@ -86,6 +84,7 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         AudioManager.PlaySoundAtPosition("game_start", Vector3.zero);
         AudioManager.PlaySoundAtPosition("game_ambient", Vector3.zero);
         SpawnTeam();
