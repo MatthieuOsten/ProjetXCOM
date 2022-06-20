@@ -1195,10 +1195,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _panelTutorial: {fileID: 839662165}
   _canvasMenu: {fileID: 936830382}
-  _buttonPlay: {fileID: 0}
-  _buttonTutorial: {fileID: 0}
-  _buttonQuit: {fileID: 0}
-  scenePlay: 
+  _buttonPlay: {fileID: 1956187933}
+  _buttonTutorial: {fileID: 1606158286}
+  _buttonQuit: {fileID: 902384456}
+  scenePlay: Alpha_Gameplay_CenterCity
   _stringLoadBackground: MenuBackground_Alpha
   _panelBackground: {fileID: 2115653631}
   _spriteBackground: {fileID: 0}
@@ -1820,7 +1820,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -69, y: 180}
+  m_AnchoredPosition: {x: 45.004, y: 245}
   m_SizeDelta: {x: -306.72244, y: 103.70776}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &902384456
@@ -1866,19 +1866,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 902384457}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 514264681}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: QuitGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Prototype_Gameplay
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &902384457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2405,7 +2393,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 45, y: -81.434}
+  m_AnchoredPosition: {x: 45, y: -88.695}
   m_SizeDelta: {x: -306.73, y: 103.71}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1606158286
@@ -2451,19 +2439,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1606158287}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 514264681}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: SwitchTutorial
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Prototype_Gameplay
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1606158287
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2840,19 +2816,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1956187934}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 514264681}
-        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
-        m_MethodName: goToScene
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Alpha_Gameplay_Parc
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1956187934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2966,7 +2930,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Equipe A ou B ?
+  m_text: Equipe Bleu ou Rouge ?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b7798def5d78d0f4a8f4cf01362b02a8, type: 2}
   m_sharedMaterial: {fileID: -4694701102674513643, guid: b7798def5d78d0f4a8f4cf01362b02a8,
@@ -2994,7 +2958,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.5
+  m_fontSize: 35.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

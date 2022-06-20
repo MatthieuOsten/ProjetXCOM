@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: DATA_wpn_tank_attack
   m_EditorClassIdentifier: 
   name: Attaque
-  description: "[1 PA] [CaC]  Inflige 2 Points de d\xE9gats et retire 1 PA \xE0 la
-    cible. "
+  description: "Inflige 2 Points de d\xE9gats et retire 1 PA \xE0 la cible. "
+  debugDescription: "[1 PA] [CaC]  Inflige 2 Points de d\xE9gats et retire 1 PA \xE0
+    la cible. "
   type: 
   tags:
   - action_attack

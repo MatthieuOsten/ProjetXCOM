@@ -54,6 +54,10 @@ public class MenuManager : MonoBehaviour
         _canvasMenu.renderMode = RenderMode.ScreenSpaceCamera;
         _canvasMenu.worldCamera = Camera.current;
 
+        _buttonPlay.onClick.AddListener(() => goToScene(scenePlay));
+        _buttonTutorial.onClick.AddListener(() => SwitchTutorial());
+        _buttonQuit.onClick.AddListener(() => QuitGame());
+
         UpdateVersion();
 
     }

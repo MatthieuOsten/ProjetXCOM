@@ -13,7 +13,7 @@ public class UI : MonoBehaviour
     [SerializeField] private Image _barreAction;
     [SerializeField] private TMP_Text textCooldown;
     [SerializeField] private Image _icone;
-    [SerializeField] private Image _iconeTeam;
+    [SerializeField] private GameObject _iconeTeam;
     /// <summary> Correspond à la couleur qui sera afficher derrière la liste des personnages </summary>
     [SerializeField] private Image _glowTeam;
     [SerializeField] private Image weaponImage;
@@ -94,7 +94,7 @@ public class UI : MonoBehaviour
     void Update()
     {      
         GetActualScripts();
-        ActualActionPoint();
+        //ActualActionPoint();
         MaximumAmmo();
         ShadeBar();
         UpdateButtonInformation();
@@ -387,7 +387,7 @@ public class UI : MonoBehaviour
             if (_ammo.Count < _myAmmoMax)
             {
                 //Instantie le nombre de d'image, ajoute au bon gameobject et à une liste
-                for (int i = 0; i < _actionPointMax; i++)
+                for (int i = 0; i < _myAmmoMax; i++)
                 {
                     GameObject addImageAmmo = Instantiate(imageAmmo, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
                     addImageAmmo.transform.SetParent(parentAmmo.transform, false);
