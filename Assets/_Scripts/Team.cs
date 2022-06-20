@@ -164,13 +164,11 @@ public class Team : MonoBehaviour, ITeam
     // Update is called once per frame
     public virtual void Update()
     {
-
         if(CanPlay)
         {
             WatchIfAllPAused();
         }
-        WatchIfEveryoneIsDead();
-       
+        WatchIfEveryoneIsDead();  
     }
 
     void WatchIfAllPAused()
