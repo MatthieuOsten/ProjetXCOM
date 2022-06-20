@@ -22,95 +22,33 @@ public class UIPopupYourTurn : MonoBehaviour
     float _currentDuration = 5;
     float _currentDurationFadeout = 5;
 
+    [SerializeField] private Animator _animator;
+
 
       // Start is called before the first frame update
     void Start()
     {
-        if(_yourTurnText == null || _glowBackground == null || _teamName == null) Debug.Log("UIPopupYourTurn mal setup");
+        if(_yourTurnText == null || _glowBackground == null || _teamName == null) Debug.Log("UIPopupYourTurn mal setup" , this.gameObject);
         
-        // _yourTurnTextPosition = _yourTurnText.transform.position;
-        // _teamNamePosition = _teamName.transform.position;
-
         SetWidget("test", Color.blue);
-
-       
-        // _teamName.color = Color.white;
-        // _glowBackground.color = Color.white;
-        // _yourTurnText.color = Color.white;
-     
+        // Etrange ca ne marche pas le getcomponent
+        //_animator = transform.GetComponent<Animator>(); 
     }
     public void SetWidget(string teamName, Color teamColor)
     { 
         _currentDuration = _duration;
         _currentDurationFadeout = _durationFadeout;
-
-        //    _teamName.color = Color.white;
-        // _glowBackground.color = Color.white;
-        // _yourTurnText.color = Color.white;
-
-        //   _yourTurnText.transform.position = _yourTurnTextPosition ;
-        //  _teamName.transform.position = _teamNamePosition ;
-
-
-        //  _teamName.transform.localScale = new Vector3(1,1,1);
-        // _glowBackground.transform.localScale = new Vector3(1,1,1);
-        // _yourTurnText.transform.localScale = new Vector3(1,1,1);
-
         _teamName.text = teamName;
-        
-        
-        // _yourTurnText.transform.position += Vector3.up * 50;
-        // _teamName.transform.position += Vector3.up * 50 ;
-        gameObject.GetComponent<Animator>().Play("WidgetYourTurn_Grow");
+        _animator.Play("WidgetYourTurn_Grow");
         _glowBackground.color = teamColor;
-        
-
     }
   
 
     // Update is called once per frame
     void Update()
     {
-
-
-        // if(_currentDuration > 0)
-        // {
-        //     // _yourTurnText.transform.position = Vector3.MoveTowards(_yourTurnText.transform.position, _yourTurnTextPosition, _moveSpeed*3*Time.deltaTime);
-        //     // _teamName.transform.position = Vector3.MoveTowards(_teamName.transform.position, _teamNamePosition,   _moveSpeed *Time.deltaTime);
-        //     // _currentDuration -= Time.deltaTime;
-        // }
-        // else
-        // {
-        //     if(_currentDurationFadeout > 0)
-        //     {
-        //         // ScalatorText(_teamName);
-        //         // ScalatorText(_yourTurnText);
-                
-        //         // Color color = _glowBackground.color;
-        //         // color.a -= Time.deltaTime;
-        //         // _glowBackground.color = color;
-
-
-        //         _currentDurationFadeout -= Time.deltaTime;
-
-
-        //     }
-        // }
     }
 
-    void ScalatorText(TMP_Text _text)
-    {
-        Vector3 scale = _yourTurnText.transform.localScale;
-        float increaseValue = Time.deltaTime;
-        _text.transform.localScale = new Vector3(scale.x+ increaseValue, scale.y+ increaseValue, scale.z + increaseValue);
-
-        Color color = _text.color;
-        color.a -= increaseValue;
-        _text.color = color;
-
-
-
-    }
     private void OnDisable() {
        
     }

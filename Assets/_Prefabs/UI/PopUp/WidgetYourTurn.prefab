@@ -205,6 +205,7 @@ MonoBehaviour:
   _moveSpeed: 5
   _duration: 5
   _durationFadeout: 5
+  _animator: {fileID: 4061766584888941231}
 --- !u!95 &4061766584888941231
 Animator:
   serializedVersion: 4

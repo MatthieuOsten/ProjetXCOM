@@ -11,14 +11,12 @@ public class PathFinding : MonoBehaviour
     static int heuristicScale = 4;
     static int heuristicScaleDiagonale = 8;
     
-
     /// <summary> get la distance entre un point a et point b dans une grille </summary>
     static int GetScore(int nodeAx, int nodeAy, int nodeBx, int nodeBy)
     {
         int dx = Mathf.Abs(nodeAx - nodeBx);
         int dy = Mathf.Abs(nodeAy - nodeBy);
         return heuristicScale * (dx + dy) + (heuristicScaleDiagonale - 2 * heuristicScale) * Mathf.Min(dx, dy);
-
     }
     static int GetScore(Case a, Case b)
     {
@@ -124,7 +122,6 @@ public class PathFinding : MonoBehaviour
             }
 
             GridManager.SetCasePreview(patha, true);
-            //return path.ToArray();
             return patha.ToArray();
             
         }

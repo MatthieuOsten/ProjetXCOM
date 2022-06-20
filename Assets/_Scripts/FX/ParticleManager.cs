@@ -155,15 +155,7 @@ public class ParticleManager : MonoBehaviour
         Fx.transform.LookAt(target);
         Instance.FXTrailPool.Add(Fx);
         Instance.FXTrailPoolTarget.Add(target);
-        // ParticleSystem psGO = fxToPlay.GetComponent<ParticleSystem>();
-
-
-        // ParticleSystem vfx = GetParticleSystem();
-
-        // vfx. = psGO.main;
-        // vfx.gameObject.SetActive(true);
-        // vfx.gameObject.transform.position = position;
-        
+   
     }
 
     // Update is called once per frame
@@ -184,7 +176,7 @@ public class ParticleManager : MonoBehaviour
                 Debug.Log("oh");
                 Destroy(FXTrailPool[i]);
                 //FXTrailPool[i].GetComponent<ParticleSystem>().Stop(true);
-            }      //
+            }      
             else
             {
                 Debug.Log("oh");

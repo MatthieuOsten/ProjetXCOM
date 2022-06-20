@@ -17,14 +17,6 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] Image _overlayRed;
 
-    // [Header("PAUSE")]
-    // [SerializeField] GameObject MenuPause;
-    // [SerializeField] TMP_Text MapName;
-    // [SerializeField] TMP_Text MapDescription;
-    // [SerializeField] Image MapPreview;
-
-    // [SerializeField] TMP_Text commandText;
-
     [Header("Widget")]
     [SerializeField] UIPopupYourTurn YourTurnPopup;
 

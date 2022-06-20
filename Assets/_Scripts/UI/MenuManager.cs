@@ -14,6 +14,14 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private GameObject _panelTutorial;
     [SerializeField] private Canvas _canvasMenu;
 
+    [Header("BUTTON")]
+    [SerializeField] private Button _buttonPlay;
+    [SerializeField] private Button _buttonTutorial;
+    [SerializeField] private Button _buttonQuit;
+
+    [Header("SCENE")]
+    [SerializeField] private string scenePlay;
+
     [Header("BACKGROUND")]
     [SerializeField] private string _stringLoadBackground;
     [SerializeField] private GameObject _panelBackground;
@@ -46,33 +54,7 @@ public class MenuManager : MonoBehaviour
         _canvasMenu.renderMode = RenderMode.ScreenSpaceCamera;
         _canvasMenu.worldCamera = Camera.current;
 
-        TextMesh textMesh;
-        TextMeshPro textMeshPro;
-        TextMeshProUGUI textMeshProUGUI;
-
-        if (_versionObject != null && _versionObject.TryGetComponent<TextMesh>(out textMesh))
-        {
-            Debug.Log("Le texte de la version a etais mise en place sur le composant TEXTMESH");
-            textMesh.text = _versionString + Application.version.ToString();
-
-        }
-        else if (_versionObject != null && _versionObject.TryGetComponent<TextMeshPro>(out textMeshPro))
-        {
-            Debug.Log("Le texte de la version a etais mise en place sur le composant TEXTMESHPRO");
-            textMeshPro.text = _versionString + Application.version.ToString();
-        }
-        else if (_versionObject != null && _versionObject.TryGetComponent<TextMeshProUGUI>(out textMeshProUGUI))
-        {
-            Debug.Log("Le texte de la version a etais mise en place sur le composant TEXTMESHPRO");
-            textMeshProUGUI.text = _versionString + Application.version.ToString();
-        }
-        else if (_versionObject == null)
-        {
-            Debug.Log("l'objet n'as pas etais referencer");
-        } else
-        {
-            Debug.Log("Aucun composant texte n'as etais trouver dans l'objet");
-        }
+        UpdateVersion();
 
     }
 
@@ -114,5 +96,37 @@ public class MenuManager : MonoBehaviour
         else
         { _panelTutorial.SetActive(true); }
 
+    }
+
+    private void UpdateVersion()
+    {
+        TextMesh textMesh;
+        TextMeshPro textMeshPro;
+        TextMeshProUGUI textMeshProUGUI;
+
+        if (_versionObject != null && _versionObject.TryGetComponent<TextMesh>(out textMesh))
+        {
+            Debug.Log("Le texte de la version a etais mise en place sur le composant TEXTMESH");
+            textMesh.text = _versionString + Application.version.ToString();
+
+        }
+        else if (_versionObject != null && _versionObject.TryGetComponent<TextMeshPro>(out textMeshPro))
+        {
+            Debug.Log("Le texte de la version a etais mise en place sur le composant TEXTMESHPRO");
+            textMeshPro.text = _versionString + Application.version.ToString();
+        }
+        else if (_versionObject != null && _versionObject.TryGetComponent<TextMeshProUGUI>(out textMeshProUGUI))
+        {
+            Debug.Log("Le texte de la version a etais mise en place sur le composant TEXTMESHPRO");
+            textMeshProUGUI.text = _versionString + Application.version.ToString();
+        }
+        else if (_versionObject == null)
+        {
+            Debug.Log("l'objet n'as pas etais referencer");
+        }
+        else
+        {
+            Debug.Log("Aucun composant texte n'as etais trouver dans l'objet");
+        }
     }
 }

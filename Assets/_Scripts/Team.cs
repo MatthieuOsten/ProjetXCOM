@@ -26,14 +26,13 @@ public class Team : MonoBehaviour, ITeam
 
     [Tooltip("Retourne la grille selectionner par la team")]
     [SerializeField] protected GridManager _selectedGrid;
-    public Case startSpawnCase; // On indique le point de spawn 
+    //public Case startSpawnCase; // On indique le point de spawn 
 
     /// <summary> Couleur de la team </summary>
     public Color Color{ get {return Data.Color;}}
 
 
-
-    public List<MonoBehaviour> Scripts;
+    //public List<MonoBehaviour> Scripts;
 
     public virtual void Awake() {
         _selectedGrid = GameObject.FindObjectOfType<GridManager>();
@@ -165,26 +164,25 @@ public class Team : MonoBehaviour, ITeam
     // Update is called once per frame
     public virtual void Update()
     {
-
         if(CanPlay)
         {
             WatchIfAllPAused();
         }
-        WatchIfEveryoneIsDead();
-       
+        WatchIfEveryoneIsDead();  
     }
 
     void WatchIfAllPAused()
     {
-        bool AllPAUsed = false;
+        bool canContinueToPlay = false;
         foreach (Character _actor in Squad)
         {
-
             if (_actor != null && _actor.CanAction || _actor.IsMoving)
-                AllPAUsed = true;
-
+            {    
+                canContinueToPlay = true;
+                break;
+            }
         }
-        CanPlay = AllPAUsed;
+        CanPlay = canContinueToPlay;
     }
 
     void WatchIfEveryoneIsDead()
@@ -192,10 +190,8 @@ public class Team : MonoBehaviour, ITeam
         bool teamDead = true;
         foreach (Character _actor in Squad)
         {
-
             if (_actor != null)
                 teamDead = false;
-
         }
         if (teamDead)
         {

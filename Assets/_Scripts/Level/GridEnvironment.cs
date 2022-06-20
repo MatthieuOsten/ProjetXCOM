@@ -20,6 +20,7 @@ public class GridEnvironment : MonoBehaviour
 
     [SerializeField] float speedMove;
 
+    private Terrain _terrain;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,14 +34,15 @@ public class GridEnvironment : MonoBehaviour
             if (prefabEnvironment != null)
             {
                 Vector3 startPos = Vector3.zero;
-                float xPos = -Template.GetComponent<Terrain>().terrainData.size.x / 2;
+                _terrain = Template.GetComponent<Terrain>();
+                float xPos = -_terrain.terrainData.size.x / 2;
                 Vector3 oof = new Vector3(xPos, (int)transform.position.y, (int)transform.position.z);
                 startPos = oof;
-                oofa = -Template.GetComponent<Terrain>().terrainData.size.z * 2;
+                oofa = -_terrain.terrainData.size.z * 2;
 
-                    firstObject = Instantiate(Template, new Vector3(xPos, camTarget.position.y, -Template.GetComponent<Terrain>().terrainData.size.z * -1), Quaternion.identity, transform);
+                    firstObject = Instantiate(Template, new Vector3(xPos, camTarget.position.y, -_terrain.terrainData.size.z * -1), Quaternion.identity, transform);
                     middleObject = Instantiate(Template, new Vector3(xPos, camTarget.position.y, 0), Quaternion.identity, transform);
-                    endObject = Instantiate(Template, new Vector3(xPos, camTarget.position.y, -Template.GetComponent<Terrain>().terrainData.size.z), Quaternion.identity, transform);
+                    endObject = Instantiate(Template, new Vector3(xPos, camTarget.position.y, -_terrain.terrainData.size.z), Quaternion.identity, transform);
                 
 
             }
@@ -64,7 +66,7 @@ public class GridEnvironment : MonoBehaviour
 
             if (transform.GetChild(i).transform.localPosition.z <= oofa)
             {
-                transform.GetChild(i).position = new Vector3(camTarget.position.x, camTarget.position.y, oofa + (Template.GetComponent<Terrain>().terrainData.size.z * count));
+                transform.GetChild(i).position = new Vector3(camTarget.position.x, camTarget.position.y, oofa + (_terrain.terrainData.size.z * count));
             }
 
             transform.GetChild(i).Translate(Vector3.back * speedMove * Time.deltaTime, Space.Self);

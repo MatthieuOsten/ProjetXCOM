@@ -25,6 +25,8 @@ public class HintstringProperty : MonoBehaviour
     public SettingHintstring setting;
     public Vector3 offset;
 
+
+
     GameObject Player;
 
     public bool IgnoreRelatedObject;
@@ -32,9 +34,12 @@ public class HintstringProperty : MonoBehaviour
     [SerializeField] protected float lifeTime =4 ;
     public bool IsTemp;
 
+    /// <summary> Transform de la jauge du widget </summary>
+    private RectTransform _rectJauge;
+
     protected virtual void Start()
     {
-        //Player = GameObject.FindGameObjectWithTag("Player");
+        _rectJauge = JaugeProgression.transform.GetComponent<RectTransform>();
     }
     // A chaque update on check lexistance du gameobject, si il est null on delete le hintstring
     protected virtual void Update()
@@ -85,14 +90,12 @@ public class HintstringProperty : MonoBehaviour
 
             if(icon != null)
                 icon.gameObject.SetActive(true);
-            //textComponent.enabled = true;
         }
 
         if (progression > -1)
         {
-            JaugeWidget.SetActive(true);
-            RectTransform compo = JaugeProgression.transform.GetComponent<RectTransform>();
-            compo.sizeDelta = new Vector2(progression*100, compo.sizeDelta.y);
+            JaugeWidget.SetActive(true);            
+            _rectJauge.sizeDelta = new Vector2(progression*100, _rectJauge.sizeDelta.y);
         }
         else
             JaugeWidget.SetActive(false);
