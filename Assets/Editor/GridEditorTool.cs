@@ -119,23 +119,15 @@ public class GridEditorTool : EditorTool
     public override void OnToolGUI(EditorWindow window)
     {
         // Alors je fais ce truc bledard car la case s'updatai pas
-        //if(Selection.activeTransform.TryGetComponent<Case>(out Case oof) || Selection.activeTransform.TryGetComponent<GridManager>(out GridManager oofa))
-            Selection.activeObject = GameObject.FindGameObjectWithTag("GridManager");
-        
+        Selection.activeObject = GameObject.FindObjectOfType<GridManager>();
         //Si on est pas dans la sceneView, l'outil s'arrete
-        if (!(window is SceneView))
-            return;
+        if (!(window is SceneView)) return;
         //Si on est pas dans cette outil, on stop
-        if (!ToolManager.IsActiveTool(this))
-            return;
+        if (!ToolManager.IsActiveTool(this)) return;
 
-        if(Selection.transforms[0].tag != "GridManager")
-            return;
-      
-
+        if(!Selection.transforms[0].CompareTag("GridManager")) return;
         //Affiche un cercle sur la scene pour voir ce que l'on vise
         Handles.DrawWireDisc(GetCurrentMousePositionInScene(), Vector3.up, 1f  );
-
         //Si l'user reste appuyer cela va editer la case cible
         if (_receivedClickDownEvent)
         {
@@ -143,14 +135,10 @@ public class GridEditorTool : EditorTool
             foreach (var transform in Selection.transforms)
             {
                 GridManager grid = transform.GetComponent<GridManager>();
-                Debug.Log(GetCurrentMousePositionInScene());
                 grid.EditCase(GetCurrentMousePositionInScene() , _caseStateToPaint);
-
                 // Alors je fais ce truc bledard car la case s'updatai pas
                 Selection.activeObject = grid.GetCase((int)GetCurrentMousePositionInScene().x,(int)GetCurrentMousePositionInScene().y);
-
             }
-            
             _receivedClickUpEvent = false;
 
            

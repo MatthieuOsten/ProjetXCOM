@@ -611,6 +611,202 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "ActionBar",
+            "id": "7ec991cd-76cf-4928-a4b9-04202a3050cc",
+            "actions": [
+                {
+                    "name": "AttackRight",
+                    "type": "Button",
+                    "id": "a6b7b91b-ae7e-40c2-9cac-2da90f328b3e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "VigilenceDroite",
+                    "type": "Button",
+                    "id": "23523c2d-e4ee-45db-a1df-14168336765a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Competence1Droite",
+                    "type": "Button",
+                    "id": "18d42b90-878d-4c1a-93f6-308707c1a9d7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Competence2Droite",
+                    "type": "Button",
+                    "id": "657c7f23-1618-4a0b-b248-cb346e847449",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AttackGauche",
+                    "type": "Button",
+                    "id": "8a1bf1f1-3ecd-4058-a11a-b43a37a8a3eb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "VigilenceGauche",
+                    "type": "Button",
+                    "id": "77348fc0-a4e3-4a46-b856-09cb73e66eed",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Competence1",
+                    "type": "Button",
+                    "id": "340ad941-215a-491c-b383-9d3657332704",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Competence2",
+                    "type": "Button",
+                    "id": "22d4717b-19a7-4344-9730-5a393053df8e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "2bce67e5-d542-48e8-bd44-2d4ecec2280d",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AttackRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "22ba0bd9-46a7-4f58-9c12-33eb67419f91",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VigilenceDroite",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "49a70894-5ce1-4c80-878f-40c77ce82123",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Competence1Droite",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f4a9a6d1-538a-4404-b5bd-96ad974b3e48",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Competence2Droite",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f96e20c-4577-4297-8714-81d16e9a9549",
+                    "path": "<Keyboard>/0",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AttackGauche",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "60a202b3-19bc-4c30-8cb2-514fd18dd487",
+                    "path": "<Keyboard>/9",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VigilenceGauche",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d2ff17d2-e7b7-4d83-8d5f-8ee153369dab",
+                    "path": "<Keyboard>/8",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Competence1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "786ac858-0a73-40eb-a8a2-0d4aff506dc6",
+                    "path": "<Keyboard>/7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Competence2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "System",
+            "id": "cae95c18-8327-417b-834f-5a2efafa8ba1",
+            "actions": [
+                {
+                    "name": "Exit",
+                    "type": "Button",
+                    "id": "6541fdc6-b15e-4a55-99b8-d1f9b843b947",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "32247366-967a-4a85-ae9f-36e9759bd4c8",
+                    "path": "<Keyboard>/delete",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Exit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

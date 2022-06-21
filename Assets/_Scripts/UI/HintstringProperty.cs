@@ -14,7 +14,7 @@ public class HintstringProperty : MonoBehaviour
 {
     public GameObject relatedObject;
     public float MinDistance = 50f;
-    public TMP_Text textComponent;
+    public TMP_Text[] textComponent;
     public Image icon;
     public bool enable = true;
 
@@ -25,17 +25,39 @@ public class HintstringProperty : MonoBehaviour
     public SettingHintstring setting;
     public Vector3 offset;
 
+
+
     GameObject Player;
 
-    private void Start()
+    public bool IgnoreRelatedObject;
+
+    [SerializeField] protected float lifeTime =4 ;
+    public bool IsTemp;
+
+    /// <summary> Transform de la jauge du widget </summary>
+    private RectTransform _rectJauge;
+
+    protected virtual void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("Player");
+        _rectJauge = JaugeProgression.transform.GetComponent<RectTransform>();
     }
     // A chaque update on check lexistance du gameobject, si il est null on delete le hintstring
-    void Update()
+    protected virtual void Update()
     {
+        if(IsTemp)
+        {
+            if (lifeTime > 0)
+                lifeTime -= Time.deltaTime;
+            else
+            {
+                Debug.Log("Hintstring destroy because the lifetime is 0");
+                Destroy(gameObject);
+            }
+                
+        }
+
         var isMissing = ReferenceEquals(relatedObject, null);
-        if (relatedObject == null || isMissing)
+        if (!IgnoreRelatedObject && ( relatedObject == null || isMissing))
         {
             Debug.Log("Hintstring destroy because the related gameObject is killed");
             Destroy(gameObject);
@@ -43,7 +65,7 @@ public class HintstringProperty : MonoBehaviour
 
         if (!enable )
         {
-            textComponent.gameObject.SetActive(false);
+            textComponent[0].gameObject.SetActive(false);
             icon.gameObject.SetActive(false);
         }
         else
@@ -53,12 +75,12 @@ public class HintstringProperty : MonoBehaviour
             {
                 case SettingHintstring.HideWithDistance:
                     if (relatedObject != null && Vector3.Distance(Player.transform.position, relatedObject.transform.position) < 3)
-                        textComponent.gameObject.SetActive(true);
+                        textComponent[0].gameObject.SetActive(true);
                     else
-                        textComponent.gameObject.SetActive(false);
+                        textComponent[0].gameObject.SetActive(false);
                     break;
                 case SettingHintstring.AlwaysShow:
-                        textComponent.gameObject.SetActive(true);
+                        textComponent[0].gameObject.SetActive(true);
                     break;
                 default:
                     break;
@@ -66,16 +88,14 @@ public class HintstringProperty : MonoBehaviour
             }
             
 
-           
-            icon.gameObject.SetActive(true);
-            //textComponent.enabled = true;
+            if(icon != null)
+                icon.gameObject.SetActive(true);
         }
 
         if (progression > -1)
         {
-            JaugeWidget.SetActive(true);
-            RectTransform compo = JaugeProgression.transform.GetComponent<RectTransform>();
-            compo.sizeDelta = new Vector2(progression, compo.sizeDelta.y);
+            JaugeWidget.SetActive(true);            
+            _rectJauge.sizeDelta = new Vector2(progression*100, _rectJauge.sizeDelta.y);
         }
         else
             JaugeWidget.SetActive(false);

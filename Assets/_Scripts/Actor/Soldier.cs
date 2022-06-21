@@ -18,12 +18,5 @@ public class Soldier : Character
         return false;
     }
 
-    // -- Effectue l'attaque du soldat -- //
-    private void Attack(Actor actor)
-    {
-        if (actor != null)
-        {
-        }
-
-    }
+    
 }

@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e35e1994868fd44aac59478ff36af89, type: 3}
+  m_Name: DATA_Character_Support
+  m_EditorClassIdentifier: 
+  name: Support
+  description: Soldat d'elite de l'ordre, munie d'un sceptre il soigne et aide ces
+    allier.
+  debugDescription: 
+  type: 
+  tags: []
+  icon: {fileID: 21300000, guid: 46f14a4bc40144244863a461d999c79d, type: 3}
+  _prefabBody: {fileID: 4518816553629253755, guid: 6e8e0400a4189fd48b335255075f4ab2,
+    type: 3}
+  _tabCosmetic: []
+  _tabAccessory: []
+  _color: {r: 0.025627613, g: 1, b: 0, a: 0}
+  MaterialCaseOverwatch: {fileID: 2100000, guid: 1a71e19f92ef06b498e0d9506dd46ca3,
+    type: 2}
+  _health: 4
+  _shield: 0
+  _moveSpeed: 10
+  _weapon: {fileID: 11400000, guid: f68312a4ab3bfb04791b0d1d7163d276, type: 2}
+  _dataOverwatch: {fileID: 11400000, guid: 9dfe7a8c1337a8e4ca197b0302c12f57, type: 2}
+  _dataReload: {fileID: 0}
+  _actionPoints: 2
+  _movementCasesAction: 6
+  AbilityAvailable: 1
+  WeaponAbility: {fileID: 11400000, guid: dcc644e6e1894ef49ab5745244dc54a0, type: 2}
+  casePreviewAbility: {fileID: 0}
+  AbilityAltAvailable: 1
+  WeaponAbilityAlt: {fileID: 11400000, guid: 3e204f481e730b844998740af75bf0d9, type: 2}
+  casePreviewAbilityAlt: {fileID: 0}
+  CostAttack: 1
+  CostVigilance: 1
+  CostReload: 1
+  pointAction: {fileID: 0}
+  ammo: {fileID: 0}
+  AliaseDeath: character_death
+  AliaseSpawn: 
+  AliaseDamaged: 
+  AliaseOnMove: 
+  fxFootstep: {fileID: 8926484042661614526, guid: a545c709d26c2e1449f4e9d18b014549,
+    type: 3}
+  fxDeath: {fileID: 8926484042661614526, guid: f91ccafe0b08ea3408665b959481bc97, type: 3}
+  fxDamaged: {fileID: 8926484042661614526, guid: b496f9e64e3c5f243a71ac555c0b4d40,
+    type: 3}
+  ClassName: Actor_Support
+  mtl_red_flick: {fileID: 2100000, guid: abbfc98669dc8544abbe918ae5c5cdf7, type: 2}

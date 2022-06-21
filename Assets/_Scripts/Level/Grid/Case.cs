@@ -9,11 +9,19 @@ public enum CaseState
     Null,
     Empty,
     Occupied,
-    HalfOccupied
+    HalfOccupied,
+    Spawner // alors il sera forcemet empty apres car c'est un spawner pour les team
+}
+[System.Flags]
+public enum CaseFlags
+{
+    Highlighted = 1,
+    Selected = 2,
+    Checked = 4
 }
 
 [System.Serializable]
-[ExecuteAlways]
+[ExecuteAlways] // Cette class fonctionne en edit et en play 
 public class CaseInfo
 {
     public int x, y;
@@ -22,15 +30,20 @@ public class CaseInfo
 }
 
 [ExecuteAlways]
+[SelectionBase]
 public class Case : MonoBehaviour
 {
     public GridManager GridParent; // la grille propriétaire de la case
     [SerializeField] CaseInfo _it;
     public CaseInfo CaseStatut { get { return _it; } }
 
-    public bool Highlighted { private get; set;}
+    public bool Highlighted { get; set;}
+    public bool Selected { get; set;}
     public bool Checked;
 
+    public CaseFlags Flags;
+
+    [Header("PathFinding")]
     // PathFinding part
     public int gCost;
     public int hCost;
@@ -41,17 +54,27 @@ public class Case : MonoBehaviour
 
 
     [Header("Reference")]
-    public Actor _actor; // Une reference de l'actor qui est dessus
-    /* Next properties to include
-    Interact _interact // A ref to a interact like a echelle 
-    */
+    private Actor _actor; // Une reference de l'actor qui est dessus
+    public Actor Actor{get{ return _actor;} set{ _actor = value;} }
+
+    public Character Character{
+        get{ 
+
+            if(Actor is Character)
+                return (Character)_actor;
+            
+            return null ;} 
+    }
+
+    public bool HaveActor{ get {return _actor != null;}}
     public int x { get { return CaseStatut.x; } set { CaseStatut.x = value; } }
     public int y { get { return CaseStatut.y; } set { CaseStatut.y = value; } }
-    public CaseState state { get { return CaseStatut._state; } set { CaseStatut._state = value; } }
+    public CaseState State { get { return CaseStatut._state; } set { CaseStatut._state = value; } }
     public int index { get { return CaseStatut.index; } set { CaseStatut.index = value; } }
 
-    [Header("DEBUG")]
+    
     SpriteRenderer _sr;
+    [Header("DEBUG")]
     [SerializeField] TextMeshPro total;
     [SerializeField] TextMeshPro h;
     [SerializeField] TextMeshPro g;
@@ -60,17 +83,28 @@ public class Case : MonoBehaviour
     private void Start()
     {
         _sr = GetComponentInChildren<SpriteRenderer>();
+        // Ajoute la case à la grid pour dire qu'elle peut servir de spawn, on verifie si elle est dans le state spawn et qu'elle ny 'ai pas déja
+        if (State == CaseState.Spawner && !GridParent.SpawnerCase.Contains(this) ) 
+            GridParent.SpawnerCase.Add(this);
+
+    }
+    private void OnDestroy() {
+        if (State == CaseState.Spawner && GridParent.SpawnerCase.Contains(this) ) 
+        {
+            GridParent.SpawnerCase.Remove(this);
+        }
     }
     public void Update()
-    { 
-        Debug();
+    {  
         if (Highlighted || Checked)
             return;
         WatchCaseState();
-        return;
+        #if UNITY_EDITOR 
+            DebugCase();
+        #endif
     }
 
-    void Debug()
+    private void DebugCase()
     {
         if (GridParent.ShowScorePathFinding)
         {
@@ -92,7 +126,7 @@ public class Case : MonoBehaviour
         }
     } 
 
-    void WatchCaseState()
+    public void WatchCaseState()
     {
         switch (CaseStatut._state)
         {
@@ -108,11 +142,18 @@ public class Case : MonoBehaviour
             case CaseState.Empty:
                 ChangeMaterial(GridParent.Data.caseDefault);
                 break;
+            case CaseState.Spawner:
+                ChangeMaterial(GridParent.Data.caseSpawner);
+                break;
             default:
                 ChangeMaterial(GridParent.Data.caseNone);
                 break;
 
         }
+    }
+
+    private void LateUpdate() {
+         
     }
 
     /* Change la couleur de la cellule 
@@ -123,9 +164,36 @@ public class Case : MonoBehaviour
     }
 
 
-    /// <summary> Change la couleur de la cellule </summary>
+    /// <summary> Change le material de la cellule </summary>
     public void ChangeMaterial(Material newMtl)
     {
-        _sr.material = newMtl;
+        if(_sr.sharedMaterial != newMtl) // On vérifie si le matérial n'est pas déjà assignés
+            _sr.sharedMaterial = newMtl; // On utilise sharedMaterial pour eviter de crée une nouvelle instance
+
+        this.enabled = true;
+    }
+
+    public static CaseFlags SetFlag (CaseFlags a, CaseFlags b)
+    {
+        return a | b;
+    }
+    public static CaseFlags UnsetFlag (CaseFlags a, CaseFlags b)
+    {
+        return a & (~b);
+    }
+    public static bool HasFlag (CaseFlags a, CaseFlags b)
+    {
+        return (a & b) == b;
+    }
+    public static CaseFlags ToogleFlag (CaseFlags a, CaseFlags b)
+    {
+        return a ^ b;
     }
 }
+
+
+/*
+
+// Works with "None" as well
+
+*/

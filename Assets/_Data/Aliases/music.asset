@@ -1,0 +1,160 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe7e2c0a55730e4d8113d0fb85617fe, type: 3}
+  m_Name: music
+  m_EditorClassIdentifier: 
+  DontLoad: 0
+  defaultMixerGroup: {fileID: 0}
+  aliases:
+  - name: turn_start
+    description: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: f2b67c073e6e9004ab6b52951af2e991, type: 3}
+    - {fileID: 8300000, guid: a41473ac854340749a3c2853f58f6166, type: 3}
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 1
+    isLooping: 0
+    minPitch: 1
+    maxPitch: 1
+    stereoPan: 0
+    spatialBlend: 0
+    reverbZoneMix: 0
+    dopplerLevel: 0
+    Spread: 0
+    MinDistance: 0
+    MaxDistance: 0
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 1
+    isPlaholder: 1
+  - name: turn_end
+    description: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: c518feb9c27c1164fb76330c6d4af58a, type: 3}
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 1
+    isLooping: 0
+    minPitch: 1
+    maxPitch: 1
+    stereoPan: 0
+    spatialBlend: 0
+    reverbZoneMix: 0
+    dopplerLevel: 0
+    Spread: 0
+    MinDistance: 0
+    MaxDistance: 0
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 1
+    isPlaholder: 1
+  - name: game_start
+    description: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: 8e76a8788bbeb1142826cc81ec9c9317, type: 3}
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 1
+    isLooping: 0
+    minPitch: 0.99
+    maxPitch: 1
+    stereoPan: 0
+    spatialBlend: 0
+    reverbZoneMix: 0
+    dopplerLevel: 0
+    Spread: 0
+    MinDistance: 0
+    MaxDistance: 0
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 0
+      m_PostInfinity: 0
+      m_RotationOrder: 0
+    Text: 
+    customDuration: 0
+    isInit: 1
+    isPlaholder: 1
+  - name: game_ambient
+    description: 
+    MixerGroup: {fileID: 0}
+    audio:
+    - {fileID: 8300000, guid: 586fdb9bc784f234789db4b908cc6d82, type: 3}
+    bypassEffects: 0
+    bypassListenerEffects: 0
+    bypassReverbZones: 0
+    priority: 0
+    volume: 0.26
+    isLooping: 1
+    minPitch: 1
+    maxPitch: 1.01
+    stereoPan: 0
+    spatialBlend: 0
+    reverbZoneMix: 1
+    dopplerLevel: 1
+    Spread: 1
+    MinDistance: 1
+    MaxDistance: 500
+    CurveType: 0
+    distanceCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    Text: 
+    customDuration: 0
+    isInit: 1
+    isPlaholder: 1

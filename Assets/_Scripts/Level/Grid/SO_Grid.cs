@@ -20,5 +20,12 @@ public class SO_Grid : ScriptableObject
     public Material caseHighlight;
     public Material caseLocked;
     public Material caseNone;
+    public Material caseSelected;
+    public Material caseOverwatch;
+    public Material caseSpawner;
+    public Material caseCharacter;
+    public Material caseCharacterSelected;
+
+
 
 }

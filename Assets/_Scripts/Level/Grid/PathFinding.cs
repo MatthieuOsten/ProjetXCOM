@@ -10,14 +10,13 @@ public class PathFinding : MonoBehaviour
     [Header("PATH FINDING")]
     static int heuristicScale = 4;
     static int heuristicScaleDiagonale = 8;
-
+    
     /// <summary> get la distance entre un point a et point b dans une grille </summary>
     static int GetScore(int nodeAx, int nodeAy, int nodeBx, int nodeBy)
     {
         int dx = Mathf.Abs(nodeAx - nodeBx);
         int dy = Mathf.Abs(nodeAy - nodeBy);
         return heuristicScale * (dx + dy) + (heuristicScaleDiagonale - 2 * heuristicScale) * Mathf.Min(dx, dy);
-
     }
     static int GetScore(Case a, Case b)
     {
@@ -36,7 +35,7 @@ public class PathFinding : MonoBehaviour
     }
 
     /// <summary> Function qui s'occupe de trouver le chemin le plus court </summary>
-    public static Case[] FindPath(Case startCase, Case endCase)
+    public static Case[] FindPath(Case startCase, Case endCase, int limitedDistance = -1)
     {
         // Permet d'éviter des hard crash
         if (GridManager.GetValidCase(startCase) == null || GridManager.GetValidCase(endCase) == null)
@@ -72,11 +71,11 @@ public class PathFinding : MonoBehaviour
             if (currentNode == endCase)
             {
                 // on atteint la endCase, ainsi on retrace le chemin grace au parent de chaque case
-                return RetracePath(startCase, endCase);
+                return RetracePath(startCase, endCase, limitedDistance);
             }
             foreach (Case adjacentCase in GridManager.GetAdjacentCases(currentNode))
             {
-                if (adjacentCase == null || adjacentCase.state != CaseState.Empty || closedSet.Contains(adjacentCase))
+                if (adjacentCase == null || adjacentCase.State != CaseState.Empty || adjacentCase.HaveActor || closedSet.Contains(adjacentCase))
                 {
                     continue;
                 }
@@ -102,18 +101,31 @@ public class PathFinding : MonoBehaviour
     }
 
     /// <summary> Renvoi la list des cases qui offrent le meilleur chemin </summary>
-    static Case[] RetracePath(Case StartNode, Case endNode)
+    static Case[] RetracePath(Case StartNode, Case endNode , int limitDistance)
     {
         List<Case> path = new List<Case>();
         Case currentNode = endNode;
-        while (currentNode != StartNode)
+        while (currentNode != StartNode )
         {
-            currentNode.Checked = true;
-            currentNode.ChangeMaterial(StartNode.GridParent.Data.caseNone);
+            //currentNode.Checked = true;
+            //currentNode.ChangeMaterial(StartNode.GridParent.Data.caseNone);
             path.Add(currentNode);
             currentNode = currentNode.ParentCase;
         }
         path.Reverse();
+        if(limitDistance != -1 && path.Count >= limitDistance)
+        {
+            List<Case> patha = new List<Case>();
+            for(int i = 0 ; i < limitDistance ; i++)
+            {
+                patha.Add(path[i]);
+            }
+
+            GridManager.SetCasePreview(patha, true);
+            return patha.ToArray();
+            
+        }
+        GridManager.SetCasePreview(path, true);
         return path.ToArray();
     }
 }

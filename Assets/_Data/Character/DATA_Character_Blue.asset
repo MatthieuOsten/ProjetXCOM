@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e35e1994868fd44aac59478ff36af89, type: 3}
+  m_Name: DATA_Character_Blue
+  m_EditorClassIdentifier: 
+  name: 
+  description: 
+  type: 
+  tags: []
+  icon: {fileID: 0}
+  _prefabBody: {fileID: 1586521552182824858, guid: 482937e0730afeb43820378a35375c23,
+    type: 3}
+  _tabCosmetic: []
+  _tabAccessory: []
+  _health: 24
+  _shield: 0
+  _weapons:
+  - {fileID: 11400000, guid: 4fcc35f68cac821489f34758a19ef60b, type: 2}
+  _actionPoints: 0
+  spriteTir: {fileID: 0}
+  spriteVigilance: {fileID: 0}
+  spriteCompetence: {fileID: 0}
+  spriteCompetence2: {fileID: 0}
+  icone: {fileID: 0}
+  pointAction: {fileID: 0}
+  ammo: {fileID: 0}
+  ClassName: Actor_TestSoldier

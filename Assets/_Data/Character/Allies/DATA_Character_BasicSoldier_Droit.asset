@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e35e1994868fd44aac59478ff36af89, type: 3}
+  m_Name: DATA_Character_BasicSoldier_Droit
+  m_EditorClassIdentifier: 
+  name: Basic Soldier
+  description: Soldat d'elite, munie d'une carabine et qui n'attaque que en croix.
+  debugDescription: "elle est la classe la plus commune de l\u2019\xE9quipe puisque
+    que celle-ci s\u2019en compose de deux.  Quelle est leur utilit\xE9? Les BS sont
+    les principaux dealer de damage de la team, ils poss\xE8dent une bonne port\xE9e
+    avec des d\xE9g\xE2ts corrects en m\xEAlant tout \xE7a avec une mobilit\xE9 moyenne
+    il peut \xEAtre utilis\xE9 pour des contournements."
+  type: 
+  tags:
+  - 
+  icon: {fileID: 21300000, guid: 41c59afcd2678894d965d860ce3d5bcc, type: 3}
+  _prefabBody: {fileID: 4518816553629253755, guid: 118ddfd221c7e934f8cae637737d81b6,
+    type: 3}
+  _tabCosmetic: []
+  _tabAccessory: []
+  _color: {r: 0.88678473, g: 0, b: 0.94509804, a: 0}
+  MaterialCaseOverwatch: {fileID: 2100000, guid: 1a71e19f92ef06b498e0d9506dd46ca3,
+    type: 2}
+  _health: 8
+  _shield: 0
+  _moveSpeed: 10
+  _weapon: {fileID: 11400000, guid: 74646e0126d0ae84dbf265de41e93192, type: 2}
+  _dataOverwatch: {fileID: 11400000, guid: 9dfe7a8c1337a8e4ca197b0302c12f57, type: 2}
+  _dataReload: {fileID: 11400000, guid: 7767073ceb9b99c4983a651ea4c01a79, type: 2}
+  _actionPoints: 2
+  _movementCasesAction: 4
+  AbilityAvailable: 0
+  WeaponAbility: {fileID: 0}
+  casePreviewAbility: {fileID: 0}
+  AbilityAltAvailable: 0
+  WeaponAbilityAlt: {fileID: 0}
+  casePreviewAbilityAlt: {fileID: 0}
+  CostAttack: 1
+  CostVigilance: 1
+  CostReload: 1
+  pointAction: {fileID: 0}
+  ammo: {fileID: 21300000, guid: 301fe569da9047c4988d46c1707ea4e5, type: 3}
+  AliaseDeath: character_death
+  AliaseSpawn: 
+  AliaseDamaged: 
+  AliaseOnMove: 
+  fxFootstep: {fileID: 8926484042661614526, guid: a545c709d26c2e1449f4e9d18b014549,
+    type: 3}
+  fxDeath: {fileID: 8926484042661614526, guid: f91ccafe0b08ea3408665b959481bc97, type: 3}
+  fxDamaged: {fileID: 8926484042661614526, guid: b496f9e64e3c5f243a71ac555c0b4d40,
+    type: 3}
+  ClassName: Actor_BasicSoldier
+  mtl_red_flick: {fileID: 2100000, guid: abbfc98669dc8544abbe918ae5c5cdf7, type: 2}

@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 0e35e1994868fd44aac59478ff36af89
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - icon: {instanceID: 0}
+  - _prefabBody: {instanceID: 0}
+  - _weapon: {instanceID: 0}
+  - _dataOverwatch: {fileID: 11400000, guid: 9dfe7a8c1337a8e4ca197b0302c12f57, type: 2}
+  - _dataReload: {fileID: 11400000, guid: 7767073ceb9b99c4983a651ea4c01a79, type: 2}
+  - WeaponAbility: {instanceID: 0}
+  - casePreviewAbility: {instanceID: 0}
+  - WeaponAbilityAlt: {instanceID: 0}
+  - casePreviewAbilityAlt: {instanceID: 0}
+  - pointAction: {instanceID: 0}
+  - ammo: {instanceID: 0}
+  - mtl_red_flick: {fileID: 2100000, guid: abbfc98669dc8544abbe918ae5c5cdf7, type: 2}
+  executionOrder: 0
+  icon: {fileID: 2800000, guid: cac9f704575bbe744b68791d16b1806a, type: 3}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

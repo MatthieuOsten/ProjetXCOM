@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ffebdf3ef8750c49bc8bad5d6ff831c, type: 3}
+  m_Name: DATA_wpn_support_comp_soin
+  m_EditorClassIdentifier: 
+  name: "R\xE9g\xE9n\xE9ration"
+  description: "Offre \xE0 un alli\xE9 une r\xE9g\xE9n\xE9ration de deux points de
+    vie par tour. Ce termine au bout de deux tour"
+  debugDescription: "[ 1 PA ] [ 3 Tours Cooldown ] Offre \xE0 un alli\xE9 une r\xE9g\xE9n\xE9ration
+    de vie pour 2 tours ( +2 PV/tour)"
+  type: 
+  tags:
+  - action_competence1
+  icon: {fileID: 21300000, guid: 119b468d7d1f0664a924346db5e9399f, type: 3}
+  _prefabWeapon: {fileID: 0}
+  _tabCosmetic: []
+  _tabAccessory: []
+  _typeW: 1
+  _damage: 2
+  _costPoint: 1
+  _range:
+    right: 4
+    diagonal: 4
+    type: 1
+    caseRange: {fileID: 2100000, guid: a4361d6c8b314b741ac0c3d5576b71bb, type: 2}
+    casePreviewRange: {fileID: 0}
+  _maxAmmo: 0
+  Cooldown: 3
+  _animIdle: {fileID: 0}
+  _animFire: {fileID: 0}
+  _soundFire: 
+  _soundReload: 
+  fxImpact: {fileID: 8926484042661614526, guid: 0920aa883b5c64747a342da500ea6c74,
+    type: 3}
+  fxProjectileTrail: {fileID: 3745955780004049469, guid: f50dc60524cfc36489d31bc82557ce04,
+    type: 3}
+  fxMuzzle: {fileID: 0}

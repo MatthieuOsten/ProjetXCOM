@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e35e1994868fd44aac59478ff36af89, type: 3}
+  m_Name: DATA_Character_Tank
+  m_EditorClassIdentifier: 
+  name: Tank
+  description: "Soldat d'elite de l'ordre, munie d'un bouclier et d'une grande capacit\xE9
+    de defense, n'attaque que au corps a corps."
+  debugDescription: "Sa pr\xE9sence permet de menacer l\u2019ennemi tout en lui infligeant
+    des debuff lui permettant de se rapprocher malgr\xE9 son manque de mobilit\xE9
+    et sa port\xE9 d\u2019attaque faible/au CAC"
+  type: 
+  tags: []
+  icon: {fileID: 21300000, guid: fe40c85bc69f6a246b98338ddf5a1af8, type: 3}
+  _prefabBody: {fileID: 4518816553629253755, guid: ec7ae76fc0ca6f84d94a2b164a84ec5b,
+    type: 3}
+  _tabCosmetic: []
+  _tabAccessory: []
+  _color: {r: 0.7075472, g: 0.5726963, b: 0, a: 0}
+  MaterialCaseOverwatch: {fileID: 2100000, guid: 1a71e19f92ef06b498e0d9506dd46ca3,
+    type: 2}
+  _health: 10
+  _shield: 0
+  _moveSpeed: 10
+  _weapon: {fileID: 11400000, guid: 61d8fc8d029515b4eab4b8a47d10ce02, type: 2}
+  _dataOverwatch: {fileID: 11400000, guid: 9dfe7a8c1337a8e4ca197b0302c12f57, type: 2}
+  _dataReload: {fileID: 0}
+  _actionPoints: 2
+  _movementCasesAction: 4
+  AbilityAvailable: 1
+  WeaponAbility: {fileID: 11400000, guid: 9d827f7448998e448af6c6b460cceb38, type: 2}
+  casePreviewAbility: {fileID: 0}
+  AbilityAltAvailable: 0
+  WeaponAbilityAlt: {fileID: 0}
+  casePreviewAbilityAlt: {fileID: 0}
+  CostAttack: 1
+  CostVigilance: 1
+  CostReload: 1
+  pointAction: {fileID: 0}
+  ammo: {fileID: 21300000, guid: 301fe569da9047c4988d46c1707ea4e5, type: 3}
+  AliaseDeath: character_death
+  AliaseSpawn: 
+  AliaseDamaged: 
+  AliaseOnMove: 
+  fxFootstep: {fileID: 8926484042661614526, guid: a545c709d26c2e1449f4e9d18b014549,
+    type: 3}
+  fxDeath: {fileID: 8926484042661614526, guid: f91ccafe0b08ea3408665b959481bc97, type: 3}
+  fxDamaged: {fileID: 8926484042661614526, guid: b496f9e64e3c5f243a71ac555c0b4d40,
+    type: 3}
+  ClassName: Actor_Tank
+  mtl_red_flick: {fileID: 2100000, guid: abbfc98669dc8544abbe918ae5c5cdf7, type: 2}

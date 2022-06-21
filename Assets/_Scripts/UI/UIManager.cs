@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Util;
     [SerializeField] UiProperty property;
+    static UiProperty staticProperty;
 
     [SerializeField] static GameObject MessageBox;
     [SerializeField] static GameObject InputBox;
@@ -16,13 +17,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] Image _overlayRed;
 
-    // [Header("PAUSE")]
-    // [SerializeField] GameObject MenuPause;
-    // [SerializeField] TMP_Text MapName;
-    // [SerializeField] TMP_Text MapDescription;
-    // [SerializeField] Image MapPreview;
+    [Header("Widget")]
+    [SerializeField] UIPopupYourTurn YourTurnPopup;
 
-    // [SerializeField] TMP_Text commandText;
 
     [Header("SUBTITLE")]
     [SerializeField] TMP_Text subtitleComponent;
@@ -39,6 +36,10 @@ public class UIManager : MonoBehaviour
         MessageBox = property.MessageBox;
         InputBox = property.InputBox;
         ClientBox = property.ClientBox;
+        staticProperty = property;
+
+
+
         HintstringList = new GameObject("HintstringList");
         HintstringList.transform.parent = transform;
         HintstringList.transform.SetSiblingIndex(0);
@@ -60,31 +61,15 @@ public class UIManager : MonoBehaviour
     // Set image, text from LevelData property in the LevelManager
     void InitPauseMenu()
     {
-        // if(LevelManager.Util != null && LevelManager.Util.LevelData != null)
-        // {
-        //     MapName.text = LevelManager.Util.LevelData.Name;
-        //     MapDescription.text = LevelManager.Util.LevelData.Description;
-        //     MapPreview.sprite = LevelManager.Util.LevelData.PreviewImage;
-        //     commandText.text = LevelManager.Util.LevelData.CommandText;
-        // }
-        // else
-        // {
-        //     Debug.LogError("LevelData in levelManager is not set, InitPauseMenu function fail");
-        // }
-
-
-        
+   
     }
     // Update is called once per frame
     void Update()
     {
+        if(subtitleCompo == null) subtitleCompo = subtitleComponent;
         UpdateHintstring();
         UpdateSubtitle();
-        
-        // if(LevelManager.Util.IsPaused)
-        //     MenuPause.SetActive(true);
-        // else
-        //     MenuPause.SetActive(false);
+
     }
 
     void UpdateHintstring()
@@ -110,9 +95,6 @@ public class UIManager : MonoBehaviour
             {
                 hintstring.transform.position = new Vector3(-1000,0,-10);
             }
-          
-
-            //ebug.Log("Vector 3 position :" +hintstring.transform.position );
         }
 
     }
@@ -151,25 +133,15 @@ public class UIManager : MonoBehaviour
     {
         subtitleCompo.text = message;
         _durationSubtitle = duration + 2 ;
-        // if(aGameObject == null)
-        // {
-        //     Debug.Log("Attempt to create a hintstring on a non existant object (message : "+message);
-        //     return null;
-        // }
-        // GameObject hintString = Instantiate(MessageBox, aGameObject.transform.position, Quaternion.identity, HintstringList.transform);
-        // HintstringProperty component = hintString.GetComponent<HintstringProperty>();
-        // component.relatedObject = aGameObject;
-        // component.MinDistance = minDistance;
-        // component.setting = SettingHintstring.AlwaysShow;
-        // component.textComponent.text = message;
-        // if(icon == null)
-        // {
-        //     component.icon.color = new Color(0,0,0,0);
-        // }
-        // else
-        //     component.icon.sprite = icon;
 
-        // return component;
+    }
+
+    /*
+        This function will create a subtitle on the screen
+    */
+    public static void CreateYourTurnMessage(string message, Color teamColor) 
+    {
+        UIManager.Util.YourTurnPopup.SetWidget(message,teamColor);
     }
     
 
@@ -191,7 +163,7 @@ public class UIManager : MonoBehaviour
         component.relatedObject = aGameObject;
         component.MinDistance = minDistance;
         component.setting = SettingHintstring.AlwaysShow;
-        component.textComponent.text = message;
+        component.textComponent[0].text = message;
         if(icon == null)
         {
             component.icon.color = new Color(0,0,0,0);
@@ -212,7 +184,7 @@ public class UIManager : MonoBehaviour
         HintstringProperty component = hintString.GetComponent<HintstringProperty>();
         component.relatedObject = aGameObject;
         component.MinDistance = minDistance;
-        component.textComponent.text = message;
+        component.textComponent[0].text = message;
         
         return component;
     }
@@ -228,7 +200,7 @@ public class UIManager : MonoBehaviour
         HintstringProperty component = hintString.GetComponent<HintstringProperty>();
         component.relatedObject = aGameObject;
         component.MinDistance = minDistance;
-        component.textComponent.text = message;
+        component.textComponent[0].text = message;
         component.offset = new Vector3(-50, 150, 0);
 
         if (icon == null)
@@ -240,6 +212,89 @@ public class UIManager : MonoBehaviour
 
         return component;
     }
+
+    /// <summary> Cr�e des boites d'information dans l'univers 3D pour afficher la vie et d'autres info du personnages </summary>
+    public static HintstringProperty CreateBoxActorInfo(GameObject aGameObject, string message = "Actor Name", float minDistance = 50f , Sprite icon = null)    
+    {
+        if(aGameObject == null)
+        {
+            Debug.Log("Attempt to create a hintstring on a non existant object (message : "+message);
+            return null;
+        }
+        GameObject hintString = Instantiate(MessageBox, aGameObject.transform.position, Quaternion.identity, HintstringList.transform);
+        WidgetActorInfo component = hintString.GetComponent<WidgetActorInfo>();
+        component.relatedObject = aGameObject;
+        component.MinDistance = minDistance;
+        component.setting = SettingHintstring.AlwaysShow;
+        component.textComponent[0].text = message;
+        if(component.icon != null)
+        {
+            if (icon == null)
+            {
+                component.icon.color = new Color(0, 0, 0, 0);
+            }
+            else
+                component.icon.sprite = icon;
+        }
+        
+
+        return component;
+    }
+
+    public static HintstringProperty CreateHitInfo(GameObject aGameObject, float health , float pa, float minDistance = 50f, Sprite icon = null)
+    {
+        if (aGameObject == null)
+        {
+            Debug.Log("Attempt to create a hintstring on a non existant object (message : " );
+            return null;
+        }
+        GameObject hintString = Instantiate(staticProperty.WidgetHitInfo, aGameObject.transform.position, Quaternion.identity, HintstringList.transform);
+        WidgetHitInfo component = hintString.GetComponent<WidgetHitInfo>();
+        component.relatedObject = aGameObject;
+        component.MinDistance = minDistance;
+        component.setting = SettingHintstring.AlwaysShow;
+        component.IsTemp = true;
+
+        string IsPositiveOrNegatif(float value)
+        {
+            if (value > 0)
+                return "+"+value;
+            else
+                return ""+ value;
+        }
+
+        if(health != 0)
+        {
+            component.textComponent[0].text = IsPositiveOrNegatif(health)+ "PV";
+        }
+        else
+        {
+            component.textComponent[0].text = System.String.Empty;
+        }
+            
+        if(pa != 0)
+        {
+            component.textComponent[1].text = IsPositiveOrNegatif(pa);
+            component.textComponent[1].GetComponentInChildren<Image>().enabled = true;
+        }
+        else
+        {
+            component.textComponent[1].GetComponentInChildren<Image>().enabled = false;
+            component.textComponent[1].text = System.String.Empty;
+        }
+
+        if (component.icon != null)
+        {
+            if (icon == null)
+            {
+                component.icon.color = new Color(0, 0, 0, 0);
+            }
+            else
+                component.icon.sprite = icon;
+        }
+        return component;
+    }
+
 
 
     public void BackToMenu()

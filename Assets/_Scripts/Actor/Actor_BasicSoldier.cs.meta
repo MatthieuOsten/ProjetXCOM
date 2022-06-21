@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f5bdec42d0e67dc4ea982080511e5b24
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - currentCase: {instanceID: 0}
+  - Owner: {instanceID: 0}
+  - _mtl_red_flick: {fileID: 2100000, guid: abbfc98669dc8544abbe918ae5c5cdf7, type: 2}
+  - _data: {fileID: 11400000, guid: 20ccfabdfa0a1354c8558f01e7c957a5, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

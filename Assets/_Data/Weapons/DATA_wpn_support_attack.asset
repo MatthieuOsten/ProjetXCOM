@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ffebdf3ef8750c49bc8bad5d6ff831c, type: 3}
+  m_Name: DATA_wpn_support_attack
+  m_EditorClassIdentifier: 
+  name: Attaque
+  description: "Inflige 2 de d\xE9gats sur toutes les cibles pr\xE9sent sur sa port\xE9e."
+  debugDescription: "[ 1 PA ] [ 4 Port\xE9e ] Inflige 2 de d\xE9gats sur toutes les
+    cibles pr\xE9sent sur sa port\xE9e."
+  type: 
+  tags:
+  - action_attack
+  icon: {fileID: 21300000, guid: c4c3e7c8ead83754c9db11e898517c1f, type: 3}
+  _prefabWeapon: {fileID: 0}
+  _tabCosmetic: []
+  _tabAccessory: []
+  _typeW: 1
+  _damage: 2
+  _costPoint: 1
+  _range:
+    right: 0
+    diagonal: 4
+    type: 0
+    caseRange: {fileID: 2100000, guid: fdf463b8ae6ce5045acba0537e3dbfd8, type: 2}
+    casePreviewRange: {fileID: 0}
+  _maxAmmo: 0
+  Cooldown: 0
+  _animIdle: {fileID: 0}
+  _animFire: {fileID: 0}
+  _soundFire: 
+  _soundReload: 
+  fxImpact: {fileID: 0}
+  fxProjectileTrail: {fileID: 0}
+  fxMuzzle: {fileID: 0}

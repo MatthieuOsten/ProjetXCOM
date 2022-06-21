@@ -16,9 +16,17 @@ public class GridManager : MonoBehaviour
     [SerializeField] bool GenerateAGrid, ResetGrid;
 
     [SerializeField] bool _showScorePathFinding;
+
+    [field : SerializeField]
+    public List<Case> SpawnerCase
+    {
+        get;
+        set;
+    }
+
     public bool ShowScorePathFinding { get { return _showScorePathFinding; } }
 
-    public int SizeX
+    [field : SerializeField] public int SizeX
     {
         get { return Data.gridSizeX; }
         set
@@ -33,7 +41,7 @@ public class GridManager : MonoBehaviour
             }
         }
     }
-    public int SizeY
+    [field : SerializeField] public int SizeY
     {
         get { return Data.gridSizeY; }
         set
@@ -48,7 +56,7 @@ public class GridManager : MonoBehaviour
             }
         }
     }
-    public int CellSize
+    [field : SerializeField] public int CellSize
     {
         get { return Data.cellSize; }
         set
@@ -77,7 +85,7 @@ public class GridManager : MonoBehaviour
     /// <summary> Cette fonction va generer la grille, et chaque cellule sera une entity de type Case </summary>
     void GenerateGrid()
     {
-        ClearGrid();
+        ClearGrid(); 
         _grid = new Case[SizeX, SizeY];
         // On genere les cases pour chaque coordonnée
         for (int x = 0; x < SizeX; x++)
@@ -105,7 +113,7 @@ public class GridManager : MonoBehaviour
 
         newCase.GridParent = this; // on dit à quelle grid appartient la case
         newCase.index = _currentCellCreated; // son index 
-        newCase.state = CaseState.Empty; // son etat
+        newCase.State = CaseState.Empty; // son etat
         return newCase;
     }
 
@@ -129,7 +137,6 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary>
-    ///         !! Surement va etre supprimer car les cases sont maintenant des gameobject
     /// Permet d'avoir la position de la grille dans le world,
     /// Necessaire pour certaines situations et vue que la Case n'est pas un gameobject, il y a cette function de disponible
     /// </summary>
@@ -141,14 +148,10 @@ public class GridManager : MonoBehaviour
 
     public static Vector3 GetCaseWorldPosition(Case caseToCheck)
     {
-        return new Vector3(caseToCheck.CaseStatut.x, 0, caseToCheck.CaseStatut.y) * caseToCheck.GridParent.CellSize;
+        CaseInfo info = caseToCheck.CaseStatut;
+        return new Vector3(info.x, 0, info.y) * caseToCheck.GridParent.CellSize;
     }
-    /*
-        WIP
-       
-    */
     /// <summary> Récupére une case dans la grille</summary>
-
     public Case GetCase(int x, int y)
     {
         if (x >= SizeX || y >= SizeY || x < 0 || y < 0)
@@ -158,7 +161,6 @@ public class GridManager : MonoBehaviour
     }
 
     /// <summary> Récupére une case dans la grille indiquer en paramètre</summary>
-  
     public static Case GetCase(GridManager gridParent, int x, int y)
     {
         if (x >= gridParent.SizeX || y >= gridParent.SizeY || x < 0 || y < 0)
@@ -187,7 +189,7 @@ public class GridManager : MonoBehaviour
         return cases;
     }
 
-
+    /// <summary> Recupere les cases autour d'une case choisi avec un rayon donnée, vraiment besoin d'un commentaire ? </summary>
     public static List<Case> GetRadiusCases(Case CurrentCase, int radius )
     {
         bool inside_circle(Case center, Case tile, float radius) 
@@ -200,7 +202,7 @@ public class GridManager : MonoBehaviour
 
         List<Case> RadiusCase = new List<Case>();
 
-        // Pour eviter de checker toute la grille, on va faire un zone en carré pour délimiter
+        // Pour eviter de checker toute la grille, on va faire un zone en carré pour délimiter, exemple d'optimisation ;)
         int xStart =  CurrentCase.x - radius;
         int yStart =  CurrentCase.y - radius;
         int xEnd =  CurrentCase.x + radius;
@@ -228,47 +230,130 @@ public class GridManager : MonoBehaviour
             {
                 if (grid._grid[x, y] != endCase && grid._grid[x, y] != startCase)
                 {
-                    grid._grid[x, y].Checked = false;
-                    grid._grid[x, y].Highlighted = false;
-                    grid._grid[x, y].hCost = 0;
-                    grid._grid[x, y].gCost = 0;
-                    //grid._grid[x, y].ChangeMaterial(grid.Data.caseDefault);
+                    ResetCasePreview(grid._grid[x, y]);
                 }
             }
         }
     }
+    /// <summary> Permet de reset la prévisualisation d'une case </summary>
+    public static void ResetCasePreview(Case _case)
+    {
+        _case.Checked = false;
+        _case.Highlighted = false;
+        _case.Selected = false;
+        _case.hCost = 0;
+        _case.gCost = 0;
+    }
+
     public static void SetCasePreview(Case aCase, bool Reset = false)
     {
+        if(GetValidCase(aCase) == null) return;
         
-        //aCase.Checked = true;
-        if(aCase == null) return;
-        if(Reset)
-            ResetCasesPreview(aCase.GridParent); 
+         if(Reset) ResetCasesPreview(aCase.GridParent);
+
         aCase.Highlighted = true;
-        aCase.ChangeMaterial(aCase.GridParent.Data.caseNone);
+        aCase.Selected = true;
+        aCase.ChangeMaterial(aCase.GridParent.Data.caseHighlight);
 
     }
-    public static void SetCasePreview(List<Case> cases)
+    public static void SetCasePreview(List<Case> cases, bool Reset = false)
     {
+        if(cases == null || cases.Count == 0) return;
+        if(Reset)
+            ResetCasesPreview(cases[0].GridParent); 
+            
         for(int i = 0 ; i < cases.Count ; i++)
         {
             SetCasePreview(cases[i]);
+        }
+    }
+    public static void SetCasePreview(Case[] cases, bool Reset = false)
+    {
+        if(cases == null || cases.Length == 0) return;
+        if(Reset)
+            ResetCasesPreview(cases[0].GridParent); 
+            
+        for(int i = 0 ; i < cases.Length ; i++)
+        {
+            SetCasePreview(cases[i]);
+        }
+    }
+    /// <summary> Met une case en mode prévisualisation </summary>
+    public static void SetCaseAttackPreview(Case aCase, bool Reset = false , Material specificMaterial = null)
+    {
+        if (GetValidCase(aCase) == null) return;
+
+        if (Reset) ResetCasesPreview(aCase.GridParent);
+
+
+        aCase.Highlighted = true;
+        if(!aCase.Selected)
+        {
+            if(specificMaterial != null ) 
+                aCase.ChangeMaterial(specificMaterial);
+            else
+                aCase.ChangeMaterial(aCase.GridParent.Data.caseOverwatch);
+        }   
+
+    }
+    /// <summary> Met une list de case en mode prévisualisation </summary>
+    public static void SetCaseAttackPreview(List<Case> cases, bool Reset = false, Material specificMaterial = null)
+    {
+        if (cases == null || cases.Count == 0) return;
+        if (Reset)
+            ResetCasesPreview(cases[0].GridParent);
+
+        for (int i = 0; i < cases.Count; i++)
+        {
+            SetCaseAttackPreview(cases[i] ,Reset, specificMaterial );
+        }
+    }
+     /// <summary> Met une list de case en mode prévisualisation </summary>
+    public static void SetCaseAttackPreview(Case[] cases, bool Reset = false, Material specificMaterial = null)
+    {
+        if (cases == null || cases.Length == 0) return;
+        if (Reset)
+            ResetCasesPreview(cases[0].GridParent);
+
+        for (int i = 0; i < cases.Length; i++)
+        {
+            SetCaseAttackPreview(cases[i] ,Reset, specificMaterial );
         }
     }
 
     void Start()
     {
         RegenerateCaseTable(); // Existe car entre le edit et runtime la table a double entrer foire // TODO : trouver une autre maniere
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        RegenerateCaseTable(); // Existe car entre le edit et runtime la table a double entrer foire // TODO : trouver une autre maniere
+        if (Application.isPlaying)
+        { 
+            for (int x = 0; x < SizeX; x++)
+            {
+                for (int y = 0; y < SizeY; y++)
+                {
+                    Case aCase = _grid[x,y];
 
+                    if ( aCase.Highlighted || aCase.Checked)
+                        aCase.enabled = true; 
+                    else
+                    {   
+                        if(!aCase.enabled) continue;
+                        aCase.WatchCaseState();
+                        aCase.enabled = false;
+                    }
+                        
+                }
+            }
+            
+        }  
 
-
+        #if UNITY_EDITOR
+            RegenerateCaseTable(); // Existe car entre le edit et runtime la table a double entrer foire // TODO : trouver une autre maniere
+       
 
         if (GenerateAGrid)
         {
@@ -280,8 +365,9 @@ public class GridManager : MonoBehaviour
             ClearGrid();
             ResetGrid = false;
         }
+        // #endif
+        // #if UNITY_EDITOR
 
-        
         // On check si la taille de la grid a changé
         if(_grid.GetLength(0) != SizeX || _grid.GetLength(1) != SizeY)
         {
@@ -292,38 +378,48 @@ public class GridManager : MonoBehaviour
             {
                 for (int y = 0; y < SizeY; y++)
                 {   
-                    if(_grid[x,y] != null)
+                    // Si la case existait déja, on la reprend
+                    if(x < _grid.GetLength(0) && y < _grid.GetLength(1) && _grid[x,y] != null)
                     {
                         tempGrid[x,y] = _grid[x,y];
                     }
-                    else
+                    else // la case n'existait pas, et donc on la regénère
                     {
-                         tempGrid[x, y] = GenerateCase(x, y);
+                        tempGrid[x, y] = GenerateCase(x, y);
                     }
                    
                     _currentCellCreated++;
                 }
             }
-            foreach(GameObject achild in transform)
-            {
-                Case child = achild.GetComponent<Case>();
-                if(tempGrid[ child.x, child.y] == null)
-                    Destroy(child.gameObject);
-            }
+            
+                int childs = transform.childCount;
+                for (int i = childs - 1; i >= 0; i--)
+                {   
+                    Case child = transform.GetChild(i).GetComponent<Case>();
+                    if(child.x >= SizeX || child.y >= SizeY)
+                    {
+                        GameObject.DestroyImmediate(transform.GetChild(i).gameObject);
+                    }
+
+                    
+                }
+               
+          
             _grid = tempGrid;
             
         }
+             //Code here for Editor only.
+        #endif
         
     }
 
-    // Deplacer dans GridEditorTool.cs
     public void EditCase(Vector3 pos, CaseState caseState)
     {
         int x = (int)pos.x / CellSize;
         int y = (int)pos.z / CellSize;
 
         Case caseToEdit = GetCase(x, y);
-        caseToEdit.state = caseState;
+        caseToEdit.State = caseState;
     }
 
     /// <summary> Verifie si la case est accessible </summary>
@@ -332,7 +428,7 @@ public class GridManager : MonoBehaviour
         if (caseToCheck == null)
             return null;
 
-        if (caseToCheck.state == CaseState.Occupied || caseToCheck.state == CaseState.Null )
+        if (caseToCheck.State == CaseState.Occupied || caseToCheck.State == CaseState.Null )
             return null;
 
         return caseToCheck;
@@ -353,23 +449,7 @@ public class GridManager : MonoBehaviour
         
         return randomCase;
     }
-    // /*
-    //     Permet de sauvegarder la grid dans le fichier data mais cest peut etre inutile donc a voir
-    // */
-    // void SaveGridToData()
-    // {
-    //     CaseInfo[] newCases = new CaseInfo[SizeX * SizeY];
-    //     for(int xi = 0 ; xi < SizeX; xi++)
-    //     {
-    //         for(int yi = 0 ; yi < SizeY; yi++)
-    //         {
-    //             Debug.Log(_grid[xi,yi].index);
-    //             newCases[_grid[xi,yi].index] = _grid[xi,yi].CaseStatut;              
-    //         }
-    //     }
-    //     Data.Grid = newCases;
-    // }
-
+ 
 }
 
 

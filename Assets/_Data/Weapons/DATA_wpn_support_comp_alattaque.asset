@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ffebdf3ef8750c49bc8bad5d6ff831c, type: 3}
+  m_Name: DATA_wpn_support_comp_alattaque
+  m_EditorClassIdentifier: 
+  name: Don de PA
+  description: "Donne \xE0 un alli\xE9 un point d\u2019action suppl\xE9mentaire pour
+    le tour en cours."
+  debugDescription: "[ 1 PA ] [ 3 Tours Cooldown ] Donne \xE0 un alli\xE9 un point
+    d\u2019action suppl\xE9mentaire pour le tour en cours."
+  type: 
+  tags:
+  - action_competence2
+  icon: {fileID: 21300000, guid: ec359d0c04264bb438b8c31b07c100b5, type: 3}
+  _prefabWeapon: {fileID: 0}
+  _tabCosmetic: []
+  _tabAccessory: []
+  _typeW: 1
+  _damage: 2
+  _costPoint: 1
+  _range:
+    right: 2
+    diagonal: 2
+    type: 1
+    caseRange: {fileID: 2100000, guid: 6c0ca3d4d429da34c9e76339f0420947, type: 2}
+    casePreviewRange: {fileID: 0}
+  _maxAmmo: 0
+  Cooldown: 3
+  _animIdle: {fileID: 0}
+  _animFire: {fileID: 0}
+  _soundFire: 
+  _soundReload: 
+  fxImpact: {fileID: 0}
+  fxProjectileTrail: {fileID: 0}
+  fxMuzzle: {fileID: 0}
