@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.VFX;
+using UnityEngine.Animations;
 
 [CreateAssetMenu(fileName = "DATA_Character_", menuName = "Data/Character", order = 2)]
 [System.Serializable]
@@ -51,6 +52,7 @@ public class DataCharacter : Data
     [SerializeField] private List<DataAccessory> _tabAccessory;
     [SerializeField] Color _color;
     public Material MaterialCaseOverwatch;
+    [SerializeField] private Controller anim;
 
     [Header("STATS")]
     [SerializeField] private int _health = 1; // Vie quand le personnage spawn
@@ -66,6 +68,7 @@ public class DataCharacter : Data
     [Range(1, 10)]
     [SerializeField] private int _actionPoints = 2;
     [SerializeField] private int _movementCasesAction = 4;
+
 
 
 
