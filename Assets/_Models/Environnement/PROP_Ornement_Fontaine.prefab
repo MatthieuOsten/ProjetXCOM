@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4653198229384033855}
   - component: {fileID: 719079736627521953}
   m_Layer: 0
-  m_Name: MSH_Ornement_Fontaine
+  m_Name: PROP_Ornement_Fontaine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

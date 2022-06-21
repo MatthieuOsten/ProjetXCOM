@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1576873019963115631}
   m_Layer: 0
-  m_Name: MSH_Tree
+  m_Name: PROP_Tree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -10,11 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7790752721524009460}
   m_Layer: 0
-  m_Name: MSH_Banc
+  m_Name: PROP_Banc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 126
   m_IsActive: 1
 --- !u!4 &7790752721524009460
 Transform:
