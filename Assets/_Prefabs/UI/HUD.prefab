@@ -1787,10 +1787,6 @@ MonoBehaviour:
   _ammoImageIndex: 0
   _textCompetence2: {fileID: 0}
   _textDebug: {fileID: 5856039995124353825}
-  _tir: {fileID: 0}
-  _vigilance: {fileID: 0}
-  _competence1: {fileID: 0}
-  _competence2: {fileID: 0}
   _actionButton:
   - {fileID: 0}
   - {fileID: 0}
@@ -1804,8 +1800,7 @@ MonoBehaviour:
   _difference: 0
   _updateActionBar: 0
   _objectPopUp: {fileID: 8580192797788701138}
-  _prefabPopUp: {fileID: 1570255076516274116, guid: be5b9f041632bf242aaff232d2acc228,
-    type: 3}
+  _prefabPopUp: {fileID: 8580192797788701138}
 --- !u!114 &1436751506885713299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3527,12 +3522,12 @@ PrefabInstance:
     - target: {fileID: 1570255076516274113, guid: be5b9f041632bf242aaff232d2acc228,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: -875.2586
+      value: -731.4901
       objectReference: {fileID: 0}
     - target: {fileID: 1570255076516274113, guid: be5b9f041632bf242aaff232d2acc228,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -439.6992
+      value: -398.35
       objectReference: {fileID: 0}
     - target: {fileID: 1570255076516274113, guid: be5b9f041632bf242aaff232d2acc228,
         type: 3}
@@ -3594,15 +3589,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1570255076516274115, guid: be5b9f041632bf242aaff232d2acc228,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1570255076516274116, guid: be5b9f041632bf242aaff232d2acc228,
         type: 3}
       propertyPath: m_Name
       value: PopUp
       objectReference: {fileID: 0}
+    - target: {fileID: 1570255076516274116, guid: be5b9f041632bf242aaff232d2acc228,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1570255077395589647, guid: be5b9f041632bf242aaff232d2acc228,
         type: 3}
       propertyPath: m_fontSize
-      value: 31.3
+      value: 19.65
       objectReference: {fileID: 0}
     - target: {fileID: 1570255077395589680, guid: be5b9f041632bf242aaff232d2acc228,
         type: 3}
@@ -3632,7 +3637,7 @@ PrefabInstance:
     - target: {fileID: 1570255077945866880, guid: be5b9f041632bf242aaff232d2acc228,
         type: 3}
       propertyPath: m_fontSize
-      value: 28.35
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 1570255077945866880, guid: be5b9f041632bf242aaff232d2acc228,
         type: 3}

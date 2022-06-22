@@ -741,10 +741,13 @@ public class UI : MonoBehaviour
         {
             // Deplace le popUp a l'endroit indiquer
             _objectPopUp.transform.position = position;
-            // Change le titre du PopUp
-            ModifyTextBox(_objectPopUp, "Title", title);
-            // Change la description du PopUp
-            ModifyTextBox(_objectPopUp, "Description", description);
+            DataWeapon weapon = _pC.GetWeaponFromActionMode(data.typeA);
+            PopupActionBar _popup = _objectPopUp.GetComponent<PopupActionBar>();
+            _popup.SetWidget(title,description, weapon.CostPoint.ToString(), weapon.Cooldown);
+            // // Change le titre du PopUp
+            // ModifyTextBox(_objectPopUp, "Title", title);
+            // // Change la description du PopUp
+            // ModifyTextBox(_objectPopUp, "Description", description);
 
             if (_objectPopUp.activeSelf == false) { _objectPopUp.SetActive(true); }
         }
