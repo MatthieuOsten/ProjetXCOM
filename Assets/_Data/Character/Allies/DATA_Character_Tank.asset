@@ -21,7 +21,7 @@ MonoBehaviour:
   type: 
   tags: []
   icon: {fileID: 21300000, guid: fe40c85bc69f6a246b98338ddf5a1af8, type: 3}
-  _prefabBody: {fileID: 4518816553629253755, guid: ec7ae76fc0ca6f84d94a2b164a84ec5b,
+  _prefabBody: {fileID: 3077376475185729171, guid: ab120a73a723a35419b3ddafb925a3e3,
     type: 3}
   _tabCosmetic: []
   _tabAccessory: []

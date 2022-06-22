@@ -352,7 +352,6 @@ public class Character : Actor
             else
             {
                 GridManager.SetCaseAttackPreview(caseOverwatched, false, MaterialCaseOverwatch );
-                _anim.SetBool("Vigilence", false);
             }
 
             for(int i = 0 ; i < caseOverwatched.Length; i++)
@@ -421,6 +420,7 @@ public class Character : Actor
         if (_indexPath <= pathToFollow.Length - 1 && pathToFollow[_indexPath] != null)
         {
             transform.position = Vector3.MoveTowards(transform.position, GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]), moveSpeed * Time.deltaTime);
+            transform.LookAt(GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]));
             _anim.SetBool("Run", true);
         }
             
@@ -662,6 +662,7 @@ public class Character : Actor
             
         }
         ParticleManager.PlayFXAtPosition(target.transform.position, weapon.fxImpact);
+        transform.LookAt(target.transform.position);
 
     }
 }

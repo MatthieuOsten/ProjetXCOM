@@ -502,12 +502,12 @@ public class PlayerController : Team
                 ExitActionMode();
                 return;
             }
-            if(GetCurrentCharactedSelected.haveAttacked)
+            /*if(GetCurrentCharactedSelected.haveAttacked)
             {
                 UIManager.CreateSubtitle("Mode Vigilance impossible car le personnage a attaqué durant son tour", 2);
                 ExitActionMode();
                 return;
-            }
+            }*/
         }
         GetCurrentCharactedSelected.EnableOverwatch();
     }
