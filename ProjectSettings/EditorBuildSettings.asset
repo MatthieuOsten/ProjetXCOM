@@ -17,4 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/1_Alpha/Alpha_Gameplay_CenterCity.unity
     guid: 8b616914d599599449386af05f424fcf
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 3a98259315101fe419e5b0918552a978,
+      type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: 2709d2d333d985341b3e0c48de68326d,
+      type: 2}

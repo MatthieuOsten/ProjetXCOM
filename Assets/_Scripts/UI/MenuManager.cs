@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-
 public class MenuManager : MonoBehaviour
 {
     [Header("CONTROLLER")]
@@ -69,6 +68,7 @@ public class MenuManager : MonoBehaviour
         {
             if (_panelTutorial.activeSelf) { SwitchTutorial(); } else { Application.Quit(); }
         }
+
     }
 
     public void QuitGame()
@@ -104,24 +104,11 @@ public class MenuManager : MonoBehaviour
 
     private void UpdateVersion()
     {
-        TextMesh textMesh;
-        TextMeshPro textMeshPro;
         TextMeshProUGUI textMeshProUGUI;
 
-        if (_versionObject != null && _versionObject.TryGetComponent<TextMesh>(out textMesh))
+        if (_versionObject != null && _versionObject.TryGetComponent<TextMeshProUGUI>(out textMeshProUGUI))
         {
-            Debug.Log("Le texte de la version a etais mise en place sur le composant TEXTMESH");
-            textMesh.text = _versionString + Application.version.ToString();
-
-        }
-        else if (_versionObject != null && _versionObject.TryGetComponent<TextMeshPro>(out textMeshPro))
-        {
-            Debug.Log("Le texte de la version a etais mise en place sur le composant TEXTMESHPRO");
-            textMeshPro.text = _versionString + Application.version.ToString();
-        }
-        else if (_versionObject != null && _versionObject.TryGetComponent<TextMeshProUGUI>(out textMeshProUGUI))
-        {
-            Debug.Log("Le texte de la version a etais mise en place sur le composant TEXTMESHPRO");
+            Debug.Log("Le texte de la version a etais mise en place sur le composant TEXTMESHPROUGUI");
             textMeshProUGUI.text = _versionString + Application.version.ToString();
         }
         else if (_versionObject == null)
