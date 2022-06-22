@@ -340,6 +340,7 @@ public class PlayerController : Team
     /// <summary> Ici on check les ennemies présent dans la porté du personnage selectionner </summary>
     void WatchAttack()
     {
+
         if (_selectedActor != null)
         {
             // Si le personnage a une arme avec des munitions, il faut check
@@ -372,6 +373,7 @@ public class PlayerController : Team
     /// <summary> Ici on applique l'action attack sur l'actor présent dans la portée </summary>
     void ExecAttack()
     {
+        Debug.Log("tire");
         // On verifie si la case possède un actor et que ce n'est pas un allié
         if(SelectedCaseB.HaveActor && SelectedCaseB.Actor.Owner != this) 
         {
@@ -740,8 +742,8 @@ public class PlayerController : Team
         {
             if (CharacterPlayer != null && CharacterPlayer.Count != 0)
                 cameraIsometric.MoveToCharacter(CharacterPlayer[CharacterIndex].transform, _canMoveCam, _onEnemy);
-            if (Enemy != null && Enemy.Count != 0)
-                cameraIsometric.MoveToEnemy(Enemy[EnemyIndex].transform, _canMoveCam, _onEnemy);
+            /*if (Enemy != null && Enemy.Count != 0)
+                cameraIsometric.MoveToEnemy(Enemy[EnemyIndex].transform, _canMoveCam, _onEnemy);*/
         }
         else
         {
@@ -759,7 +761,7 @@ public class PlayerController : Team
             /*_inputManager.ControlCamera.RightHandTurnRight.performed += context => cameraIsometric.TurnAroundRight(_onShoulder);
              _inputManager.ControlCamera.RightHandTurnLeft.performed += context => cameraIsometric.TurnAroundLeft(_onShoulder);*/
             _inputManager.ControlCamera.RightHandCharacterChange.performed += context => CharacterChange();
-            _inputManager.ControlCamera.RigthHandShoulder.performed += context => SwitchShoulderCam();
+            //_inputManager.ControlCamera.RigthHandShoulder.performed += context => SwitchShoulderCam();
             _inputManager.ControlCamera.LeaveShoulder.performed += context => LeaveShoulderCam();
 
             if (!_leftHand && SelectionMode == SelectionMode.Action && _actionTypeMode == ActionTypeMode.Attack && TargetDetected.Count > 0 )
@@ -793,7 +795,7 @@ public class PlayerController : Team
             /*_inputManager.ControlCamera.LeftHandTurnRight.performed += context => cameraIsometric.LeftHandedTurnAroundRight(_onShoulder);
             _inputManager.ControlCamera.LeftHandTurnLeft.performed += context => cameraIsometric.LeftHandedTurnAroundLeft(_onShoulder);*/
             _inputManager.ControlCamera.LeftHandCharacterChange.performed += context => CharacterChange();
-            _inputManager.ControlCamera.RigthHandShoulder.performed += context => SwitchShoulderCam();
+            //_inputManager.ControlCamera.RigthHandShoulder.performed += context => SwitchShoulderCam();
             _inputManager.ControlCamera.LeaveShoulder.performed += context => LeaveShoulderCam();
 
             if (_onEnemy)
@@ -814,13 +816,6 @@ public class PlayerController : Team
         }
     }
 
-    private void Shoot()
-    {
-        //if (character.Ammo > 0)
-        //{
-        //    character.Ammo -= 1;
-        //}
-    }
     //Passe de la camera vue du dessus a celle de l'epaule
     public void SwitchShoulderCam()
     {

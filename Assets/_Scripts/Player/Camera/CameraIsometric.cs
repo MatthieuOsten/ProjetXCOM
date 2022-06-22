@@ -92,7 +92,7 @@ public class CameraIsometric : MonoBehaviour
         }
     }
 
-    public void MoveToEnemy(Transform enemyTransform, bool canMoveCam, bool onEnemy)
+    /*public void MoveToEnemy(Transform enemyTransform, bool canMoveCam, bool onEnemy)
     {
         if(canMoveCam == false && onEnemy)
         {
@@ -103,7 +103,7 @@ public class CameraIsometric : MonoBehaviour
         {
             canMoveCam = true;
         }
-    }
+    }*/
 
     //Execute la rotation au coordonne recupere dans la list _virtualCam
    /* public void MakeRotation()
