@@ -535,6 +535,12 @@ public class PlayerController : Team
         
         Case[] pathSuggested = null;
         Character _char = GetCurrentCharactedSelected;
+        if (_char != null && _char.IsMoving)
+        {
+            GridManager.SetCasePreview(pathSuggested, true);
+            return;
+        }
+                    
           
         if(MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>()))
         {
@@ -553,6 +559,7 @@ public class PlayerController : Team
                 {
                     UIManager.CreateSubtitle("", 1);
                     pathSuggested = PathFinding.FindPath(_selectedActor.CurrentCase, AimCase, _char.LimitCaseMovement);
+                    GridManager.SetCasePreview(pathSuggested, true);
                     // _char.lr.positionCount = pathSuggested.Length;
                     // for (int i = pathSuggested.Length; i > 0; i--)
                     // {

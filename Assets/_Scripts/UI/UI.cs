@@ -712,6 +712,8 @@ public class UI : MonoBehaviour
     /// </summary>
     private void DisplayPopUp( DataCharacter.Capacity data  , Vector3 position, string description = " ", string title = "Information" )
     {
+        if(_cH.IsMoving) return; // [UI] [GRID] Empêcher la prévisualisation quand notre perso se déplace
+
         GridManager.ResetCasesPreview(_pC.GetCurrentCharactedSelected.CurrentCase.GridParent);
         
         if(data.typeA == ActionTypeMode.Overwatch)
@@ -761,7 +763,7 @@ public class UI : MonoBehaviour
         {
             if (_objectPopUp.activeSelf == true) { _objectPopUp.SetActive(false); }
             
-            if(_pC.GetCurrentCharactedSelected != null)
+            if(_pC.GetCurrentCharactedSelected != null && !_pC.GetCurrentCharactedSelected.IsMoving)
                 GridManager.ResetCasesPreview(_pC.GetCurrentCharactedSelected.CurrentCase.GridParent);
 
         }
