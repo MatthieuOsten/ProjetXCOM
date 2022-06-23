@@ -77,16 +77,22 @@ public class Actor_Support : Character
             if (target is Character)
             {
                 _char = (Character)target;
+                 if (_char.Owner != Owner)
+                {
+                    UIManager.CreateSubtitle("Le personnage visée n'est pas un allié ", 2);
+                    return;
+                }
                 if(_char == this)
                 {
                     UIManager.CreateSubtitle("Le support ne peut pas se donner des PA sur lui même", 2);
                     return;
                 }
-                if (_char.Owner != Owner)
+                 if (_char.IsOverwatching)
                 {
-                    UIManager.CreateSubtitle("Le personnage visée n'est pas un allié ", 2);
+                    UIManager.CreateSubtitle("Le personnage visée est en overwatch", 2);
                     return;
                 }
+               
           
                 _char.CurrentActionPoint ++;
                 cooldownAbilityAlt = GetAbilityAltCooldown;

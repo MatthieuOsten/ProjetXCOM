@@ -205,12 +205,12 @@ public class UI : MonoBehaviour
            
 
             //Si pas en mode action quasi invisible
-           /* if (_cH == null)
+            if (_cH == null)
             {
                 _icone.color = Color.clear;
                 _icone.sprite = null;
                 _layoutGroup.gameObject.SetActive(false); // desactive la barre d'action
-                _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0.1f);
+                _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0f);
                 foreach (Image image in children)
                 {
                     image.color = new Color(image.color.r, image.color.g, image.color.b, 0.3f);
@@ -223,14 +223,14 @@ public class UI : MonoBehaviour
                 _icone.sprite = _cH.GetCharacterIcon();
                 _icone.color = Color.white;
 
-                _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0.7f);
+                _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0f);
                 foreach (Image image in children)
                 {
                     image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
                 }
                 _layoutGroup.gameObject.SetActive(true);  // reactive la barre d'action
 
-            }*/
+            }
 
         }
 
@@ -527,8 +527,7 @@ public class UI : MonoBehaviour
         // ---- Initialise chaque bouttons en rapport avec les capacités actuel ---- //
         for (int i = 0; i < _actionButton.Count; i++)
         {
-            /*if (_cH == null) return;
-
+            /*
             _actionButton[i].GetComponent<ButtonAction>().Input.text = (i + 1).ToString();*/
 
             if (_actionCapacity.Count < i) { break; }
