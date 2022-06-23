@@ -145,7 +145,8 @@ public class WidgetActorInfo : HintstringProperty
 
         }
         else // Si aucun personnage est selectionner
-        {              
+        {
+            _back.gameObject.SetActive(false);
             _background.gameObject.SetActive(false);
             for (int i = 0; i < textComponent.Length; i++)
             {
@@ -163,7 +164,6 @@ public class WidgetActorInfo : HintstringProperty
             }
             return;
         }
-   
 
         if(!_actor.CanAction)
         {
@@ -183,7 +183,7 @@ public class WidgetActorInfo : HintstringProperty
             _back.gameObject.SetActive(false);
         }
 
-        if(frontView) transform.SetSiblingIndex(transform.parent.childCount-1);
+        if(frontView && !IsFixed) transform.SetSiblingIndex(transform.parent.childCount-1);
 
     }
 

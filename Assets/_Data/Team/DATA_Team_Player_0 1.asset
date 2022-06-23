@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1c3afe4d4ebdce4eab6a7e6910e01ac, type: 3}
   m_Name: DATA_Team_Player_0 1
   m_EditorClassIdentifier: 
-  name: Rouge
+  name: Red
   description: 
+  debugDescription: 
   type: 
   tags: []
   icon: {fileID: 0}

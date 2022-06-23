@@ -20,7 +20,7 @@ MonoBehaviour:
     et sa port\xE9 d\u2019attaque faible/au CAC"
   type: 
   tags: []
-  icon: {fileID: 21300000, guid: fe40c85bc69f6a246b98338ddf5a1af8, type: 3}
+  icon: {fileID: 21300000, guid: 725b2c7611308214a9672d4884f0a24a, type: 3}
   _prefabBody: {fileID: 3077376475185729171, guid: ab120a73a723a35419b3ddafb925a3e3,
     type: 3}
   _tabCosmetic: []
