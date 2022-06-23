@@ -160,7 +160,7 @@ public class WidgetActorInfo : HintstringProperty
             _back.gameObject.SetActive(false);
         }
 
-        if(frontView) transform.SetSiblingIndex(transform.parent.childCount-1);
+        if(frontView && !IsFixed) transform.SetSiblingIndex(transform.parent.childCount-1);
 
     }
 

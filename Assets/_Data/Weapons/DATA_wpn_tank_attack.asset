@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ffebdf3ef8750c49bc8bad5d6ff831c, type: 3}
   m_Name: DATA_wpn_tank_attack
   m_EditorClassIdentifier: 
-  name: Attaque
+  name: Attack
   description: "Inflige 2 Points de d\xE9gats et retire 1 PA \xE0 la cible. "
   debugDescription: "[1 PA] [CaC]  Inflige 2 Points de d\xE9gats et retire 1 PA \xE0
     la cible. "
   type: 
   tags:
   - action_attack
-  icon: {fileID: 21300000, guid: 8b780e4c553394d42aa4fd4cb990902e, type: 3}
+  icon: {fileID: 21300000, guid: a27455f7af314774d95764208533fbc4, type: 3}
   _prefabWeapon: {fileID: 0}
   _tabCosmetic: []
   _tabAccessory: []

@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6ebc3aca1061d34eb27f38da2947ea2, type: 3}
   m_Name: DATA_Reload
   m_EditorClassIdentifier: 
-  name: Rechargement
+  name: Reload
   description: '[1 PA] Permet de recharger.'
+  debugDescription: 
   type: 
   tags:
   - action_reload
-  icon: {fileID: 21300000, guid: 694a38095c347a94a8fb7362a04432f4, type: 3}
+  icon: {fileID: 21300000, guid: ccd31f82a6f317c4687be6db9c254587, type: 3}

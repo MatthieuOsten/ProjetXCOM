@@ -205,7 +205,7 @@ public class UI : MonoBehaviour
            
 
             //Si pas en mode action quasi invisible
-            if (_cH == null)
+           /* if (_cH == null)
             {
                 _icone.color = Color.clear;
                 _icone.sprite = null;
@@ -230,7 +230,7 @@ public class UI : MonoBehaviour
                 }
                 _layoutGroup.gameObject.SetActive(true);  // reactive la barre d'action
 
-            }
+            }*/
 
         }
 
@@ -321,7 +321,7 @@ public class UI : MonoBehaviour
     /// <summary>
     /// Verifie le nombre de point d'action et adapte l'ui
     /// </summary>
-    private void ActualActionPoint()
+   /* private void ActualActionPoint()
     {
         // Si le personnage selectionner est null, on hide les actions bar
         if(_cH == null)
@@ -370,7 +370,7 @@ public class UI : MonoBehaviour
             }
         }
 
-    }
+    }*/
 
     //Gere l'affichage du nombre actuel des munitions
     private void ActualAmmo()
@@ -428,6 +428,8 @@ public class UI : MonoBehaviour
                 Color _color = ammoImage.color;
                 ammoImage.color = new Color(_color.r, _color.g, _color.b, 0f);
             }
+
+            weaponImage.gameObject.SetActive(false);
         }
     }
 
@@ -525,9 +527,9 @@ public class UI : MonoBehaviour
         // ---- Initialise chaque bouttons en rapport avec les capacités actuel ---- //
         for (int i = 0; i < _actionButton.Count; i++)
         {
-            if (_cH == null) return;
+            /*if (_cH == null) return;
 
-            _actionButton[i].GetComponent<ButtonAction>().Input.text = (i + 1).ToString();
+            _actionButton[i].GetComponent<ButtonAction>().Input.text = (i + 1).ToString();*/
 
             if (_actionCapacity.Count < i) { break; }
 
