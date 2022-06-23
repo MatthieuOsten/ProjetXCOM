@@ -56,6 +56,9 @@ public class PlayerController : Team
     float _cooldownBeforeStartTurn = 2;
     float _cooldownBeforeStartTurnTimer = 0;
 
+
+    Case[] pathSuggested = null;
+
     /// <summary> Recupere l'actor selectionner par le player </summary>
     public Actor GetCurrentActorSelected { get { return _selectedActor; } }
      /// <summary> Recupere le personnage selectionner par le player </summary>
@@ -533,7 +536,7 @@ public class PlayerController : Team
         // Verifie si la case visé n'est pas vide
         if (AimCase == null) return;
         
-        Case[] pathSuggested = null;
+        
         Character _char = GetCurrentCharactedSelected;
         if (_char != null && _char.IsMoving)
         {
@@ -564,6 +567,7 @@ public class PlayerController : Team
                 }
                 else
                 {
+                    
                     GridManager.ResetCasesPreview(_selectedGrid);
                     UIManager.CreateSubtitle("Point d'action insuffisant pour ce personnage", 2);
                     ResetSelection();
@@ -582,6 +586,7 @@ public class PlayerController : Team
         }
         else// Sinon on affiche la case visé avec un material de selection      
         {
+            Debug.Log("Oye fdp");
              AimCase.ChangeMaterial(caseSelected);
         }
       
@@ -620,7 +625,7 @@ public class PlayerController : Team
             {
                 AudioManager.PlaySoundAtPosition("case_refus", Vector3.zero);
             }
-            pathSuggested = null;
+            //pathSuggested = null;
 
         }
         
@@ -660,6 +665,7 @@ public class PlayerController : Team
         SelectedCaseA = null;
         SelectedCaseB = null;
         _selectedActor = null;
+        pathSuggested = null;
         GridManager.ResetCasesPreview(_selectedGrid);
         _selectedMode = SelectionMode.Selection; // On force le mode sélection au cas ou
 
