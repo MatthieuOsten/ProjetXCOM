@@ -82,6 +82,7 @@ public class Case : MonoBehaviour
 
     private void Start()
     {
+        
         _sr = GetComponentInChildren<SpriteRenderer>();
         // Ajoute la case à la grid pour dire qu'elle peut servir de spawn, on verifie si elle est dans le state spawn et qu'elle ny 'ai pas déja
         if (State == CaseState.Spawner && !GridParent.SpawnerCase.Contains(this) ) 
@@ -96,7 +97,10 @@ public class Case : MonoBehaviour
     }
     public void Update()
     {  
-        
+        if(State == CaseState.HalfOccupied)
+        {
+            State = CaseState.Empty;
+        }
 
         if (Highlighted || Checked)
             return;
