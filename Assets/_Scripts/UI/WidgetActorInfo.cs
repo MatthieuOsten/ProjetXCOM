@@ -100,11 +100,21 @@ public class WidgetActorInfo : HintstringProperty
                 _background.gameObject.SetActive(false);
                 for (int i = 0; i < _imagesWidget.Length; i++)
                 {   
-                    _imagesWidget[i].color = SetOpacity(_imagesWidget[i].color, _lowOpacity);
+                    if(_imagesWidget[i] != _iconActor)
+                        _imagesWidget[i].color = SetOpacity(_imagesWidget[i].color, 0);
+                    else
+                    {
+                        if(!IsFixed)
+                        {
+                            Vector3 pos = _imagesWidget[i].rectTransform.localPosition;
+                            pos.x = 0;
+                            _imagesWidget[i].rectTransform.localPosition = pos; 
+                        }
+                    }
                 }
                 for (int i = 0; i < textComponent.Length; i++)
                 {
-                    textComponent[i].color = SetOpacity(textComponent[i].color, _lowOpacity);
+                    textComponent[i].color = SetOpacity(textComponent[i].color, 0);
                 }
             }
             else // Si on est la, c'est qu'on est sur le personnage s�lectionner par le widget
@@ -120,6 +130,14 @@ public class WidgetActorInfo : HintstringProperty
                 for (int i = 0; i < _imagesWidget.Length; i++)
                 {
                     _imagesWidget[i].color = SetOpacity(_imagesWidget[i].color, 1);
+                     
+                    if(!IsFixed && _imagesWidget[i] == _iconActor )
+                    {
+                         Vector3 pos = _imagesWidget[i].rectTransform.localPosition;
+                        pos.x = -33;
+                        _imagesWidget[i].rectTransform.localPosition = pos; 
+                    }   
+                    
                 }
                 // met le widget en premier plan
                 frontView = true;
@@ -135,8 +153,13 @@ public class WidgetActorInfo : HintstringProperty
             }
             for (int i = 0; i < _imagesWidget.Length; i++)
             {
-         
                 _imagesWidget[i].color = SetOpacity(_imagesWidget[i].color, 0.8f);
+                if(!IsFixed && _imagesWidget[i] == _iconActor )
+                    {
+                         Vector3 pos = _imagesWidget[i].rectTransform.localPosition;
+                        pos.x = -33;
+                        _imagesWidget[i].rectTransform.localPosition = pos; 
+                    }
             }
             return;
         }
