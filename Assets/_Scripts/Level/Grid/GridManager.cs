@@ -431,6 +431,9 @@ public class GridManager : MonoBehaviour
         if (caseToCheck.State == CaseState.Occupied || caseToCheck.State == CaseState.Null )
             return null;
 
+
+        
+
         return caseToCheck;
     }
 

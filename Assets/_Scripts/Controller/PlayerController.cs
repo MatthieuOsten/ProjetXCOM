@@ -253,7 +253,7 @@ public class PlayerController : Team
         Vector3 Hitpoint = Vector3.zero;
         // On trace un rayon avec la mousePosition de la souris
         ray = Camera.main.ScreenPointToRay(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>()); 
-        if (Physics.Raycast(ray, out RayHit))
+        if (Physics.Raycast(ray, out RayHit , Mathf.Infinity, ~LayerMask.GetMask("TransparentObject")))
         {
             Hitpoint = new Vector3(RayHit.point.x, RayHit.point.y, RayHit.point.z);
             #if UNITY_EDITOR
@@ -318,6 +318,8 @@ public class PlayerController : Team
             if (SelectedCaseB != null)
             {
                 GridManager.SetCasePreview(SelectedCaseB, false); 
+                
+                
                 // Une fois la case selectionner, on peut executer l'action voulu
                 switch (_actionTypeMode)
                 {

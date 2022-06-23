@@ -17,7 +17,7 @@ public class Matt_HUDManager_V2 : MonoBehaviour
     [SerializeField] private GameObject _layoutGroup;
     [SerializeField] private GameObject _prefabButton;
     [SerializeField] private int _difference;
-    [Matt_CustomAttribues.ReadOnly] 
+    //[Matt_CustomAttribues.ReadOnly] 
     [SerializeField] private bool _updateActionBar;
 
     [Header("POPUP")]

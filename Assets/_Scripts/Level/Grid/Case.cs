@@ -96,6 +96,8 @@ public class Case : MonoBehaviour
     }
     public void Update()
     {  
+        
+
         if (Highlighted || Checked)
             return;
         WatchCaseState();
