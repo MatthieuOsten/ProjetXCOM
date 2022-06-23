@@ -282,6 +282,12 @@ public class Character : Actor
         _rangeDebuffValue = 0;
         haveAttacked = false;
     }
+
+    /// <summary> Cette fonction est lancée lorsqu'un tour commence</summary>
+    public virtual void StartTurnActor()
+    {
+        
+    }
    
    
     public override void Update()
