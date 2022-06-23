@@ -560,12 +560,6 @@ public class PlayerController : Team
                     UIManager.CreateSubtitle("", 1);
                     pathSuggested = PathFinding.FindPath(_selectedActor.CurrentCase, AimCase, _char.LimitCaseMovement);
                     GridManager.SetCasePreview(pathSuggested, true);
-                    // _char.lr.positionCount = pathSuggested.Length;
-                    // for (int i = pathSuggested.Length; i > 0; i--)
-                    // {
-                    //     //if(i < _char.lr.positionCount-1 ) 
-                    //     _char.lr.SetPosition(i, GridManager.GetCaseWorldPosition(pathSuggested[i-1]));
-                    // }
                     _char.transform.LookAt(AimCase.transform);
                 }
                 else
@@ -617,10 +611,9 @@ public class PlayerController : Team
             {
                 AudioManager.PlaySoundAtPosition("case_select", Vector3.zero);
                 GridManager.SetCasePreview(SelectedCaseA, true);
-                if (_selectedActor == null && SelectedCaseA.HaveActor && SelectedCaseA.Actor.Owner == this) // On check si l'actor appartient à celui de la team
+                if (  SelectedCaseA.HaveActor && SelectedCaseA.Actor.Owner == this) // On check si l'actor appartient à celui de la team
                 {
-                    _selectedActor = SelectedCaseA.Actor;
-                    SetActorSelection(_selectedActor);
+                    SetActorSelection(SelectedCaseA.Actor);
                 }
             }
             else
@@ -738,11 +731,24 @@ public class PlayerController : Team
         for(int i = 0; i < CharacterPlayer.Count; i++)
         {
             Character _char = CharacterPlayer[i].GetComponent<Character>();
-            if(_char == GetCurrentActorSelected)
+            if(_char == (Character)_newActor)
             {
-                CharacterIndex = i;
+                if(_char.CanAction)
+                {
+                    CharacterIndex = i;
+                    _selectedActor = _newActor;
+                }
+                else
+                {
+                    UIManager.CreateSubtitle("Personnage pas utilisable",2);
+                    if(GetCurrentCharactedSelected == null)
+                        ResetSelection();
+                }
+                break;
             }
+            
         }
+
     }
 
     void CameraIsometricUpdate()
