@@ -127,7 +127,8 @@ public class WidgetActorInfo : HintstringProperty
 
         }
         else // Si aucun personnage est selectionner
-        {              
+        {
+            _back.gameObject.SetActive(false);
             _background.gameObject.SetActive(false);
             for (int i = 0; i < textComponent.Length; i++)
             {
@@ -140,7 +141,6 @@ public class WidgetActorInfo : HintstringProperty
             }
             return;
         }
-   
 
         if(!_actor.CanAction)
         {
