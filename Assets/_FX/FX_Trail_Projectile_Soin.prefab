@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 370379092473254124}
   m_Layer: 0
-  m_Name: FX_Projectile_BuffPa
+  m_Name: FX_Trail_Projectile_Soin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4794,7 +4794,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 010b82d1432149647808f451e93c83f5, type: 2}
+  - {fileID: 2100000, guid: 2aa456d792043784588d3abb22c75897, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

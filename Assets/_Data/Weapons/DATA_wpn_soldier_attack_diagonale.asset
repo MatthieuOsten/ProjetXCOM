@@ -37,7 +37,7 @@ MonoBehaviour:
   _animFire: {fileID: 0}
   _soundFire: carabine_fire
   _soundReload: carabine_reload
-  fxImpact: {fileID: 8926484042661614526, guid: 38743bb30546ff646a0917bcc9591c4e,
+  fxImpact: {fileID: 5020685632095084952, guid: addcb83f0943c4349b543f4e58f9f975,
     type: 3}
   fxProjectileTrail: {fileID: 3745955780004049469, guid: 3e8257ac05bf1f34b9458cbd605f3cbe,
     type: 3}

@@ -77,9 +77,9 @@ public class DataWeapon : Data
     public string SoundReload { get { return _soundReload; } }
 
     [Header("FX")]
-    public VisualEffectAsset fxImpact;
+    public GameObject fxImpact;
     public GameObject fxProjectileTrail;
-    public VisualEffectAsset fxMuzzle; 
+    public GameObject fxMuzzle; 
 
     private void OnEnable() 
     {
