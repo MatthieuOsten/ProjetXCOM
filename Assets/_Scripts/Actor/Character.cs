@@ -644,6 +644,7 @@ public class Character : Actor
     public void EnableOverwatch()
     {
         State = ActorState.Overwatch;
+        CurrentActionPoint = 0;
 
         PreviewOverwatch();
     }

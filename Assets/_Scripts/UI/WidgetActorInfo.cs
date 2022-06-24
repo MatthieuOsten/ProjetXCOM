@@ -14,6 +14,7 @@ public class WidgetActorInfo : HintstringProperty
     [SerializeField] Image _iconActor;
     [SerializeField] Image _background;
     [SerializeField] Image _iconOverwatch;
+    [SerializeField] Image _iconPA;
     [SerializeField] Image _arrowSelected;
     [SerializeField] Image _back;
     [SerializeField] GameObject HealthPartPrefab;
@@ -83,6 +84,17 @@ public class WidgetActorInfo : HintstringProperty
         if(_actor == null) return; 
 
         _iconOverwatch.gameObject.SetActive(_actor.IsOverwatching);
+        if(_actor.IsOverwatching)
+        {
+            _iconPA.gameObject.SetActive(false);
+            textComponent[2].gameObject.SetActive(false);
+        }
+        else
+        {
+            _iconPA.gameObject.SetActive(true);
+            textComponent[2].gameObject.SetActive(true);
+        }
+       
        
         textComponent[0].text = System.String.Empty;
         textComponent[1].text = _actor.Health.ToString();
