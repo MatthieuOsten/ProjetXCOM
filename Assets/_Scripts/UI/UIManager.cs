@@ -243,6 +243,12 @@ public class UIManager : MonoBehaviour
 
     public static HintstringProperty CreateHitInfo(GameObject aGameObject, float health , float pa, float minDistance = 50f, Sprite icon = null)
     {
+        if(LevelManager.GameState != GameState.Ingame)
+        {
+            Debug.Log("HitInfoBox pas créer car le GameState n'est pas sur Ingame");
+            return null;
+        }
+
         if (aGameObject == null)
         {
             Debug.Log("Attempt to create a hintstring on a non existant object (message : " );
