@@ -50,7 +50,7 @@ public class PlayerController : Team
     [SerializeField] SelectionMode _selectedMode;
     [SerializeField] ActionTypeMode _actionTypeMode;
      /// <summary> Correspond au mode d'action sélectionner par le joueur </summary>
-    public ActionTypeMode ActionTypeMode { set { _actionTypeMode = value; } }
+    public ActionTypeMode ActionTypeMode { get {return _actionTypeMode;} set { _actionTypeMode = value; } }
 
     // Cooldown avant qu'un tour commence
     float _cooldownBeforeStartTurn = 2;
@@ -68,6 +68,9 @@ public class PlayerController : Team
             _char = (Character)GetCurrentActorSelected;
 
         return _char; } }
+
+    /// <summary> Permet de savoir si le joueur prévisualise ces actions ou pas</summary>
+    public bool IsPreviewing;    
 
     //Set, Get de toutes les variables ayant besoin d'�tre modifi�
 
@@ -290,6 +293,7 @@ public class PlayerController : Team
 
         // si le joueur est en mode action et qu'il a selectionner une sous-action et bien on peut executer des functions liés à chaque sous action
         // Peut etre qu'on pourra faire de l'héritage et custom les function en fonction de la class de perso
+        if(IsPreviewing) return;
         switch (_actionTypeMode)
         {
             case ActionTypeMode.Attack:
