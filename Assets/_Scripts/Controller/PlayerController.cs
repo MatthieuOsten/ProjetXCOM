@@ -585,7 +585,7 @@ public class PlayerController : Team
             // On attribue un material de selection à la derniere case du chemin proposer
             if (pathSuggested != null && pathSuggested.Length > 0 )
             {      
-                pathSuggested[pathSuggested.Length - 1].ChangeMaterial(caseSelected);
+                pathSuggested[pathSuggested.Length - 1].ChangeMaterial(_selectedGrid.Data.caseFeetDestination);
             }
         }
         else// Sinon on affiche la case visé avec un material de selection      
