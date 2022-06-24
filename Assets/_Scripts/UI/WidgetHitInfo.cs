@@ -17,7 +17,8 @@ public class WidgetHitInfo : HintstringProperty
     [SerializeField]  bool Generate;
 
     protected override void Start() {
-        IgnoreRelatedObject = true;
+        //IgnoreRelatedObject = true;
+        
         _prevColorHealthText = textComponent[0].color;
         _prevColorPaText = textComponent[1].color;
         textComponent[0].color = RemoveOpacity(textComponent[0].color);

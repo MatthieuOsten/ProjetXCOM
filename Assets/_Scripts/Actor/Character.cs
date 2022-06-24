@@ -23,7 +23,9 @@ public class Character : Actor
          
         set 
         {   // Empeche la vie de monter au dessus du maximum
-            UIManager.CreateHitInfo(gameObject, -(base.Health - value), 0);
+            if(value > 0)
+                UIManager.CreateHitInfo(this, -(base.Health - value), 0);
+            
             if (value > Data.Health) value = Data.Health;
             base.Health = value;
 
@@ -106,7 +108,7 @@ public class Character : Actor
         get { return _currentActionPoint; }
         set {
                 
-            UIManager.CreateHitInfo(gameObject, 0,  - (_currentActionPoint  -  value));
+            UIManager.CreateHitInfo(this, 0,  - (_currentActionPoint  -  value));
             _currentActionPoint = value; }
     }
 

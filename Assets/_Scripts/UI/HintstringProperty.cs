@@ -30,6 +30,7 @@ public class HintstringProperty : MonoBehaviour
     GameObject Player;
 
     public bool IgnoreRelatedObject;
+    public bool FollowRelatedObject = true;
 
     [SerializeField] protected float lifeTime =4 ;
     public bool IsTemp;
