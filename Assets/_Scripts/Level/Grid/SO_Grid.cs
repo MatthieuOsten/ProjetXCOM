@@ -26,6 +26,6 @@ public class SO_Grid : ScriptableObject
     public Material caseCharacter;
     public Material caseCharacterSelected;
     public Material caseFeetDestination;
-
+    public Material caseWarning;
 
 }

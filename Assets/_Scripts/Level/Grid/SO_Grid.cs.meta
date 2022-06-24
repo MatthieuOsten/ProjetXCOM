@@ -18,6 +18,7 @@ MonoImporter:
       type: 2}
   - caseFeetDestination: {fileID: 2100000, guid: f4f7bf759ecb1e248aa5eeb1ee286ef6,
       type: 2}
+  - caseWarning: {fileID: 2100000, guid: 3e22dc1615171304699442ee7663781d, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
