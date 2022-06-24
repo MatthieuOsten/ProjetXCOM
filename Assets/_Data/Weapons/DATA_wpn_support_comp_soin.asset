@@ -37,7 +37,7 @@ MonoBehaviour:
   Cooldown: 3
   _animIdle: {fileID: 0}
   _animFire: {fileID: 0}
-  _soundFire: 
+  _soundFire: Heal
   _soundReload: 
   fxImpact: {fileID: 8926484042661614526, guid: 0920aa883b5c64747a342da500ea6c74,
     type: 3}
