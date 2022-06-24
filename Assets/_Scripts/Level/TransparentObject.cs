@@ -148,6 +148,7 @@ public class TransparentObject : MonoBehaviour
         {
             foreach(Actor actor in _team.Squad)
             {   
+                if(actor == null ) continue; // Verifie si l'actor est valid
                 // Permet de voir si l'object est dans le champ de vision de la camera
                 Vector3 position = Camera.main.WorldToViewportPoint(actor.gameObject.transform.position);
                 bool condition = position.x >= 0 && position.x <= 1 && position.y >= 0 && position.y <= 1 && position.z > 0;
