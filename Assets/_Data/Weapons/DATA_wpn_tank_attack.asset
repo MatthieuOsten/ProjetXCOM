@@ -36,7 +36,7 @@ MonoBehaviour:
   Cooldown: 0
   _animIdle: {fileID: 0}
   _animFire: {fileID: 0}
-  _soundFire: 
+  _soundFire: Tank_Attack
   _soundReload: 
   fxImpact: {fileID: 0}
   fxProjectileTrail: {fileID: 0}

@@ -86,7 +86,7 @@ public class UI : MonoBehaviour
         {
             _objectPopUp.SetActive(false);
         }
-
+       // parentIconeTeam.transform.Translate(Vector2.right * Time.deltaTime);
         FindScripts();
     }
 

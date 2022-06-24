@@ -55,6 +55,7 @@ public class WidgetActorInfo : HintstringProperty
     }
     void AddHealthPart()
     {
+
          int childs = PanelHealth.transform.childCount;
         for (int i = childs - 1; i >= 0; i--)
         {
@@ -69,10 +70,7 @@ public class WidgetActorInfo : HintstringProperty
     protected override void Update()
     {
         base.Update();
-        if(!IsFixed)
-        {
-            _back.gameObject.SetActive(false);
-        }
+        
      
         Team currentTeam = LevelManager.GetCurrentController();
         Actor _selectedActor = null;
@@ -102,6 +100,8 @@ public class WidgetActorInfo : HintstringProperty
         progression = (float)_actor.Health/(float)_actor.Data.Health;
 
         bool frontView = false;
+
+        
         // Si le personnage du widget correspond a la team qui joue
         if (_selectedActor != null && _actor.Owner == currentTeam)
         {
@@ -189,14 +189,15 @@ public class WidgetActorInfo : HintstringProperty
             }
             return;
         }
-
-        if(!IsFixed)
+        if (!IsFixed)
         {
             _back.gameObject.SetActive(false);
         }
 
-        if(frontView && !IsFixed) transform.SetSiblingIndex(transform.parent.childCount-1);
-
+        if (!IsFixed && frontView)
+        {
+            transform.SetSiblingIndex(transform.parent.childCount - 1);
+        }
     }
 
     Color SetOpacity(Color colorToChange, float value)
