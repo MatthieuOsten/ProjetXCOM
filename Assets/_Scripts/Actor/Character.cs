@@ -61,7 +61,8 @@ public class Character : Actor
 
     private Material CaseCharacterNotAvailableMaterial; 
     private Material CaseCharacterMaterial; 
-    private Material CaseCharacterSelectedMaterial; 
+    private Material CaseCharacterSelectedMaterial;
+    private SkinnedMeshRenderer _skin;
 
     // Getteur utile a prendre pour les autre script
 
@@ -219,6 +220,7 @@ public class Character : Actor
         lr = gameObject.AddComponent<LineRenderer>();
         LimitCaseMovement = Data.MovementCasesAction; 
         Health = Data.Health; // init la vie
+        _skin = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
 
         // On met la case d'overwatch de la meme couleur que la team
         MaterialCaseOverwatch = new Material(Data.MaterialCaseOverwatch);
@@ -234,7 +236,8 @@ public class Character : Actor
 
         CaseCharacterNotAvailableMaterial = new Material(CurrentCase.GridParent.Data.caseCharacter);
         CaseCharacterNotAvailableMaterial.SetColor("_EmissiveColor", (Owner.Color * 20) * 0.25f);
-       
+
+        _skin.material.color = Owner.Color;
 
         // Get og material
         //GetOgMaterials();

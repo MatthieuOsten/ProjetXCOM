@@ -445,6 +445,7 @@ public class UI : MonoBehaviour
         foreach (GameObject goCharacter in _pC.CharacterPlayer)
         {
             Character character = goCharacter.GetComponent<Character>();
+
             // Instantie le nombre de d'image, ajoute au bon gameobject et à une liste
           
                 if(character == null)  continue;
