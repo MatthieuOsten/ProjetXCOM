@@ -434,7 +434,6 @@ public class Character : Actor
             
         else
         {
-
             //ResetDestination();
         }
 
@@ -463,6 +462,7 @@ public class Character : Actor
             //     lr.SetPosition(i, GridManager.GetCaseWorldPosition(pathToFollow[_indexPath+i]));
             // }
 
+            // Si on arrive à la derniere case du chemin
             if (CurrentCase == LastCase)
             {
                 LastCase.Actor = this;
@@ -618,8 +618,10 @@ public class Character : Actor
     void ResetDestination()
     {
         _anim.SetBool("Run", false);
+        GridManager.ResetCasesPreview(pathToFollow[0].GridParent);
         _indexPath = 0;
         pathToFollow = null;
+        
 
     }
 
