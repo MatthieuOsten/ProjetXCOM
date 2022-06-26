@@ -23,7 +23,9 @@ public class Character : Actor
          
         set 
         {   // Empeche la vie de monter au dessus du maximum
-            UIManager.CreateHitInfo(gameObject, -(base.Health - value), 0);
+            if(value > 0)
+                UIManager.CreateHitInfo(this, -(base.Health - value), 0);
+            
             if (value > Data.Health) value = Data.Health;
             base.Health = value;
 
@@ -107,7 +109,7 @@ public class Character : Actor
         get { return _currentActionPoint; }
         set {
                 
-            UIManager.CreateHitInfo(gameObject, 0,  - (_currentActionPoint  -  value));
+            UIManager.CreateHitInfo(this, 0,  - (_currentActionPoint  -  value));
             _currentActionPoint = value; }
     }
 
@@ -285,6 +287,12 @@ public class Character : Actor
         _rangeDebuffValue = 0;
         haveAttacked = false;
     }
+
+    /// <summary> Cette fonction est lancée lorsqu'un tour commence</summary>
+    public virtual void StartTurnActor()
+    {
+        
+    }
    
    
     public override void Update()
@@ -429,7 +437,6 @@ public class Character : Actor
             
         else
         {
-
             //ResetDestination();
         }
 
@@ -458,6 +465,7 @@ public class Character : Actor
             //     lr.SetPosition(i, GridManager.GetCaseWorldPosition(pathToFollow[_indexPath+i]));
             // }
 
+            // Si on arrive à la derniere case du chemin
             if (CurrentCase == LastCase)
             {
                 LastCase.Actor = this;
@@ -613,8 +621,10 @@ public class Character : Actor
     void ResetDestination()
     {
         _anim.SetBool("Run", false);
+        GridManager.ResetCasesPreview(pathToFollow[0].GridParent);
         _indexPath = 0;
         pathToFollow = null;
+        
 
     }
 
@@ -637,6 +647,7 @@ public class Character : Actor
     public void EnableOverwatch()
     {
         State = ActorState.Overwatch;
+        CurrentActionPoint = 0;
 
         PreviewOverwatch();
     }

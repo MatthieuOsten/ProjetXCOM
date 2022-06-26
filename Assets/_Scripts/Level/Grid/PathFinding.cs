@@ -121,11 +121,11 @@ public class PathFinding : MonoBehaviour
                 patha.Add(path[i]);
             }
 
-            GridManager.SetCasePreview(patha, true);
+            //GridManager.SetCasePreview(patha, true);
             return patha.ToArray();
             
         }
-        GridManager.SetCasePreview(path, true);
+        //GridManager.SetCasePreview(path, true);
         return path.ToArray();
     }
 }

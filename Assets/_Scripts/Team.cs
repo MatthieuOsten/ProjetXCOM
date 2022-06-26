@@ -56,7 +56,9 @@ public class Team : MonoBehaviour, ITeam
             // Mais est vraiment n�cessaire ? on verra 
             if (_actor.State == ActorState.Overwatch)
                 _actor.State = ActorState.Alive;
-            // _actor.StartTurnActor(); et non on doit le faire quand il passe le tour car si d�buff ca sera pas appliqu�
+
+
+            _actor.StartTurnActor(); 
 
         }
     }

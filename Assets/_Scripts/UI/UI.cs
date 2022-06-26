@@ -528,8 +528,7 @@ public class UI : MonoBehaviour
         // ---- Initialise chaque bouttons en rapport avec les capacités actuel ---- //
         for (int i = 0; i < _actionButton.Count; i++)
         {
-            /*if (_cH == null) return;
-
+            /*
             _actionButton[i].GetComponent<ButtonAction>().Input.text = (i + 1).ToString();*/
 
             if (_actionCapacity.Count < i) { break; }
@@ -715,14 +714,22 @@ public class UI : MonoBehaviour
     /// </summary>
     private void DisplayPopUp( DataCharacter.Capacity data  , Vector3 position, string description = " ", string title = "Information" )
     {
+        if(_cH.IsMoving) return; // [UI] [GRID] Empêcher la prévisualisation quand notre perso se déplace
+
         GridManager.ResetCasesPreview(_pC.GetCurrentCharactedSelected.CurrentCase.GridParent);
         
         if(data.typeA == ActionTypeMode.Overwatch)
+        {
             _pC.GetCurrentCharactedSelected.PreviewOverwatch();
+            _pC.IsPreviewing = true;
+        }
         else
         {
             DataWeapon weapon = _pC.GetWeaponFromActionMode(data.typeA);
-            _pC.GetCurrentCharactedSelected.AttackRange(weapon, weapon.Range.casePreviewRange);
+            if(data.typeA != ActionTypeMode.Reload)
+                _pC.GetCurrentCharactedSelected.AttackRange(weapon, weapon.Range.casePreviewRange);
+
+            _pC.IsPreviewing = true;    
         }
 
         if (_objectPopUp == null)
@@ -764,8 +771,12 @@ public class UI : MonoBehaviour
         {
             if (_objectPopUp.activeSelf == true) { _objectPopUp.SetActive(false); }
             
-            if(_pC.GetCurrentCharactedSelected != null)
-                GridManager.ResetCasesPreview(_pC.GetCurrentCharactedSelected.CurrentCase.GridParent);
+            if(_pC.GetCurrentCharactedSelected != null && !_pC.GetCurrentCharactedSelected.IsMoving)
+            {
+                _pC.IsPreviewing = false;  
+                GridManager.ResetCasesPreview(_pC.GetCurrentCharactedSelected.CurrentCase.GridParent); 
+            }
+               
 
         }
     }
@@ -800,21 +811,27 @@ public class UI : MonoBehaviour
     public void SetActionMode(ActionTypeMode actionType, string sound = null)
     {
         // Si le playerController est null alors quitte la fonction
-        if (_pC == null) { return; }
+        if (_pC == null || _cH.IsMoving) { return; }
 
         if (sound == null && _soundResetSelection != null ) { sound = _soundResetSelection; }
 
+
+
         // Si le joueur est pas en mode action alors active le mode action et change son type
-        if (_pC.SelectionMode != SelectionMode.Action)
+        if (_pC.SelectionMode != SelectionMode.Action 
+        || _pC.ActionTypeMode != actionType)
         {
             if (sound != null)
                 AudioManager.PlaySoundAtPosition(sound, Vector3.zero);
 
+            _pC.IsPreviewing = false;  
             _pC.SelectionMode = SelectionMode.Action;
             _pC.ActionTypeMode = actionType;
         }
         else // Sinon Desactive le mode action pour le mode selection et retire le type action en le changeant par "none"
         {
+          
+
             if (sound != null)
                 AudioManager.PlaySoundAtPosition(_soundResetSelection, Vector3.zero);
 

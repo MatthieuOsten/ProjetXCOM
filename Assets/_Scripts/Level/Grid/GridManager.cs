@@ -285,7 +285,10 @@ public class GridManager : MonoBehaviour
 
         if (Reset) ResetCasesPreview(aCase.GridParent);
 
-
+        if(aCase.Highlighted && specificMaterial != null)
+        {
+            aCase.ChangeMaterial(aCase.GridParent.Data.caseWarning);
+        }
         aCase.Highlighted = true;
         if(!aCase.Selected)
         {
@@ -430,6 +433,9 @@ public class GridManager : MonoBehaviour
 
         if (caseToCheck.State == CaseState.Occupied || caseToCheck.State == CaseState.Null )
             return null;
+
+
+        
 
         return caseToCheck;
     }

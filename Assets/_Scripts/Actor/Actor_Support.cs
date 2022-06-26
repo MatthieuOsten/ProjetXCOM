@@ -42,13 +42,15 @@ public class Actor_Support : Character
             if( target is Character)
             {
                 _char = (Character)target;
-                if (_char.Owner != Owner)
+            
+                if (_char.Owner != Owner )
                 {
                     UIManager.CreateSubtitle("Le personnage visée n'est pas un allié ", 2);
                     return;
                 }
                 
                 AllieBuffed = _char;
+                AllieBuffed.Health += AllieBuffed.MaxHealth/4;
                 cooldownAbility = GetAbilityCooldown;
              
                 base.EnableAbility(target);
@@ -75,11 +77,22 @@ public class Actor_Support : Character
             if (target is Character)
             {
                 _char = (Character)target;
-                if (_char.Owner != Owner)
+                 if (_char.Owner != Owner)
                 {
                     UIManager.CreateSubtitle("Le personnage visée n'est pas un allié ", 2);
                     return;
                 }
+                if(_char == this)
+                {
+                    UIManager.CreateSubtitle("Le support ne peut pas se donner des PA sur lui même", 2);
+                    return;
+                }
+                 if (_char.IsOverwatching)
+                {
+                    UIManager.CreateSubtitle("Le personnage visée est en overwatch", 2);
+                    return;
+                }
+               
           
                 _char.CurrentActionPoint ++;
                 cooldownAbilityAlt = GetAbilityAltCooldown;
@@ -93,18 +106,20 @@ public class Actor_Support : Character
         }
     }
 
+    public override void StartTurnActor()
+    {
+        if(AllieBuffed != null)
+            AllieBuffed.Health += AllieBuffed.MaxHealth/4;
+    }
 
     // On diminue le cooldown de l'ability du support à chaque tour
     public override void EndTurnActor()
     {
-        if(AllieBuffed != null)
-            AllieBuffed.Health += AllieBuffed.MaxHealth/4;
-
         // Si il y 'a coold down on le diminue
         if(cooldownAbility > 0)
             cooldownAbility--;
 
-        if(cooldownAbility <= 2)
+        if(cooldownAbility <= 1)
             AllieBuffed = null;
         
 

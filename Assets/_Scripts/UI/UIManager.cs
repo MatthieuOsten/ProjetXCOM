@@ -78,8 +78,17 @@ public class UIManager : MonoBehaviour
         {
             Transform hintstring = HintstringList.transform.GetChild(i);
             HintstringProperty hintPro = hintstring.GetComponent<HintstringProperty>();
-            if (hintPro.relatedObject == null)
-                continue;
+
+            // Si l'object a follow est detruit, on le delete
+            if(hintPro.FollowRelatedObject && hintPro.relatedObject == null)
+            {
+                Destroy(hintPro.gameObject);
+            }
+            if (hintPro.relatedObject == null || !hintPro.FollowRelatedObject)
+            {
+                 continue;
+            }
+               
 
             Vector3 position = Camera.main.WorldToScreenPoint(hintPro.relatedObject.transform.position);
             // Permet de voir si l'object est derriere la camera
@@ -93,7 +102,7 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                hintstring.transform.position = new Vector3(-1000,0,-10);
+                hintstring.transform.position = new Vector3(-10000,0,-100);
             }
         }
 
@@ -241,16 +250,24 @@ public class UIManager : MonoBehaviour
         return component;
     }
 
-    public static HintstringProperty CreateHitInfo(GameObject aGameObject, float health , float pa, float minDistance = 50f, Sprite icon = null)
+    public static HintstringProperty CreateHitInfo(Actor actor, float health , float pa, float minDistance = 50f, Sprite icon = null)
     {
-        if (aGameObject == null)
+        if(LevelManager.GameState != GameState.Ingame)
+        {
+            Debug.Log("HitInfoBox pas créer car le GameState n'est pas sur Ingame");
+            return null;
+        }
+
+        GameObject actorGameObject = actor.gameObject;
+
+        if (actorGameObject == null)
         {
             Debug.Log("Attempt to create a hintstring on a non existant object (message : " );
             return null;
         }
-        GameObject hintString = Instantiate(staticProperty.WidgetHitInfo, aGameObject.transform.position, Quaternion.identity, HintstringList.transform);
+        GameObject hintString = Instantiate(staticProperty.WidgetHitInfo, actorGameObject.transform.position, Quaternion.identity, HintstringList.transform);
         WidgetHitInfo component = hintString.GetComponent<WidgetHitInfo>();
-        component.relatedObject = aGameObject;
+        component.relatedObject = actorGameObject;
         component.MinDistance = minDistance;
         component.setting = SettingHintstring.AlwaysShow;
         component.IsTemp = true;

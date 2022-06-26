@@ -118,9 +118,9 @@ public class DataCharacter : Data
     public string AliaseOnMove;
 
     [Header("FX")]
-    public VisualEffectAsset fxFootstep;
-    public VisualEffectAsset fxDeath;
-    public VisualEffectAsset fxDamaged;
+    public GameObject fxFootstep;
+    public GameObject fxDeath;
+    public GameObject fxDamaged;
     
 
     public float MoveSpeed { get { return _moveSpeed; } }

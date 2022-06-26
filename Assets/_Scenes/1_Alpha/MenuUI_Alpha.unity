@@ -820,9 +820,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Assault of Order
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f12d73857c93f6a41ab0c42cb84fe798, type: 2}
-  m_sharedMaterial: {fileID: -3203305617714245106, guid: f12d73857c93f6a41ab0c42cb84fe798,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -846,7 +845,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 94.9
+  m_fontSize: 70.2
   m_fontSizeBase: 128
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1198,7 +1197,7 @@ MonoBehaviour:
   _buttonPlay: {fileID: 1956187933}
   _buttonTutorial: {fileID: 1606158286}
   _buttonQuit: {fileID: 902384456}
-  scenePlay: Alpha_Gameplay_CenterCity
+  scenePlay: Alpha_Gameplay_Parc
   _stringLoadBackground: MenuBackground_Alpha
   _panelBackground: {fileID: 2115653631}
   _spriteBackground: {fileID: 0}

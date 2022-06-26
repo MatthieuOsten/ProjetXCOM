@@ -18,9 +18,11 @@ public class ParticleManager : MonoBehaviour
     [SerializeField] float SpeedTrailTo = 5;
     [Header("POOL")]
     [SerializeField] Queue<GameObject> FXpool;
-    [SerializeField] List<GameObject> FXTrailPool;
-     [SerializeField] List<Transform> FXTrailPoolTarget;
-
+    [Space]
+    [SerializeField] List<GameObject>   FXTrailPool;
+    [SerializeField] List<Transform>    FXTrailPoolTarget;
+    [Space]
+    [SerializeField] List<ParticleSystem> FXParticleSystemPool;
 
 
     public static ParticleManager Instance
@@ -108,37 +110,60 @@ public class ParticleManager : MonoBehaviour
        return null;
     }
 
-    public static void PlayFXAtPosition(Vector3 position, VisualEffectAsset[] fxs)
+    public static void OldPlayFXAtPosition(Vector3 position, VisualEffectAsset[] fxs)
     {   
+        Debug.LogError("DELETE ME");
         if(fxs.Length == 0 )
         {
             return;
         }
         // GameObject Fx = Instantiate(fxs[Random.Range(0, fxs.Length)], position,Quaternion.identity);
         // Instance.FXpool.Add(Fx);
-        PlayFXAtPosition(position, fxs[Random.Range(0, fxs.Length)]);
-
+       // PlayFXAtPosition(position, fxs[Random.Range(0, fxs.Length)]);
+        
         
     }
-    public static void PlayFXAtPosition(Vector3 position, VisualEffectAsset fx)
+    public static void PlayVisualEffectAtPosition(Vector3 position, VisualEffectAsset fx)
     {   
         if(fx == null)
         {
             Debug.LogWarning("Un FX non défini a été jouer, veuillez le définir");
             return;
         }
-            
-
         VisualEffect vfx = GetVisualEffect();
         vfx.visualEffectAsset = fx;
         vfx.gameObject.SetActive(true);
         vfx.gameObject.transform.position = position;
-        //GameObject Fx = Instantiate(fx, position,Quaternion.identity);
-        //Instance.FXpool.Add(Fx);
-        // if(Fx.TryGetComponent<VisualEffect>(out VisualEffect compvfx))
-        // {
-        //     compvfx.Play();
-        // }
+        
+    }
+
+     public static void PlayFXAtPosition(Vector3 position, GameObject fx)
+    {   
+        if(fx == null)
+        {
+            Debug.LogWarning("Un FX non défini a été jouer, veuillez le définir");
+            return;
+        }
+        
+        GameObject Fx = Instantiate(fx, position ,Quaternion.identity);
+        ParticleSystem ps = Fx.GetComponentInChildren<ParticleSystem>();
+        if(ps != null)
+        {
+            Instance.FXParticleSystemPool.Add(ps);
+        }
+        else
+        {
+            Debug.LogWarning($"Attention, le FX {fx.name} n'a pas de particle system");
+            Destroy(Fx);
+        }
+        //Fx.transform.LookAt();
+        //Instance.FXTrailPool.Add(Fx);
+        //Instance.FXTrailPoolTarget.Add(target);
+
+        // VisualEffect vfx = GetVisualEffect();
+        // vfx.visualEffectAsset = fx;
+        // vfx.gameObject.SetActive(true);
+        // vfx.gameObject.transform.position = position;
         
     }
 
@@ -161,7 +186,24 @@ public class ParticleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        WatchPoolFXTrail();
+        WatchPoolFX();
+    }
 
+    void WatchPoolFX()
+    {
+        for(int i = 0 ; i < FXParticleSystemPool.Count; i++)
+        {
+            ParticleSystem fx = FXParticleSystemPool[i];
+            if(!fx.isPlaying)
+            {
+                Destroy(fx.gameObject);
+                FXParticleSystemPool.Remove(fx);
+            }
+        }
+    }
+    void WatchPoolFXTrail()
+    {
         for(int i = 0 ; i < FXTrailPool.Count; i++)
         {
             if(FXTrailPool[i] == null || FXTrailPoolTarget[i] == null)

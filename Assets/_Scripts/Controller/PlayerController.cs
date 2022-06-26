@@ -50,11 +50,14 @@ public class PlayerController : Team
     [SerializeField] SelectionMode _selectedMode;
     [SerializeField] ActionTypeMode _actionTypeMode;
      /// <summary> Correspond au mode d'action sélectionner par le joueur </summary>
-    public ActionTypeMode ActionTypeMode { set { _actionTypeMode = value; } }
+    public ActionTypeMode ActionTypeMode { get {return _actionTypeMode;} set { _actionTypeMode = value; } }
 
     // Cooldown avant qu'un tour commence
     float _cooldownBeforeStartTurn = 2;
     float _cooldownBeforeStartTurnTimer = 0;
+
+
+    Case[] pathSuggested = null;
 
     /// <summary> Recupere l'actor selectionner par le player </summary>
     public Actor GetCurrentActorSelected { get { return _selectedActor; } }
@@ -65,6 +68,9 @@ public class PlayerController : Team
             _char = (Character)GetCurrentActorSelected;
 
         return _char; } }
+
+    /// <summary> Permet de savoir si le joueur prévisualise ces actions ou pas</summary>
+    public bool IsPreviewing;    
 
     //Set, Get de toutes les variables ayant besoin d'�tre modifi�
 
@@ -253,7 +259,7 @@ public class PlayerController : Team
         Vector3 Hitpoint = Vector3.zero;
         // On trace un rayon avec la mousePosition de la souris
         ray = Camera.main.ScreenPointToRay(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>()); 
-        if (Physics.Raycast(ray, out RayHit))
+        if (Physics.Raycast(ray, out RayHit , Mathf.Infinity, ~LayerMask.GetMask("TransparentObject")))
         {
             Hitpoint = new Vector3(RayHit.point.x, RayHit.point.y, RayHit.point.z);
             #if UNITY_EDITOR
@@ -287,6 +293,7 @@ public class PlayerController : Team
 
         // si le joueur est en mode action et qu'il a selectionner une sous-action et bien on peut executer des functions liés à chaque sous action
         // Peut etre qu'on pourra faire de l'héritage et custom les function en fonction de la class de perso
+        if(IsPreviewing) return;
         switch (_actionTypeMode)
         {
             case ActionTypeMode.Attack:
@@ -318,6 +325,8 @@ public class PlayerController : Team
             if (SelectedCaseB != null)
             {
                 GridManager.SetCasePreview(SelectedCaseB, false); 
+                
+                
                 // Une fois la case selectionner, on peut executer l'action voulu
                 switch (_actionTypeMode)
                 {
@@ -531,8 +540,14 @@ public class PlayerController : Team
         // Verifie si la case visé n'est pas vide
         if (AimCase == null) return;
         
-        Case[] pathSuggested = null;
+        
         Character _char = GetCurrentCharactedSelected;
+        if (_char != null && _char.IsMoving)
+        {
+            GridManager.SetCasePreview(pathSuggested, true);
+            return;
+        }
+                    
           
         if(MouseOverUILayerObject.IsPointerOverUIObject(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>()))
         {
@@ -551,16 +566,12 @@ public class PlayerController : Team
                 {
                     UIManager.CreateSubtitle("", 1);
                     pathSuggested = PathFinding.FindPath(_selectedActor.CurrentCase, AimCase, _char.LimitCaseMovement);
-                    // _char.lr.positionCount = pathSuggested.Length;
-                    // for (int i = pathSuggested.Length; i > 0; i--)
-                    // {
-                    //     //if(i < _char.lr.positionCount-1 ) 
-                    //     _char.lr.SetPosition(i, GridManager.GetCaseWorldPosition(pathSuggested[i-1]));
-                    // }
+                    GridManager.SetCasePreview(pathSuggested, true);
                     _char.transform.LookAt(AimCase.transform);
                 }
                 else
                 {
+                    
                     GridManager.ResetCasesPreview(_selectedGrid);
                     UIManager.CreateSubtitle("Point d'action insuffisant pour ce personnage", 2);
                     ResetSelection();
@@ -574,11 +585,12 @@ public class PlayerController : Team
             // On attribue un material de selection à la derniere case du chemin proposer
             if (pathSuggested != null && pathSuggested.Length > 0 )
             {      
-                pathSuggested[pathSuggested.Length - 1].ChangeMaterial(caseSelected);
+                pathSuggested[pathSuggested.Length - 1].ChangeMaterial(_selectedGrid.Data.caseFeetDestination);
             }
         }
         else// Sinon on affiche la case visé avec un material de selection      
         {
+            Debug.Log("Oye fdp");
              AimCase.ChangeMaterial(caseSelected);
         }
       
@@ -608,17 +620,16 @@ public class PlayerController : Team
             {
                 AudioManager.PlaySoundAtPosition("case_select", Vector3.zero);
                 GridManager.SetCasePreview(SelectedCaseA, true);
-                if (_selectedActor == null && SelectedCaseA.HaveActor && SelectedCaseA.Actor.Owner == this) // On check si l'actor appartient à celui de la team
+                if (  SelectedCaseA.HaveActor && SelectedCaseA.Actor.Owner == this) // On check si l'actor appartient à celui de la team
                 {
-                    _selectedActor = SelectedCaseA.Actor;
-                    SetActorSelection(_selectedActor);
+                    SetActorSelection(SelectedCaseA.Actor);
                 }
             }
             else
             {
                 AudioManager.PlaySoundAtPosition("case_refus", Vector3.zero);
             }
-            pathSuggested = null;
+            //pathSuggested = null;
 
         }
         
@@ -658,6 +669,7 @@ public class PlayerController : Team
         SelectedCaseA = null;
         SelectedCaseB = null;
         _selectedActor = null;
+        pathSuggested = null;
         GridManager.ResetCasesPreview(_selectedGrid);
         _selectedMode = SelectionMode.Selection; // On force le mode sélection au cas ou
 
@@ -729,11 +741,24 @@ public class PlayerController : Team
         for(int i = 0; i < CharacterPlayer.Count; i++)
         {
             Character _char = CharacterPlayer[i].GetComponent<Character>();
-            if(_char == GetCurrentActorSelected)
+            if(_char == (Character)_newActor)
             {
-                CharacterIndex = i;
+                if(_char.CanAction)
+                {
+                    CharacterIndex = i;
+                    _selectedActor = _newActor;
+                }
+                else
+                {
+                    UIManager.CreateSubtitle("Personnage pas utilisable",2);
+                    if(GetCurrentCharactedSelected == null)
+                        ResetSelection();
+                }
+                break;
             }
+            
         }
+
     }
 
     void CameraIsometricUpdate()

@@ -49,10 +49,9 @@ MonoBehaviour:
   AliaseSpawn: 
   AliaseDamaged: 
   AliaseOnMove: 
-  fxFootstep: {fileID: 8926484042661614526, guid: a545c709d26c2e1449f4e9d18b014549,
-    type: 3}
-  fxDeath: {fileID: 8926484042661614526, guid: f91ccafe0b08ea3408665b959481bc97, type: 3}
-  fxDamaged: {fileID: 8926484042661614526, guid: b496f9e64e3c5f243a71ac555c0b4d40,
+  fxFootstep: {fileID: 0}
+  fxDeath: {fileID: 8769807369880409815, guid: 938fce8c80fc7d14cb6611b02c779327, type: 3}
+  fxDamaged: {fileID: 4904258346276184621, guid: a90e4936fdeb4144f98eca00996d4d61,
     type: 3}
   ClassName: Actor_Support
   mtl_red_flick: {fileID: 2100000, guid: abbfc98669dc8544abbe918ae5c5cdf7, type: 2}
