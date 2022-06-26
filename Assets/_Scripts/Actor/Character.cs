@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class Character : Actor
 {
     [SerializeField] private DataCharacter _data;
     /// <summary> Tableau de Int </summary>
     [SerializeField] private int[] _ammo = new int[3];
+    [SerializeField] private Animator _anim;
 
     public int[] Ammo
     {
@@ -18,7 +20,9 @@ public class Character : Actor
     public override int Health
     {
         get { return base.Health; }
-         set {   // Empeche la vie de monter au dessus du maximum
+         
+        set 
+        {   // Empeche la vie de monter au dessus du maximum
             UIManager.CreateHitInfo(gameObject, -(base.Health - value), 0);
             if (value > Data.Health) value = Data.Health;
             base.Health = value;
@@ -57,7 +61,8 @@ public class Character : Actor
 
     private Material CaseCharacterNotAvailableMaterial; 
     private Material CaseCharacterMaterial; 
-    private Material CaseCharacterSelectedMaterial; 
+    private Material CaseCharacterSelectedMaterial;
+    private SkinnedMeshRenderer _skin;
 
     // Getteur utile a prendre pour les autre script
 
@@ -201,8 +206,8 @@ public class Character : Actor
 
     // Effectue une action a lorsque le personnage prend des degats //
     public override void DoDamage(int amount)
-    { 
-       
+    {
+        _anim.SetTrigger("Hit");
         ParticleManager.PlayFXAtPosition(transform.position, Data.fxDamaged);
         _damageCooldown = 2;
         AudioManager.PlaySoundAtPosition("character_damaged", transform.position);
@@ -211,9 +216,11 @@ public class Character : Actor
     }
     public override void Start()
     {
+        _anim = gameObject.GetComponentInChildren<Animator>();
         lr = gameObject.AddComponent<LineRenderer>();
         LimitCaseMovement = Data.MovementCasesAction; 
         Health = Data.Health; // init la vie
+        _skin = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
 
         // On met la case d'overwatch de la meme couleur que la team
         MaterialCaseOverwatch = new Material(Data.MaterialCaseOverwatch);
@@ -229,7 +236,8 @@ public class Character : Actor
 
         CaseCharacterNotAvailableMaterial = new Material(CurrentCase.GridParent.Data.caseCharacter);
         CaseCharacterNotAvailableMaterial.SetColor("_EmissiveColor", (Owner.Color * 20) * 0.25f);
-       
+
+        _skin.material.color = Owner.Color;
 
         // Get og material
         //GetOgMaterials();
@@ -333,6 +341,8 @@ public class Character : Actor
          // Si en overwatch on dessine les cases ou il regarde
         if (State == ActorState.Overwatch)
         {
+            _anim.SetBool("Vigilence", true);
+            
             if(Owner is PlayerController pC)
             {
                 if(pC.GetCurrentCharactedSelected != null) return;
@@ -345,7 +355,6 @@ public class Character : Actor
             else
             {
                 GridManager.SetCaseAttackPreview(caseOverwatched, false, MaterialCaseOverwatch );
-
             }
 
             for(int i = 0 ; i < caseOverwatched.Length; i++)
@@ -371,7 +380,13 @@ public class Character : Actor
             }  
 
         }
+
+        else
+        {
+            _anim.SetBool("Vigilence", false);
+        }
     }
+
 
     void SetMaterialViewModel()
     {
@@ -406,9 +421,15 @@ public class Character : Actor
         float moveSpeed = Data.MoveSpeed;
 
         if (_indexPath <= pathToFollow.Length - 1 && pathToFollow[_indexPath] != null)
+        {
             transform.position = Vector3.MoveTowards(transform.position, GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]), moveSpeed * Time.deltaTime);
+            transform.LookAt(GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]));
+            _anim.SetBool("Run", true);
+        }
+            
         else
         {
+
             //ResetDestination();
         }
 
@@ -588,9 +609,10 @@ public class Character : Actor
         return _cases.ToArray();
     }
     
+    
     void ResetDestination()
     {
-
+        _anim.SetBool("Run", false);
         _indexPath = 0;
         pathToFollow = null;
 
@@ -632,7 +654,9 @@ public class Character : Actor
     }
     void ActionAnimation(DataWeapon weapon, Actor target)
     {
-                // On joue le son de tire provenant de l'arme
+        _anim.SetTrigger("Shoot");
+
+        // On joue le son de tire provenant de l'arme
         AudioManager.PlaySoundAtPosition(weapon.SoundFire, transform.position);
         // Si l'arme est à distance, on joue le fx de projectile
         if(weapon.TypeW == DataWeapon.typeWeapon.distance)
@@ -641,6 +665,7 @@ public class Character : Actor
             
         }
         ParticleManager.PlayFXAtPosition(target.transform.position, weapon.fxImpact);
+        transform.LookAt(target.transform.position);
 
     }
 }

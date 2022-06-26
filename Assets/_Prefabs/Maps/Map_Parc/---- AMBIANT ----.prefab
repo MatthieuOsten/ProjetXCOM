@@ -1,5 +1,69 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4009526096457648233
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8546773372699402590}
+  - component: {fileID: 1522386316645162884}
+  m_Layer: 0
+  m_Name: VolumetricFogLocal
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8546773372699402590
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4009526096457648233}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 19.357834, y: 9.479295, z: 18.11319}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5527702532856826025}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1522386316645162884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4009526096457648233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1fbb15bf92b84f40a1eb030765b5afe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parameters:
+    albedo: {r: 1, g: 0.8163265, b: 0, a: 1}
+    meanFreePath: 1.91
+    anisotropy: 0
+    volumeMask: {fileID: 0}
+    textureScrollingSpeed: {x: 0, y: 0, z: 0}
+    textureTiling: {x: 1, y: 1, z: 1}
+    positiveFade: {x: 0.06848853, y: 0, z: 0.055639777}
+    negativeFade: {x: 0.1234434, y: 0, z: 0.10246533}
+    m_EditorUniformFade: 0
+    m_EditorPositiveFade: {x: 0.06848853, y: 0, z: 0.055639777}
+    m_EditorNegativeFade: {x: 0.1234434, y: 0, z: 0.10246533}
+    m_EditorAdvancedFade: 1
+    size: {x: 97.53458, y: 19.95859, z: 90.762405}
+    invertFade: 1
+    distanceFadeStart: 9879.87
+    distanceFadeEnd: 10000
+    textureOffset: {x: 0, y: 0, z: 0}
+    falloffMode: 0
+  m_Version: 2
 --- !u!1 &5527702532413496025
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +361,7 @@ Transform:
   - {fileID: 5527702532413496027}
   - {fileID: 5527702532659946741}
   - {fileID: 5527702534210121020}
+  - {fileID: 8546773372699402590}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

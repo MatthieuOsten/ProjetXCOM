@@ -86,7 +86,7 @@ public class UI : MonoBehaviour
         {
             _objectPopUp.SetActive(false);
         }
-
+       // parentIconeTeam.transform.Translate(Vector2.right * Time.deltaTime);
         FindScripts();
     }
 
@@ -210,7 +210,7 @@ public class UI : MonoBehaviour
                 _icone.color = Color.clear;
                 _icone.sprite = null;
                 _layoutGroup.gameObject.SetActive(false); // desactive la barre d'action
-                _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0.1f);
+                _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0f);
                 foreach (Image image in children)
                 {
                     image.color = new Color(image.color.r, image.color.g, image.color.b, 0.3f);
@@ -223,7 +223,7 @@ public class UI : MonoBehaviour
                 _icone.sprite = _cH.GetCharacterIcon();
                 _icone.color = Color.white;
 
-                _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0.7f);
+                _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0f);
                 foreach (Image image in children)
                 {
                     image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
@@ -321,7 +321,7 @@ public class UI : MonoBehaviour
     /// <summary>
     /// Verifie le nombre de point d'action et adapte l'ui
     /// </summary>
-    private void ActualActionPoint()
+   /* private void ActualActionPoint()
     {
         // Si le personnage selectionner est null, on hide les actions bar
         if(_cH == null)
@@ -370,7 +370,7 @@ public class UI : MonoBehaviour
             }
         }
 
-    }
+    }*/
 
     //Gere l'affichage du nombre actuel des munitions
     private void ActualAmmo()
@@ -428,6 +428,8 @@ public class UI : MonoBehaviour
                 Color _color = ammoImage.color;
                 ammoImage.color = new Color(_color.r, _color.g, _color.b, 0f);
             }
+
+            weaponImage.gameObject.SetActive(false);
         }
     }
 
@@ -443,6 +445,7 @@ public class UI : MonoBehaviour
         foreach (GameObject goCharacter in _pC.CharacterPlayer)
         {
             Character character = goCharacter.GetComponent<Character>();
+
             // Instantie le nombre de d'image, ajoute au bon gameobject et à une liste
           
                 if(character == null)  continue;
@@ -525,9 +528,9 @@ public class UI : MonoBehaviour
         // ---- Initialise chaque bouttons en rapport avec les capacités actuel ---- //
         for (int i = 0; i < _actionButton.Count; i++)
         {
-            if (_cH == null) return;
+            /*if (_cH == null) return;
 
-            _actionButton[i].GetComponent<ButtonAction>().Input.text = (i + 1).ToString();
+            _actionButton[i].GetComponent<ButtonAction>().Input.text = (i + 1).ToString();*/
 
             if (_actionCapacity.Count < i) { break; }
 
@@ -741,10 +744,13 @@ public class UI : MonoBehaviour
         {
             // Deplace le popUp a l'endroit indiquer
             _objectPopUp.transform.position = position;
-            // Change le titre du PopUp
-            ModifyTextBox(_objectPopUp, "Title", title);
-            // Change la description du PopUp
-            ModifyTextBox(_objectPopUp, "Description", description);
+            DataWeapon weapon = _pC.GetWeaponFromActionMode(data.typeA);
+            PopupActionBar _popup = _objectPopUp.GetComponent<PopupActionBar>();
+            _popup.SetWidget(title,description, weapon.CostPoint.ToString(), weapon.Cooldown);
+            // // Change le titre du PopUp
+            // ModifyTextBox(_objectPopUp, "Title", title);
+            // // Change la description du PopUp
+            // ModifyTextBox(_objectPopUp, "Description", description);
 
             if (_objectPopUp.activeSelf == false) { _objectPopUp.SetActive(true); }
         }

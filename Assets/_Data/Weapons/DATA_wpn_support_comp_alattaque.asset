@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ffebdf3ef8750c49bc8bad5d6ff831c, type: 3}
   m_Name: DATA_wpn_support_comp_alattaque
   m_EditorClassIdentifier: 
-  name: Don de PA
+  name: ' Gift of AP'
   description: "Donne \xE0 un alli\xE9 un point d\u2019action suppl\xE9mentaire pour
     le tour en cours."
   debugDescription: "[ 1 PA ] [ 3 Tours Cooldown ] Donne \xE0 un alli\xE9 un point
@@ -20,7 +20,7 @@ MonoBehaviour:
   type: 
   tags:
   - action_competence2
-  icon: {fileID: 21300000, guid: ec359d0c04264bb438b8c31b07c100b5, type: 3}
+  icon: {fileID: 21300000, guid: d468bd3abdb53c5479e9bbe32ff9e6e0, type: 3}
   _prefabWeapon: {fileID: 0}
   _tabCosmetic: []
   _tabAccessory: []
@@ -37,7 +37,7 @@ MonoBehaviour:
   Cooldown: 3
   _animIdle: {fileID: 0}
   _animFire: {fileID: 0}
-  _soundFire: 
+  _soundFire: Don_PA
   _soundReload: 
   fxImpact: {fileID: 0}
   fxProjectileTrail: {fileID: 0}
