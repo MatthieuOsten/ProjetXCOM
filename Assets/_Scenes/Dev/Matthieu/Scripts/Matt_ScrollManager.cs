@@ -133,6 +133,8 @@ public class Matt_ScrollManager : MonoBehaviour
 
     }
 
+
+
     private void ScrollUpdate()
     {
         int count = transform.childCount;
@@ -144,6 +146,7 @@ public class Matt_ScrollManager : MonoBehaviour
 
             if (actualChild.localPosition.z <= _respawnDistance)
             {
+                
                 actualChild.position = new Vector3(_camTarget.position.x, _camTarget.position.y, _respawnDistance + (_sizeOfObject.z * count));
             }
 

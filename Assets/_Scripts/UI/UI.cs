@@ -67,7 +67,7 @@ public class UI : MonoBehaviour
     [SerializeField] private bool _updateActionBar;
 
     [Header("PopUp")]
-    [SerializeField] private GameObject _objectPopUp;
+    [SerializeField] public GameObject _objectPopUp;
     [SerializeField] private GameObject _prefabPopUp;
 
     public int AmmoIndex
