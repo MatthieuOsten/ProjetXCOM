@@ -3,7 +3,12 @@ guid: f7819758d69f68246be6e30f7a0bd288
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MTL_Window
+    second: {fileID: 2100000, guid: f76ff03c6593f9a409a9ed736fcf623a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
