@@ -46,7 +46,6 @@ public class Matt_LevelManager : MonoBehaviour
     public static int CurrentTurn { get { return Instance._currentTurn; } }
     public static List<Team> listTeam { get { return Instance._listTeam; } }
 
-
     public static Matt_LevelManager Instance
     {
         get

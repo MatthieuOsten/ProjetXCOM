@@ -92,33 +92,33 @@ public class Matt_HUDManager_V2 : MonoBehaviour
 
         [Header("EMPLACEMENT")]
         [SerializeField] private bool _occupied;
-        [SerializeField] [Min(-1)] private int _widgetsMAX;
+        [SerializeField][Min(-1)] private int _widgetsMAX;
         [SerializeField] private List<string> _listWidgets;
 
         [Header("ZONE")]
         [SerializeField] private Rect _rect;
 
-        public bool Occupied { get { return _occupied;} set { _occupied = value; } }
-        public int WidgetsMAX { get { return _widgetsMAX; } 
-            set 
-            { 
-                if (value >= -1) 
-                { 
-                    _widgetsMAX = value; 
-                } else { 
-                    _widgetsMAX = 0; 
+        public bool Occupied { get { return _occupied; } set { _occupied = value; } }
+        public int WidgetsMAX { get { return _widgetsMAX; }
+            set
+            {
+                if (value >= -1)
+                {
+                    _widgetsMAX = value;
+                } else {
+                    _widgetsMAX = 0;
                 }
-            } 
+            }
         }
 
         public string Name { get { return _name; } }
         public Rect RectZone { get { return _rect; } set { _rect = value; } }
-        public List<string> ListWidgets 
-        { 
-            get { return _listWidgets; } 
-            set { 
+        public List<string> ListWidgets
+        {
+            get { return _listWidgets; }
+            set {
                 if (value.Count < WidgetsMAX || WidgetsMAX == -1) { _listWidgets = value; }
-            } 
+            }
         }
 
         public DisplayPosition(string name)
@@ -176,7 +176,7 @@ public class Matt_HUDManager_V2 : MonoBehaviour
             _prefabObject = null;
         }
 
-        public Widget(string name,string position)
+        public Widget(string name, string position)
         {
             _name = name;
             _displayPosition = position;

@@ -50,12 +50,6 @@ public class UI : MonoBehaviour
             _teamImage = value;
         }
     }
-    [Header("BOUTTON")]
-   // [SerializeField] private Button _tir;
-    //[SerializeField] private Button _vigilance;
-    //[SerializeField] private Button _competence1;
-   // [SerializeField] private Button _competence2;
-    //[SerializeField] private Button _reload;
 
     [Header("ACTION BAR")]
     [SerializeField] private List<GameObject> _actionButton;
