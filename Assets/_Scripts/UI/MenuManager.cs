@@ -54,7 +54,7 @@ public class MenuManager : MonoBehaviour
         _canvasMenu.worldCamera = Camera.current;
 
         _buttonPlay.onClick.AddListener(() => goToScene(scenePlay));
-        _buttonTutorial.onClick.AddListener(() => SwitchTutorial());
+        _buttonTutorial.onClick.AddListener(() => SwitchPanel(_panelTutorial));
         _buttonQuit.onClick.AddListener(() => QuitGame());
 
         UpdateVersion();
@@ -66,7 +66,7 @@ public class MenuManager : MonoBehaviour
 
         if (_inputManager.System.Exit.WasPressedThisFrame())
         {
-            if (_panelTutorial.activeSelf) { SwitchTutorial(); } else { Application.Quit(); }
+            if (_panelTutorial.activeSelf) { SwitchPanel(_panelTutorial); } else { Application.Quit(); }
         }
 
     }
@@ -91,14 +91,14 @@ public class MenuManager : MonoBehaviour
     }
 
     // -- Permet d'afficher et de cacher l'ecran de tutoriel -- //
-    public void SwitchTutorial()
+    public void SwitchPanel(GameObject panel)
     {
-        if (_panelTutorial == null) { return; }
+        if (panel == null) { return; }
 
-        if (_panelTutorial.activeSelf)
-        { _panelTutorial.SetActive(false); }
+        if (panel.activeSelf)
+        { panel.SetActive(false); }
         else
-        { _panelTutorial.SetActive(true); }
+        { panel.SetActive(true); }
 
     }
 
