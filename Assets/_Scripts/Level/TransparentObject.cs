@@ -52,6 +52,7 @@ public class TransparentObject : MonoBehaviour
 
             if(meshFilters.Length == 1)
             {
+                Debug.Log($"Le GameObject {meshFilters[0].mesh.name} n'a qu'un seul meshFilter  ", meshFilters[0].gameObject);
                _toi = meshFilters[0].transform.gameObject.AddComponent<TransparentObjectInstance>();
                meshFilters[0].transform.gameObject.AddComponent<MeshCollider>();
                _toi.mtlTransparent = mtlTransparent;  
@@ -62,16 +63,16 @@ public class TransparentObject : MonoBehaviour
             {
                 _toi = myTransform.gameObject.AddComponent<TransparentObjectInstance>();
             }
-                     
-          
-                    
+                            
             CombineInstance[] combine = new CombineInstance[meshFilters.Length];
             int ii = 0;
             while (ii < meshFilters.Length)
             {
                 combine[ii].mesh = meshFilters[ii].sharedMesh;
                 combine[ii].transform = meshFilters[ii].transform.localToWorldMatrix;
+               
                 Destroy(meshFilters[ii].gameObject);
+               
                 ii++;
             }
             
@@ -94,9 +95,16 @@ public class TransparentObject : MonoBehaviour
             
             myTransform.gameObject.SetActive(true);
             myTransform.position = ogPostion;
+            myTransform.rotation = new Quaternion(0,0,0,0);
             _toi.mtlTransparent = mtlTransparent; 
             _toi.Init();
-            continue;
+
+               int childs = myTransform.childCount;
+                for (int iii = childs - 1; iii >= 0; iii--)
+                {   
+                    GameObject.DestroyImmediate(myTransform.GetChild(iii).gameObject);
+                }
+             
         }
     }
     /// <summary> Combine une list de mesh et renvoi le nouveau generer </summary>
@@ -125,9 +133,6 @@ public class TransparentObject : MonoBehaviour
             return;
         }
 
-        // MeshRenderer[] mrs = child.GetComponentsInChildren<MeshRenderer>();
-        // foreach(MeshRenderer mr in mrs)
-        // {
         MeshRenderer mr = child.GetComponentInChildren<MeshRenderer>();
         for(int ii = 0 ; ii < mr.sharedMaterials.Length; ii++)
         {
@@ -136,8 +141,7 @@ public class TransparentObject : MonoBehaviour
                 materialsToChange[ii] = mtlTransparent;           
                 mr.sharedMaterials = materialsToChange;
              
-            }
-        //}
+        }
     }
 
     // Update is called once per frame
@@ -146,9 +150,10 @@ public class TransparentObject : MonoBehaviour
         // Pour chaque personnage, on check si un batiment nous le cache
         foreach(Team _team in LevelManager.listTeam )
         {
+            if(_team.Squad == null) continue;
             foreach(Actor actor in _team.Squad)
             {   
-                if(actor == null ) continue; // Verifie si l'actor est valid
+                if(actor == null) continue; // Verifie si l'actor est valid
                 // Permet de voir si l'object est dans le champ de vision de la camera
                 Vector3 position = Camera.main.WorldToViewportPoint(actor.gameObject.transform.position);
                 bool condition = position.x >= 0 && position.x <= 1 && position.y >= 0 && position.y <= 1 && position.z > 0;
@@ -156,10 +161,6 @@ public class TransparentObject : MonoBehaviour
                 {
                     GameObjectToWorldPosition(actor.gameObject);
                 }
-                    
-                 
-                
-                
             }
         }
         MouseToWorldPosition();
