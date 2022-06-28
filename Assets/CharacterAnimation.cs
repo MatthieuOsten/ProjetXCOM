@@ -11,7 +11,7 @@ public class CharacterAnimation : MonoBehaviour
     {
         _animator = transform.GetComponent<Animator>();
         _animator.SetBool("Run" , true);
-        _animator.speed = Random.Range(0.9f,1.1f);
+        _animator.speed = Random.Range(0.95f,1.2f);
     }
 
     // Update is called once per frame

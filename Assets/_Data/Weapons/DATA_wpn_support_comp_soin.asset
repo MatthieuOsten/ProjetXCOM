@@ -39,7 +39,8 @@ MonoBehaviour:
   _animFire: {fileID: 0}
   _soundFire: Heal
   _soundReload: 
-  fxImpact: {fileID: 0}
+  fxImpact: {fileID: 6518501167985537649, guid: f92dcee4066959b47b3054464078947d,
+    type: 3}
   fxProjectileTrail: {fileID: 3745955780004049469, guid: f50dc60524cfc36489d31bc82557ce04,
     type: 3}
   fxMuzzle: {fileID: 0}
