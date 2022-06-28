@@ -18,13 +18,13 @@ MonoBehaviour:
     m_Value: 2
   threshold:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.9
   intensity:
     m_OverrideState: 1
     m_Value: 1
   scatter:
     m_OverrideState: 1
-    m_Value: 0.684
+    m_Value: 0.5
   tint:
     m_OverrideState: 0
     m_Value: {r: 1, g: 1, b: 1, a: 1}
@@ -33,7 +33,7 @@ MonoBehaviour:
     m_Value: {fileID: 2800000, guid: a798193bf3c0f974bbd6ce5140aa6869, type: 3}
   dirtIntensity:
     m_OverrideState: 1
-    m_Value: 214
+    m_Value: 199.11
   anamorphic:
     m_OverrideState: 0
     m_Value: 1
@@ -472,7 +472,7 @@ MonoBehaviour:
   active: 1
   quality:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 0
   enabled:
     m_OverrideState: 1
     m_Value: 1
@@ -487,7 +487,7 @@ MonoBehaviour:
     m_Value: {r: 0.15917587, g: 0.46226418, b: 0.45143956, a: 1}
   maxFogDistance:
     m_OverrideState: 1
-    m_Value: 1139.2
+    m_Value: 907.1
   mipFogMaxMip:
     m_OverrideState: 0
     m_Value: 0.5
@@ -505,7 +505,7 @@ MonoBehaviour:
     m_Value: 2364.3
   meanFreePath:
     m_OverrideState: 1
-    m_Value: 66.1
+    m_Value: 29.9
   enableVolumetricFog:
     m_OverrideState: 1
     m_Value: 1
@@ -513,14 +513,14 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: {r: 0.4542987, g: 0.6366142, b: 0.7830189, a: 1}
   globalLightProbeDimmer:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 1
   depthExtent:
-    m_OverrideState: 0
-    m_Value: 64
+    m_OverrideState: 1
+    m_Value: 80
   denoisingMode:
     m_OverrideState: 1
-    m_Value: 3
+    m_Value: 0
   anisotropy:
     m_OverrideState: 0
     m_Value: 0
@@ -538,10 +538,10 @@ MonoBehaviour:
     m_Value: 64
   m_VolumetricFogBudget:
     m_OverrideState: 1
-    m_Value: 0.75
+    m_Value: 0.505
   m_ResolutionDepthRatio:
     m_OverrideState: 1
-    m_Value: 0.5
+    m_Value: 1
   directionalLightsOnly:
     m_OverrideState: 0
     m_Value: 0

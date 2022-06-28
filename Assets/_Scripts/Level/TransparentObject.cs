@@ -105,6 +105,7 @@ public class TransparentObject : MonoBehaviour
             myTransform.gameObject.SetActive(true);
             myTransform.position = ogPostion;
             myTransform.rotation = new Quaternion(0,0,0,0);
+            myTransform.localScale = Vector3.one;
             _toi.mtlTransparent = mtlTransparent; 
             _toi.Init();
 

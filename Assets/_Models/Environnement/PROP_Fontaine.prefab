@@ -119,6 +119,36 @@ PrefabInstance:
       propertyPath: m_Name
       value: PROP_Fountain_L
       objectReference: {fileID: 0}
+    - target: {fileID: 5099926883854695178, guid: 03d0071830c0848478f97c1c6445889b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.041000247
+      objectReference: {fileID: 0}
+    - target: {fileID: 5099926883854695178, guid: 03d0071830c0848478f97c1c6445889b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.1364517
+      objectReference: {fileID: 0}
+    - target: {fileID: 5099926883854695178, guid: 03d0071830c0848478f97c1c6445889b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6493610198202385567, guid: 03d0071830c0848478f97c1c6445889b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.041
+      objectReference: {fileID: 0}
+    - target: {fileID: 6493610198202385567, guid: 03d0071830c0848478f97c1c6445889b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.573
+      objectReference: {fileID: 0}
+    - target: {fileID: 6493610198202385567, guid: 03d0071830c0848478f97c1c6445889b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8306965171483253929, guid: 03d0071830c0848478f97c1c6445889b,
         type: 3}
       propertyPath: m_LocalScale.x
