@@ -9,7 +9,7 @@ public class ScrollManager : MonoBehaviour
     [SerializeField] private List<Transform> _objectEnvironments = new List<Transform>();
 
     [Header("PREFAB")]
-    [SerializeField] private GameObject _template;
+    [SerializeField] private GameObject[] _template;
 
     [Header("CAMERA")]
     [SerializeField] private string _camTargetName = "CameraTarget";
@@ -24,7 +24,7 @@ public class ScrollManager : MonoBehaviour
     [Header("SETTINGS")]
     [SerializeField] private Vector3 _offsetPosition;
     [SerializeField] [Range(-1, 1)] private int directionX, directionY, directionZ;
-    [SerializeField] [Range(0, 10)] private byte _lengthScroll = 3;
+    [SerializeField] [Range(0, 10)] private byte _lengthScroll = 6;
     [SerializeField] [Range(0, 10)] private float _speedMove;
     [SerializeField] private bool _pause;
     #endregion
@@ -57,8 +57,8 @@ public class ScrollManager : MonoBehaviour
 
                 for (byte i = _lengthScroll; i > 0; i--)
                 {
-                    // Si la generation est un succée l'ajoute a la liste
-                    if (TryGeneratePlateau(out plateau, _template, _positionScroll, _sizeOfObject, i))
+                    // Si la generation est un succï¿½e l'ajoute a la liste
+                    if (TryGeneratePlateau(out plateau, _template[i-1], _positionScroll, _sizeOfObject, i))
                     {
                         // Ajoute le plateau a la liste des objet actuel
                         _objectEnvironments.Add(plateau.transform);
@@ -196,7 +196,7 @@ public class ScrollManager : MonoBehaviour
 
         _directionScroll = new Vector3(directionX, directionY, directionZ);
 
-        _sizeOfObject = _template.transform.Find("Ground").transform.localScale;
+        _sizeOfObject = _template[0].transform.Find("Ground").transform.localScale;
 
         // Recupere la distance d'affichage de la banderolle
         _respawnDistance = -_sizeOfObject.z * _respawnMultiply;

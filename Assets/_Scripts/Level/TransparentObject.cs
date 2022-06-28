@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class TransparentObject : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class TransparentObject : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        
+       
         Instance = this;
        
         if (_inputManager == null) _inputManager = new Controller();
@@ -31,6 +34,10 @@ public class TransparentObject : MonoBehaviour
             TransparentObjectInstance _toi;
             foreach (MeshFilter meshFilter in meshFilters)
             {
+                // Verifie si le gameobject est activé
+                if(!meshFilter.transform.gameObject.activeSelf)
+                    continue;
+
                 if(!meshFilter.mesh.isReadable)
                 {
                     Debug.LogWarning($"Attention le mesh {meshFilter.mesh.name} n'est pas modifiable, la transparence ne pourra se faire", meshFilter.gameObject);
@@ -64,11 +71,13 @@ public class TransparentObject : MonoBehaviour
                 _toi = myTransform.gameObject.AddComponent<TransparentObjectInstance>();
             }
                             
-            CombineInstance[] combine = new CombineInstance[meshFilters.Length];
+            CombineInstance[] combine;
+            combine = new CombineInstance[meshFilters.Length];
             int ii = 0;
             while (ii < meshFilters.Length)
             {
                 combine[ii].mesh = meshFilters[ii].sharedMesh;
+                
                 combine[ii].transform = meshFilters[ii].transform.localToWorldMatrix;
                
                 Destroy(meshFilters[ii].gameObject);
