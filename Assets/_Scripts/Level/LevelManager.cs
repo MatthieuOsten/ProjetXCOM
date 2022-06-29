@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using Cinemachine;
 public enum GameState
 {
     Ingame,
     IngameIntro,
-    Gameover
+    Gameover,
+    Cinematic
 }
 
 
@@ -19,6 +20,20 @@ public class LevelManager : MonoBehaviour
     private static LevelManager _instance = null;
     /// <summary> Correspond à l'instance du level manager</summary>
     [SerializeField] private string sceneReturn;
+
+    
+
+    [Header("Cinematic")]
+    [SerializeField] bool _cinematicMode;
+    CinemachineDollyCart _dollyCart;
+    CinemachineVirtualCamera _virtualCamera;
+    [SerializeField] bool _trailCinematic;
+    [SerializeField] bool _hideUI;
+    [SerializeField] GameObject _canvasGameObject;
+    [Range(0,2)]
+    [SerializeField] float _timeScale = 1;
+
+    
 
     public static LevelManager Instance
     {
@@ -59,7 +74,7 @@ public class LevelManager : MonoBehaviour
 
     }
 
-        
+    [Space(2)] 
     [SerializeField] List<Team> _listTeam = new List<Team>();
 
     public static List<Team> listTeam {get { return Instance._listTeam;}}
@@ -73,7 +88,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] PointControl[] PointControls;
     [SerializeField] bool Gameover;
 
-    private GameState _gameState;
+    [SerializeField] private GameState _gameState;
     private float _timePlayed;
     
 
@@ -97,10 +112,15 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
         _gameState = GameState.IngameIntro;
         AudioManager.PlaySoundAtPosition("game_start", Vector3.zero);
         AudioManager.PlaySoundAtPosition("game_ambient", Vector3.zero);
         SpawnTeam();
+
+         _canvasGameObject = FindObjectOfType<UI>().gameObject;
+        _dollyCart = FindObjectOfType<CinemachineDollyCart>();
+        _virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
     }
     /// <summary> Cette fonction spawn les teams en tant que Joueur ou Bot </summary>
     void SpawnTeam()
@@ -159,8 +179,28 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(GameState == GameState.Cinematic)
+        {
+            if(_timeScale != Time.timeScale)
+            {
+                Time.timeScale = _timeScale;
+            }
+            _canvasGameObject.SetActive(!_hideUI);
+            _dollyCart.enabled = _trailCinematic;
+            _virtualCamera.enabled = !_trailCinematic;
+
+
+        }
+        else
+        {
+            Time.timeScale = 1;
+            _canvasGameObject.SetActive(true);
+            _dollyCart.enabled = false;
+            _virtualCamera.enabled = true;
+        }
+
         _timePlayed += Time.deltaTime;
-        if(_timePlayed > 2)
+        if( _gameState != GameState.Cinematic && _timePlayed > 2)
             _gameState = GameState.Ingame;
 
         if(!Gameover)

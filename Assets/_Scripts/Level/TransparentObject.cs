@@ -157,6 +157,8 @@ public class TransparentObject : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+                if( LevelManager.GameState == GameState.Cinematic) return;
+
         // Pour chaque personnage, on check si un batiment nous le cache
         foreach(Team _team in LevelManager.listTeam )
         {

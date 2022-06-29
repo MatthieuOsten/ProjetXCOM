@@ -679,7 +679,8 @@ public class PlayerController : Team
     // Update() qui override Update() de Team 
     public override void Update()
     {
-        
+        if( LevelManager.GameState == GameState.Cinematic) return;
+
         if (_inputManager == null) EnableInputManager();
 
         if (_inputManager.System.Exit.WasPressedThisFrame())

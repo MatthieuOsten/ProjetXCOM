@@ -340,6 +340,17 @@ public class GridManager : MonoBehaviour
                 {
                     Case aCase = _grid[x,y];
 
+                    if(LevelManager.GameState == GameState.Cinematic)
+                    {
+                        aCase.gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        aCase.gameObject.SetActive(true);
+                    }   
+
+
+
                     if ( aCase.Highlighted || aCase.Checked)
                         aCase.enabled = true; 
                     else
