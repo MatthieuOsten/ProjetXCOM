@@ -114,7 +114,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.9692371, b: 0.6462264, a: 1}
-  m_Intensity: 185363.8
+  m_Intensity: 57052.37
   m_Range: 10.101912
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -162,7 +162,7 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
-  m_ShadowRadius: 6.1
+  m_ShadowRadius: 14.5
   m_ShadowAngle: 0
 --- !u!114 &1578184196980517052
 MonoBehaviour:
@@ -176,7 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 20.5
+  m_Intensity: 18.8
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_ShapeWidth: 0.5
   m_ShapeHeight: 0.5
   m_AspectRatio: 1
-  m_ShapeRadius: 6.1
+  m_ShapeRadius: 14.5
   m_SoftnessScale: 1
   m_UseCustomSpotLightShadowCone: 0
   m_CustomSpotLightShadowCone: 30
@@ -444,7 +444,7 @@ MonoBehaviour:
       m_ObsoleteBoxInfiniteProjection: 0
     proxySettings:
       useInfluenceVolumeAsProxyVolume: 0
-      capturePositionProxySpace: {x: -0.14744568, y: -7.146344, z: 0.23181915}
+      capturePositionProxySpace: {x: -0.14744568, y: -6.638674, z: 0.23181915}
       captureRotationProxySpace: {x: 0, y: 0, z: 0, w: 1}
       mirrorPositionProxySpace: {x: 0, y: 0, z: 0}
       mirrorRotationProxySpace: {x: 0, y: 0, z: 0, w: 0}
@@ -810,7 +810,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1240564341469402577}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.521414, y: 6.7800007, z: 59.263634}
+  m_LocalPosition: {x: 20.518034, y: 6.7800007, z: 61.049995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -832,7 +832,7 @@ ReflectionProbe:
   m_TimeSlicingMode: 0
   m_Resolution: 128
   m_UpdateFrequency: 0
-  m_BoxSize: {x: 27.082804, y: 21.781116, z: 34.80397}
+  m_BoxSize: {x: 31.089561, y: 21.781116, z: 38.376656}
   m_BoxOffset: {x: 0, y: 0, z: 0}
   m_NearClip: 0.3
   m_FarClip: 1000
@@ -879,7 +879,7 @@ MonoBehaviour:
       rangeCompressionFactor: 1
     influence:
       m_Shape: 0
-      m_BoxSize: {x: 27.082804, y: 21.781116, z: 34.80397}
+      m_BoxSize: {x: 31.089561, y: 21.781116, z: 38.376656}
       m_BoxBlendDistancePositive: {x: 1, y: 1, z: 1}
       m_BoxBlendDistanceNegative: {x: 1, y: 1, z: 1}
       m_BoxBlendNormalDistancePositive: {x: 0, y: 0, z: 0}
@@ -2024,7 +2024,7 @@ MonoBehaviour:
       m_ObsoleteBoxInfiniteProjection: 0
     proxySettings:
       useInfluenceVolumeAsProxyVolume: 0
-      capturePositionProxySpace: {x: 3.1210337, y: -0.5850277, z: 0.07722473}
+      capturePositionProxySpace: {x: 0.05764389, y: -3.3688202, z: 0.07722473}
       captureRotationProxySpace: {x: 0, y: 0, z: 0, w: 1}
       mirrorPositionProxySpace: {x: 0, y: 0, z: 0}
       mirrorRotationProxySpace: {x: 0, y: 0, z: 0, w: 0}
@@ -2608,7 +2608,7 @@ MonoBehaviour:
       m_ObsoleteBoxInfiniteProjection: 0
     proxySettings:
       useInfluenceVolumeAsProxyVolume: 0
-      capturePositionProxySpace: {x: -0.14744568, y: -7.146344, z: 0.23181915}
+      capturePositionProxySpace: {x: -0.14744568, y: -6.082365, z: 0.23181915}
       captureRotationProxySpace: {x: 0, y: 0, z: 0, w: 1}
       mirrorPositionProxySpace: {x: 0, y: 0, z: 0}
       mirrorRotationProxySpace: {x: 0, y: 0, z: 0, w: 0}
@@ -3208,7 +3208,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3203080621540458154}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.9907455, y: 8.158077, z: 102.67121}
+  m_LocalPosition: {x: -1.9907455, y: 7.866007, z: 102.67121}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3230,7 +3230,7 @@ ReflectionProbe:
   m_TimeSlicingMode: 0
   m_Resolution: 128
   m_UpdateFrequency: 0
-  m_BoxSize: {x: 15.951756, y: 19.024963, z: 8.493774}
+  m_BoxSize: {x: 15.951756, y: 19.609104, z: 8.493774}
   m_BoxOffset: {x: 0, y: 0, z: 0}
   m_NearClip: 0.3
   m_FarClip: 1000
@@ -3277,7 +3277,7 @@ MonoBehaviour:
       rangeCompressionFactor: 1
     influence:
       m_Shape: 0
-      m_BoxSize: {x: 15.951756, y: 19.024963, z: 8.493774}
+      m_BoxSize: {x: 15.951756, y: 19.609104, z: 8.493774}
       m_BoxBlendDistancePositive: {x: 1, y: 1, z: 1}
       m_BoxBlendDistanceNegative: {x: 1, y: 1, z: 1}
       m_BoxBlendNormalDistancePositive: {x: 0, y: 0, z: 0}
@@ -3308,7 +3308,7 @@ MonoBehaviour:
       m_ObsoleteBoxInfiniteProjection: 0
     proxySettings:
       useInfluenceVolumeAsProxyVolume: 0
-      capturePositionProxySpace: {x: 2.2657566, y: -5.122322, z: -6.960121}
+      capturePositionProxySpace: {x: 2.2657566, y: -7.2778873, z: 0.2339859}
       captureRotationProxySpace: {x: 0, y: 0, z: 0, w: 1}
       mirrorPositionProxySpace: {x: 0, y: 0, z: 0}
       mirrorRotationProxySpace: {x: 0, y: 0, z: 0, w: 0}
@@ -3974,7 +3974,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4282801448472570444}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -18.5, y: 6.7800007, z: 87.68367}
+  m_LocalPosition: {x: -18.5, y: 6.7800007, z: 86.76208}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3996,7 +3996,7 @@ ReflectionProbe:
   m_TimeSlicingMode: 0
   m_Resolution: 128
   m_UpdateFrequency: 0
-  m_BoxSize: {x: 27.082806, y: 21.781116, z: 22.731308}
+  m_BoxSize: {x: 27.082806, y: 21.781116, z: 24.574486}
   m_BoxOffset: {x: 0, y: 0, z: 0}
   m_NearClip: 0.3
   m_FarClip: 1000
@@ -4043,7 +4043,7 @@ MonoBehaviour:
       rangeCompressionFactor: 1
     influence:
       m_Shape: 0
-      m_BoxSize: {x: 27.082806, y: 21.781116, z: 22.731308}
+      m_BoxSize: {x: 27.082806, y: 21.781116, z: 24.574486}
       m_BoxBlendDistancePositive: {x: 1, y: 1, z: 1}
       m_BoxBlendDistanceNegative: {x: 1, y: 1, z: 1}
       m_BoxBlendNormalDistancePositive: {x: 0, y: 0, z: 0}
@@ -4440,7 +4440,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4581356156719967422}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.030420303, y: 9.292456, z: 35.337463}
+  m_LocalPosition: {x: 0.030420303, y: 9.292456, z: 35.58573}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4462,7 +4462,7 @@ ReflectionProbe:
   m_TimeSlicingMode: 0
   m_Resolution: 128
   m_UpdateFrequency: 0
-  m_BoxSize: {x: 22.0626, y: 21.781116, z: 13.604263}
+  m_BoxSize: {x: 22.0626, y: 21.781116, z: 14.100845}
   m_BoxOffset: {x: 0, y: 0, z: 0}
   m_NearClip: 0.3
   m_FarClip: 1000
@@ -4509,7 +4509,7 @@ MonoBehaviour:
       rangeCompressionFactor: 1
     influence:
       m_Shape: 0
-      m_BoxSize: {x: 22.0626, y: 21.781116, z: 13.604263}
+      m_BoxSize: {x: 22.0626, y: 21.781116, z: 14.100845}
       m_BoxBlendDistancePositive: {x: 1, y: 1, z: 1}
       m_BoxBlendDistanceNegative: {x: 1, y: 1, z: 1}
       m_BoxBlendNormalDistancePositive: {x: 0, y: 0, z: 0}
@@ -6403,7 +6403,7 @@ MonoBehaviour:
       m_ObsoleteBoxInfiniteProjection: 0
     proxySettings:
       useInfluenceVolumeAsProxyVolume: 0
-      capturePositionProxySpace: {x: -0.14744568, y: -7.146344, z: 0.23181915}
+      capturePositionProxySpace: {x: -0.14744568, y: -6.35935, z: 0.23181915}
       captureRotationProxySpace: {x: 0, y: 0, z: 0, w: 1}
       mirrorPositionProxySpace: {x: 0, y: 0, z: 0}
       mirrorRotationProxySpace: {x: 0, y: 0, z: 0, w: 0}
@@ -7545,7 +7545,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.9692371, b: 0.6462264, a: 1}
-  m_Intensity: 185363.8
+  m_Intensity: 31216.049
   m_Range: 12.480598
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -7593,7 +7593,7 @@ Light:
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
-  m_ShadowRadius: 6.1
+  m_ShadowRadius: 1.8
   m_ShadowAngle: 0
 --- !u!114 &3187188687778790377
 MonoBehaviour:
@@ -7607,7 +7607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 20.5
+  m_Intensity: 17.93
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -7623,7 +7623,7 @@ MonoBehaviour:
   m_ShapeWidth: 0.5
   m_ShapeHeight: 0.5
   m_AspectRatio: 1
-  m_ShapeRadius: 6.1
+  m_ShapeRadius: 1.8
   m_SoftnessScale: 1
   m_UseCustomSpotLightShadowCone: 0
   m_CustomSpotLightShadowCone: 30
@@ -8512,7 +8512,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8375392286501892061}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.03, y: 14.92, z: 103.62}
+  m_LocalPosition: {x: 2.04, y: 14.91, z: 103.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8531,7 +8531,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 0.9692371, b: 0.6462264, a: 1}
-  m_Intensity: 185363.8
+  m_Intensity: 26432.047
   m_Range: 12.480598
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -8593,7 +8593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 20.5
+  m_Intensity: 17.69
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -9949,7 +9949,7 @@ PrefabInstance:
     - target: {fileID: 4893227580972348140, guid: 65abe4bc8e73bb64ead5d1d1c4dd8449,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 91.68
+      value: 94.39
       objectReference: {fileID: 0}
     - target: {fileID: 4893227580972348140, guid: 65abe4bc8e73bb64ead5d1d1c4dd8449,
         type: 3}
@@ -9995,6 +9995,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_StaticEditorFlags
       value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893227580972348142, guid: 65abe4bc8e73bb64ead5d1d1c4dd8449,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 42055.316
+      objectReference: {fileID: 0}
+    - target: {fileID: 4893227580972348143, guid: 65abe4bc8e73bb64ead5d1d1c4dd8449,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 18.36
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65abe4bc8e73bb64ead5d1d1c4dd8449, type: 3}
@@ -10934,7 +10944,7 @@ PrefabInstance:
     - target: {fileID: 404118690884193625, guid: dcd63e6e95054b34a90e248c07d44df6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 31.482004
+      value: 34.181
       objectReference: {fileID: 0}
     - target: {fileID: 404118690884193625, guid: dcd63e6e95054b34a90e248c07d44df6,
         type: 3}
@@ -40284,7 +40294,7 @@ PrefabInstance:
     - target: {fileID: 5034552826909030707, guid: cf4c89f9ce6e55e45a0214d9b6709a43,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 31.481
+      value: 34.18
       objectReference: {fileID: 0}
     - target: {fileID: 5034552826909030707, guid: cf4c89f9ce6e55e45a0214d9b6709a43,
         type: 3}

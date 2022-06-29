@@ -11,6 +11,8 @@ public enum AnimationState
     Overwatch,
     Hit
 }
+
+[ExecuteAlways]
 public class CharacterAnimation : MonoBehaviour
 {
 

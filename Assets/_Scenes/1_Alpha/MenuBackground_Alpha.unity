@@ -335,7 +335,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: c58a4ef3f21e67b4cb96fc7dd2f82959, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: ccd7f4613639c4f469293f89798b72e2, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
@@ -962,7 +962,7 @@ MonoBehaviour:
     camera:
       camera: 0
   m_ProxyVolume: {fileID: 0}
-  m_BakedTexture: {fileID: 8900000, guid: ca55502008b3b3045a93b767bb222d2e, type: 3}
+  m_BakedTexture: {fileID: 8900000, guid: df39f6ed28149fc4fb1ca150f4963607, type: 3}
   m_CustomTexture: {fileID: 0}
   m_BakedRenderData:
     m_WorldToCameraRHS:
@@ -2183,7 +2183,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: e0bcd1f11a8be894bb081485f172ba0f, type: 3}
+      objectReference: {fileID: 8900000, guid: 0464ffa8ecbc24644ab26c0c90d60fc4, type: 3}
     - target: {fileID: 955445241172722589, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_ProbeSettings.lighting.multiplier
@@ -2198,22 +2198,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: bba078e2988984849ba51514d91c75d7, type: 3}
+      objectReference: {fileID: 8900000, guid: e930fbf1050776c498cc996d7d6db15e, type: 3}
     - target: {fileID: 2592757625404341011, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: 6b989ea13f47b8f439c6e725b4eb0e39, type: 3}
+      objectReference: {fileID: 8900000, guid: e5d175c46b96a7a46bd51a8b562e16fc, type: 3}
     - target: {fileID: 2714645310985370388, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: 0623ae5f205ac4245b02a79373b915ac, type: 3}
+      objectReference: {fileID: 8900000, guid: 30990003808c6984892fed652420fa34, type: 3}
     - target: {fileID: 3129030682373001345, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: a6e60eddfbb62d441bfc462d139788c9, type: 3}
+      objectReference: {fileID: 8900000, guid: 22cf368327674c24cb61fc49e28fa457, type: 3}
     - target: {fileID: 3186444392852318833, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -2223,7 +2223,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: 6f6649ccd8287ff4f94319c9435ad0f3, type: 3}
+      objectReference: {fileID: 8900000, guid: 19ae9f00293eb6e408f5a09999db0a60, type: 3}
     - target: {fileID: 3449513068160715719, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_ProbeSettings.lighting.multiplier
@@ -2238,12 +2238,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: 97f2b9f8688e5de47980b6b6050eb57b, type: 3}
+      objectReference: {fileID: 8900000, guid: 48fb653cf8eba2d42898c0a6075c9f5c, type: 3}
     - target: {fileID: 6355502934963758662, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: cff7d32251b0cf742a7f8c8cc2c7615a, type: 3}
+      objectReference: {fileID: 8900000, guid: b3e9d098114321342a7b24a310b6293d, type: 3}
     - target: {fileID: 6355502934963758662, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_ProbeSettings.lighting.multiplier
@@ -2253,12 +2253,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: 88e39255d0746394b8fa50dab3b89ee4, type: 3}
+      objectReference: {fileID: 8900000, guid: 796b3aa61a4fb4f478c21e7e3f1be602, type: 3}
     - target: {fileID: 7372984656149686057, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: 73329245a53388541805cad543f9a292, type: 3}
+      objectReference: {fileID: 8900000, guid: 2073e1aaf46006e489621d271ab35c05, type: 3}
     - target: {fileID: 7468193639830171566, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -2268,6 +2268,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Prefab_ModelCenterCity
+      objectReference: {fileID: 0}
+    - target: {fileID: 8242774693201309034, guid: bcd0db2b5f5bf2442910c39bce990fb8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8242774693201309035, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
@@ -2328,7 +2333,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: 90770ce22bae18f4290541ce814e4c96, type: 3}
+      objectReference: {fileID: 8900000, guid: 364366518de66664dac8b3fc03d4a538, type: 3}
     - target: {fileID: 8667867921513606340, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_ProbeSettings.lighting.multiplier
@@ -2338,7 +2343,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: 19b36ddca76e7e346929f2407d889fae, type: 3}
+      objectReference: {fileID: 8900000, guid: 052105e6f9dc151429ee9adbb42f9c5d, type: 3}
     - target: {fileID: 8722662174552484059, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_ProbeSettings.lighting.multiplier
@@ -2348,7 +2353,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: 8a22ae9902ee09b49b64d3c3ebef3748, type: 3}
+      objectReference: {fileID: 8900000, guid: 47080d0d68352454fa8e119be4805680, type: 3}
     - target: {fileID: 8733645717142989814, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_ProbeSettings.lighting.multiplier
@@ -2358,7 +2363,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: ba230d57447145e4fb843bc4e5eeecde, type: 3}
+      objectReference: {fileID: 8900000, guid: 4f749c04314d97a4893aeec178127fc7, type: 3}
     - target: {fileID: 8825665994460309805, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_ProbeSettings.lighting.multiplier
@@ -2368,7 +2373,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BakedTexture
       value: 
-      objectReference: {fileID: 8900000, guid: fb1779d45c4d4d442bcc22716e445a9e, type: 3}
+      objectReference: {fileID: 8900000, guid: 590b7d47aee95804f90754d551965993, type: 3}
     - target: {fileID: 8875257903673202492, guid: bcd0db2b5f5bf2442910c39bce990fb8,
         type: 3}
       propertyPath: m_ProbeSettings.lighting.multiplier
