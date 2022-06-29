@@ -31,7 +31,7 @@ MonoBehaviour:
     right: 6
     diagonal: 0
     type: 0
-    caseRange: {fileID: 2100000, guid: fdf463b8ae6ce5045acba0537e3dbfd8, type: 2}
+    caseRange: {fileID: 2100000, guid: 5e683cf3714800348b0eeff04ea47c91, type: 2}
     casePreviewRange: {fileID: 0}
   _maxAmmo: 0
   Cooldown: 3
@@ -39,6 +39,7 @@ MonoBehaviour:
   _animFire: {fileID: 0}
   _soundFire: Debuff
   _soundReload: 
-  fxImpact: {fileID: 0}
+  fxImpact: {fileID: 4452385158572467116, guid: 065585baf2af1cd478e6434a177f76f3,
+    type: 3}
   fxProjectileTrail: {fileID: 0}
   fxMuzzle: {fileID: 0}

@@ -625,7 +625,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &229378791
 RectTransform:
   m_ObjectHideFlags: 0
@@ -795,7 +795,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000076294, y: 334}
+  m_AnchoredPosition: {x: 43.922, y: 360}
   m_SizeDelta: {x: 622.4885, y: 159.1666}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &274055479
@@ -818,11 +818,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Turn based game
+  m_text: Assault of Order
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: f12d73857c93f6a41ab0c42cb84fe798, type: 2}
-  m_sharedMaterial: {fileID: -3203305617714245106, guid: f12d73857c93f6a41ab0c42cb84fe798,
-    type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -846,7 +845,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 97.7
+  m_fontSize: 70.2
   m_fontSizeBase: 128
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1198,7 +1197,7 @@ MonoBehaviour:
   _buttonPlay: {fileID: 1956187933}
   _buttonTutorial: {fileID: 1606158286}
   _buttonQuit: {fileID: 902384456}
-  scenePlay: Alpha_Gameplay_CenterCity
+  scenePlay: Alpha_Gameplay_Parc
   _stringLoadBackground: MenuBackground_Alpha
   _panelBackground: {fileID: 2115653631}
   _spriteBackground: {fileID: 0}
@@ -2117,10 +2116,10 @@ RectTransform:
   m_Father: {fileID: 185324040}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 733, y: -463}
-  m_SizeDelta: {x: 412.642, y: 91.446}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -144.23291, y: 41.697815}
+  m_SizeDelta: {x: 243.1078, y: 32.8417}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1403454612
 MonoBehaviour:
@@ -2142,7 +2141,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: Version 1.0.0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b7798def5d78d0f4a8f4cf01362b02a8, type: 2}
   m_sharedMaterial: {fileID: -4694701102674513643, guid: b7798def5d78d0f4a8f4cf01362b02a8,
@@ -2152,8 +2151,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 2197815295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 0.50980395}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2170,14 +2169,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50.39
+  m_fontSize: 36.8
   m_fontSizeBase: 50.39
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 17
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -2873,7 +2872,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1961783636
 RectTransform:
   m_ObjectHideFlags: 0

@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum GameState
+{
+    Ingame,
+    IngameIntro,
+    Gameover
+}
+
+
 public class LevelManager : MonoBehaviour
 {
     /*
@@ -65,12 +73,17 @@ public class LevelManager : MonoBehaviour
     [SerializeField] PointControl[] PointControls;
     [SerializeField] bool Gameover;
 
+    private GameState _gameState;
+    private float _timePlayed;
+    
 
     //public List<Team> StaticlistTeam = new List<Team>();
     /// <summary> Permet de passer le tour au joueur actuel./// </summary>
     public bool PassedTurn;
 
 
+    /// <summary> Correspond à l'état du jeu </summary>
+    public static GameState GameState{get {return Instance._gameState;}}
     public static int CurrentTurn{get{return Instance._currentTurn;}}
     // Ajoute une team dans la liste
     public static void AddTeamToList( Team newTeam )
@@ -84,7 +97,7 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        _gameState = GameState.IngameIntro;
         AudioManager.PlaySoundAtPosition("game_start", Vector3.zero);
         AudioManager.PlaySoundAtPosition("game_ambient", Vector3.zero);
         SpawnTeam();
@@ -146,12 +159,15 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _timePlayed += Time.deltaTime;
+        if(_timePlayed > 2)
+            _gameState = GameState.Ingame;
+
         if(!Gameover)
         {
             DebugWatcher();
             WatchPointControlsPurified();
-            
-                WatchController();
+            WatchController();
         }
         WatchLastSurvivor();
     }
@@ -171,6 +187,7 @@ public class LevelManager : MonoBehaviour
                 if (_team != null) UIManager.CreateSubtitle("END GAME, La team " + _team.Data.name + " a gagné");
             }
             Gameover = true;
+            _gameState = GameState.Gameover;
         }
     }
     // Cest pour debug

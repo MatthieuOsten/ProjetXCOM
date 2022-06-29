@@ -400,7 +400,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -14.099976, y: 43.4}
-  m_SizeDelta: {x: 17.494, y: 15.7}
+  m_SizeDelta: {x: 15, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2144577684751280067
 CanvasRenderer:
@@ -827,7 +827,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 95d301d9ce0831447913d36591e2366e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 725b2c7611308214a9672d4884f0a24a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -872,8 +872,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 39.5, y: 43.4}
-  m_SizeDelta: {x: 24.6854, y: 21.422}
+  m_AnchoredPosition: {x: -15, y: 44.8}
+  m_SizeDelta: {x: 24.6854, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6687978616074982116
 CanvasRenderer:
@@ -988,11 +988,13 @@ MonoBehaviour:
   setting: 1
   offset: {x: 0, y: 0, z: 0}
   IgnoreRelatedObject: 0
+  FollowRelatedObject: 1
   lifeTime: 4
   IsTemp: 0
   _iconActor: {fileID: 6558862702179268417}
   _background: {fileID: 7936455468875016240}
   _iconOverwatch: {fileID: 6659592848586609537}
+  _iconPA: {fileID: 2812935639844118361}
   _arrowSelected: {fileID: 0}
   _back: {fileID: 1737760258819712536}
   HealthPartPrefab: {fileID: 4654714669002277965, guid: b72da1f17b61e594896308c3a91dd830,

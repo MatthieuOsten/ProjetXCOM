@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parameters:
-    albedo: {r: 1, g: 0.8163265, b: 0, a: 1}
-    meanFreePath: 1.91
+    albedo: {r: 0.058823533, g: 0.30588236, b: 0.427451, a: 1}
+    meanFreePath: 2.43
     anisotropy: 0
     volumeMask: {fileID: 0}
     textureScrollingSpeed: {x: 0, y: 0, z: 0}

@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-
 public class MenuManager : MonoBehaviour
 {
     [Header("CONTROLLER")]
@@ -55,7 +54,7 @@ public class MenuManager : MonoBehaviour
         _canvasMenu.worldCamera = Camera.current;
 
         _buttonPlay.onClick.AddListener(() => goToScene(scenePlay));
-        _buttonTutorial.onClick.AddListener(() => SwitchTutorial());
+        _buttonTutorial.onClick.AddListener(() => SwitchPanel(_panelTutorial));
         _buttonQuit.onClick.AddListener(() => QuitGame());
 
         UpdateVersion();
@@ -67,8 +66,9 @@ public class MenuManager : MonoBehaviour
 
         if (_inputManager.System.Exit.WasPressedThisFrame())
         {
-            if (_panelTutorial.activeSelf) { SwitchTutorial(); } else { Application.Quit(); }
+            if (_panelTutorial.activeSelf) { SwitchPanel(_panelTutorial); } else { Application.Quit(); }
         }
+
     }
 
     public void QuitGame()
@@ -91,37 +91,24 @@ public class MenuManager : MonoBehaviour
     }
 
     // -- Permet d'afficher et de cacher l'ecran de tutoriel -- //
-    public void SwitchTutorial()
+    public void SwitchPanel(GameObject panel)
     {
-        if (_panelTutorial == null) { return; }
+        if (panel == null) { return; }
 
-        if (_panelTutorial.activeSelf)
-        { _panelTutorial.SetActive(false); }
+        if (panel.activeSelf)
+        { panel.SetActive(false); }
         else
-        { _panelTutorial.SetActive(true); }
+        { panel.SetActive(true); }
 
     }
 
     private void UpdateVersion()
     {
-        TextMesh textMesh;
-        TextMeshPro textMeshPro;
         TextMeshProUGUI textMeshProUGUI;
 
-        if (_versionObject != null && _versionObject.TryGetComponent<TextMesh>(out textMesh))
+        if (_versionObject != null && _versionObject.TryGetComponent<TextMeshProUGUI>(out textMeshProUGUI))
         {
-            Debug.Log("Le texte de la version a etais mise en place sur le composant TEXTMESH");
-            textMesh.text = _versionString + Application.version.ToString();
-
-        }
-        else if (_versionObject != null && _versionObject.TryGetComponent<TextMeshPro>(out textMeshPro))
-        {
-            Debug.Log("Le texte de la version a etais mise en place sur le composant TEXTMESHPRO");
-            textMeshPro.text = _versionString + Application.version.ToString();
-        }
-        else if (_versionObject != null && _versionObject.TryGetComponent<TextMeshProUGUI>(out textMeshProUGUI))
-        {
-            Debug.Log("Le texte de la version a etais mise en place sur le composant TEXTMESHPRO");
+            Debug.Log("Le texte de la version a etais mise en place sur le composant TEXTMESHPROUGUI");
             textMeshProUGUI.text = _versionString + Application.version.ToString();
         }
         else if (_versionObject == null)

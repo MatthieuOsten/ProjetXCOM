@@ -27,3 +27,5 @@ MonoBehaviour:
   caseCharacter: {fileID: 2100000, guid: 6c44bd2e0db4318488620baa6236c800, type: 2}
   caseCharacterSelected: {fileID: 2100000, guid: a7c03005e48436740885b6ed81b4fcf9,
     type: 2}
+  caseFeetDestination: {fileID: 2100000, guid: f4f7bf759ecb1e248aa5eeb1ee286ef6, type: 2}
+  caseWarning: {fileID: 2100000, guid: 3e22dc1615171304699442ee7663781d, type: 2}

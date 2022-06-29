@@ -20,6 +20,8 @@ using UnityEngine.Audio;
         [Range(0,1)]
         public float volume = 0.8f;
         public bool isLooping;
+
+        
         [Range(-3,3)]
         public float minPitch = 1f;
         [Range(-3,3)]
