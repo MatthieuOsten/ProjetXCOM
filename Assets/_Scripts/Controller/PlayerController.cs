@@ -95,6 +95,7 @@ public class PlayerController : Team
             bool cond = false;
             foreach(Actor _char in Squad)   
             {
+                if(_char == null) continue;
                 Character _charr = (Character)_char;
                 if(_charr.IsMoving)
                     cond = true;

@@ -380,6 +380,7 @@ public class Character : Actor
 
                         ActionAnimation(GetMainWeaponInfo(), _char);
                         _char.DoDamage(GetMainWeaponInfo().Damage);
+                        GridManager.ResetCasesPreview(CurrentCase.GridParent);
 
                         break;
                     }
