@@ -89,18 +89,114 @@ MonoBehaviour:
     m_StrikethroughOffset: 16.8
     m_StrikethroughThickness: 5.172414
     m_TabWidth: 17
-  m_GlyphTable: []
-  m_CharacterTable: []
+  m_GlyphTable:
+  - m_Index: 221
+    m_Metrics:
+      m_Width: 54.828125
+      m_Height: 10.453125
+      m_HorizontalBearingX: 4.34375
+      m_HorizontalBearingY: 9.828125
+      m_HorizontalAdvance: 62.59375
+    m_GlyphRect:
+      m_X: 10
+      m_Y: 10
+      m_Width: 56
+      m_Height: 11
+    m_Scale: 1
+    m_AtlasIndex: 0
+  - m_Index: 66
+    m_Metrics:
+      m_Width: 39.40625
+      m_Height: 5.484375
+      m_HorizontalBearingX: 0.109375
+      m_HorizontalBearingY: -8.890625
+      m_HorizontalAdvance: 39.203125
+    m_GlyphRect:
+      m_X: 85
+      m_Y: 10
+      m_Width: 40
+      m_Height: 7
+    m_Scale: 1
+    m_AtlasIndex: 0
+  - m_Index: 21
+    m_Metrics:
+      m_Width: 36.828125
+      m_Height: 61.546875
+      m_HorizontalBearingX: 3.203125
+      m_HorizontalBearingY: 61.546875
+      m_HorizontalAdvance: 42.625
+    m_GlyphRect:
+      m_X: 144
+      m_Y: 10
+      m_Width: 38
+      m_Height: 62
+    m_Scale: 1
+    m_AtlasIndex: 0
+  - m_Index: 3
+    m_Metrics:
+      m_Width: 0
+      m_Height: 0
+      m_HorizontalBearingX: 0
+      m_HorizontalBearingY: 0
+      m_HorizontalAdvance: 16.96875
+    m_GlyphRect:
+      m_X: 0
+      m_Y: 0
+      m_Width: 0
+      m_Height: 0
+    m_Scale: 1
+    m_AtlasIndex: 0
+  m_CharacterTable:
+  - m_ElementType: 1
+    m_Unicode: 8230
+    m_GlyphIndex: 221
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 95
+    m_GlyphIndex: 66
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 50
+    m_GlyphIndex: 21
+    m_Scale: 1
+  - m_ElementType: 1
+    m_Unicode: 32
+    m_GlyphIndex: 3
+    m_Scale: 1
   m_AtlasTextures:
   - {fileID: -4647611220088317799}
   m_AtlasTextureIndex: 0
   m_IsMultiAtlasTexturesEnabled: 0
   m_ClearDynamicDataOnBuild: 0
-  m_UsedGlyphRects: []
-  m_FreeGlyphRects:
+  m_UsedGlyphRects:
   - m_X: 0
     m_Y: 0
+    m_Width: 75
+    m_Height: 30
+  - m_X: 75
+    m_Y: 0
+    m_Width: 59
+    m_Height: 26
+  - m_X: 134
+    m_Y: 0
+    m_Width: 57
+    m_Height: 81
+  m_FreeGlyphRects:
+  - m_X: 0
+    m_Y: 81
     m_Width: 1023
+    m_Height: 942
+  - m_X: 0
+    m_Y: 30
+    m_Width: 134
+    m_Height: 993
+  - m_X: 75
+    m_Y: 26
+    m_Width: 59
+    m_Height: 997
+  - m_X: 191
+    m_Y: 0
+    m_Width: 832
     m_Height: 1023
   m_fontInfo:
     Name: 

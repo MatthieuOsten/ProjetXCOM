@@ -13,13 +13,14 @@ GameObject:
   - component: {fileID: 5819030555391212182}
   - component: {fileID: 1668829550705481301}
   - component: {fileID: 3667844928058925729}
+  - component: {fileID: 9132199506542361800}
   m_Layer: 5
   m_Name: Matt_Widget_LoaderAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2415180073321027429
 RectTransform:
   m_ObjectHideFlags: 0
@@ -59,11 +60,11 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 4
   m_Spacing: 10
-  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
+  m_ChildScaleWidth: 1
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
 --- !u!114 &5819030555391212182
@@ -118,3 +119,26 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9132199506542361800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2901254962891261670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9b6db16c6e9002428d0242e58637be9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _debugMode: 1
+  hudManager: {fileID: 0}
+  _prefabAmmo: {fileID: 4117486078479188401, guid: 99670b468f2f1394891dd3aabe9ef046,
+    type: 3}
+  _actualAmmo: []
+  _widgetAmmoMax: 0
+  _ammoMax: 0
+  _ammoActual: 0
+  _animationAmmo: {fileID: 0}
+  _animOn: 
+  _animActual: 

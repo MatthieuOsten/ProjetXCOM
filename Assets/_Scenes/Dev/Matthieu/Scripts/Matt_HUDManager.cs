@@ -79,7 +79,7 @@ public class HUDManager : MonoBehaviour
     private void GetActualScripts()
     {
         // Recupere le "PlayerController" qui est actuellement entrain de jouer
-        _pC = (PlayerController)LevelManager.GetCurrentController();
+        _pC = (PlayerController)Matt_LevelManager.GetCurrentController();
 
         // Si le "PlayerController" n'est pas null alors recupere les donn�es du personnage actuel
         if (_pC != null)
