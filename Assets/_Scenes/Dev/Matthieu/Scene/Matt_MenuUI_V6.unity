@@ -2249,7 +2249,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1685120876}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Matt_MenuManager, Assembly-CSharp
         m_MethodName: SwitchPanel
         m_Mode: 2
@@ -2308,7 +2308,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1685120877}
-  - component: {fileID: 1685120876}
+  - component: {fileID: 1685120878}
   m_Layer: 0
   m_Name: MenuManager
   m_TagString: Untagged
@@ -2316,29 +2316,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1685120876
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1685120875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f4f066f6ac42f44b9a2f4095c3c4c51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _panelTutorial: {fileID: 1114002431}
-  _canvasMenu: {fileID: 1341196906}
-  _buttonPlay: {fileID: 1226142809}
-  _buttonTutorial: {fileID: 767974982}
-  _buttonQuit: {fileID: 817114558}
-  scenePlay: SelectMap
-  _stringLoadBackground: MenuBackground
-  _panelBackground: {fileID: 1917909798}
-  _spriteBackground: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  _versionString: 'Version '
-  _versionObject: {fileID: 1238584641}
 --- !u!4 &1685120877
 Transform:
   m_ObjectHideFlags: 0
@@ -2354,6 +2331,29 @@ Transform:
   m_Father: {fileID: 964880239}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1685120878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685120875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d6e4c0e12192a34981575ee90753646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _panelTutorial: {fileID: 1114002431}
+  _canvasMenu: {fileID: 1341196906}
+  _buttonPlay: {fileID: 1226142809}
+  _buttonTutorial: {fileID: 767974982}
+  _buttonQuit: {fileID: 817114558}
+  scenePlay: Matt_Gameplay_V2
+  _stringLoadBackground: 
+  _panelBackground: {fileID: 1917909798}
+  _spriteBackground: {fileID: 0}
+  _versionString: 'Version '
+  _versionObject: {fileID: 1238584641}
 --- !u!1 &1799677988
 GameObject:
   m_ObjectHideFlags: 0
