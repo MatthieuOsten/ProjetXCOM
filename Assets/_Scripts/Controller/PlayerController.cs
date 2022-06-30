@@ -654,7 +654,7 @@ public class PlayerController : Team
     public void ExitActionMode()
     {
         Debug.Log("ExitActionMode");
-        AudioManager.PlaySoundAtPosition("case_reset", Vector3.zero);
+        //AudioManager.PlaySoundAtPosition("case_reset", Vector3.zero);
         SelectedCaseA = null;
         SelectedCaseB = null;
         GridManager.ResetCasesPreview(_selectedGrid);
