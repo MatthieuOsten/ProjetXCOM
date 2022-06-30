@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: DATA_wpn_tank_comp_restreintMouv
   m_EditorClassIdentifier: 
   name: Weakening
-  description: "Diminue de 2 la port\xE9e de d\xE9placement et de tir d'une cible
-    pendant 2 tours"
+  description: 'While 2 turns,-2 of range for movement and attack for the target '
   debugDescription: "[ 1 PA ] [Cooldown 3 tours] [Port\xE9e 6] Diminue de 2 la port\xE9e
     de d\xE9placement et de tir d'une cible pendant 2 tours"
   type: 
@@ -39,7 +38,7 @@ MonoBehaviour:
   _animFire: {fileID: 0}
   _soundFire: Debuff
   _soundReload: 
-  fxImpact: {fileID: 4452385158572467116, guid: 065585baf2af1cd478e6434a177f76f3,
+  fxImpact: {fileID: 6518501167985537649, guid: b7aacca97874e774a93a92ab17871e44,
     type: 3}
   fxProjectileTrail: {fileID: 0}
   fxMuzzle: {fileID: 0}

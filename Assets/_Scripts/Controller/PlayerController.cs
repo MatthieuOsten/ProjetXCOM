@@ -679,7 +679,8 @@ public class PlayerController : Team
     // Update() qui override Update() de Team 
     public override void Update()
     {
-        
+        if( LevelManager.GameState == GameState.Cinematic) return;
+
         if (_inputManager == null) EnableInputManager();
 
         if (_inputManager.System.Exit.WasPressedThisFrame())
@@ -737,7 +738,7 @@ public class PlayerController : Team
     }
 
     /// <summary> Si le joueur selectionne a la souris, il faut mettre à jour l'index de characterPlayer </summary>
-    void SetActorSelection(Actor _newActor)
+    public void SetActorSelection(Actor _newActor)
     {
         for(int i = 0; i < CharacterPlayer.Count; i++)
         {

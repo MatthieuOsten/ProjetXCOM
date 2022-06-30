@@ -64,34 +64,38 @@ public class HintstringProperty : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (!enable )
+        if(textComponent[0] != null)
         {
-            textComponent[0].gameObject.SetActive(false);
-            icon.gameObject.SetActive(false);
-        }
-        else
-        {
-            //Debug.Log("GameObject " + gameObject.name + " " + Vector3.Distance(Player.transform.position, relatedObject.transform.position));
-            switch(setting)
+            if (!enable )
             {
-                case SettingHintstring.HideWithDistance:
-                    if (relatedObject != null && Vector3.Distance(Player.transform.position, relatedObject.transform.position) < 3)
-                        textComponent[0].gameObject.SetActive(true);
-                    else
-                        textComponent[0].gameObject.SetActive(false);
-                    break;
-                case SettingHintstring.AlwaysShow:
-                        textComponent[0].gameObject.SetActive(true);
-                    break;
-                default:
-                    break;
-
+                textComponent[0].gameObject.SetActive(false);
+                icon.gameObject.SetActive(false);
             }
-            
+            else
+            {
+                //Debug.Log("GameObject " + gameObject.name + " " + Vector3.Distance(Player.transform.position, relatedObject.transform.position));
+                switch(setting)
+                {
+                    case SettingHintstring.HideWithDistance:
+                        if (relatedObject != null && Vector3.Distance(Player.transform.position, relatedObject.transform.position) < 3)
+                            textComponent[0].gameObject.SetActive(true);
+                        else
+                            textComponent[0].gameObject.SetActive(false);
+                        break;
+                    case SettingHintstring.AlwaysShow:
+                            textComponent[0].gameObject.SetActive(true);
+                        break;
+                    default:
+                        break;
 
-            if(icon != null)
-                icon.gameObject.SetActive(true);
+                }
+                
+
+                if(icon != null)
+                    icon.gameObject.SetActive(true);
+            }
         }
+        
 
         if (progression > -1)
         {

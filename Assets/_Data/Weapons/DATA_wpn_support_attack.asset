@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DATA_wpn_support_attack
   m_EditorClassIdentifier: 
   name: Attack
-  description: "Inflige 2 de d\xE9gats sur toutes les cibles pr\xE9sent sur sa port\xE9e."
+  description: 2 damage on all range.
   debugDescription: "[ 1 PA ] [ 4 Port\xE9e ] Inflige 2 de d\xE9gats sur toutes les
     cibles pr\xE9sent sur sa port\xE9e."
   type: 
@@ -23,7 +23,7 @@ MonoBehaviour:
   _prefabWeapon: {fileID: 0}
   _tabCosmetic: []
   _tabAccessory: []
-  _typeW: 1
+  _typeW: 0
   _damage: 2
   _costPoint: 1
   _range:
@@ -38,6 +38,7 @@ MonoBehaviour:
   _animFire: {fileID: 0}
   _soundFire: Soutien_Attack
   _soundReload: 
-  fxImpact: {fileID: 0}
+  fxImpact: {fileID: 3080997197675915972, guid: 81b2e259d7d83704785cff0be6c2d0ea,
+    type: 3}
   fxProjectileTrail: {fileID: 0}
   fxMuzzle: {fileID: 0}

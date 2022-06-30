@@ -1,3 +1,7 @@
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,22 +14,29 @@ public class Matt_HUDManager_V2 : MonoBehaviour
     [Header("DATA")]
     [SerializeField] private PlayerController _pC;
     [SerializeField] private DataCharacter _dataCH;
+    [SerializeField] private Character _cH;
 
-    [Header("ACTION BAR")]
-    [SerializeField] private List<GameObject> _actionButton;
-    [SerializeField] private List<DataCharacter.Capacity> _actionCapacity;
-    [SerializeField] private GameObject _layoutGroup;
-    [SerializeField] private GameObject _prefabButton;
-    [SerializeField] private int _difference;
-    [SerializeField] private bool _updateActionBar;
+    [Header("SCREEN")]
+    [SerializeField] private Canvas _canvasHUD;
 
-    [Header("POPUP")]
-    [SerializeField] private string _informationPopUp;
+    [Header("SOUND")]
+    [SerializeField] private static string _soundResetSelection = "action_reset";
 
     [Header("WIDGETS")]
     [SerializeField] private List<Widget> listWidget;
     [SerializeField] private List<DisplayPosition> listDisplayPosition;
+
+    [Space]
+
+    [Header("DEBUG")]
     [SerializeField] private bool _resetPosition;
+    [SerializeField] private bool _updateWidgets;
+    [SerializeField] private bool _resetWidgets;
+    [SerializeField] private bool _cleanChild;
+    [SerializeField] private bool _showPosition;
+
+    #region EDITOR
+#if UNITY_EDITOR
 
     private void OnValidate()
     {
@@ -33,57 +44,194 @@ public class Matt_HUDManager_V2 : MonoBehaviour
 
             _resetPosition = false;
 
-            int camWidth = Camera.current.pixelWidth;
-            int camHeight = Camera.current.pixelHeight;
+            Rect rectCamera;
+
+            if (Camera.current != null)
+            {
+                rectCamera = Camera.current.rect;
+            } 
+            else if (_canvasHUD != null) 
+            {
+                rectCamera = _canvasHUD.pixelRect;
+            } 
+            else
+            {
+                rectCamera = new Rect(0, 0, Screen.width, Screen.height);
+            }
+
 
             string stringERROR = "NULL";
 
             if (GetDisplayPositionToName("None").Name == stringERROR)
             {
-                listDisplayPosition.Add(new DisplayPosition("None", false, -1, new Rect(new Vector2(0, 0), new Vector2(camWidth, camHeight))));
+                listDisplayPosition.Add(new DisplayPosition("None", false, -1, new Rect(new Vector2(0, 0), new Vector2(rectCamera.width, rectCamera.height))));
             }
             if (GetDisplayPositionToName("Center").Name == stringERROR)
             {
-                listDisplayPosition.Add(new DisplayPosition("Center", false, 1, new Rect(new Vector2(0, 0), new Vector2(camWidth, camHeight))));
+                listDisplayPosition.Add(new DisplayPosition("Center", false, 1, new Rect(new Vector2(rectCamera.width / 2, rectCamera.height / 2), new Vector2(rectCamera.width / 2, rectCamera.height / 2))));
             }
 
-            if (GetDisplayPositionToName("Left").Name == stringERROR)
-            {
-                listDisplayPosition.Add(new DisplayPosition("Left", false, 1, new Rect(new Vector2(0, camHeight / 2), new Vector2(camWidth, camHeight))));
-            }
-            if (GetDisplayPositionToName("Right").Name == stringERROR)
-            {
-                listDisplayPosition.Add(new DisplayPosition("Right", false, 1, new Rect(new Vector2(camWidth, camHeight / 2), new Vector2(camWidth, camHeight))));
-            }
-            if (GetDisplayPositionToName("Top").Name == stringERROR)
-            {
-                listDisplayPosition.Add(new DisplayPosition("Top", false, 1, new Rect(new Vector2(camWidth / 2, 0), new Vector2(camWidth, camHeight))));
-            }
-            if (GetDisplayPositionToName("Bottom").Name == stringERROR)
-            {
-                listDisplayPosition.Add(new DisplayPosition("Bottom", false, 1, new Rect(new Vector2(camWidth / 2, camHeight), new Vector2(camWidth, camHeight))));
-            }
+            DisplayPosition posCenter = GetDisplayPositionToName("Center");
+
+            Vector2 centerTopLeft = new Vector2(posCenter.RectZone.xMin,posCenter.RectZone.yMax);
+            Vector2 centerTopRight = new Vector2(posCenter.RectZone.xMax, posCenter.RectZone.yMax);
+            Vector2 centerBottomLeft = new Vector2(posCenter.RectZone.xMin, posCenter.RectZone.yMin);
+            Vector2 centerBottomRight = new Vector2(posCenter.RectZone.xMax, posCenter.RectZone.yMin);
+
+            Vector2 screenTopLeft = new Vector2(rectCamera.xMin, rectCamera.yMax);
+            Vector2 screenTopRight = new Vector2(rectCamera.xMax, rectCamera.yMax);
+            Vector2 screenBottomLeft = new Vector2(rectCamera.xMin, rectCamera.yMin);
+            Vector2 screenBottomRight = new Vector2(rectCamera.xMax, rectCamera.yMin);
 
             if (GetDisplayPositionToName("TopLeft").Name == stringERROR)
             {
-                listDisplayPosition.Add(new DisplayPosition("TopLeft", false, 1, new Rect(new Vector2(0, 0), new Vector2(camWidth, camHeight))));
+                listDisplayPosition.Add(new DisplayPosition("TopLeft", false, 1, new Rect(new Vector2(0, 0), centerTopLeft - screenTopLeft)));
             }
             if (GetDisplayPositionToName("TopRight").Name == stringERROR)
             {
-                listDisplayPosition.Add(new DisplayPosition("TopRight", false, 1, new Rect(new Vector2(0, camHeight), new Vector2(camWidth, camHeight))));
+                listDisplayPosition.Add(new DisplayPosition("TopRight", false, 1, new Rect(new Vector2(0, rectCamera.height), centerTopRight - screenTopRight)));
             }
             if (GetDisplayPositionToName("BottomLeft").Name == stringERROR)
             {
-                listDisplayPosition.Add(new DisplayPosition("BottomLeft", false, 1, new Rect(new Vector2(camWidth, 0), new Vector2(camWidth, camHeight))));
+                listDisplayPosition.Add(new DisplayPosition("BottomLeft", false, 1, new Rect(new Vector2(rectCamera.width, 0), centerBottomLeft - screenBottomLeft)));
             }
             if (GetDisplayPositionToName("BottomRight").Name == stringERROR)
             {
-                listDisplayPosition.Add(new DisplayPosition("BottomRight", false, 1, new Rect(new Vector2(camWidth, camHeight), new Vector2(camWidth, camHeight))));
+                listDisplayPosition.Add(new DisplayPosition("BottomRight", false, 1, new Rect(new Vector2(rectCamera.width, rectCamera.height), centerBottomRight - screenBottomRight)));
+            }
+
+            DisplayPosition posCornerTopLeft = GetDisplayPositionToName("TopLeft");
+            DisplayPosition posCornerTopRight = GetDisplayPositionToName("TopRight");
+            DisplayPosition posCornerBottomLeft = GetDisplayPositionToName("BottomLeft");
+            DisplayPosition posCornerBottomRight = GetDisplayPositionToName("BottomRight");
+
+            float leftY = posCornerTopLeft.RectZone.yMin - posCornerBottomLeft.RectZone.yMax;
+            float leftX = posCenter.RectZone.xMin;
+
+            float rightY = posCornerTopRight.RectZone.yMin - posCornerBottomRight.RectZone.yMax;
+            float rightX = posCenter.RectZone.xMax;
+
+            float topY = posCenter.RectZone.yMax;
+            float topX = posCornerTopLeft.RectZone.xMax - posCornerTopRight.RectZone.xMin;
+
+            float bottomY = posCenter.RectZone.yMin;
+            float bottomX = posCornerBottomLeft.RectZone.xMax - posCornerBottomRight.RectZone.xMin;
+
+            if (GetDisplayPositionToName("Left").Name == stringERROR)
+            {
+                listDisplayPosition.Add(new DisplayPosition("Left", false, 1, new Rect(new Vector2(0, rectCamera.height / 2), new Vector2(leftX, leftY))));
+            }
+            if (GetDisplayPositionToName("Right").Name == stringERROR)
+            {
+                listDisplayPosition.Add(new DisplayPosition("Right", false, 1, new Rect(new Vector2(rectCamera.width, rectCamera.height / 2), new Vector2(rightX, rightY))));
+            }
+            if (GetDisplayPositionToName("Top").Name == stringERROR)
+            {
+                listDisplayPosition.Add(new DisplayPosition("Top", false, 1, new Rect(new Vector2(rectCamera.width / 2, rectCamera.height), new Vector2(topX, topY))));
+            }
+            if (GetDisplayPositionToName("Bottom").Name == stringERROR)
+            {
+                listDisplayPosition.Add(new DisplayPosition("Bottom", false, 1, new Rect(new Vector2(rectCamera.width / 2, 0), new Vector2(bottomX, bottomY))));
+            }
+
+
+
+        }
+
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Affiche les "DisplayPosition"
+        if (_showPosition)
+        {
+            for (int i = 0; i < listDisplayPosition.Count; i++)
+            {
+                Rect rect = listDisplayPosition[i].RectZone;
+                Gizmos.DrawWireCube(new Vector3(rect.center.x, rect.center.y, _canvasHUD.transform.position.z), new Vector3(rect.size.x, rect.size.y, _canvasHUD.transform.position.z));
+                Gizmos.DrawWireSphere(rect.center, rect.size.magnitude/10);
+                Handles.Label(rect.center, listDisplayPosition[i].Name);
+                
+            }
+
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // Met a jour les widgets
+        if (_updateWidgets)
+        {
+            _updateWidgets = false;
+
+            for (int i = 0; i < listWidget.Count; i++)
+            {
+                if (listWidget[i].WidgetClass != null && listWidget[i].DebugMode)
+                    listWidget[i].WidgetClass.SystemDebug();
+                else if (listWidget[i].DebugMode)
+                    listWidget[i].UpdateClass();
+            }
+
+        }
+
+        // Re instancie les widgets
+        if (_resetWidgets)
+        {
+            _resetWidgets = false;
+
+            for (int i = 0; i < listWidget.Count; i++)
+            {
+                DestroyImmediate(listWidget[i].ActualObject);
+                listWidget[i].ActualObject = null;
+            }
+
+            InitialiseWidgets(listWidget);
+        }
+
+        // Retire tout les enfants du canvas HUD qui n'ont pas le nom d'un widget
+        if (_cleanChild)
+        {
+            _cleanChild = false;
+
+            Transform canvas = _canvasHUD.transform;
+
+            for (int i = 0; i < canvas.childCount; i++)
+            {
+                bool unknowChild = true;
+
+                Transform child = canvas.GetChild(i);
+
+                for (int j = 0; j < listWidget.Count; j++)
+                {
+                    if (child.name == listWidget[j].Name)
+                    {
+                        unknowChild = false;
+                        break;
+                    }
+
+                }
+
+                if (unknowChild) {
+                    Debug.Log("Objet " + child.name + " est inconnu");
+                    DestroyImmediate(child.gameObject); 
+                }
+                else
+                {
+                    Debug.Log("Objet " + child.name + " est connu");
+                }
             }
 
         }
 
     }
+
+#endif
+    #endregion
+
+    public PlayerController ActualPlayer { get { return _pC; } }
+    public DataCharacter ActualCharacter { get { return _dataCH; } }
+    public Character Character { get { return _cH; } }
 
     [System.Serializable]
     public struct DisplayPosition
@@ -92,33 +240,33 @@ public class Matt_HUDManager_V2 : MonoBehaviour
 
         [Header("EMPLACEMENT")]
         [SerializeField] private bool _occupied;
-        [SerializeField] [Min(-1)] private int _widgetsMAX;
+        [SerializeField][Min(-1)] private int _widgetsMAX;
         [SerializeField] private List<string> _listWidgets;
 
         [Header("ZONE")]
         [SerializeField] private Rect _rect;
 
-        public bool Occupied { get { return _occupied;} set { _occupied = value; } }
-        public int WidgetsMAX { get { return _widgetsMAX; } 
-            set 
-            { 
-                if (value >= -1) 
-                { 
-                    _widgetsMAX = value; 
-                } else { 
-                    _widgetsMAX = 0; 
+        public bool Occupied { get { return _occupied; } set { _occupied = value; } }
+        public int WidgetsMAX { get { return _widgetsMAX; }
+            set
+            {
+                if (value >= -1)
+                {
+                    _widgetsMAX = value;
+                } else {
+                    _widgetsMAX = 0;
                 }
-            } 
+            }
         }
 
         public string Name { get { return _name; } }
         public Rect RectZone { get { return _rect; } set { _rect = value; } }
-        public List<string> ListWidgets 
-        { 
-            get { return _listWidgets; } 
-            set { 
+        public List<string> ListWidgets
+        {
+            get { return _listWidgets; }
+            set {
                 if (value.Count < WidgetsMAX || WidgetsMAX == -1) { _listWidgets = value; }
-            } 
+            }
         }
 
         public DisplayPosition(string name)
@@ -151,18 +299,24 @@ public class Matt_HUDManager_V2 : MonoBehaviour
     {
         [SerializeField] private string _name;
 
+        [SerializeField] private Matt_Widgets _widgetClass;
+
         [SerializeField] private GameObject _actualObject;
         [SerializeField] private GameObject _prefabObject;
         [SerializeField] private string _displayPosition;
         [SerializeField] public bool _actived;
         [SerializeField] public bool _visible;
 
+        [SerializeField] public bool _debugMode;
+
         public string Name { get { return _name; } }
         public string Position { get { return _displayPosition; } }
-        public GameObject ActualObject { get { return _actualObject; } }
+        public GameObject ActualObject { get { return _actualObject; } set { _actualObject = value; } }
         public GameObject PrefabObject { get { return _prefabObject; } }
+        public Matt_Widgets WidgetClass { get { return _widgetClass; } }
 
         public bool Actived { get { return _actived; } }
+        public bool DebugMode { get { return _debugMode; } }
 
         public Widget()
         {
@@ -174,9 +328,10 @@ public class Matt_HUDManager_V2 : MonoBehaviour
 
             _actualObject = null;
             _prefabObject = null;
+            UpdateClass();
         }
 
-        public Widget(string name,string position)
+        public Widget(string name, string position)
         {
             _name = name;
             _displayPosition = position;
@@ -186,12 +341,26 @@ public class Matt_HUDManager_V2 : MonoBehaviour
 
             _actualObject = null;
             _prefabObject = null;
+            UpdateClass();
+        }
+
+        public void UpdateClass()
+        {
+            if (_actualObject != null) { _widgetClass = _actualObject.GetComponent<Matt_Widgets>(); }
+            else if (_prefabObject != null) { _widgetClass = _prefabObject.GetComponent<Matt_Widgets>(); }
+            else {
+                Debug.Log("Class introuvable");
+                _widgetClass = null; }
         }
 
         public void SetActive(bool active)
         {
             _actived = active;
-            ActualObject.SetActive(active);
+            if (ActualObject != null)
+            {
+                ActualObject.SetActive(active);
+            } 
+
         }
 
     }
@@ -210,6 +379,23 @@ public class Matt_HUDManager_V2 : MonoBehaviour
         return new DisplayPosition("NULL");
     }
 
+    private bool TryGetDisplayPositionToName(out DisplayPosition pos, string name)
+    {
+        pos = new DisplayPosition("NULL");
+
+        foreach (var displayPosition in listDisplayPosition)
+        {
+            if (displayPosition.Name == name)
+            {
+                pos = displayPosition;
+                return true;
+            }
+        }
+
+        Debug.Log("Widget pas trouver");
+        return false;
+    }
+
     private Widget GetWidgetToName(string name)
     {
         foreach (var widget in listWidget)
@@ -226,51 +412,96 @@ public class Matt_HUDManager_V2 : MonoBehaviour
 
     private void Start()
     {
-        UpdateActionBar();
+        foreach (var widget in listWidget)
+        {
+            if (widget.ActualObject == null)
+            {
+                InstantiateWidget(widget);
+            }
 
-        InitialiseWidgets(listWidget);
+            widget.UpdateClass();
 
+            if (widget.WidgetClass != null)
+            {
+                widget.WidgetClass.SystemStart();
+            }
+
+        }
     }
 
     // Update is called once per frame
     private void Update()
     {
-        GetActualScripts();
-    }
 
-    private void FixedUpdate()
-    {
-        if (_updateActionBar)
+        foreach (var widget in listWidget)
         {
-            _updateActionBar = false;
-            UpdateActionBar();
+            if (widget.WidgetClass != null)
+            {
+                widget.WidgetClass.SystemUpdate();
+            }
+
+            #if UNITY_EDITOR
+                widget.WidgetClass.SystemDebug();
+            #endif
         }
 
     }
 
     /// <summary>
-    /// Recupere les donnees d'un personnage "DataCharacter" 
+    /// Active ou desactive le mode action par rapport a son "ActionTypeMode"
     /// </summary>
-    private DataCharacter GetData()
+    public void SetActionMode(ActionTypeMode actionType, string sound = null)
     {
-        DataCharacter data;
+        // Si le playerController est null alors quitte la fonction
+        if (_pC == null || _cH.IsMoving) { return; }
 
-        if (_pC != null)
+        if (sound == null && _soundResetSelection != null) { sound = _soundResetSelection; }
+
+
+
+        // Si le joueur est pas en mode action alors active le mode action et change son type
+        if (_pC.SelectionMode != SelectionMode.Action
+        || _pC.ActionTypeMode != actionType)
         {
-            // Recupere la base de donnee du personnage selectionner
-            data = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
-            return data;
+            if (sound != null)
+                AudioManager.PlaySoundAtPosition(sound, Vector3.zero);
+
+            _pC.IsPreviewing = false;
+            _pC.SelectionMode = SelectionMode.Action;
+            _pC.ActionTypeMode = actionType;
         }
-        else
+        else // Sinon Desactive le mode action pour le mode selection et retire le type action en le changeant par "none"
         {
 
-            if (_dataCH != null)
-            {
-                data = _dataCH;
-                return data;
-            }
 
-            return new DataCharacter();
+            if (sound != null)
+                AudioManager.PlaySoundAtPosition(_soundResetSelection, Vector3.zero);
+
+            _pC.ExitActionMode();
+        }
+
+    }
+
+    /// <summary>
+    /// Active ou desactive le mode action par rapport a son "ActionTypeMode"
+    /// </summary>
+    public void SetActionMode(ActionTypeMode actionType)
+    {
+        // Si le playerController est null alors quitte la fonction
+        if (ActualPlayer == null) { return; }
+
+        PlayerController playerController = ActualPlayer;
+
+        // Si le joueur est pas en mode action alors active le mode action et change son type
+        if (playerController.SelectionMode != SelectionMode.Action)
+        {
+            playerController.SelectionMode = SelectionMode.Action;
+            playerController.ActionTypeMode = actionType;
+        }
+        else // Sinon Desactive le mode action pour le mode selection et retire le type action en le changeant par "none"
+        {
+            playerController.SelectionMode = SelectionMode.Selection;
+            playerController.ActionTypeMode = ActionTypeMode.None;
         }
 
     }
@@ -280,146 +511,32 @@ public class Matt_HUDManager_V2 : MonoBehaviour
     /// </summary>
     private void GetActualScripts()
     {
-        // Recupere le "PlayerController" qui est actuellement entrain de jouer
-        _pC = (PlayerController)LevelManager.GetCurrentController();
+        if ((Team)_pC != Matt_LevelManager.GetCurrentController())
+        {
 
-        // Si le "PlayerController" n'est pas null alors recupere les donnees du personnage actuel
+            _pC = (PlayerController)Matt_LevelManager.GetCurrentController();
+
+        }
+
         if (_pC != null)
         {
-            _dataCH = _pC.CharacterPlayer[_pC.CharacterIndex].GetComponent<Character>().Data;
+            if (_cH != _pC.GetCurrentCharactedSelected)
+            {
+                for (int i = 0; i < listWidget.Count; i++)
+                {
+                    listWidget[i].WidgetClass.SystemReset();
+                }
+                
+            }
+
+            _cH = _pC.GetCurrentCharactedSelected;
+
         }
 
-    }
-
-
-
-    /// <summary>
-    /// Met a jour les informations des bouttons, image, texte, click event et Pointer trigger event
-    /// </summary>
-    private void UpdateButtonInformation()
-    {
-        // ---- Initialise chaque bouttons en rapport avec les capacites actuel ---- //
-        for (int i = 0; i < _actionButton.Count; i++)
+        else
         {
-            if (_actionCapacity.Count < i) { break; }
-
-
-            Button button = _actionButton[i].GetComponent<Button>();
-            // Nettoie la liste d'action du boutton
-            button.onClick.RemoveAllListeners();
-
-            // -- Initialise les donnees du boutton initialiser -- //
-
-            // Insert l'action effectuer si le boutton est appuyer
-            int index = i;
-            button.onClick.AddListener(() => SetActionMode(_actionCapacity[index].typeA));
-
-            // Verifie que l'objet a une icone et l'affiche
-            if (_actionCapacity[i].icon != null)
-                _actionButton[i].GetComponent<Image>().sprite = _actionCapacity[i].icon;
-
-            // Verifie que l'objet a un nom et l'ecrit
-            if (_actionCapacity[i].name != null)
-                _actionButton[i].GetComponentInChildren<TextMeshProUGUI>().text = _actionCapacity[i].name;
-
-            // -- Initialise "DisplayDescription" sur le boutton -- //
-            if (_actionCapacity[i].description != null) // Verifie que la description est remplie
-            {
-                // Recupere le "EventTrigger" du boutton
-                EventTrigger eventTrigger;
-
-                if (_actionButton[i].TryGetComponent<EventTrigger>(out eventTrigger))
-                {
-                    eventTrigger.triggers.Clear();
-
-                    // Initialise un event "EventTrigger"
-                    EventTrigger.Entry onSelected = new EventTrigger.Entry();
-                    // Nettoie la liste d'evenement
-                    onSelected.callback.RemoveAllListeners();
-                    // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
-                    onSelected.eventID = EventTriggerType.PointerEnter;
-                    // Insert dans sa liste de reaction, l'affichage de la pop-up de description
-                    int indexTrigger = i;
-                    onSelected.callback.AddListener((eventData) => { DisplayPopUp(GetWidgetToName(_informationPopUp).ActualObject, _actionButton[indexTrigger].transform.position, _actionCapacity[indexTrigger].description, _actionCapacity[indexTrigger].name); });
-                    // Ajoute le composant et ces parametres dans le boutton
-                    eventTrigger.triggers.Add(onSelected);
-
-                    // Initialise un event "EventTrigger"
-                    EventTrigger.Entry onDeselected = new EventTrigger.Entry();
-                    // Nettoie la liste d'evenement
-                    onDeselected.callback.RemoveAllListeners();
-                    // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
-                    onDeselected.eventID = EventTriggerType.PointerExit;
-                    // Insert dans sa liste de reaction, l'affichage de la pop-up de description
-                    onDeselected.callback.AddListener((eventData) => { HidePopUp(GetWidgetToName(_informationPopUp).ActualObject); });
-                    // Ajoute le composant et ces parametres dans le boutton
-                    eventTrigger.triggers.Add(onDeselected);
-                }
-
-            }
-
+            Debug.LogWarning("UI : Attention l'UI n'arrive pas à récupérer le PlayerController depuis le Level Manager");
         }
-    }
-
-    /// <summary>
-    /// Met a jour la barre d'action, met a jour le nombre de boutton par rapport aux nombre de capaciter de l'actor atuelment selectionner
-    /// </summary>
-    private void UpdateActionBar()
-    {
-        if (_dataCH != null)
-        {
-            // Recupere les donnees du personnage actuellement selectionner
-            DataCharacter data = GetData();
-
-            // Initialise "_actionCapacity" en y rentrant toute les capacite du personnage
-            _actionCapacity.Clear();
-            _actionCapacity = data.ListCapacity;
-
-            // Nettoie la liste des actions
-            if (_actionCapacity.Count > 0)
-            {
-                _actionCapacity.RemoveAll(item => item.name == null);
-            }
-
-            // Verifie si il contient assez de bouton comparer au nombre de capacite du personnage
-            if (_actionButton.Count != _actionCapacity.Count)
-            {
-
-                Debug.Log("Nombre de boutton : " + _actionButton.Count);
-                Debug.Log("Nombre de capacites : " + _actionCapacity.Count);
-
-                // Si il y a moins de boutons que de capacites alors rajoute des boutons
-                if (_actionButton.Count < _actionCapacity.Count)
-                {
-                    InstantiateButton(_actionButton.Count, _actionCapacity.Count, _prefabButton, _layoutGroup);
-                }
-                // Supprime les bouttons en trop
-                else if (_actionButton.Count > _actionCapacity.Count)
-                {
-
-                    // Detruit chaque bouttons un par un
-                    foreach (var button in _actionButton)
-                    {
-                        //Debug.Log("Boutton : " + button.name + " " + button.GetInstanceID() + " Supprimer");
-                        Destroy(button);
-
-                    }
-                    _actionButton.Clear();
-
-                    InstantiateButton(_actionButton.Count, _actionCapacity.Count, _prefabButton, _layoutGroup);
-
-                }
-
-                // Verifie que les donnee soit bien initialiser avant de procede
-                if (data != null && _actionCapacity.Count > 0 && _actionButton.Count > 0)
-                {
-                    UpdateButtonInformation();
-                }
-
-            }
-
-        }
-
     }
 
     private void InitialiseWidgets(List<Widget> list)
@@ -433,8 +550,7 @@ public class Matt_HUDManager_V2 : MonoBehaviour
 
                 if (position.Occupied == false && widget.Actived)
                 {
-
-                    InstantiateWidget(widget.Name.ToString(), widget.ActualObject, widget.PrefabObject, transform);
+                    InstantiateWidget(widget);
 
                     position.ListWidgets.Add(widget.Name);
                     position.Occupied = true;
@@ -469,23 +585,37 @@ public class Matt_HUDManager_V2 : MonoBehaviour
     /// <param name="name">nom de l'objet a rechercher</param>
     /// <param name="thisObject">reference de l'objet</param>
     /// <param name="prefab">prefab de l'objet voulu</param>
-    private void InstantiateWidget(string name, GameObject thisObject, GameObject prefab)
+    private void InstantiateWidget(Widget widget)
     {
         // Si l'objet n'est pas referencer alors initialise la sequence
-        if (thisObject == null)
+        if (widget.ActualObject == null)
         {
-            // Cherche si l'objet est enfant de l'HUD sinon instancie l'objet et le reference
-            thisObject = transform.Find(name).gameObject;
-            if (thisObject != null)
+
+            if (widget.PrefabObject != null)
             {
-                Debug.Log("L'objet " + thisObject.name + " a etais retrouver et referencer");
-                return;
-            }
-            else if (prefab != null)
-            {
-                // Initialise le popup si il n'existe pas et que la prefab a etais definit
-                thisObject = Instantiate(prefab, Vector3.zero, Quaternion.identity, transform);
-                thisObject.name = name;
+                // Initialise le widget si il n'existe pas et que la prefab a etais definit
+                if (_canvasHUD != null)
+                {
+                    widget.ActualObject = Instantiate(widget.PrefabObject, _canvasHUD.transform);
+                }
+                else if (FindObjectOfType<Canvas>() != null)
+                {
+                    _canvasHUD = FindObjectOfType<Canvas>();
+                    widget.ActualObject = Instantiate(widget.PrefabObject, _canvasHUD.transform);
+                } 
+                else
+                {
+                    widget.ActualObject = Instantiate(widget.PrefabObject);
+                }
+
+                widget.ActualObject.name = widget.Name;
+
+                widget.UpdateClass();
+                if (widget.WidgetClass != null)
+                {
+                    widget.WidgetClass.hudManager = this;
+                }
+
             }
             else
             {
@@ -502,129 +632,36 @@ public class Matt_HUDManager_V2 : MonoBehaviour
     /// <param name="name">nom de l'objet a rechercher</param>
     /// <param name="thisObject">reference de l'objet</param>
     /// <param name="prefab">prefab de l'objet voulu</param>
-    private void InstantiateWidget(string name, GameObject thisObject, GameObject prefab, Transform parent)
+    private void InstantiateWidget(Widget widget, Transform parent)
     {
         // Si l'objet n'est pas referencer alors initialise la sequence
-        if (thisObject == null)
+        if (widget.ActualObject == null)
         {
-            // Cherche si l'objet est enfant de l'HUD sinon instancie l'objet et le reference
-            thisObject = transform.Find(name).gameObject;
-            if (thisObject != null)
+
+            if (widget.PrefabObject != null)
             {
-                Debug.Log("L'objet " + thisObject.name + " a etais retrouver et referencer");
-                return;
-            }
-            else if (prefab != null)
-            {
+                DisplayPosition pos;
+
                 // Initialise le popup si il n'existe pas et que la prefab a etais definit
-                thisObject = Instantiate(prefab, parent.position, Quaternion.identity, parent);
-                thisObject.name = name;
+                if (TryGetDisplayPositionToName(out pos,widget.Position))
+                {
+                    widget.ActualObject = Instantiate(widget.PrefabObject, parent.position + (Vector3)pos.RectZone.center, Quaternion.identity, parent);
+                }
+                else
+                {
+                    widget.ActualObject = Instantiate(widget.PrefabObject, parent);
+                }
+
+
+                widget.ActualObject.name = widget.Name;
             }
             else
             {
-                Debug.LogWarning("Le systeme de PopUp a etais implementer mais aucun moyen n'as etais touver pour referencer ou initialiser le popup");
+                Debug.LogWarning("Le systeme de widget a etais implementer mais aucun moyen n'as etais touver pour referencer ou initialiser le widget");
                 return;
             }
 
-        }
-    }
-
-    /// <summary>
-    /// Cree un nombre d'objet definit avec un for, a la position de son parent
-    /// </summary>
-    /// <param name="start">Nombre d'objet deja initialiser</param>
-    /// <param name="end">Nombre total d'objet voulu</param>
-    /// <param name="prefab">Prefab de l'objet</param>
-    /// <param name="parent">Parent de l'objet instancier</param>
-    private void InstantiateButton(int start, int end, GameObject prefab, GameObject parent)
-    {
-        // Initialise des bouttons en plus si besoin
-        for (int i = start; i < end; i++)
-        {
-            _actionButton.Add(Instantiate(prefab, parent.transform.position, Quaternion.identity, parent.transform));
-        }
-    }
-
-    /// <summary>
-    /// Affiche une pop-up sur la souris avec les information entrer
-    /// </summary>
-    private void DisplayPopUp(GameObject popUp, Vector3 position, string description = " ", string title = "Information")
-    {
-
-        // Si le popUp est initialiser, l'affiche et change son texte
-        if (popUp != null)
-        {
-            // Deplace le popUp a l'endroit indiquer
-            popUp.transform.position = position;
-
-            // Recupere la transform du popUp
-            Transform parent = popUp.transform;
-            // Change le titre du PopUp
-            ModifyTextBox(parent, "Title", title);
-            // Change la description du PopUp
-            ModifyTextBox(parent, "Description", description);
-
-            if (popUp.activeSelf == false) { popUp.SetActive(true); }
-        }
-
-    }
-
-    /// <summary>
-    /// Si l'objet PopUp est assigne, le desactive si il est actif
-    /// </summary>
-    private void HidePopUp(GameObject popUp)
-    {
-        // Si le popUp est initialiser, le cache
-        if (popUp != null)
-        {
-            if (popUp.activeSelf == true) { popUp.SetActive(false); }
-        }
-    }
-
-    /// <summary>
-    /// Met a jour la boite de texte enfant d'un GameObject
-    /// </summary>
-    /// <param name="nameChild">Enfant a chercher du GameObject</param>
-    /// <param name="valueString">Chaine de charactere a inserer</param>
-    private void ModifyTextBox(Transform parent, string nameChild, string valueString)
-    {
-        TextMeshProUGUI textMesh;
-        Text text;
-        Transform textBox;
-
-        // -- Initialise le texte de la boite de texte de "Description" -- //
-        textBox = parent.Find(nameChild);
-        // Si le composant text est present alors change le texte
-        if (textBox.TryGetComponent<TextMeshProUGUI>(out textMesh))
-        {
-            textMesh.text = valueString;
-        }
-        else if (textBox.TryGetComponent<Text>(out text))
-        {
-            text.text = valueString;
-        }
-    }
-
-    /// <summary>
-    /// Active ou desactive le mode action par rapport a son "ActionTypeMode"
-    /// </summary>
-    public void SetActionMode(ActionTypeMode actionType)
-    {
-        // Si le playerController est null alors quitte la fonction
-        if (_pC == null) { return; }
-
-        // Si le joueur est pas en mode action alors active le mode action et change son type
-        if (_pC.SelectionMode != SelectionMode.Action)
-        {
-            _pC.SelectionMode = SelectionMode.Action;
-            _pC.ActionTypeMode = actionType;
-        }
-        else // Sinon Desactive le mode action pour le mode selection et retire le type action en le changeant par "none"
-        {
-            _pC.SelectionMode = SelectionMode.Selection;
-            _pC.ActionTypeMode = ActionTypeMode.None;
-        }
-
+        } 
     }
 
 }

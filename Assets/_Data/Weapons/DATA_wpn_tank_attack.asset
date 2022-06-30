@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DATA_wpn_tank_attack
   m_EditorClassIdentifier: 
   name: Attack
-  description: "Inflige 2 Points de d\xE9gats et retire 1 PA \xE0 la cible. "
+  description: 2 damage and -1 Action point to the target.
   debugDescription: "[1 PA] [CaC]  Inflige 2 Points de d\xE9gats et retire 1 PA \xE0
     la cible. "
   type: 
@@ -38,6 +38,7 @@ MonoBehaviour:
   _animFire: {fileID: 0}
   _soundFire: Tank_Attack
   _soundReload: 
-  fxImpact: {fileID: 0}
+  fxImpact: {fileID: 3622863921868668138, guid: 90f132bab0fe07a44a8de34a5ddceba9,
+    type: 3}
   fxProjectileTrail: {fileID: 0}
   fxMuzzle: {fileID: 0}

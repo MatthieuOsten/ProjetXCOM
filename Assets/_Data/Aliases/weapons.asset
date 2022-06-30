@@ -112,7 +112,7 @@ MonoBehaviour:
     Text: 
     customDuration: 0
     isInit: 1
-    isPlaholder: 1
+    isPlaholder: 0
   - name: carabine_reload
     description: 
     MixerGroup: {fileID: 0}

@@ -97,6 +97,8 @@ public class Case : MonoBehaviour
     }
     public void Update()
     {  
+       
+
         if(State == CaseState.HalfOccupied)
         {
             State = CaseState.Empty;

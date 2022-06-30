@@ -65,11 +65,13 @@ public abstract class Actor : MonoBehaviour, IActor
 
     public virtual void Death()
     {
+        CameraShake.SetNoisier(3,4);
         Destroy(gameObject);
     }
 
     public virtual void DoDamage(int amount)
     {
+        CameraShake.SetNoisier(2,3);
         // Si un perso en overwatch se fait attaquer, on l'enleve l'overwatch
         if(State == ActorState.Overwatch )
             State = ActorState.Alive;

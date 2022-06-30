@@ -22,7 +22,7 @@ public class WidgetActorInfo : HintstringProperty
     public bool IsFixed;
     private float _lowOpacity = 0.1f;
     private Image[] _imagesWidget;
-
+    private Button _button;
 
 
     protected override void Start() {
@@ -36,7 +36,7 @@ public class WidgetActorInfo : HintstringProperty
         AddHealthPart();
         _imagesWidget = transform.GetComponentsInChildren<Image>();
 
-        offset = new Vector3(0, 45, 0);
+        offset = new Vector3(0, 125, 0);
 
         _iconActor.sprite = _actor.GetCharacterIcon();
         Color _color = _actor.GetTeamColor();
@@ -49,7 +49,10 @@ public class WidgetActorInfo : HintstringProperty
         JaugeProgression.GetComponent<Image>().color = _actor.GetTeamColor();
 
 
-
+        _button = transform.GetComponent<Button>();
+        PlayerController pc = (PlayerController)_actor.Owner;
+        if(pc != null && IsFixed)
+            _button.onClick.AddListener(()=>pc.SetActorSelection(_actor) ); 
 
       
     }
@@ -64,7 +67,6 @@ public class WidgetActorInfo : HintstringProperty
         for(int i = 0 ; i < _actor.MaxHealth; i++)
         {
             GameObject healthPart = Instantiate(HealthPartPrefab,Vector3.zero,Quaternion.identity, PanelHealth.transform);
-            //healthPart.GetComponent<Image>().color = _actor.GetTeamColor();
         }
     }
     protected override void Update()

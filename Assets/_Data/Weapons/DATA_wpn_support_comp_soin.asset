@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: DATA_wpn_support_comp_soin
   m_EditorClassIdentifier: 
   name: ' Regeneration'
-  description: "Offre \xE0 un alli\xE9 une r\xE9g\xE9n\xE9ration de deux points de
-    vie par tour. Ce termine au bout de deux tour"
+  description: While 2 turn, +2 Health to one of your squad
   debugDescription: "[ 1 PA ] [ 3 Tours Cooldown ] Offre \xE0 un alli\xE9 une r\xE9g\xE9n\xE9ration
     de vie pour 2 tours ( +2 PV/tour)"
   type: 

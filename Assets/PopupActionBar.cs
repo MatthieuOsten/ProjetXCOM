@@ -14,6 +14,7 @@ public class PopupActionBar : MonoBehaviour
     [Space] 
     [SerializeField] private TextMeshProUGUI _textCooldown;
     [SerializeField] private Image _imageCooldown;
+    [SerializeField] private Image _background;
 
 
     // Start is called before the first frame update
@@ -22,8 +23,9 @@ public class PopupActionBar : MonoBehaviour
         
     }
 
-    public void SetWidget(string title, string desc, string costAction, int cooldownBetweenUse = 0)
+    public void SetWidget(string title, string desc, string costAction, Color _color, int cooldownBetweenUse = 0)
     {
+        _background.color = _color;
         if(cooldownBetweenUse == 0)
         {
             _textCooldown.color = Color.clear;
