@@ -25,6 +25,7 @@ public class PopupActionBar : MonoBehaviour
 
     public void SetWidget(string title, string desc, string costAction, Color _color, int cooldownBetweenUse = 0)
     {
+        _color.a = 0.75f;
         _background.color = _color;
         if(cooldownBetweenUse == 0)
         {

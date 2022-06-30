@@ -90,6 +90,8 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private GameState _gameState;
     private float _timePlayed;
+
+    float _timerToBackToMenu = 0;
     
 
     //public List<Team> StaticlistTeam = new List<Team>();
@@ -223,10 +225,16 @@ public class LevelManager : MonoBehaviour
         {
             foreach (Team _team in listTeam)
             {
-                if (_team != null) UIManager.CreateSubtitle("END GAME, La team " + _team.Data.name + " a gagné");
+                if (_team != null) _canvasGameObject.GetComponent<UI>().SetVictory(_team.Name , _team.Color);
             }
+           
             Gameover = true;
             _gameState = GameState.Gameover;
+            _timerToBackToMenu += Time.deltaTime;
+            if(_timerToBackToMenu > 5)
+            {
+                SceneManager.LoadScene(sceneReturn);
+            }
         }
     }
     // Cest pour debug

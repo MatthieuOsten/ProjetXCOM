@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DATA_wpn_support_comp_alattaque
   m_EditorClassIdentifier: 
   name: ' Gift of AP'
-  description: '+1 Action point to one of your squad for the current turn. '
+  description: +1 Action point for a member of your team.
   debugDescription: "[ 1 PA ] [ 3 Tours Cooldown ] Donne \xE0 un alli\xE9 un point
     d\u2019action suppl\xE9mentaire pour le tour en cours."
   type: 
