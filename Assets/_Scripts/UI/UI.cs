@@ -486,6 +486,18 @@ public class UI : MonoBehaviour
         }
 
     }
+    public void ChangeCharacter(int characterID = -1)
+    {
+        if (_pC != null && _pC.CanPlay)
+        {
+            if(characterID != -1)
+                _pC.CharacterIndex = characterID;
+            else
+                _pC.CharacterChange();
+
+        }
+
+    }
 
     // -------- Gestion de la barre de tache et du PopUp a patir d'ici -------- //
 

@@ -22,7 +22,7 @@ public class WidgetActorInfo : HintstringProperty
     public bool IsFixed;
     private float _lowOpacity = 0.1f;
     private Image[] _imagesWidget;
-
+    private Button _button;
 
 
     protected override void Start() {
@@ -49,7 +49,10 @@ public class WidgetActorInfo : HintstringProperty
         JaugeProgression.GetComponent<Image>().color = _actor.GetTeamColor();
 
 
-
+        _button = transform.GetComponent<Button>();
+        PlayerController pc = (PlayerController)_actor.Owner;
+        if(pc != null && IsFixed)
+            _button.onClick.AddListener(()=>pc.SetActorSelection(_actor) ); 
 
       
     }

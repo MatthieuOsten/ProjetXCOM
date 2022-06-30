@@ -738,7 +738,7 @@ public class PlayerController : Team
     }
 
     /// <summary> Si le joueur selectionne a la souris, il faut mettre à jour l'index de characterPlayer </summary>
-    void SetActorSelection(Actor _newActor)
+    public void SetActorSelection(Actor _newActor)
     {
         for(int i = 0; i < CharacterPlayer.Count; i++)
         {

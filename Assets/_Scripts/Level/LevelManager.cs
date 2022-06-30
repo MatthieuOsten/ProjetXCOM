@@ -179,24 +179,23 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if(GameState == GameState.Cinematic)
         {
             if(_timeScale != Time.timeScale)
             {
                 Time.timeScale = _timeScale;
             }
-            _canvasGameObject.SetActive(!_hideUI);
-            _dollyCart.enabled = _trailCinematic;
-            _virtualCamera.enabled = !_trailCinematic;
-
-
+            if(_canvasGameObject != null) _canvasGameObject.SetActive(!_hideUI);
+            if(_dollyCart != null)  _dollyCart.enabled = _trailCinematic;
+            if(_virtualCamera != null)  _virtualCamera.enabled = !_trailCinematic;
         }
         else
         {
             Time.timeScale = 1;
-            _canvasGameObject.SetActive(true);
-            _dollyCart.enabled = false;
-            _virtualCamera.enabled = true;
+            if(_canvasGameObject != null) _canvasGameObject.SetActive(true);
+            if(_dollyCart != null) _dollyCart.enabled = false;
+            if(_virtualCamera != null)_virtualCamera.enabled = true;
         }
 
         _timePlayed += Time.deltaTime;
