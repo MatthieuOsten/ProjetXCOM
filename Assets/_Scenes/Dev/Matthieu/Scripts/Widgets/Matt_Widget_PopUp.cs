@@ -53,7 +53,7 @@ public class Matt_Widget_PopUp : Matt_Widgets
     /// </summary>
     private void DisplayPopUp(DataCharacter.Capacity data, Vector3 position, string description = " ", string title = "Information")
     {
-        if (hudManager.Character.IsMoving) return; // [UI] [GRID] Empêcher la prévisualisation quand notre perso se déplace
+        if (hudManager.Character.IsMoving) return; // [UI] [GRID] Empï¿½cher la prï¿½visualisation quand notre perso se dï¿½place
 
         PlayerController playerController = hudManager.ActualPlayer;
 
@@ -81,7 +81,7 @@ public class Matt_Widget_PopUp : Matt_Widgets
             _popUp.transform.position = position;
             DataWeapon weapon = playerController.GetWeaponFromActionMode(data.typeA);
             PopupActionBar _popup = _popUp.GetComponent<PopupActionBar>();
-            _popup.SetWidget(title, description, weapon.CostPoint.ToString(), weapon.Cooldown);
+            _popup.SetWidget(title, description, weapon.CostPoint.ToString(), Color.white ,weapon.Cooldown);
 
             if (_popUp.activeSelf == false) { _popUp.SetActive(true); }
         }

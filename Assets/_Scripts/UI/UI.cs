@@ -18,6 +18,8 @@ public class UI : MonoBehaviour
     [SerializeField] private Image _glowTeam;
     [SerializeField] private Image weaponImage;
 
+    [SerializeField] private Image _endTurnImage;
+
     [Header("Ammo")]
     [SerializeField] private GameObject imageAmmo;
     [SerializeField] private GameObject parentAmmo;
@@ -147,6 +149,7 @@ public class UI : MonoBehaviour
             }
             _teamImage = new List<GameObject>();
             _pC = (PlayerController)LevelManager.GetCurrentController();
+            _endTurnImage.color = _pC.Color;
 
             ListTeam(iconeTeam);   
             
@@ -207,7 +210,8 @@ public class UI : MonoBehaviour
                 _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0f);
                 foreach (Image image in children)
                 {
-                    image.color = new Color(image.color.r, image.color.g, image.color.b, 0.3f);
+                    Color _color = image.color;
+                    image.color = new Color(_color.r, _color.g, _color.b, 0.3f);
                 }
                 HidePopUp();
             }
@@ -220,7 +224,8 @@ public class UI : MonoBehaviour
                 _barreAction.color = new Color(_barreAction.color.r, _barreAction.color.g, _barreAction.color.b, 0f);
                 foreach (Image image in children)
                 {
-                    image.color = new Color(image.color.r, image.color.g, image.color.b, 1f);
+                     Color _color = image.color;
+                    image.color = new Color(_color.r, _color.g, _color.b, 1f);
                 }
                 _layoutGroup.gameObject.SetActive(true);  // reactive la barre d'action
 
@@ -259,25 +264,26 @@ public class UI : MonoBehaviour
     /// <param name="_reload"></param>
     void WatchReloadButton(GameObject _reload)
     {
-                    Color colorReload = _reload.GetComponent<Image>().color;
-                    
-                    //si doit recharger
-                    if (_cH.GetWeaponCurrentAmmo() < _myAmmoMax)
-                    {
-                        colorReload.a = 1f;
-                        _reload.GetComponent<Image>().color = colorReload;
-                        _reload.GetComponent<Button>().interactable = true;
-                        _reload.GetComponentInChildren<ButtonAction>().ICONE.color = colorReload;
-                        // Debug.Log("marche");
-                    }
+        Color colorReload = _reload.GetComponent<Image>().color;
+        //si doit recharger
+            if (_cH.GetWeaponCurrentAmmo() < _myAmmoMax)
+            {
+                colorReload.a = 1f;
 
-                   
+                _reload.GetComponent<Image>().color = colorReload;
+                _reload.GetComponent<Button>().interactable = true;
+                _reload.GetComponentInChildren<ButtonAction>().ICONE.color = Color.white;
+                // Debug.Log("marche");
+            }
             else
             {
                colorReload.a = 0.5f;
+               
                _reload.GetComponent<Image>().color = colorReload;
                _reload.GetComponent<Button>().interactable = false;
-               _reload.GetComponentInChildren<ButtonAction>().ICONE.color = colorReload;
+               Color _color = Color.white;
+               _color.a = 0.5f;
+               _reload.GetComponentInChildren<ButtonAction>().ICONE.color = _color;
             } 
 
     }
@@ -299,7 +305,9 @@ public class UI : MonoBehaviour
             button.interactable = true;
             image.color = colorCompetence1;
             buttonAction.Cooldown.text = string.Empty;
-            buttonAction.ICONE.color = colorCompetence1;
+             Color _color = Color.white;
+            _color.a = 0.5f;
+            buttonAction.ICONE.color = _color;
         }
 
         else
@@ -308,63 +316,12 @@ public class UI : MonoBehaviour
             image.color = colorCompetence1;
             button.interactable = false;
             buttonAction.Cooldown.text = Mathf.RoundToInt(_currentCooldown).ToString();
-            buttonAction.ICONE.color = colorCompetence1;
+
+            Color _color = Color.white;
+            _color.a = 0.5f;
+            buttonAction.ICONE.color = _color;
         }
     }
-
-    /// <summary>
-    /// Verifie le nombre de point d'action et adapte l'ui
-    /// </summary>
-   /* private void ActualActionPoint()
-    {
-        // Si le personnage selectionner est null, on hide les actions bar
-        if(_cH == null)
-        {
-            for (int i = 0; i < _actionPoint.Count; i++)
-            {
-                Image actionPointImage = _actionPoint[i].GetComponent<Image>();
-                Color _color = actionPointImage.color;
-                actionPointImage.color = new Color(_color.r, _color.g, _color.b, 0f);
-            }
-            return;
-        }
-        _actionPointMax = _cH.MaxActionPoint;
-
-        if (_actionPointMax < _cH.CurrentActionPoint)
-        {
-            _actionPointMax = _cH.CurrentActionPoint;
-        }
-
-        if (_actionPoint.Count < _actionPointMax)
-        {
-            //Instantie le nombre de d'image, ajoute au bon gameobject et à une liste
-            for (int i = _actionPoint.Count; i < _actionPointMax; i++)
-            {
-                GameObject addImageAction = Instantiate(imageActionPoint, new Vector3(0f, 0f, 0f), Quaternion.identity) as GameObject;
-                addImageAction.transform.SetParent(parentActionPoint.transform, false);
-                _actionPoint.Add(addImageAction);
-            }
-        }
-
-        //Montre ou rend invisible le point d'action si utiliser
-        for (int i = 0; i < _actionPoint.Count; i++)
-        {
-            Image actionPointImage = _actionPoint[i].GetComponent<Image>();
-
-            Color _color = actionPointImage.color;
-            if (i >= _cH.CurrentActionPoint)
-            {
-                actionPointImage.color = new Color(_color.r, _color.g, _color.b, 0.2f);
-            }
-
-            else
-            {
-                actionPointImage.color = new Color(_color.r, _color.g, _color.b, 1f);
-                
-            }
-        }
-
-    }*/
 
     //Gere l'affichage du nombre actuel des munitions
     private void ActualAmmo()
@@ -549,7 +506,7 @@ public class UI : MonoBehaviour
             // Insert l'action effectuer si le boutton est appuyer
             int index = i;
             _actionButton[i].GetComponent<Button>().onClick.AddListener(() => SetActionMode(_actionCapacity[index].typeA, _actionCapacity[index].sound));
-
+            _actionButton[i].GetComponent<Button>().image.color = _pC.Color;
 
             // // Verifie que l'objet a une icone et l'affiche
             // if (_actionCapacity[i].icon != null)
@@ -759,7 +716,7 @@ public class UI : MonoBehaviour
             _objectPopUp.transform.position = position;
             DataWeapon weapon = _pC.GetWeaponFromActionMode(data.typeA);
             PopupActionBar _popup = _objectPopUp.GetComponent<PopupActionBar>();
-            _popup.SetWidget(title,description, weapon.CostPoint.ToString(), weapon.Cooldown);
+            _popup.SetWidget(title,description, weapon.CostPoint.ToString(), _pC.Color ,weapon.Cooldown);
             // // Change le titre du PopUp
             // ModifyTextBox(_objectPopUp, "Title", title);
             // // Change la description du PopUp

@@ -862,8 +862,9 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d9dc05e076edb9a408f386d0e98d8ef7, type: 2}
+  m_sharedMaterial: {fileID: -87009924764876352, guid: d9dc05e076edb9a408f386d0e98d8ef7,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1904,6 +1905,7 @@ MonoBehaviour:
   _iconeTeam: {fileID: 0}
   _glowTeam: {fileID: 5680207942497307449}
   weaponImage: {fileID: 2463951106590704719}
+  _endTurnImage: {fileID: 1821304017647781821}
   imageAmmo: {fileID: 1817914055381407321, guid: 371bd0fdee90eda4d91e09dbee51942a,
     type: 3}
   parentAmmo: {fileID: 4980103919222708288}
@@ -3428,6 +3430,21 @@ PrefabInstance:
       propertyPath: m_Color.a
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1570255076516274115, guid: be5b9f041632bf242aaff232d2acc228,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570255076516274115, guid: be5b9f041632bf242aaff232d2acc228,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570255076516274115, guid: be5b9f041632bf242aaff232d2acc228,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.4811321
+      objectReference: {fileID: 0}
     - target: {fileID: 1570255076516274116, guid: be5b9f041632bf242aaff232d2acc228,
         type: 3}
       propertyPath: m_Name
@@ -3441,7 +3458,7 @@ PrefabInstance:
     - target: {fileID: 1570255077395589647, guid: be5b9f041632bf242aaff232d2acc228,
         type: 3}
       propertyPath: m_fontSize
-      value: 17.15
+      value: 16.9
       objectReference: {fileID: 0}
     - target: {fileID: 1570255077395589680, guid: be5b9f041632bf242aaff232d2acc228,
         type: 3}

@@ -46,7 +46,7 @@ public class Matt_Widget_PopUpAction : Matt_Widget_PopUp
     /// </summary>
     public void DisplayPopUp(DataCharacter.Capacity data, Vector3 position, string description = " ", string title = "Information")
     {
-        if (hudManager.Character.IsMoving) return; // [UI] [GRID] Empêcher la prévisualisation quand notre perso se déplace
+        if (hudManager.Character.IsMoving) return; // [UI] [GRID] Empï¿½cher la prï¿½visualisation quand notre perso se dï¿½place
 
         GridManager.ResetCasesPreview(hudManager.ActualPlayer.GetCurrentCharactedSelected.CurrentCase.GridParent);
 
@@ -72,7 +72,7 @@ public class Matt_Widget_PopUpAction : Matt_Widget_PopUp
             _popUp.transform.position = position;
             DataWeapon weapon = hudManager.ActualPlayer.GetWeaponFromActionMode(data.typeA);
             PopupActionBar _popup = _popUp.GetComponent<PopupActionBar>();
-            _popup.SetWidget(title, description, weapon.CostPoint.ToString(), weapon.Cooldown);
+            _popup.SetWidget(title, description, weapon.CostPoint.ToString(), Color.white ,weapon.Cooldown);
 
             if (_popUp.activeSelf == false) { _popUp.SetActive(true); }
         }
