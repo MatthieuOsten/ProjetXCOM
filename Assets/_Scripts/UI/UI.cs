@@ -150,7 +150,7 @@ public class UI : MonoBehaviour
     //recupere les scripts du character selectionner
     private void GetActualScripts()
     {
-        if((Team)_pC != LevelManager.GetCurrentController())
+        if((Team)_pC != LevelManager.GetCurrentController() || _teamImage.Count <= 0)
         {
             foreach(GameObject image in _teamImage)
             {

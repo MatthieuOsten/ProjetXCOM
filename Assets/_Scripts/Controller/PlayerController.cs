@@ -288,7 +288,7 @@ public class PlayerController : Team
         {
             Debug.Log($"Le personnage {GetCurrentCharactedSelected.name} n'a plus de point d'action" , GetCurrentCharactedSelected.gameObject);
             // On force la mode selection
-            ResetSelection();
+            ResetSelection(false);
             return;
         }
 
