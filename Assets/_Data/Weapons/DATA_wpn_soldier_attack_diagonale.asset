@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DATA_wpn_soldier_attack_diagonale
   m_EditorClassIdentifier: 
   name: Attack
-  description: "Inflige 3 Points de d\xE9gats."
+  description: 3 Damage
   debugDescription: "[ 1 PA ] [ 4 Munitions rechargeable ] [Port\xE9e 5] "
   type: 
   tags:
