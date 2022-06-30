@@ -46,7 +46,7 @@ public class Actor_Support : Character
             
                 if (_char.Owner != Owner )
                 {
-                    UIManager.CreateSubtitle("Le personnage visée n'est pas un allié ", 2);
+                    UIManager.CreateSubtitle("The target is not a team mate", 2);
                     return;
                 }
                 
@@ -60,7 +60,7 @@ public class Actor_Support : Character
         }
         else
         {
-            UIManager.CreateSubtitle("Le support peut réutiliser sa compétence dans " + cooldownAbility + " tours");
+            UIManager.CreateSubtitle("The Support can reused his capacity in " + cooldownAbility + " turns");
             return;
         }
         
@@ -80,17 +80,17 @@ public class Actor_Support : Character
                 _char = (Character)target;
                  if (_char.Owner != Owner)
                 {
-                    UIManager.CreateSubtitle("Le personnage visée n'est pas un allié ", 2);
+                    UIManager.CreateSubtitle("The target is not a team mate", 2);
                     return;
                 }
                 if(_char == this)
                 {
-                    UIManager.CreateSubtitle("Le support ne peut pas se donner des PA sur lui même", 2);
+                    UIManager.CreateSubtitle("Impossible to use the ability on himself", 2);
                     return;
                 }
                  if (_char.IsOverwatching)
                 {
-                    UIManager.CreateSubtitle("Le personnage visée est en overwatch", 2);
+                    UIManager.CreateSubtitle("The target is not available", 2);
                     return;
                 }
                
@@ -103,7 +103,7 @@ public class Actor_Support : Character
         }
         else
         {
-            UIManager.CreateSubtitle("Le support peut réutiliser sa compétence dans " + cooldownAbilityAlt + " tours");
+            UIManager.CreateSubtitle("The Support can reused his capacity in " + cooldownAbilityAlt + " turns");
         }
     }
 

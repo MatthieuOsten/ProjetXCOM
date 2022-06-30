@@ -53,7 +53,7 @@ public class Actor_Tank : Character
                 _char = (Character)target;
                 if(_char.Owner == Owner)
                 {
-                    UIManager.CreateSubtitle("Le personnage visée n'est pas un ennemi ",2);
+                    UIManager.CreateSubtitle("The target is a team mate!",2);
                     return;
                 }
 
@@ -66,7 +66,7 @@ public class Actor_Tank : Character
         else
         {
             
-            UIManager.CreateSubtitle("Le Tank peut réutiliser sa compétence dans " + cooldownAbility + " tours");
+            UIManager.CreateSubtitle("Tank can reused his ability in " + cooldownAbility + " turns");
         }
         
     }
