@@ -19,6 +19,7 @@ public class UI : MonoBehaviour
     [SerializeField] private Image weaponImage;
 
     [SerializeField] private Image _endTurnImage;
+    [SerializeField] private WidgetVictory _widgetVictory;
 
     [Header("Ammo")]
     [SerializeField] private GameObject imageAmmo;
@@ -74,7 +75,12 @@ public class UI : MonoBehaviour
             _ammoImageIndex = value;
         }
     }
-
+    public void SetVictory(string nameTeam, Color color)
+    {
+        _widgetVictory.gameObject.SetActive(true);
+        _widgetVictory.Text = nameTeam;
+        _widgetVictory.Color = color;
+    }
     // Start is called before the first frame update
     void Start()
     {
