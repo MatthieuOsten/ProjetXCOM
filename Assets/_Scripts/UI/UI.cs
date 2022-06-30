@@ -27,7 +27,7 @@ public class UI : MonoBehaviour
     [Header("Icone Team")]
     [SerializeField] private GameObject imageIconeTeam;
     [SerializeField] private GameObject parentIconeTeam;
-     [Header("List Objects")]
+    [Header("List Objects")]
     [SerializeField] private List<GameObject> _actionPoint;
     [SerializeField] private List<GameObject> _ammo;
     [SerializeField] private List<GameObject> _teamImage;

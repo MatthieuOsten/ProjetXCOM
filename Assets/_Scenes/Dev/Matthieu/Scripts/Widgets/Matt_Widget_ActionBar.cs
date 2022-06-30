@@ -21,13 +21,18 @@ public class Matt_Widget_ActionBar : Matt_Widgets
 
     [Space]
     [Header("DEBUG")]
-    [SerializeField] private bool _updateActionBar;
+    [SerializeField] private bool _debugMode = false;
+    [SerializeField] private PlayerController _actualPlayer;
+    [SerializeField] private DataCharacter _actualDataCharacter;
+    [SerializeField] private Character _actualCharacter;
 
     #if UNITY_EDITOR
 
     public override void SystemDebug()
         {
             base.SystemDebug();
+
+            _debugMode = true;
 
             SystemStart();
 
@@ -49,6 +54,8 @@ public class Matt_Widget_ActionBar : Matt_Widgets
     {
         base.SystemStart();
 
+        GetHUDDATA();
+
         ShadeBar();
         UpdateButtonInformation();
     }
@@ -57,12 +64,30 @@ public class Matt_Widget_ActionBar : Matt_Widgets
     {
         base.SystemUpdate();
 
+        GetHUDDATA();
+
         UpdateActionBar();
     }
 
     #endregion
 
     #region FUNCTION
+
+    private void GetHUDDATA()
+    {
+        if (!_debugMode && hudManager != null)
+        {
+            _actualPlayer = hudManager.ActualPlayer;
+            _actualDataCharacter = hudManager.ActualCharacter;
+            _actualCharacter = hudManager.Character;
+        } else
+        {
+            if (_actualCharacter == null && _actualDataCharacter != null)
+            {
+                new Character().Data = _actualDataCharacter;
+            }
+        }
+    }
 
     //gere si la barre doit etre invisible ou non
     private void ShadeBar()
@@ -83,7 +108,7 @@ public class Matt_Widget_ActionBar : Matt_Widgets
 
 
             //Si pas en mode action quasi invisible
-            if (hudManager.Character == null)
+            if (_actualCharacter == null)
             {
                 _layoutGroup.gameObject.SetActive(false); // desactive la barre d'action
 
@@ -107,7 +132,7 @@ public class Matt_Widget_ActionBar : Matt_Widgets
 
     private void UpdateButtonInformation()
     {
-        if (hudManager.Character == null) return;
+        if (_actualCharacter == null) return;
 
         // ---- Initialise chaque bouttons en rapport avec les capacités actuel ---- //
         for (int i = 0; i < _actionButton.Count; i++)
@@ -140,12 +165,12 @@ public class Matt_Widget_ActionBar : Matt_Widgets
 
             if (_actionCapacity[index].typeA == ActionTypeMode.Competence1)
             {
-                AdaptIcon(button, hudManager.Character.GetCurrentAbilityCooldown);
+                AdaptIcon(button, _actualCharacter.GetCurrentAbilityCooldown);
             }
 
             if (_actionCapacity[index].typeA == ActionTypeMode.Competence2)
             {
-                AdaptIcon(button, hudManager.Character.GetCurrentAbilityAltCooldown);
+                AdaptIcon(button, _actualCharacter.GetCurrentAbilityAltCooldown);
             }
 
 
@@ -209,7 +234,7 @@ public class Matt_Widget_ActionBar : Matt_Widgets
     /// </summary>
     private void UpdateActionBar()
     {
-        if (hudManager.Character != null)
+        if (_actualCharacter != null)
         {
             _layoutGroup.SetActive(true);
 
@@ -288,10 +313,10 @@ public class Matt_Widget_ActionBar : Matt_Widgets
     {
         DataCharacter data;
 
-        if (hudManager.ActualPlayer != null)
+        if (_actualPlayer != null)
         {
             // Recupere la base de donnee du personnage selectionner
-            data = hudManager.ActualPlayer.CharacterPlayer[hudManager.ActualPlayer.CharacterIndex].GetComponent<Character>().Data;
+            data = _actualPlayer.CharacterPlayer[_actualPlayer.CharacterIndex].GetComponent<Character>().Data;
             return data;
         }
         else
@@ -318,7 +343,7 @@ public class Matt_Widget_ActionBar : Matt_Widgets
         Color colorReload = _reload.GetComponent<Image>().color;
 
         //si doit recharger
-        if (hudManager.Character.GetWeaponCurrentAmmo() < hudManager.Character.GetWeaponCapacityAmmo())
+        if (_actualCharacter.GetWeaponCurrentAmmo() < _actualCharacter.GetWeaponCapacityAmmo())
         {
             colorReload.a = 1f;
             _reload.GetComponent<Image>().color = colorReload;

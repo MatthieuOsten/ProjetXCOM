@@ -1,3 +1,7 @@
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,7 +30,10 @@ public class Matt_HUDManager_V2 : MonoBehaviour
 
     [Header("DEBUG")]
     [SerializeField] private bool _resetPosition;
+    [SerializeField] private bool _updateWidgets;
     [SerializeField] private bool _resetWidgets;
+    [SerializeField] private bool _cleanChild;
+    [SerializeField] private bool _showPosition;
 
     #region EDITOR
 #if UNITY_EDITOR
@@ -37,22 +44,19 @@ public class Matt_HUDManager_V2 : MonoBehaviour
 
             _resetPosition = false;
 
-            float camWidth, camHeight;
+            Rect rectCamera;
 
             if (Camera.current != null)
             {
-                 camWidth = Camera.current.pixelWidth;
-                 camHeight = Camera.current.pixelHeight;
+                rectCamera = Camera.current.rect;
             } 
             else if (_canvasHUD != null) 
             {
-                 camWidth = _canvasHUD.pixelRect.width;
-                 camHeight = _canvasHUD.pixelRect.height;
+                rectCamera = _canvasHUD.pixelRect;
             } 
             else
             {
-                 camWidth = 1920;
-                 camHeight = 1080;
+                rectCamera = new Rect(0, 0, Screen.width, Screen.height);
             }
 
 
@@ -60,65 +64,162 @@ public class Matt_HUDManager_V2 : MonoBehaviour
 
             if (GetDisplayPositionToName("None").Name == stringERROR)
             {
-                listDisplayPosition.Add(new DisplayPosition("None", false, -1, new Rect(new Vector2(0, 0), new Vector2(camWidth, camHeight))));
+                listDisplayPosition.Add(new DisplayPosition("None", false, -1, new Rect(new Vector2(0, 0), new Vector2(rectCamera.width, rectCamera.height))));
             }
             if (GetDisplayPositionToName("Center").Name == stringERROR)
             {
-                listDisplayPosition.Add(new DisplayPosition("Center", false, 1, new Rect(new Vector2(0, 0), new Vector2(camWidth, camHeight))));
+                listDisplayPosition.Add(new DisplayPosition("Center", false, 1, new Rect(new Vector2(rectCamera.width / 2, rectCamera.height / 2), new Vector2(rectCamera.width / 2, rectCamera.height / 2))));
             }
 
-            if (GetDisplayPositionToName("Left").Name == stringERROR)
-            {
-                listDisplayPosition.Add(new DisplayPosition("Left", false, 1, new Rect(new Vector2(0, camHeight / 2), new Vector2(camWidth, camHeight))));
-            }
-            if (GetDisplayPositionToName("Right").Name == stringERROR)
-            {
-                listDisplayPosition.Add(new DisplayPosition("Right", false, 1, new Rect(new Vector2(camWidth, camHeight / 2), new Vector2(camWidth, camHeight))));
-            }
-            if (GetDisplayPositionToName("Top").Name == stringERROR)
-            {
-                listDisplayPosition.Add(new DisplayPosition("Top", false, 1, new Rect(new Vector2(camWidth / 2, 0), new Vector2(camWidth, camHeight))));
-            }
-            if (GetDisplayPositionToName("Bottom").Name == stringERROR)
-            {
-                listDisplayPosition.Add(new DisplayPosition("Bottom", false, 1, new Rect(new Vector2(camWidth / 2, camHeight), new Vector2(camWidth, camHeight))));
-            }
+            DisplayPosition posCenter = GetDisplayPositionToName("Center");
+
+            Vector2 centerTopLeft = new Vector2(posCenter.RectZone.xMin,posCenter.RectZone.yMax);
+            Vector2 centerTopRight = new Vector2(posCenter.RectZone.xMax, posCenter.RectZone.yMax);
+            Vector2 centerBottomLeft = new Vector2(posCenter.RectZone.xMin, posCenter.RectZone.yMin);
+            Vector2 centerBottomRight = new Vector2(posCenter.RectZone.xMax, posCenter.RectZone.yMin);
+
+            Vector2 screenTopLeft = new Vector2(rectCamera.xMin, rectCamera.yMax);
+            Vector2 screenTopRight = new Vector2(rectCamera.xMax, rectCamera.yMax);
+            Vector2 screenBottomLeft = new Vector2(rectCamera.xMin, rectCamera.yMin);
+            Vector2 screenBottomRight = new Vector2(rectCamera.xMax, rectCamera.yMin);
 
             if (GetDisplayPositionToName("TopLeft").Name == stringERROR)
             {
-                listDisplayPosition.Add(new DisplayPosition("TopLeft", false, 1, new Rect(new Vector2(0, 0), new Vector2(camWidth, camHeight))));
+                listDisplayPosition.Add(new DisplayPosition("TopLeft", false, 1, new Rect(new Vector2(0, 0), centerTopLeft - screenTopLeft)));
             }
             if (GetDisplayPositionToName("TopRight").Name == stringERROR)
             {
-                listDisplayPosition.Add(new DisplayPosition("TopRight", false, 1, new Rect(new Vector2(0, camHeight), new Vector2(camWidth, camHeight))));
+                listDisplayPosition.Add(new DisplayPosition("TopRight", false, 1, new Rect(new Vector2(0, rectCamera.height), centerTopRight - screenTopRight)));
             }
             if (GetDisplayPositionToName("BottomLeft").Name == stringERROR)
             {
-                listDisplayPosition.Add(new DisplayPosition("BottomLeft", false, 1, new Rect(new Vector2(camWidth, 0), new Vector2(camWidth, camHeight))));
+                listDisplayPosition.Add(new DisplayPosition("BottomLeft", false, 1, new Rect(new Vector2(rectCamera.width, 0), centerBottomLeft - screenBottomLeft)));
             }
             if (GetDisplayPositionToName("BottomRight").Name == stringERROR)
             {
-                listDisplayPosition.Add(new DisplayPosition("BottomRight", false, 1, new Rect(new Vector2(camWidth, camHeight), new Vector2(camWidth, camHeight))));
+                listDisplayPosition.Add(new DisplayPosition("BottomRight", false, 1, new Rect(new Vector2(rectCamera.width, rectCamera.height), centerBottomRight - screenBottomRight)));
             }
+
+            DisplayPosition posCornerTopLeft = GetDisplayPositionToName("TopLeft");
+            DisplayPosition posCornerTopRight = GetDisplayPositionToName("TopRight");
+            DisplayPosition posCornerBottomLeft = GetDisplayPositionToName("BottomLeft");
+            DisplayPosition posCornerBottomRight = GetDisplayPositionToName("BottomRight");
+
+            float leftY = posCornerTopLeft.RectZone.yMin - posCornerBottomLeft.RectZone.yMax;
+            float leftX = posCenter.RectZone.xMin;
+
+            float rightY = posCornerTopRight.RectZone.yMin - posCornerBottomRight.RectZone.yMax;
+            float rightX = posCenter.RectZone.xMax;
+
+            float topY = posCenter.RectZone.yMax;
+            float topX = posCornerTopLeft.RectZone.xMax - posCornerTopRight.RectZone.xMin;
+
+            float bottomY = posCenter.RectZone.yMin;
+            float bottomX = posCornerBottomLeft.RectZone.xMax - posCornerBottomRight.RectZone.xMin;
+
+            if (GetDisplayPositionToName("Left").Name == stringERROR)
+            {
+                listDisplayPosition.Add(new DisplayPosition("Left", false, 1, new Rect(new Vector2(0, rectCamera.height / 2), new Vector2(leftX, leftY))));
+            }
+            if (GetDisplayPositionToName("Right").Name == stringERROR)
+            {
+                listDisplayPosition.Add(new DisplayPosition("Right", false, 1, new Rect(new Vector2(rectCamera.width, rectCamera.height / 2), new Vector2(rightX, rightY))));
+            }
+            if (GetDisplayPositionToName("Top").Name == stringERROR)
+            {
+                listDisplayPosition.Add(new DisplayPosition("Top", false, 1, new Rect(new Vector2(rectCamera.width / 2, rectCamera.height), new Vector2(topX, topY))));
+            }
+            if (GetDisplayPositionToName("Bottom").Name == stringERROR)
+            {
+                listDisplayPosition.Add(new DisplayPosition("Bottom", false, 1, new Rect(new Vector2(rectCamera.width / 2, 0), new Vector2(bottomX, bottomY))));
+            }
+
+
 
         }
 
-        InitialiseWidgets(listWidget);
 
+    }
+
+    private void OnDrawGizmos()
+    {
+        // Affiche les "DisplayPosition"
+        if (_showPosition)
+        {
+            for (int i = 0; i < listDisplayPosition.Count; i++)
+            {
+                Rect rect = listDisplayPosition[i].RectZone;
+                Gizmos.DrawWireCube(new Vector3(rect.center.x, rect.center.y, _canvasHUD.transform.position.z), new Vector3(rect.size.x, rect.size.y, _canvasHUD.transform.position.z));
+                Gizmos.DrawWireSphere(rect.center, rect.size.magnitude/10);
+                Handles.Label(rect.center, listDisplayPosition[i].Name);
+                
+            }
+
+        }
     }
 
     private void OnDrawGizmosSelected()
     {
+        // Met a jour les widgets
+        if (_updateWidgets)
+        {
+            _updateWidgets = false;
+
+            for (int i = 0; i < listWidget.Count; i++)
+            {
+                if (listWidget[i].WidgetClass != null && listWidget[i].DebugMode)
+                    listWidget[i].WidgetClass.SystemDebug();
+                else if (listWidget[i].DebugMode)
+                    listWidget[i].UpdateClass();
+            }
+
+        }
+
+        // Re instancie les widgets
         if (_resetWidgets)
         {
             _resetWidgets = false;
 
-            foreach (var widget in listWidget)
+            for (int i = 0; i < listWidget.Count; i++)
             {
-                if (widget.WidgetClass != null && widget.DebugMode)
-                    widget.WidgetClass.SystemDebug();
-                else if (widget.DebugMode)
-                    widget.UpdateClass();
+                DestroyImmediate(listWidget[i].ActualObject);
+                listWidget[i].ActualObject = null;
+            }
+
+            InitialiseWidgets(listWidget);
+        }
+
+        // Retire tout les enfants du canvas HUD qui n'ont pas le nom d'un widget
+        if (_cleanChild)
+        {
+            _cleanChild = false;
+
+            Transform canvas = _canvasHUD.transform;
+
+            for (int i = 0; i < canvas.childCount; i++)
+            {
+                bool unknowChild = true;
+
+                Transform child = canvas.GetChild(i);
+
+                for (int j = 0; j < listWidget.Count; j++)
+                {
+                    if (child.name == listWidget[j].Name)
+                    {
+                        unknowChild = false;
+                        break;
+                    }
+
+                }
+
+                if (unknowChild) {
+                    Debug.Log("Objet " + child.name + " est inconnu");
+                    DestroyImmediate(child.gameObject); 
+                }
+                else
+                {
+                    Debug.Log("Objet " + child.name + " est connu");
+                }
             }
 
         }
@@ -278,6 +379,23 @@ public class Matt_HUDManager_V2 : MonoBehaviour
         return new DisplayPosition("NULL");
     }
 
+    private bool TryGetDisplayPositionToName(out DisplayPosition pos, string name)
+    {
+        pos = new DisplayPosition("NULL");
+
+        foreach (var displayPosition in listDisplayPosition)
+        {
+            if (displayPosition.Name == name)
+            {
+                pos = displayPosition;
+                return true;
+            }
+        }
+
+        Debug.Log("Widget pas trouver");
+        return false;
+    }
+
     private Widget GetWidgetToName(string name)
     {
         foreach (var widget in listWidget)
@@ -294,26 +412,33 @@ public class Matt_HUDManager_V2 : MonoBehaviour
 
     private void Start()
     {
-        //UpdateActionBar();
-
-        InitialiseWidgets(listWidget);
-
         foreach (var widget in listWidget)
         {
+            if (widget.ActualObject == null)
+            {
+                InstantiateWidget(widget);
+            }
+
             widget.UpdateClass();
 
-            widget.WidgetClass.SystemStart();
+            if (widget.WidgetClass != null)
+            {
+                widget.WidgetClass.SystemStart();
+            }
+
         }
     }
 
     // Update is called once per frame
     private void Update()
     {
-        //GetActualScripts();
 
         foreach (var widget in listWidget)
         {
-            widget.WidgetClass.SystemUpdate();
+            if (widget.WidgetClass != null)
+            {
+                widget.WidgetClass.SystemUpdate();
+            }
 
             #if UNITY_EDITOR
                 widget.WidgetClass.SystemDebug();
@@ -425,7 +550,6 @@ public class Matt_HUDManager_V2 : MonoBehaviour
 
                 if (position.Occupied == false && widget.Actived)
                 {
-
                     InstantiateWidget(widget);
 
                     position.ListWidgets.Add(widget.Name);
@@ -466,20 +590,18 @@ public class Matt_HUDManager_V2 : MonoBehaviour
         // Si l'objet n'est pas referencer alors initialise la sequence
         if (widget.ActualObject == null)
         {
-            // Cherche si l'objet est enfant de l'HUD sinon instancie l'objet et le reference
-            //widget.ActualObject = transform.Find(name).gameObject;
-            if (widget.ActualObject != null)
+
+            if (widget.PrefabObject != null)
             {
-                Debug.Log("L'objet " + widget.Name + " a etais retrouver et referencer");
-                return;
-            }
-            else if (widget.PrefabObject != null)
-            {
-                // Initialise le popup si il n'existe pas et que la prefab a etais definit
-                if (FindObjectOfType<Canvas>() != null)
+                // Initialise le widget si il n'existe pas et que la prefab a etais definit
+                if (_canvasHUD != null)
                 {
-                    Transform canvas = FindObjectOfType<Canvas>().transform;
-                    widget.ActualObject = Instantiate(widget.PrefabObject, canvas);
+                    widget.ActualObject = Instantiate(widget.PrefabObject, _canvasHUD.transform);
+                }
+                else if (FindObjectOfType<Canvas>() != null)
+                {
+                    _canvasHUD = FindObjectOfType<Canvas>();
+                    widget.ActualObject = Instantiate(widget.PrefabObject, _canvasHUD.transform);
                 } 
                 else
                 {
@@ -489,7 +611,11 @@ public class Matt_HUDManager_V2 : MonoBehaviour
                 widget.ActualObject.name = widget.Name;
 
                 widget.UpdateClass();
-                widget.WidgetClass.hudManager = this;
+                if (widget.WidgetClass != null)
+                {
+                    widget.WidgetClass.hudManager = this;
+                }
+
             }
             else
             {
@@ -511,26 +637,31 @@ public class Matt_HUDManager_V2 : MonoBehaviour
         // Si l'objet n'est pas referencer alors initialise la sequence
         if (widget.ActualObject == null)
         {
-            // Cherche si l'objet est enfant de l'HUD sinon instancie l'objet et le reference
-            widget.ActualObject = transform.Find(name).gameObject;
-            if (widget.ActualObject != null)
+
+            if (widget.PrefabObject != null)
             {
-                Debug.Log("L'objet " + widget.Name + " a etais retrouver et referencer");
-                return;
-            }
-            else if (widget.PrefabObject != null)
-            {
+                DisplayPosition pos;
+
                 // Initialise le popup si il n'existe pas et que la prefab a etais definit
-                widget.ActualObject = Instantiate(widget.PrefabObject, parent.position, Quaternion.identity, parent);
+                if (TryGetDisplayPositionToName(out pos,widget.Position))
+                {
+                    widget.ActualObject = Instantiate(widget.PrefabObject, parent.position + (Vector3)pos.RectZone.center, Quaternion.identity, parent);
+                }
+                else
+                {
+                    widget.ActualObject = Instantiate(widget.PrefabObject, parent);
+                }
+
+
                 widget.ActualObject.name = widget.Name;
             }
             else
             {
-                Debug.LogWarning("Le systeme de PopUp a etais implementer mais aucun moyen n'as etais touver pour referencer ou initialiser le popup");
+                Debug.LogWarning("Le systeme de widget a etais implementer mais aucun moyen n'as etais touver pour referencer ou initialiser le widget");
                 return;
             }
 
-        }
+        } 
     }
 
 }

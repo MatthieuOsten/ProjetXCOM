@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(HorizontalLayoutGroup))]
 public class Matt_Widget_Ammo : Matt_Widgets
 {
 
