@@ -2711,8 +2711,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4869898649562382440, guid: 4b15de5acd78e4a42ad140c3314e2260,
         type: 3}
+      propertyPath: m_Intensity
+      value: 18.884457
+      objectReference: {fileID: 0}
+    - target: {fileID: 4869898649562382440, guid: 4b15de5acd78e4a42ad140c3314e2260,
+        type: 3}
       propertyPath: m_ShadowNearPlane
       value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4869898649562382441, guid: 4b15de5acd78e4a42ad140c3314e2260,
+        type: 3}
+      propertyPath: m_Intensity
+      value: 60491.996
       objectReference: {fileID: 0}
     - target: {fileID: 4869898649562382442, guid: 4b15de5acd78e4a42ad140c3314e2260,
         type: 3}
@@ -3222,7 +3232,7 @@ PrefabInstance:
     - target: {fileID: 4893227580972348143, guid: 65abe4bc8e73bb64ead5d1d1c4dd8449,
         type: 3}
       propertyPath: m_Intensity
-      value: 19.100105
+      value: 20.811115
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 65abe4bc8e73bb64ead5d1d1c4dd8449, type: 3}
@@ -3244,9 +3254,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3548bc493a8d414380f7db2ac6e5e29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flickVariation: 0.627
-  Delay: 0.061
-  lightIntensity: 19.362925
+  flickVariation: 2
+  Delay: 0.05
+  lightIntensity: 19.100105
 --- !u!4 &6342933921140142227 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4893227580972348140, guid: 65abe4bc8e73bb64ead5d1d1c4dd8449,
