@@ -23,8 +23,6 @@ public class MenuManager : MonoBehaviour
 
     [Header("BACKGROUND")]
     [SerializeField] private string _stringLoadBackground;
-    [SerializeField] private GameObject _panelBackground;
-    [SerializeField] private Sprite _spriteBackground;
 
     [Header("VERSION")]
     [SerializeField] private string _versionString;
@@ -37,13 +35,6 @@ public class MenuManager : MonoBehaviour
             if (_stringLoadBackground != null) 
             {
                 SceneManager.LoadScene(_stringLoadBackground, LoadSceneMode.Additive);
-            } 
-            else if (_spriteBackground != null)
-            {
-                Image imageBackground = _panelBackground.GetComponent<Image>();
-
-                imageBackground.sprite = _spriteBackground;
-                imageBackground.color = new Color(255,255, 255, 255);
             } 
             else
             {
