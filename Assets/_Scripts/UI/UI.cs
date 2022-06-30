@@ -109,6 +109,9 @@ public class UI : MonoBehaviour
         UpdateActionBar();
         ActualAmmo();
     }
+    private void LateUpdate() {
+        GetActualScripts();    
+    }
 
     void WatchListTeam()
     {

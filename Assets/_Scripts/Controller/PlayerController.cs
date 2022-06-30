@@ -575,7 +575,7 @@ public class PlayerController : Team
                     
                     GridManager.ResetCasesPreview(_selectedGrid);
                     UIManager.CreateSubtitle("Point d'action insuffisant pour ce personnage", 2);
-                    ResetSelection();
+                    ResetSelection(false);
                     return;
                 }
             }
@@ -646,7 +646,7 @@ public class PlayerController : Team
 
     public override void EndTurn()
     {
-        ResetSelection();
+        ResetSelection(false);
         base.EndTurn();
     }
 
@@ -663,10 +663,10 @@ public class PlayerController : Team
     }
 
     /// <summary> Quitte le mode action et le personnage selectionner </summary>
-    void ResetSelection()
+    void ResetSelection(bool playSound = true)
     {
         Debug.Log("ResetSelection");
-        AudioManager.PlaySoundAtPosition("case_reset", Vector3.zero);
+        if(playSound) AudioManager.PlaySoundAtPosition("case_reset", Vector3.zero);
         SelectedCaseA = null;
         SelectedCaseB = null;
         _selectedActor = null;
@@ -890,7 +890,7 @@ public class PlayerController : Team
             CharacterChange();
             return;
         }
-        ResetSelection();
+        ResetSelection(false);
         _selectedActor = componentChar;
         SelectionMode = SelectionMode.Selection;
     }

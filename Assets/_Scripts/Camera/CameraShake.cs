@@ -47,7 +47,7 @@ public void Noise(float amplitudeGain, float frequencyGain) {
     // Update is called once per frame
     void Update()
     {
-        if(_virtualCam != null)
+        if(_virtualCam != null && noise != null)
         {
             if(_noiseValue > 0)
             {
