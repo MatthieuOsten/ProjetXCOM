@@ -664,7 +664,7 @@ public class Character : Actor
         else
             caseOverwatched = AttackRange(range, MaterialCasePreviewOverwatch);
     }
-    void ActionAnimation(DataWeapon weapon, Actor target)
+    protected void ActionAnimation(DataWeapon weapon, Actor target)
     {
         _anim.SetTrigger("Shoot");
 

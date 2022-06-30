@@ -23,6 +23,7 @@ public class ParticleManager : MonoBehaviour
     [SerializeField] List<Transform>    FXTrailPoolTarget;
     [Space]
     [SerializeField] List<ParticleSystem> FXParticleSystemPool;
+    GameObject _fxParent;
 
 
     public static ParticleManager Instance
@@ -58,6 +59,8 @@ public class ParticleManager : MonoBehaviour
         InitVFX();
 
         SpeedTrailTo = 15;
+        _fxParent = new GameObject("FxContainer");
+        _fxParent.transform.SetParent(transform);
         //InitParticleSystem();
 
     }
@@ -147,10 +150,11 @@ public class ParticleManager : MonoBehaviour
             return;
         }
         
-        GameObject Fx = Instantiate(fx, position ,Quaternion.identity);
+        GameObject Fx = Instantiate(fx, position ,Quaternion.identity, Instance._fxParent.transform);
         ParticleSystem ps = Fx.GetComponentInChildren<ParticleSystem>();
         if(ps != null)
         {
+            ps.Play();
             Instance.FXParticleSystemPool.Add(ps);
         }
         else
@@ -178,7 +182,7 @@ public class ParticleManager : MonoBehaviour
         }
            
 
-        GameObject Fx = Instantiate(fxToPlay, startPosition,Quaternion.identity);
+        GameObject Fx = Instantiate(fxToPlay, startPosition,Quaternion.identity , Instance._fxParent.transform);
         Fx.transform.LookAt(target);
         Instance.FXTrailPool.Add(Fx);
         Instance.FXTrailPoolTarget.Add(target);
