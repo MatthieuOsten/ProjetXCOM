@@ -38,6 +38,7 @@ MonoBehaviour:
   _animFire: {fileID: 0}
   _soundFire: Tank_Attack
   _soundReload: 
-  fxImpact: {fileID: 0}
+  fxImpact: {fileID: 3622863921868668138, guid: 90f132bab0fe07a44a8de34a5ddceba9,
+    type: 3}
   fxProjectileTrail: {fileID: 0}
   fxMuzzle: {fileID: 0}

@@ -434,6 +434,7 @@ public class Character : Actor
             transform.position = Vector3.MoveTowards(transform.position, GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]), moveSpeed * Time.deltaTime);
             transform.LookAt(GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]));
             _anim.SetBool("Run", true);
+            CameraShake.SetNoisier(0.05f);
         }
             
         else
@@ -633,6 +634,7 @@ public class Character : Actor
     {
         // Si on arrive ici, c'est que l'actor a effectuer sa compétence du coup, 
         ActionAnimation(GetWeaponAbilityInfo(), target);
+        CameraShake.SetNoisier(0.25f);
         //on lui retire les pa indiqué par l'arme de la compétence utilisé
         CurrentActionPoint -= GetWeaponAbilityInfo().CostPoint;
     }
@@ -641,6 +643,7 @@ public class Character : Actor
          // Si on arrive ici, c'est que l'actor a effectuer sa compétence du coup, 
              
         ActionAnimation(GetWeaponAbilityAltInfo(), target);
+        CameraShake.SetNoisier(0.25f);
          //on lui retire les pa indiqué par l'arme de la compétence utilisé  
         CurrentActionPoint -= GetWeaponAbilityAltInfo().CostPoint;
     }
