@@ -56,6 +56,8 @@ public class ParticleManager : MonoBehaviour
             return;
 
         InitVFX();
+
+        SpeedTrailTo = 15;
         //InitParticleSystem();
 
     }
@@ -222,7 +224,10 @@ public class ParticleManager : MonoBehaviour
             else
             {
                 Debug.Log("oh");
-                FXTrailPool[i].transform.position = Vector3.Lerp(FXTrailPool[i].transform.position, FXTrailPoolTarget[i].position, SpeedTrailTo*Time.deltaTime);
+
+                //transform.position = Vector3.MoveTowards(transform.position, GridManager.GetCaseWorldPosition(pathToFollow[_indexPath]), moveSpeed * Time.deltaTime);
+
+                FXTrailPool[i].transform.position = Vector3.MoveTowards(FXTrailPool[i].transform.position, FXTrailPoolTarget[i].position, SpeedTrailTo*Time.deltaTime);
             }   
             // if(!FXTrailPool[i].GetComponent<ParticleSystem>().isPlaying)
             // {
@@ -230,7 +235,7 @@ public class ParticleManager : MonoBehaviour
             //     FXTrailPool.Remove(FXTrailPool[i]);
             //     FXTrailPoolTarget.Remove(FXTrailPoolTarget[i]);
                  
-            // } 
+ 
         }
     }
 }
