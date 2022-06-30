@@ -26,21 +26,21 @@ public class SelectManager : MonoBehaviour
         [Header("OBJECT")]
         public GameObject _actualObject;
         public Button _buttonMap;
-        public Image _imageMap;
         public TextMeshProUGUI _titleMap;
         public VideoPlayer _videoMap;
+        public RawImage _rawImageMap;
 
         [Header("DISPLAY")]
         public VideoClip _video;
-        public Sprite _image;
+        public RenderTexture _render;
 
         public void SetObject(GameObject mapObject)
         {
             _actualObject = mapObject;
 
-            _imageMap = mapObject.transform.Find("Image").GetComponent<Image>();
             _titleMap = mapObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             _videoMap = mapObject.transform.Find("Video").GetComponent<VideoPlayer>();
+            _rawImageMap = mapObject.transform.Find("Video").GetComponent<RawImage>();
             _buttonMap = mapObject.GetComponent<Button>();
 
             SetProprities();
@@ -50,15 +50,22 @@ public class SelectManager : MonoBehaviour
         public void SetProprities()
         {
             _videoMap.clip = _video;
-            _imageMap.sprite = _image;
             _titleMap.text = _name;
 
+            _videoMap.renderMode = VideoRenderMode.RenderTexture;
+            _videoMap.targetTexture = _render;
+            _rawImageMap.texture = _render;
+
+            _videoMap.audioOutputMode = VideoAudioOutputMode.None;
             _videoMap.Prepare();
             _videoMap.Stop();
 
             // -- Initialise "DisplayDescription" sur le boutton -- //
             if (_buttonMap != null) // Verifie que la description est remplie
             {
+                _buttonMap.onClick.RemoveAllListeners();
+                _buttonMap.onClick.AddListener(() => { SceneManager.LoadScene(_nameScene); });
+
                 // Recupere le "EventTrigger" du boutton
                 EventTrigger eventTrigger;
 
@@ -73,7 +80,7 @@ public class SelectManager : MonoBehaviour
                     // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
                     onSelected.eventID = EventTriggerType.PointerEnter;
                     // Insert dans sa liste de reaction, l'affichage de la pop-up de description
-                    onSelected.callback.AddListener((eventData) => { PlayVideo(); });
+                    onSelected.callback.AddListener((eventData) => { _videoMap.Play(); });
 
                     // Ajoute le composant et ces parametres dans le boutton
                     eventTrigger.triggers.Add(onSelected);
@@ -86,7 +93,7 @@ public class SelectManager : MonoBehaviour
                     // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
                     onDeselected.eventID = EventTriggerType.PointerExit;
                     // Insert dans sa liste de reaction, l'affichage de la pop-up de description
-                    onDeselected.callback.AddListener((eventData) => { StopVideo(); });
+                    onDeselected.callback.AddListener((eventData) => { _videoMap.Pause(); });
                     // Ajoute le composant et ces parametres dans le boutton
                     eventTrigger.triggers.Add(onDeselected);
                 }
@@ -94,21 +101,6 @@ public class SelectManager : MonoBehaviour
             }
         }
 
-        public void PlayVideo()
-        {
-            _imageMap.enabled = false;
-            _videoMap.enabled = true;
-
-            _videoMap.Play();
-        }
-
-        public void StopVideo()
-        {
-            _imageMap.enabled = true;
-            _videoMap.enabled = false;
-
-            _videoMap.Pause();
-        }
     }
 
 #if UNITY_EDITOR
@@ -140,14 +132,7 @@ public class SelectManager : MonoBehaviour
         {
             _updateObject = false;
 
-            for (int i = 0; i < _maps.Count; i++)
-            {
-                if (_maps[i]._actualObject != null)
-                {
-                    _maps[i].SetProprities();
-                }
-
-            }
+            UpdateButtonMap();
         }
     }
 
@@ -155,7 +140,19 @@ public class SelectManager : MonoBehaviour
 
     private void Start()
     {
-        InitialiseButtonMap();
+        UpdateButtonMap();
+    }
+
+    private void UpdateButtonMap()
+    {
+        for (int i = 0; i < _maps.Count; i++)
+        {
+            if (_maps[i]._actualObject != null)
+            {
+                _maps[i].SetProprities();
+            }
+
+        }
     }
 
     private void InitialiseButtonMap()
