@@ -52,7 +52,10 @@ public class WidgetActorInfo : HintstringProperty
         _button = transform.GetComponent<Button>();
         PlayerController pc = (PlayerController)_actor.Owner;
         if(pc != null && IsFixed)
+        {
             _button.onClick.AddListener(()=>pc.SetActorSelection(_actor) ); 
+            gameObject.layer = 5;
+        }
 
       
     }
