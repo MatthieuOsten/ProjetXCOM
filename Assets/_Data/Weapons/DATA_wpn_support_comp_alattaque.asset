@@ -38,6 +38,8 @@ MonoBehaviour:
   _animFire: {fileID: 0}
   _soundFire: Don_PA
   _soundReload: 
-  fxImpact: {fileID: 0}
-  fxProjectileTrail: {fileID: 0}
+  fxImpact: {fileID: 6518501167985537649, guid: 5679991a7a5233240ae59e291110e63b,
+    type: 3}
+  fxProjectileTrail: {fileID: 3745955780004049469, guid: 14166a220523c1d4585abbc716e4510c,
+    type: 3}
   fxMuzzle: {fileID: 0}

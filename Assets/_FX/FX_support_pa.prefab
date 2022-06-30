@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 435417380240650182}
   - component: {fileID: 6478549652477127886}
   m_Layer: 0
-  m_Name: FX_heal
+  m_Name: FX_support_pa
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -608,7 +608,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: -1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4761,7 +4761,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0738a429afbe79044bef0fa05403fa12, type: 2}
+  - {fileID: 2100000, guid: 010b82d1432149647808f451e93c83f5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
