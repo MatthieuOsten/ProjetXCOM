@@ -38,7 +38,7 @@ MonoBehaviour:
   _animFire: {fileID: 0}
   _soundFire: Debuff
   _soundReload: 
-  fxImpact: {fileID: 4452385158572467116, guid: 065585baf2af1cd478e6434a177f76f3,
+  fxImpact: {fileID: 6518501167985537649, guid: b7aacca97874e774a93a92ab17871e44,
     type: 3}
   fxProjectileTrail: {fileID: 0}
   fxMuzzle: {fileID: 0}
