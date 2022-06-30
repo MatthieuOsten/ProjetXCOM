@@ -30,11 +30,9 @@ public class Matt_MenuManager : MonoBehaviour
     [SerializeField] private string _versionString;
     [SerializeField] private GameObject _versionObject;
 
-    private void Start()
+    private void Awake()
     {
-        EnableInputManager();
-
-        if (_stringLoadBackground != null)
+        if(_stringLoadBackground != null)
         {
             SceneManager.LoadScene(_stringLoadBackground, LoadSceneMode.Additive);
         }
@@ -49,6 +47,11 @@ public class Matt_MenuManager : MonoBehaviour
         {
             Debug.LogWarning("Aucun fond referencer");
         }
+    }
+
+    private void Start()
+    {
+        EnableInputManager();
 
         _canvasMenu.renderMode = RenderMode.ScreenSpaceCamera;
         _canvasMenu.worldCamera = Camera.current;

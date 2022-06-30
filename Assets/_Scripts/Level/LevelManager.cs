@@ -206,7 +206,7 @@ public class LevelManager : MonoBehaviour
         if(!Gameover)
         {
             DebugWatcher();
-            WatchPointControlsPurified();
+            //WatchPointControlsPurified();
             WatchController();
         }
         WatchLastSurvivor();

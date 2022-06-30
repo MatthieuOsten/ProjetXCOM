@@ -46,7 +46,6 @@ public class Matt_LevelManager : MonoBehaviour
     public static int CurrentTurn { get { return Instance._currentTurn; } }
     public static List<Team> listTeam { get { return Instance._listTeam; } }
 
-
     public static Matt_LevelManager Instance
     {
         get
@@ -58,7 +57,7 @@ public class Matt_LevelManager : MonoBehaviour
                 if (_instance == null)
                 {
                     var newObjectInstance = new GameObject();
-                    newObjectInstance.name = typeof(LevelManager).ToString();
+                    newObjectInstance.name = typeof(Matt_LevelManager).ToString();
                     _instance = newObjectInstance.AddComponent<Matt_LevelManager>();
                 }
             }
@@ -88,9 +87,9 @@ public class Matt_LevelManager : MonoBehaviour
     {
         // AJOUTER \\
         // Charge le HUD du jeu si ce dernier a etais mis ou est valide
-        if (_sceneHUD != null && SceneManager.GetSceneByName(_sceneHUD).IsValid()) { SceneManager.LoadScene(_sceneHUD, LoadSceneMode.Additive); }
-        else if (_sceneHUD == null) { Debug.LogWarning("Aucune scene n'as etais designer"); }
-        else { Debug.LogError("La scene rechercher est invalide"); }
+        if (_sceneHUD != null && _sceneHUD != "NULL") { SceneManager.LoadScene(_sceneHUD, LoadSceneMode.Additive); }
+        else if (_sceneHUD == null || _sceneHUD == "NULL") { Debug.LogWarning("Aucune scene n'as etais designer"); }
+        else { Debug.LogError("La scene rechercher " + _sceneHUD + " est invalide"); }
         // AJOUTER //
 
         // Genere les son de debut de partie
