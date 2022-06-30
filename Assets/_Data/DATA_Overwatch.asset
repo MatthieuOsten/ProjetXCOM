@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: DATA_Overwatch
   m_EditorClassIdentifier: 
   name: Interception
-  description: "Tir sur l'ennemi qui passe dans sa port\xE9e, s'interrompt si re\xE7oit
-    des d\xE9gats. "
+  description: '[Ends the unit''s turn] Your character can intercept movement and
+    action of enemies with Attack'
   debugDescription: "[PA restants][-1 Port\xE9e] Tir sur l'ennemi qui passe dans
     sa port\xE9e, s'interrompt si re\xE7oit des d\xE9gats. "
   type: Capacity

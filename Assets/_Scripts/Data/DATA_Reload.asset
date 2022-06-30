@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DATA_Reload
   m_EditorClassIdentifier: 
   name: Reload
-  description: '[1 PA] Permet de recharger.'
+  description: Reload Attack's weapon
   debugDescription: 
   type: 
   tags:

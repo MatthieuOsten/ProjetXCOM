@@ -5,20 +5,14 @@ using UnityEngine.Rendering;
 
 public class TransparentObject : MonoBehaviour
 {
-
-
     public static TransparentObject Instance; 
-
     /// <summary> Material transparent qui sera appliqué à tout les models présent en tant qu'enfant </summary>
     [SerializeField] Material mtlTransparent;
     Controller _inputManager;
     // Start is called before the first frame update
     void Start()
     {
-        
-       
-        Instance = this;
-       
+        Instance = this;  
         if (_inputManager == null) _inputManager = new Controller();
         // On active les différents inputs
         _inputManager.TestGrid.Enable(); // TODO : faudra assembler les inputs
@@ -109,11 +103,11 @@ public class TransparentObject : MonoBehaviour
             _toi.mtlTransparent = mtlTransparent; 
             _toi.Init();
 
-               int childs = myTransform.childCount;
-                for (int iii = childs - 1; iii >= 0; iii--)
-                {   
-                    GameObject.DestroyImmediate(myTransform.GetChild(iii).gameObject);
-                }
+            int childs = myTransform.childCount;
+            for (int iii = childs - 1; iii >= 0; iii--)
+            {   
+                GameObject.DestroyImmediate(myTransform.GetChild(iii).gameObject);
+            }
              
         }
     }
@@ -146,10 +140,10 @@ public class TransparentObject : MonoBehaviour
         MeshRenderer mr = child.GetComponentInChildren<MeshRenderer>();
         for(int ii = 0 ; ii < mr.sharedMaterials.Length; ii++)
         {
-                // On copie car le set réassigne uniquement la table, modifié la table directement ne fait que la copié donc pas appliquer
-                Material[] materialsToChange = mr.sharedMaterials;
-                materialsToChange[ii] = mtlTransparent;           
-                mr.sharedMaterials = materialsToChange;
+            // On copie car le set réassigne uniquement la table, modifié la table directement ne fait que la copié donc pas appliquer
+            Material[] materialsToChange = mr.sharedMaterials;
+            materialsToChange[ii] = mtlTransparent;           
+            mr.sharedMaterials = materialsToChange;
              
         }
     }
@@ -157,7 +151,7 @@ public class TransparentObject : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-                if( LevelManager.GameState == GameState.Cinematic) return;
+        if( LevelManager.GameState == GameState.Cinematic) return;
 
         // Pour chaque personnage, on check si un batiment nous le cache
         foreach(Team _team in LevelManager.listTeam )
@@ -190,8 +184,6 @@ public class TransparentObject : MonoBehaviour
         // On trace un rayon avec la mousePosition de la souris
         ray = Camera.main.ScreenPointToRay(_inputManager.TestGrid.MousePosition.ReadValue<Vector2>()); 
         RaycastHit[] RayHits = Physics.RaycastAll(ray) ;
-       //
-        {
             foreach(RaycastHit hit in RayHits)
             {
                 Transform objectTouched = hit.collider.transform;            
@@ -199,8 +191,6 @@ public class TransparentObject : MonoBehaviour
                 {
                     oof.Hide = true;        
                 }
-                
-
                 Hitpoint = new Vector3(hit.point.x, hit.point.y, hit.point.z);
                 #if UNITY_EDITOR
                 if (Hitpoint != null)
@@ -208,17 +198,12 @@ public class TransparentObject : MonoBehaviour
                 #endif
             }
 
-
-           
-        }
-
         return Hitpoint;
     }
 
     /// <summary> Retourne la position de la souris dans le monde 3D </summary> 
     public Vector3 GameObjectToWorldPosition(GameObject objectTarget)
     {
-        //RaycastHit RayHit;
         Ray ray;
         Vector3 Hitpoint = Vector3.zero;
         // On trace un rayon avec la mousePosition de la souris
@@ -226,7 +211,6 @@ public class TransparentObject : MonoBehaviour
         if (Physics.Raycast(Camera.main.transform.position , objectTarget.transform.position - Camera.main.transform.position,  out RaycastHit RayHit, Mathf.Infinity))
         {
             Transform objectTouched = RayHit.collider.transform; // L'object toucher par le raycast
-            //Debug.Log(objectTouched.gameObject.name , objectTouched.gameObject);
             // On verifie que le parent de l'objet n'est pas le transform de cette class
             // Si il a un autre parent, ca veut dire qu'on a toucher un mesh d'un prefab
             // Il faut donc tout selectionner pour eviter davoir des mesh transparent bizarre

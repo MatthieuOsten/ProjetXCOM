@@ -25,6 +25,7 @@ public class Actor_Support : Character
             if(_target == target) continue;
 
             _target.DoDamage(Data.Weapon.Damage);
+            ActionAnimation(GetMainWeaponInfo(), _target);
         }
         base.Attack(target,detectedTargets);
     }

@@ -90,6 +90,8 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private GameState _gameState;
     private float _timePlayed;
+
+    float _timerToBackToMenu = 0;
     
 
     //public List<Team> StaticlistTeam = new List<Team>();
@@ -179,24 +181,23 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if(GameState == GameState.Cinematic)
         {
             if(_timeScale != Time.timeScale)
             {
                 Time.timeScale = _timeScale;
             }
-            _canvasGameObject.SetActive(!_hideUI);
-            _dollyCart.enabled = _trailCinematic;
-            _virtualCamera.enabled = !_trailCinematic;
-
-
+            if(_canvasGameObject != null) _canvasGameObject.SetActive(!_hideUI);
+            if(_dollyCart != null)  _dollyCart.enabled = _trailCinematic;
+            if(_virtualCamera != null)  _virtualCamera.enabled = !_trailCinematic;
         }
         else
         {
             Time.timeScale = 1;
-            _canvasGameObject.SetActive(true);
-            _dollyCart.enabled = false;
-            _virtualCamera.enabled = true;
+            if(_canvasGameObject != null) _canvasGameObject.SetActive(true);
+            if(_dollyCart != null) _dollyCart.enabled = false;
+            if(_virtualCamera != null)_virtualCamera.enabled = true;
         }
 
         _timePlayed += Time.deltaTime;
@@ -224,10 +225,16 @@ public class LevelManager : MonoBehaviour
         {
             foreach (Team _team in listTeam)
             {
-                if (_team != null) UIManager.CreateSubtitle("END GAME, La team " + _team.Data.name + " a gagné");
+                if (_team != null) _canvasGameObject.GetComponent<UI>().SetVictory(_team.Name , _team.Color);
             }
+           
             Gameover = true;
             _gameState = GameState.Gameover;
+            _timerToBackToMenu += Time.deltaTime;
+            if(_timerToBackToMenu > 5)
+            {
+                SceneManager.LoadScene(sceneReturn);
+            }
         }
     }
     // Cest pour debug
