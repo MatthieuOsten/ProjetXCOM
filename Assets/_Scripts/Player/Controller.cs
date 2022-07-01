@@ -803,6 +803,24 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Skip"",
+                    ""type"": ""Button"",
+                    ""id"": ""532e1106-f9e0-459f-99d7-1152942a1f2e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""b4a45dc4-b801-4c7b-bf32-2b505429fe96"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -814,6 +832,39 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""16fdb865-94ac-46da-8d8f-0275e5328552"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5a451d92-f936-42d4-9100-bea9e0b89e72"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Skip"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b76f4a07-ba91-4d40-8403-72fdc9ff3133"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -855,6 +906,8 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         // System
         m_System = asset.FindActionMap("System", throwIfNotFound: true);
         m_System_Exit = m_System.FindAction("Exit", throwIfNotFound: true);
+        m_System_Skip = m_System.FindAction("Skip", throwIfNotFound: true);
+        m_System_Pause = m_System.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1182,11 +1235,15 @@ public partial class @Controller : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_System;
     private ISystemActions m_SystemActionsCallbackInterface;
     private readonly InputAction m_System_Exit;
+    private readonly InputAction m_System_Skip;
+    private readonly InputAction m_System_Pause;
     public struct SystemActions
     {
         private @Controller m_Wrapper;
         public SystemActions(@Controller wrapper) { m_Wrapper = wrapper; }
         public InputAction @Exit => m_Wrapper.m_System_Exit;
+        public InputAction @Skip => m_Wrapper.m_System_Skip;
+        public InputAction @Pause => m_Wrapper.m_System_Pause;
         public InputActionMap Get() { return m_Wrapper.m_System; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1199,6 +1256,12 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 @Exit.started -= m_Wrapper.m_SystemActionsCallbackInterface.OnExit;
                 @Exit.performed -= m_Wrapper.m_SystemActionsCallbackInterface.OnExit;
                 @Exit.canceled -= m_Wrapper.m_SystemActionsCallbackInterface.OnExit;
+                @Skip.started -= m_Wrapper.m_SystemActionsCallbackInterface.OnSkip;
+                @Skip.performed -= m_Wrapper.m_SystemActionsCallbackInterface.OnSkip;
+                @Skip.canceled -= m_Wrapper.m_SystemActionsCallbackInterface.OnSkip;
+                @Pause.started -= m_Wrapper.m_SystemActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_SystemActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_SystemActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_SystemActionsCallbackInterface = instance;
             if (instance != null)
@@ -1206,6 +1269,12 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 @Exit.started += instance.OnExit;
                 @Exit.performed += instance.OnExit;
                 @Exit.canceled += instance.OnExit;
+                @Skip.started += instance.OnSkip;
+                @Skip.performed += instance.OnSkip;
+                @Skip.canceled += instance.OnSkip;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -1246,5 +1315,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
     public interface ISystemActions
     {
         void OnExit(InputAction.CallbackContext context);
+        void OnSkip(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }

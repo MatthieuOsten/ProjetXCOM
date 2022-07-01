@@ -9,10 +9,16 @@ using TMPro;
 
 public class SelectManager : MonoBehaviour
 {
+    [Header("CONTROLLER")]
+    [SerializeField] private Controller _inputManager;
+    [SerializeField] private string _returnMenu;
+
+    [Header("OBJECT")]
     [SerializeField] private GameObject _prefabMap;
     [SerializeField] private Transform _parent;
     [SerializeField] private List<Map> _maps;
 
+    [Header("DEBUG")]
     [SerializeField] private bool _resetButton;
     [SerializeField] private bool _updateObject;
 
@@ -140,7 +146,19 @@ public class SelectManager : MonoBehaviour
 
     private void Start()
     {
+        EnableInputManager();
+
         UpdateButtonMap();
+    }
+
+    private void Update()
+    {
+
+        if (_inputManager.System.Exit.WasPressedThisFrame())
+        {
+            SceneManager.LoadScene(_returnMenu);
+        }
+
     }
 
     private void UpdateButtonMap()
@@ -166,6 +184,14 @@ public class SelectManager : MonoBehaviour
                 _maps[i]._actualObject = mapObject;
             }
         }
+    }
+
+    void EnableInputManager()
+    {
+
+        if (_inputManager == null) _inputManager = new Controller();
+        // On active les différents inputs
+        _inputManager.System.Enable(); // TODO : faudra assembler les inputs
     }
 
 }

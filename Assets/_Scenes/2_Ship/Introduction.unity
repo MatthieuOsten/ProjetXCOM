@@ -169,7 +169,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _video: {fileID: 1882835627}
   _mainMenu: MenuUI
-  _textInput: Press Space to skip
+  _textInputPart1: 
+  _textInputPart2: 
   _time: {fileID: 2066686672}
   _timerSkip: 0
   _timerDisplay: 0
@@ -596,7 +597,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1882835625}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: c6f11eff936e2c644a23d7580f650d59, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 03f7753c2a3c99341903359b74a5802a, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 331356197}
