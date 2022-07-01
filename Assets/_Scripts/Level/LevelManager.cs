@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Cinemachine;
 public enum GameState
@@ -33,7 +34,12 @@ public class LevelManager : MonoBehaviour
     [Range(0,2)]
     [SerializeField] float _timeScale = 1;
 
-    
+    [Header("PAUSE")]
+    [SerializeField] GameObject _panelPause;
+    [SerializeField] Button _buttonResume;
+    [SerializeField] Button _buttonReturn;
+
+    [SerializeField] Controller _inputManager;
 
     public static LevelManager Instance
     {
@@ -59,6 +65,48 @@ public class LevelManager : MonoBehaviour
         if (sceneReturn != null) { SceneManager.LoadScene(sceneReturn); }
         else { Application.Quit(); }
         
+    }
+
+    public void SwitchPause()
+    {
+        if (_panelPause != null)
+        {
+            if (_panelPause.activeSelf) { _panelPause.SetActive(false); } else { _panelPause.SetActive(true); }
+        }
+    }
+
+    public void InitPausePanel()
+    {
+        _buttonResume.onClick.RemoveAllListeners();
+        _buttonResume.onClick.AddListener(() => SwitchPause());
+
+        _buttonReturn.onClick.RemoveAllListeners();
+        _buttonReturn.onClick.AddListener(() => goToSceneReturn());
+
+        _panelPause.SetActive(false);
+    }
+
+    public void CheckInputSystem()
+    {
+        if (_inputManager.System.Exit.WasPressedThisFrame())
+        {
+            if (_panelPause.activeSelf) { SwitchPause(); } 
+            else if (sceneReturn != null) {  }
+            else { Application.Quit(); }
+        }
+
+        if (_inputManager.System.Pause.WasPressedThisFrame())
+        {
+            SwitchPause();
+        }
+    }
+
+    void EnableInputManager()
+    {
+
+        if (_inputManager == null) _inputManager = new Controller();
+        // On active les différents inputs
+        _inputManager.System.Enable(); // TODO : faudra assembler les inputs
     }
 
     public void Awake()
@@ -114,7 +162,9 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        EnableInputManager();
+        InitPausePanel();
+
         _gameState = GameState.IngameIntro;
         AudioManager.PlaySoundAtPosition("game_start", Vector3.zero);
         AudioManager.PlaySoundAtPosition("game_ambient", Vector3.zero);
@@ -181,7 +231,9 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Gameover)
+        CheckInputSystem();
+
+        if (Gameover)
         {
             _timerToBackToMenu += Time.deltaTime;
             if(_timerToBackToMenu > 5)

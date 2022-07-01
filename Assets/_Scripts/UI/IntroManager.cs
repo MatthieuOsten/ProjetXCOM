@@ -7,14 +7,18 @@ using TMPro;
 
 public class IntroManager : MonoBehaviour
 {
+    [Header("CINEMATIC")]
     [SerializeField] private VideoPlayer _video;
     [SerializeField] private string _mainMenu;
 
+    [Header("INPUT")]
     [SerializeField] private Controller _inputManager;
-    [SerializeField] private string _textInputPart1,_textInputPart2;
+    [SerializeField] private string _textInput;
 
+    [Header("TIMER")]
     [SerializeField] private TextMeshProUGUI _time;
-    [SerializeField] private double _timerSkip, _timerDisplay, _timeToSkip, _timeToDisplay;
+    [SerializeField] private double _timerSkip = 0, _timerDisplay = 0, _timerVideo = 0;
+    [SerializeField] private double _timeToSkip, _timeToDisplay, _timeToVideo;
 
     private void Awake()
     {
@@ -34,8 +38,10 @@ public class IntroManager : MonoBehaviour
 
         if (_video != null)
         {
+            _timeToVideo = _video.length;
+
             if (_timeToSkip == 0) { 
-                _timeToSkip = _video.time / 2;
+                _timeToSkip = _timeToVideo / 2.5;
                 _timeToDisplay = _timeToSkip / 2;
             }
 
@@ -54,9 +60,12 @@ public class IntroManager : MonoBehaviour
         if (_video != null)
         {   
 
-            if (playerCurrentFrame >= playerFrameCount)
+            if (_timerVideo >= _timeToVideo)
             {
                 SceneManager.LoadScene(_mainMenu);
+            } else
+            {
+                _timerVideo += Time.deltaTime;
             }
 
             if (_time != null)
@@ -64,7 +73,8 @@ public class IntroManager : MonoBehaviour
                 if (_timerDisplay >= _timeToDisplay && _timerSkip < _timeToSkip)
                 {
                     if (!_time.IsActive()) { _time.enabled = true; }
-                    _time.text = ((int)_timerSkip - (int)_timerDisplay).ToString();
+                    int number = ((int)_timerSkip - (int)_timerDisplay) - ((int)_timeToSkip - (int)_timeToDisplay);
+                    _time.text = (-number).ToString();
                 }
                 else if (_timerDisplay < _timeToDisplay)
                 {
@@ -83,7 +93,7 @@ public class IntroManager : MonoBehaviour
                         if (_time != null && _timerDisplay >= _timeToDisplay)
                         {
                             if (!_time.IsActive()) { _time.enabled = true; }
-                            _time.text = _textInputPart1 + _inputManager.System.Exit.name + _textInputPart2;
+                            _time.text = _textInput;
                         }
                     }
                     else
@@ -92,7 +102,7 @@ public class IntroManager : MonoBehaviour
                     }
                 }
 
-                if (_inputManager != null && _inputManager.System.Exit.IsPressed())
+                if (_inputManager != null && _inputManager.System.Skip.IsPressed())
                 {
                     SceneManager.LoadScene(_mainMenu);
                 } 

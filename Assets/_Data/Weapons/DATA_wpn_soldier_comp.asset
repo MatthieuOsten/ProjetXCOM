@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ffebdf3ef8750c49bc8bad5d6ff831c, type: 3}
   m_Name: DATA_wpn_soldier_comp
   m_EditorClassIdentifier: 
-  name: Bombe
+  name: Bomb
   description: '[ 1 PA ] [ 1 Munitions ]'
   debugDescription: '[ 1 PA ] [ 1 Munitions ]'
   type: 

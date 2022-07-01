@@ -62,8 +62,8 @@ public class SelectManager : MonoBehaviour
             _videoMap.targetTexture = _render;
             _rawImageMap.texture = _render;
 
-            _videoMap.audioOutputMode = VideoAudioOutputMode.None;
             _videoMap.Prepare();
+            _videoMap.Play();
             _videoMap.Stop();
 
             // -- Initialise "DisplayDescription" sur le boutton -- //
@@ -71,6 +71,7 @@ public class SelectManager : MonoBehaviour
             {
                 _buttonMap.onClick.RemoveAllListeners();
                 _buttonMap.onClick.AddListener(() => { SceneManager.LoadScene(_nameScene); });
+                _buttonMap.onClick.AddListener(() => { AudioManager.PlaySoundAtPosition(_buttonMap.animationTriggers.pressedTrigger, Vector3.zero); });
 
                 // Recupere le "EventTrigger" du boutton
                 EventTrigger eventTrigger;
@@ -87,6 +88,7 @@ public class SelectManager : MonoBehaviour
                     onSelected.eventID = EventTriggerType.PointerEnter;
                     // Insert dans sa liste de reaction, l'affichage de la pop-up de description
                     onSelected.callback.AddListener((eventData) => { _videoMap.Play(); });
+                    onSelected.callback.AddListener((eventData) => { AudioManager.PlaySoundAtPosition(_buttonMap.animationTriggers.highlightedTrigger, Vector3.zero); });
 
                     // Ajoute le composant et ces parametres dans le boutton
                     eventTrigger.triggers.Add(onSelected);

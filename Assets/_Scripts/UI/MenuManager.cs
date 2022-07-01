@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
+
 public class MenuManager : MonoBehaviour
 {
     [Header("CONTROLLER")]
@@ -17,6 +19,8 @@ public class MenuManager : MonoBehaviour
     [SerializeField] private Button _buttonPlay;
     [SerializeField] private Button _buttonTutorial;
     [SerializeField] private Button _buttonQuit;
+
+    [SerializeField] private Button _buttonQuitTutorial;
 
     [Header("SCENE")]
     [SerializeField] private string scenePlay;
@@ -44,10 +48,21 @@ public class MenuManager : MonoBehaviour
         _canvasMenu.renderMode = RenderMode.ScreenSpaceCamera;
         _canvasMenu.worldCamera = Camera.current;
 
+        _buttonPlay.onClick.RemoveAllListeners();
+        _buttonTutorial.onClick.RemoveAllListeners();
+        _buttonQuit.onClick.RemoveAllListeners();
         _buttonPlay.onClick.AddListener(() => goToScene(scenePlay));
         _buttonTutorial.onClick.AddListener(() => SwitchPanel(_panelTutorial));
         _buttonQuit.onClick.AddListener(() => QuitGame());
 
+        _buttonQuitTutorial.onClick.RemoveAllListeners();
+        _buttonQuitTutorial.onClick.AddListener(() => SwitchPanel(_panelTutorial));
+
+        _buttonPlay.onClick.AddListener(() => { AudioManager.PlaySoundAtPosition(_buttonPlay.animationTriggers.pressedTrigger, Vector3.zero); });
+        _buttonTutorial.onClick.AddListener(() => { AudioManager.PlaySoundAtPosition(_buttonTutorial.animationTriggers.pressedTrigger, Vector3.zero); });
+        _buttonQuit.onClick.AddListener(() => { AudioManager.PlaySoundAtPosition(_buttonQuit.animationTriggers.pressedTrigger, Vector3.zero); });
+        _buttonQuitTutorial.onClick.AddListener(() => { AudioManager.PlaySoundAtPosition(_buttonQuitTutorial.animationTriggers.pressedTrigger, Vector3.zero); });
+    
         UpdateVersion();
 
     }
