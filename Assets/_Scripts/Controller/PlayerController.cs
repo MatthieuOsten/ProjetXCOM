@@ -288,7 +288,7 @@ public class PlayerController : Team
         {
             Debug.Log($"Le personnage {GetCurrentCharactedSelected.name} n'a plus de point d'action" , GetCurrentCharactedSelected.gameObject);
             // On force la mode selection
-            ResetSelection();
+            ResetSelection(false);
             return;
         }
 
@@ -356,7 +356,7 @@ public class PlayerController : Team
             // Si le personnage a une arme avec des munitions, il faut check
             if(GetCurrentCharactedSelected.GetWeaponCapacityAmmo(0) > 0 && GetCurrentCharactedSelected.Ammo[0] <= 0)
             {
-                UIManager.CreateSubtitle("Plus de munition pour l'arme principal, rechargement necessaire", 2);
+                UIManager.CreateSubtitle("No ammo in primary weapon, reload required", 2);
                 AudioManager.PlaySoundAtPosition("no_ammo", transform.position);
                 if(!GetCurrentCharactedSelected.CanAction)
                     ResetSelection();
@@ -470,7 +470,7 @@ public class PlayerController : Team
             Character character = GetCurrentCharactedSelected;
             if(GetCurrentCharactedSelected.Ammo[0] == GetCurrentCharactedSelected.GetWeaponCapacityAmmo())
             {
-                UIManager.CreateSubtitle("Munition déja au maximum.");
+                UIManager.CreateSubtitle("Ammo already full");
                 ExitActionMode();
                 return;
             }    
@@ -510,7 +510,7 @@ public class PlayerController : Team
         {
             if (aCase.HaveActor && aCase.Character.Owner != this)
             {
-                UIManager.CreateSubtitle("Mode Vigilance impossible car un ennemi est dans la porté du personnage", 2);
+                UIManager.CreateSubtitle("Interception impossible : a target is on your range", 2);
                 ExitActionMode();
                 return;
             }
@@ -574,8 +574,8 @@ public class PlayerController : Team
                 {
                     
                     GridManager.ResetCasesPreview(_selectedGrid);
-                    UIManager.CreateSubtitle("Point d'action insuffisant pour ce personnage", 2);
-                    ResetSelection();
+                    UIManager.CreateSubtitle("Action points too low for this action", 2);
+                    ResetSelection(false);
                     return;
                 }
             }
@@ -599,7 +599,7 @@ public class PlayerController : Team
         // Si un personnage est en mouvement, on empeche d'effectuer une action car ca peut crée des bugs avec les cases
         if(CharacterIsMoving)
         {
-            UIManager.CreateSubtitle("Action impossible, un personnage est en mouvement" , 2);
+            UIManager.CreateSubtitle("Action denied, a unit is moving" , 2);
             return;
         }
         // On vérifie si le joueur clique sur le clique de la souris
@@ -646,7 +646,7 @@ public class PlayerController : Team
 
     public override void EndTurn()
     {
-        ResetSelection();
+        ResetSelection(false);
         base.EndTurn();
     }
 
@@ -654,7 +654,7 @@ public class PlayerController : Team
     public void ExitActionMode()
     {
         Debug.Log("ExitActionMode");
-        AudioManager.PlaySoundAtPosition("case_reset", Vector3.zero);
+        //AudioManager.PlaySoundAtPosition("case_reset", Vector3.zero);
         SelectedCaseA = null;
         SelectedCaseB = null;
         GridManager.ResetCasesPreview(_selectedGrid);
@@ -663,10 +663,10 @@ public class PlayerController : Team
     }
 
     /// <summary> Quitte le mode action et le personnage selectionner </summary>
-    void ResetSelection()
+    void ResetSelection(bool playSound = true)
     {
         Debug.Log("ResetSelection");
-        AudioManager.PlaySoundAtPosition("case_reset", Vector3.zero);
+        if(playSound) AudioManager.PlaySoundAtPosition("case_reset", Vector3.zero);
         SelectedCaseA = null;
         SelectedCaseB = null;
         _selectedActor = null;
@@ -752,7 +752,7 @@ public class PlayerController : Team
                 }
                 else
                 {
-                    UIManager.CreateSubtitle("Personnage pas utilisable",2);
+                    UIManager.CreateSubtitle("Unit not available",2);
                     if(GetCurrentCharactedSelected == null)
                         ResetSelection();
                 }
@@ -890,7 +890,7 @@ public class PlayerController : Team
             CharacterChange();
             return;
         }
-        ResetSelection();
+        ResetSelection(false);
         _selectedActor = componentChar;
         SelectionMode = SelectionMode.Selection;
     }

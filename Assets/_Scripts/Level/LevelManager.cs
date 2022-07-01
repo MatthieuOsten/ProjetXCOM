@@ -181,7 +181,14 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Gameover)
+        {
+            _timerToBackToMenu += Time.deltaTime;
+            if(_timerToBackToMenu > 5)
+            {
+                SceneManager.LoadScene(sceneReturn);
+            }
+        }
         if(GameState == GameState.Cinematic)
         {
             if(_timeScale != Time.timeScale)
@@ -230,11 +237,7 @@ public class LevelManager : MonoBehaviour
            
             Gameover = true;
             _gameState = GameState.Gameover;
-            _timerToBackToMenu += Time.deltaTime;
-            if(_timerToBackToMenu > 5)
-            {
-                SceneManager.LoadScene(sceneReturn);
-            }
+            
         }
     }
     // Cest pour debug

@@ -16,6 +16,7 @@ MonoBehaviour:
   defaultMixerGroup: {fileID: 0}
   aliases:
   - name: action_attack
+    description: 
     MixerGroup: {fileID: 0}
     audio:
     - {fileID: 8300000, guid: 8cbacfe055db94d6c8a9a6deebc96eb6, type: 3}
@@ -23,7 +24,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.8
+    volume: 0.4
     isLooping: 0
     minPitch: 1
     maxPitch: 1.01
@@ -62,7 +63,9 @@ MonoBehaviour:
     Text: 
     customDuration: 0
     isInit: 1
+    isPlaholder: 1
   - name: action_reset
+    description: 
     MixerGroup: {fileID: 0}
     audio:
     - {fileID: 8300000, guid: baf532ce5c77941e1be77aab548f880d, type: 3}
@@ -70,7 +73,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.8
+    volume: 0.4
     isLooping: 0
     minPitch: 1
     maxPitch: 1.01
@@ -109,7 +112,9 @@ MonoBehaviour:
     Text: 
     customDuration: 0
     isInit: 1
+    isPlaholder: 1
   - name: action_overwatch
+    description: 
     MixerGroup: {fileID: 0}
     audio:
     - {fileID: 8300000, guid: 687950f8997e44d38848b27edf9af400, type: 3}
@@ -117,7 +122,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.8
+    volume: 0.4
     isLooping: 0
     minPitch: 1
     maxPitch: 1.01
@@ -156,7 +161,9 @@ MonoBehaviour:
     Text: 
     customDuration: 0
     isInit: 1
+    isPlaholder: 1
   - name: action_competence1
+    description: 
     MixerGroup: {fileID: 0}
     audio:
     - {fileID: 8300000, guid: 687950f8997e44d38848b27edf9af400, type: 3}
@@ -164,7 +171,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.8
+    volume: 0.4
     isLooping: 0
     minPitch: 1
     maxPitch: 1.01
@@ -203,7 +210,9 @@ MonoBehaviour:
     Text: 
     customDuration: 0
     isInit: 1
+    isPlaholder: 1
   - name: action_competence2
+    description: 
     MixerGroup: {fileID: 0}
     audio:
     - {fileID: 8300000, guid: 687950f8997e44d38848b27edf9af400, type: 3}
@@ -211,7 +220,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.8
+    volume: 0.4
     isLooping: 0
     minPitch: 1
     maxPitch: 1.01
@@ -250,3 +259,4 @@ MonoBehaviour:
     Text: 
     customDuration: 0
     isInit: 1
+    isPlaholder: 1

@@ -339,15 +339,18 @@ public class GridManager : MonoBehaviour
                 for (int y = 0; y < SizeY; y++)
                 {
                     Case aCase = _grid[x,y];
-
-                    if(LevelManager.GameState == GameState.Cinematic)
+                    if(aCase != null && aCase.gameObject != null)
                     {
-                        aCase.gameObject.SetActive(false);
+                        if(LevelManager.GameState == GameState.Cinematic)
+                        {
+                            aCase.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            aCase.gameObject.SetActive(true);
+                        }   
                     }
-                    else
-                    {
-                        aCase.gameObject.SetActive(true);
-                    }   
+                    
 
 
 

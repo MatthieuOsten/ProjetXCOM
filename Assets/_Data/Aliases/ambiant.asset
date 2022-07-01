@@ -16,6 +16,7 @@ MonoBehaviour:
   defaultMixerGroup: {fileID: 0}
   aliases:
   - name: amb_distant_battle_back
+    description: 
     MixerGroup: {fileID: 0}
     audio:
     - {fileID: 8300000, guid: 297205f51fb1e1b47ba685615f8a166d, type: 3}
@@ -23,7 +24,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.8
+    volume: 0
     isLooping: 0
     minPitch: 1
     maxPitch: 1.01
@@ -62,7 +63,9 @@ MonoBehaviour:
     Text: 
     customDuration: 0
     isInit: 1
+    isPlaholder: 1
   - name: amb_distant_battle_ffront
+    description: 
     MixerGroup: {fileID: 0}
     audio:
     - {fileID: 8300000, guid: 408ff43a1ad2356429409babff1755e1, type: 3}
@@ -70,7 +73,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.8
+    volume: 0
     isLooping: 0
     minPitch: 1
     maxPitch: 1.01
@@ -109,3 +112,4 @@ MonoBehaviour:
     Text: 
     customDuration: 0
     isInit: 1
+    isPlaholder: 1

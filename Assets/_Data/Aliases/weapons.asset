@@ -24,7 +24,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.8
+    volume: 0.5
     isLooping: 0
     minPitch: 1
     maxPitch: 1.01
@@ -73,7 +73,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.8
+    volume: 0.3
     isLooping: 0
     minPitch: 0.9
     maxPitch: 0.98
@@ -122,7 +122,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.8
+    volume: 0.5
     isLooping: 0
     minPitch: 0.9
     maxPitch: 0.98
@@ -220,7 +220,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.4
+    volume: 0.3
     isLooping: 0
     minPitch: 0.9
     maxPitch: 0.98
@@ -269,7 +269,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.8
+    volume: 0.5
     isLooping: 0
     minPitch: 0.9
     maxPitch: 0.98
@@ -318,7 +318,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.7
+    volume: 0.4
     isLooping: 0
     minPitch: 0.9
     maxPitch: 0.98
@@ -367,7 +367,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 1
+    volume: 0.3
     isLooping: 0
     minPitch: 0.9
     maxPitch: 0.98
@@ -416,7 +416,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 0
-    volume: 0.7
+    volume: 0.3
     isLooping: 0
     minPitch: 0.9
     maxPitch: 0.98

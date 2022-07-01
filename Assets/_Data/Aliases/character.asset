@@ -29,7 +29,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 132.4
-    volume: 0.42
+    volume: 0.3
     isLooping: 0
     minPitch: 0.8
     maxPitch: 1.31
@@ -82,7 +82,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 132.4
-    volume: 1
+    volume: 0.5
     isLooping: 0
     minPitch: 0.8
     maxPitch: 1.31
@@ -131,7 +131,7 @@ MonoBehaviour:
     bypassListenerEffects: 0
     bypassReverbZones: 0
     priority: 132.4
-    volume: 0.879
+    volume: 0.5
     isLooping: 0
     minPitch: 0.8
     maxPitch: 1.31
