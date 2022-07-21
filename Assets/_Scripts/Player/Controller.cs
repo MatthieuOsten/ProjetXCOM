@@ -821,6 +821,15 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ForceSkip"",
+                    ""type"": ""Button"",
+                    ""id"": ""19773cae-93db-4cb8-a3e7-a8144577df50"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -848,23 +857,23 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""5a451d92-f936-42d4-9100-bea9e0b89e72"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Skip"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""b76f4a07-ba91-4d40-8403-72fdc9ff3133"",
                     ""path"": ""<Keyboard>/p"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8bf3cb7f-d5a9-4bea-a042-e1e0fccc8e75"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ForceSkip"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -908,6 +917,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         m_System_Exit = m_System.FindAction("Exit", throwIfNotFound: true);
         m_System_Skip = m_System.FindAction("Skip", throwIfNotFound: true);
         m_System_Pause = m_System.FindAction("Pause", throwIfNotFound: true);
+        m_System_ForceSkip = m_System.FindAction("ForceSkip", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1237,6 +1247,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
     private readonly InputAction m_System_Exit;
     private readonly InputAction m_System_Skip;
     private readonly InputAction m_System_Pause;
+    private readonly InputAction m_System_ForceSkip;
     public struct SystemActions
     {
         private @Controller m_Wrapper;
@@ -1244,6 +1255,7 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         public InputAction @Exit => m_Wrapper.m_System_Exit;
         public InputAction @Skip => m_Wrapper.m_System_Skip;
         public InputAction @Pause => m_Wrapper.m_System_Pause;
+        public InputAction @ForceSkip => m_Wrapper.m_System_ForceSkip;
         public InputActionMap Get() { return m_Wrapper.m_System; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1262,6 +1274,9 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_SystemActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_SystemActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_SystemActionsCallbackInterface.OnPause;
+                @ForceSkip.started -= m_Wrapper.m_SystemActionsCallbackInterface.OnForceSkip;
+                @ForceSkip.performed -= m_Wrapper.m_SystemActionsCallbackInterface.OnForceSkip;
+                @ForceSkip.canceled -= m_Wrapper.m_SystemActionsCallbackInterface.OnForceSkip;
             }
             m_Wrapper.m_SystemActionsCallbackInterface = instance;
             if (instance != null)
@@ -1275,6 +1290,9 @@ public partial class @Controller : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @ForceSkip.started += instance.OnForceSkip;
+                @ForceSkip.performed += instance.OnForceSkip;
+                @ForceSkip.canceled += instance.OnForceSkip;
             }
         }
     }
@@ -1317,5 +1335,6 @@ public partial class @Controller : IInputActionCollection2, IDisposable
         void OnExit(InputAction.CallbackContext context);
         void OnSkip(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnForceSkip(InputAction.CallbackContext context);
     }
 }

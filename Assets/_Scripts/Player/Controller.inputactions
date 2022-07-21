@@ -799,6 +799,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ForceSkip",
+                    "type": "Button",
+                    "id": "19773cae-93db-4cb8-a3e7-a8144577df50",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -826,23 +835,23 @@
                 },
                 {
                     "name": "",
-                    "id": "5a451d92-f936-42d4-9100-bea9e0b89e72",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Skip",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "b76f4a07-ba91-4d40-8403-72fdc9ff3133",
                     "path": "<Keyboard>/p",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8bf3cb7f-d5a9-4bea-a042-e1e0fccc8e75",
+                    "path": "<Keyboard>/anyKey",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ForceSkip",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

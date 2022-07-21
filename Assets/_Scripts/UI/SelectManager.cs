@@ -62,9 +62,7 @@ public class SelectManager : MonoBehaviour
             _videoMap.targetTexture = _render;
             _rawImageMap.texture = _render;
 
-            _videoMap.Prepare();
-            _videoMap.Play();
-            _videoMap.Stop();
+            _videoMap.Pause();
 
             // -- Initialise "DisplayDescription" sur le boutton -- //
             if (_buttonMap != null) // Verifie que la description est remplie

@@ -48,20 +48,54 @@ public class MenuManager : MonoBehaviour
         _canvasMenu.renderMode = RenderMode.ScreenSpaceCamera;
         _canvasMenu.worldCamera = Camera.current;
 
-        _buttonPlay.onClick.RemoveAllListeners();
-        _buttonTutorial.onClick.RemoveAllListeners();
-        _buttonQuit.onClick.RemoveAllListeners();
+
+        List<Button> buttons = new List<Button>();
+        buttons.Add(_buttonPlay);
+        buttons.Add(_buttonTutorial);
+        buttons.Add(_buttonQuit);
+        buttons.Add(_buttonQuitTutorial);
+
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            buttons[i].onClick.RemoveAllListeners();
+        }
+
         _buttonPlay.onClick.AddListener(() => goToScene(scenePlay));
         _buttonTutorial.onClick.AddListener(() => SwitchPanel(_panelTutorial));
         _buttonQuit.onClick.AddListener(() => QuitGame());
 
-        _buttonQuitTutorial.onClick.RemoveAllListeners();
         _buttonQuitTutorial.onClick.AddListener(() => SwitchPanel(_panelTutorial));
 
-        _buttonPlay.onClick.AddListener(() => { AudioManager.PlaySoundAtPosition(_buttonPlay.animationTriggers.pressedTrigger, Vector3.zero); });
-        _buttonTutorial.onClick.AddListener(() => { AudioManager.PlaySoundAtPosition(_buttonTutorial.animationTriggers.pressedTrigger, Vector3.zero); });
-        _buttonQuit.onClick.AddListener(() => { AudioManager.PlaySoundAtPosition(_buttonQuit.animationTriggers.pressedTrigger, Vector3.zero); });
-        _buttonQuitTutorial.onClick.AddListener(() => { AudioManager.PlaySoundAtPosition(_buttonQuitTutorial.animationTriggers.pressedTrigger, Vector3.zero); });
+        foreach (var button in buttons)
+        {
+            string nameSoundClick = button.animationTriggers.pressedTrigger;
+
+            button.onClick.AddListener(() => { AudioManager.PlaySoundAtPosition(nameSoundClick, Vector3.zero); });
+
+            // Recupere le "EventTrigger" du boutton
+            EventTrigger eventTrigger;
+
+            if (button.TryGetComponent<EventTrigger>(out eventTrigger))
+            {
+                eventTrigger.triggers.Clear();
+
+                nameSoundClick = button.animationTriggers.highlightedTrigger;
+
+                // Initialise un event "EventTrigger"
+                EventTrigger.Entry onSelected = new EventTrigger.Entry();
+                // Nettoie la liste d'evenement
+                onSelected.callback.RemoveAllListeners();
+                // Le met en mode "UpdateSelected" afin de detecter lorsque la souris est sur le boutton
+                onSelected.eventID = EventTriggerType.PointerEnter;
+                // Insert dans sa liste de reaction, l'affichage de la pop-up de description
+                onSelected.callback.AddListener((eventData) => { AudioManager.PlaySoundAtPosition(nameSoundClick, Vector3.zero); });
+
+                // Ajoute le composant et ces parametres dans le boutton
+                eventTrigger.triggers.Add(onSelected);
+
+            }
+
+        }
     
         UpdateVersion();
 

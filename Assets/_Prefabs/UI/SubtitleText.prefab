@@ -70,7 +70,7 @@ MonoBehaviour:
     : Hello im a big subtitleNarrator : Hello im a big subtitleNarrator : Hello im
     a big subtitleNarrator : Hello im a big subtitleNarrator : Hello im a big subtitle'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5447198fbde823d4f91dac3cff028b83, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
