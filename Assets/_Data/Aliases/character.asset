@@ -20,11 +20,8 @@ MonoBehaviour:
     MixerGroup: {fileID: 0}
     audio:
     - {fileID: 8300000, guid: 5f8d6089ab8a1f345a8477bbb8e3db6b, type: 3}
-    - {fileID: 8300000, guid: b3f867a4cd3e23c48ab5217ffe55717d, type: 3}
-    - {fileID: 8300000, guid: 6d34912eb613b9541be7169b033f2653, type: 3}
-    - {fileID: 8300000, guid: 25a248ae023f60e4ab59417e84169d5f, type: 3}
-    - {fileID: 8300000, guid: 339eb38535718b147882f9eb87afcca8, type: 3}
-    - {fileID: 8300000, guid: dd9b84ccc93f78d408ea058d4d90469e, type: 3}
+    randomizeClips: 0
+    Secondary: 
     bypassEffects: 0
     bypassListenerEffects: 0
     bypassReverbZones: 0
@@ -78,6 +75,8 @@ MonoBehaviour:
     - {fileID: 8300000, guid: a0a59d3733a2e0d4daf668729f131793, type: 3}
     - {fileID: 8300000, guid: ec643851cd7cceb449127ea740000c05, type: 3}
     - {fileID: 8300000, guid: 9b5a6cc7d3e943748899ed70cf469f99, type: 3}
+    randomizeClips: 1
+    Secondary: character_death
     bypassEffects: 0
     bypassListenerEffects: 0
     bypassReverbZones: 0
@@ -127,6 +126,8 @@ MonoBehaviour:
     MixerGroup: {fileID: 0}
     audio:
     - {fileID: 8300000, guid: a6c81efc0d4fe714b920994c73bc028d, type: 3}
+    randomizeClips: 0
+    Secondary: 
     bypassEffects: 0
     bypassListenerEffects: 0
     bypassReverbZones: 0

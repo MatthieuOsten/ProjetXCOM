@@ -35,6 +35,12 @@ public class Aliases : ScriptableObject
             if(aliases[i].MixerGroup == null)
                 aliases[i].MixerGroup = defaultMixerGroup;
 
+            if(!aliases[i].randomizeClips && aliases[i].audio.Length > 1 )
+            {
+                AudioClip tempClip = aliases[i].audio[0];
+                aliases[i].audio = new AudioClip[1];
+                aliases[i].audio[0] = tempClip;
+            }
         }
         AudioManager.AddAliases(this);    
     }

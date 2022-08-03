@@ -4,68 +4,91 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 [System.Serializable]
-    public class Aliase 
+public class Aliase
+{
+    public string name;
+    public string description;
+    public AudioMixerGroup MixerGroup;
+    public AudioClip[] audio;
+
+    public AudioClip Audio
     {
-        
-        public string name;
-        public string description;
-        public AudioMixerGroup MixerGroup;
-        public AudioClip[] audio;
-
-        public bool bypassEffects;
-        public bool bypassListenerEffects;
-        public bool bypassReverbZones;
-        [Range(0,256)]
-        public float priority;
-        [Range(0,1)]
-        public float volume = 0.8f;
-        public bool isLooping;
-
-        
-        [Range(-3,3)]
-        public float minPitch = 1f;
-        [Range(-3,3)]
-        public float maxPitch = 1.01f;
-        [Range(-1,1)]
-        public float stereoPan = 0;
-        [Range(0,1)]
-        public float spatialBlend = 0;
-        
-        [Range(0,1.1f)]
-        public float reverbZoneMix = 1;
-        [Header("3D Sound Settings")]
-        [Range(0,5)]
-        public float dopplerLevel = 1;
-        [Range(0,360)]
-        public float Spread = 1;
-        [Range(0,10000)]
-        public float MinDistance = 1;
-        [Range(0,10000)]
-        public float MaxDistance = 500;
-        public AudioRolloffMode CurveType = AudioRolloffMode.Logarithmic;
-        public AnimationCurve distanceCurve = new AnimationCurve(new Keyframe[] { new Keyframe(0, 1), new Keyframe(1, 0) });
-
-        [Header("Subtitle")]
-        public string Text;
-        public float customDuration;
-
-        public bool isInit;
-        public bool isPlaholder = true;
-
-        public Aliase ()
+        get
         {
-            name = "newAliase";
-            volume = 0.8f;
-            minPitch = 1f;
-            maxPitch = 1.01f;
-            reverbZoneMix = 1;
-            dopplerLevel = 1;
-            Spread = 1;
-            MinDistance = 1;
-            MaxDistance = 500;
+            if (randomizeClips)
+            {
+                _indexRandomize = Random.Range(0, audio.Length);
+                return audio[_indexRandomize];
+            }
+            return audio[0];
         }
-
     }
+
+    [Tooltip("Take a random clip, each time the aliase is played")]
+    public bool randomizeClips;
+    [Tooltip("Index for the randomizeClips")]
+    int _indexRandomize = 0;
+       
+    [Tooltip("Secondary aliase played with the primary aliase")]
+    public string Secondary;
+
+    public bool bypassEffects;
+    public bool bypassListenerEffects;
+    public bool bypassReverbZones;
+    [Range(0, 256)]
+    public float priority;
+    [Range(0, 1)]
+    public float volume = 0.8f;
+    public bool isLooping;
+
+
+    [Range(-3, 3)]
+    public float minPitch = 1f;
+    [Range(-3, 3)]
+    public float maxPitch = 1.01f;
+    [Range(-1, 1)]
+    public float stereoPan = 0;
+    [Range(0, 1)]
+    public float spatialBlend = 0;
+
+    [Range(0, 1.1f)]
+    public float reverbZoneMix = 1;
+    [Header("3D Sound Settings")]
+    [Range(0, 5)]
+    public float dopplerLevel = 1;
+    [Range(0, 360)]
+    public float Spread = 1;
+    [Range(0, 10000)]
+    public float MinDistance = 1;
+    [Range(0, 10000)]
+    public float MaxDistance = 500;
+    public AudioRolloffMode CurveType = AudioRolloffMode.Logarithmic;
+    public AnimationCurve distanceCurve = new AnimationCurve(new Keyframe[] { new Keyframe(0, 1), new Keyframe(1, 0) });
+
+    [Header("Subtitle")]
+    public string Text;
+    public float customDuration;
+
+    public bool isInit;
+    public bool isPlaholder = true;
+
+    // Give default value for a new aliase
+    // We override the default constructor, because Unity doesnt give default value when we initialize variable
+    // will be fix by unity in the future...
+    public Aliase()
+    {
+        name = "newAliase";
+        volume = 0.8f;
+        minPitch = 1f;
+        maxPitch = 1.01f;
+        reverbZoneMix = 1;
+        dopplerLevel = 1;
+        Spread = 1;
+        MinDistance = 1;
+        MaxDistance = 500;
+    }
+
+}
 
 //[RequireComponent(typeof(AudioSource))]
 public class AudioManager : MonoBehaviour
@@ -73,230 +96,264 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Util;
 
     [SerializeField] static Aliases[] aliasesArray = new Aliases[0];
-    [SerializeField] private List<AudioSource> _audioSource;
+    [SerializeField] private List<AudioPlayer> _audioSource;
 
     [SerializeField] int audioSourcePoolSize = 32; // 32 is a good start
-    [Header("Debug")] 
-    [SerializeField]  Aliases[] TableAliasesLoaded = new Aliases[0];
+    [Header("Debug")]
+    [SerializeField] Aliases[] TableAliasesLoaded = new Aliases[0];
 
     bool _isPaused;
 
 
     public bool IsPaused
     {
-        set{ _isPaused = value;}
+        set { _isPaused = value; }
     }
     // Add aliases to load
     public static void AddAliases(Aliases newAliases)
     {
         // Check if not already exist
-        for(int i = 0 ; i < aliasesArray.Length;i++)
+        for (int i = 0; i < aliasesArray.Length; i++)
         {
-            if(aliasesArray[i] == newAliases)
+            if (aliasesArray[i] == newAliases)
             {
                 Debug.Log("AudioManager : L'aliases a déja était ajouté");
                 return;
-            }    
+            }
         }
         // We can add it
-        Aliases[] TempAliasesArray = new Aliases[aliasesArray.Length+1];
-        for(int i = 0 ; i < aliasesArray.Length;i++)
+        Aliases[] TempAliasesArray = new Aliases[aliasesArray.Length + 1];
+        for (int i = 0; i < aliasesArray.Length; i++)
         {
             TempAliasesArray[i] = aliasesArray[i];
         }
-        TempAliasesArray[TempAliasesArray.Length-1] = newAliases;
+        TempAliasesArray[TempAliasesArray.Length - 1] = newAliases;
         aliasesArray = TempAliasesArray;
         Debug.Log("AudioManager : Aliases added");
     }
 
     void Awake()
     {
-        //if(Util == null)
-        {
-            Util = this;
-           // DontDestroyOnLoad(gameObject);
-            InitAudioSources();
-        }      
-        //else
-         //   Destroy(gameObject);
-
-
-        
+        Util = this;
+        InitAudioSources();
     }
 
     void InitAudioSources()
     {
-        _audioSource = new List<AudioSource>();
-
-         for(int i = 0 ; i < audioSourcePoolSize; i++)
+        _audioSource = new List<AudioPlayer>();
+        for (int i = 0; i < audioSourcePoolSize; i++)
         {
-            GameObject newAudioSource = new GameObject("Audio Source "+i);
+            GameObject newAudioSource = new GameObject("Audio Source " + i);
             newAudioSource.transform.SetParent(transform);
-            AudioSource audioS = newAudioSource.AddComponent<AudioSource>();
+            AudioPlayer audioS = newAudioSource.AddComponent<AudioPlayer>();
             Util._audioSource.Add(audioS);
             newAudioSource.SetActive(false);
         }
     }
-    
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Util != this)
-            Util = this;   
+        if (Util != this)
+            Util = this;
 
-        if(TableAliasesLoaded != aliasesArray)
-            TableAliasesLoaded = aliasesArray;    
+        if (TableAliasesLoaded != aliasesArray)
+            TableAliasesLoaded = aliasesArray;
 
-        if(_isPaused)
+        if (_isPaused)
         {
             PauseAllAudio();
         }
         else
         {
             UnPauseAllAudio();
-            DisableInusedAudioSource();
+            //DisableInusedAudioSource();
         }
-        
+
     }
 
     void DisableInusedAudioSource()
     {
-        foreach(AudioSource aS in _audioSource)
+        foreach (AudioPlayer aS in _audioSource)
         {
-            if(!aS.isPlaying)
+            if (!aS.IsUsable)
             {
                 aS.gameObject.SetActive(false);
-            }     
+            }
         }
     }
 
-    public static Aliase GetSoundByAliase(string name)
+    public static bool GetSoundByAliase(string name, out Aliase alias)
     {
-        for(int i = 0 ; i < aliasesArray.Length; i++)
+        alias = null;
+        for (int i = 0; i < aliasesArray.Length; i++)
         {
-            foreach(Aliase alias in aliasesArray[i].aliases )
-                if(alias.name == name)
-                    return alias ;
+            foreach (Aliase tempalias in aliasesArray[i].aliases)
+            {
+                if (tempalias.name == name)
+                {
+                    alias = tempalias;
+
+                }
+            }
         }
 
-        Debug.LogWarning("AudioManager : Aliase: "+name+" not found.");
-        return null;
+        if (alias != null && alias.audio.Length == 0)
+        {
+            Debug.LogError("AudioManager : Aliase: " + name + " contains no sounds.");
+            return false;
+        }
+
+        if(alias == null)
+        {
+            Debug.LogWarning("AudioManager : Aliase: " + name + " not found.");
+            return false;
+        }
+
+        return true;
+        //return alias;
     }
 
     static AudioSource GetAudioSource()
     {
-        foreach(AudioSource aS in Util._audioSource)
-        {  
-            if(!aS.isPlaying)
+        foreach (AudioPlayer aS in Util._audioSource)
+        {
+            if (!aS.Source.isPlaying)
             {
-                return aS;
-            }  
+                return aS.Source;
+            }
         }
         return null;
     }
-    public static void PlayMultiplesAtPosition(string[] aliasesName, Vector3 position, bool waitFinish = true)
+
+    static bool GetAudioPlayer(out AudioPlayer audioPlayer)
     {
+        audioPlayer = null;
+        foreach (AudioPlayer aS in Util._audioSource)
+        {
+            if (aS.IsUsable)
+            {
+                audioPlayer = aS;
+                return true;
+            }
+        }
+
+        return false;
+    }
+    /// <summary>
+    /// Play multiple sounds at desired position
+    /// </summary>
+    /// <param name="aliasesName"></param>
+    /// <param name="position"></param>
+    /// <param name="waitFinish"></param>
+    public static void PlaySoundsAtPosition(string[] aliasesName, Vector3 position, bool waitFinish = true)
+    {
+        if (waitFinish)
+        {
+            if(GetAudioPlayer(out AudioPlayer audioPlayer))
+            {
+                List<Aliase> aliases = new List<Aliase>();
+                for (int i = 0; i < aliasesName.Length; i++)
+                {
+                    if (GetSoundByAliase(aliasesName[i], out Aliase aliase))
+                    {
+                        //aliases.Add(aliase);
+                        audioPlayer._clips.Enqueue(aliase);
+                    }
+                }
+                audioPlayer.gameObject.transform.position = position;
+                audioPlayer.gameObject.SetActive(true);
+            }
+
+            return;
+        }
+
+        for (int i = 0; i < aliasesName.Length; i++)
+        {
+            PlaySoundAtPosition(aliasesName[i], position);
+        }
 
     }
 
     public static void PauseAllAudio()
     {
-        foreach(AudioSource aS in Util._audioSource )
+        foreach (AudioPlayer aS in Util._audioSource)
         {
-            if(aS.isPlaying)
+            if (aS.Source.isPlaying)
             {
-                aS.Pause();
-            }  
+                aS.Source.Pause();
+            }
         }
     }
     public static void UnPauseAllAudio()
     {
-        foreach(AudioSource aS in Util._audioSource )
+        foreach (AudioPlayer aS in Util._audioSource)
         {
             //if(audio.UnPause)
             {
-                aS.UnPause();
-            }  
+                aS.Source.UnPause();
+            }
         }
+    }
+   
+    static bool IsValidAliase()
+    {
+
+        return false;
     }
     public static Aliase PlaySoundAtPosition(string aliaseName, Vector3 position)
     {
-        if( aliaseName == System.String.Empty || aliaseName == null)
+        if (aliaseName == System.String.Empty || aliaseName == null)
         {
             Debug.LogError("AudioManager : Un son a voulu être jouer sans d'aliaseName, il faut en assigné un dans le script qui a exécuté la function");
             return null;
         }
 
-        Aliase clip = GetSoundByAliase(aliaseName);
-        if( clip == null || clip.audio.Length == 0)
+        if (!GetSoundByAliase(aliaseName, out Aliase clip))
         {
-            Debug.LogError("AudioManager : Aliase: "+aliaseName+" contains no sounds.");
             return null;
         }
 
-        AudioSource audioS = GetAudioSource();
-        if(audioS == null)
+        //AudioPlayer audioPlayer = GetAudioPlayer();
+        if (!GetAudioPlayer(out AudioPlayer audioPlayer))
         {
             Debug.LogWarning($"AudioManager : Limits exceded for _audioSource, maybe you need to increase your audioSourcePoolSize (Size = {Util.audioSourcePoolSize})");
             return null;
         }
-        audioS.volume = clip.volume;
-        audioS.loop = clip.isLooping;
-        audioS.pitch = Random.Range(clip.minPitch, clip.maxPitch);
 
-        audioS.spatialBlend = clip.spatialBlend;
-        if(clip.MixerGroup != null)
-            audioS.outputAudioMixerGroup = clip.MixerGroup;
-
-        switch(clip.CurveType)
+        audioPlayer.gameObject.transform.position = position;
+        audioPlayer.gameObject.SetActive(true);
+        audioPlayer._clips.Enqueue(clip);
+    
+        if (clip.isPlaholder)
         {
-            case AudioRolloffMode.Logarithmic:
-            case AudioRolloffMode.Linear:
-                audioS.rolloffMode = clip.CurveType;
-            break;
-            case AudioRolloffMode.Custom:
-                audioS.rolloffMode = clip.CurveType;
-               audioS.SetCustomCurve(AudioSourceCurveType.CustomRolloff, clip.distanceCurve);  
-            break;
-
-        }
-        audioS.gameObject.transform.position = position;
-        audioS.gameObject.SetActive(true);
-        int index = Random.Range(0,clip.audio.Length);
-        if(clip.isLooping)
-        {
-            audioS.clip = clip.audio[index];
-            audioS.Play();
-
-        }
-        else
-        {
-            audioS.PlayOneShot(clip.audio[index], clip.volume);
+            Debug.LogWarning("Un son placeholder a été jouer, il faut le changer , nom de l'aliase " + aliaseName);
         }
 
-        if(clip.isPlaholder)
+        if (clip.Secondary != System.String.Empty)
         {
-            Debug.LogWarning("Un son placeholder a été jouer, il faut le changer , nom de l'aliase "+aliaseName );
+            PlaySoundAtPosition(clip.Secondary, position);
         }
 
         return clip;
-        
 
-    } 
+
+    }
+    
     void PlayLoopSound(string aliaseName, Vector3 position, GameObject attachedTo)
     {
-        
+
     }
 
-    
 
-    
+
+
 }
 
 
